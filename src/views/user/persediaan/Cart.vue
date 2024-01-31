@@ -412,7 +412,7 @@ async function submit() {
 
 function showImage(item) {
   if (item.image == null) return 'https://placehold.co/40x40'
-  const a = storageUrl + 'storage/' + item.image
+  const a = storageUrl + 'public/' + item.image
   return a
 }
 </script>
