@@ -14,7 +14,7 @@ const routes = [
       layout: 'layout-guest',
       requiresAuth: false,
     },
-    path: '/login',
+    path: '/admin',
     name: 'login',
     component: () => import('@/views/login/Login.vue'),
   },
@@ -25,7 +25,7 @@ const routes = [
       requiresAuth: true,
       layout: 'layout-auth',
     },
-    path: '/',
+    path: '/admin/dashboard',
     name: 'dashboard',
     component: () => import('@/views/dashboard/User.vue'),
   },
@@ -127,7 +127,7 @@ router.beforeEach(async (to, from, next) => {
 
   const authUser = authStore.userData
   const reqAuth = to.matched.some((record) => record.meta.requiresAuth)
-  const loginQuery = { path: '/login' }
+  const loginQuery = { path: '/admin' }
 
   if (reqAuth && !authUser) {
     console.info('cek auth')

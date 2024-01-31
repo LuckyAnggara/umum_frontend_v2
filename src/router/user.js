@@ -5,17 +5,7 @@ const user = [
       requiresAuth: false,
       layout: 'layout-guest',
     },
-    path: '/user',
-    name: 'dashboard-user',
-    component: () => import('@/views/user/Dashboard.vue'),
-  },
-  {
-    meta: {
-      title: 'Dashboard',
-      requiresAuth: false,
-      layout: 'layout-guest',
-    },
-    path: '/user/dashboard',
+    path: '/',
     name: 'dashboard-user',
     component: () => import('@/views/user/Dashboard.vue'),
   },
