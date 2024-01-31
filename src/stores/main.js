@@ -2,6 +2,7 @@ import { defineStore } from 'pinia'
 
 export const useMainStore = defineStore('main', {
   state: () => ({
+    tahunOptions: [2022, 2023, 2024, 2025, 2026],
     limitOptions: [
       {
         value: '10',

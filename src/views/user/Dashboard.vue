@@ -1,7 +1,10 @@
 <template>
   <div
-    class="max-w-md mx-auto px-6 py-8 md:max-w-lg"
-    src="@/assets/logo_itjen.png"
+    class="max-w-md mx-auto px-6 py-8 md:max-w-lg h-screen"
+    :style="{
+      background: 'url(' + logo + ')',
+      'background-size': 'cover',
+    }"
   >
     <h2 class="font-semibold text-gray-800 text-2xl">Layanan Umum</h2>
     <div class="mt-6">
@@ -23,14 +26,20 @@
 </template>
 
 <script setup>
+import logo from '@/assets/logo_itjen.png'
 import { TrashIcon } from '@heroicons/vue/24/outline'
 import { useDebounceFn } from '@vueuse/core'
 import { usePermintaanPersediaanStore } from '@/stores/permintaanPersediaan'
 const permintaanPersediaanStore = usePermintaanPersediaanStore()
 
+function getImageUrl() {
+  return new URL(`./assets/logo_itjen.png`, import.meta.url).href
+}
+
 const menu = [
-  { label: 'Persediaan', to: 'permintaan-user' },
-  { label: 'BMN', to: 'cari-bmn' },
-  { label: 'Peminjaman Tempat', to: 'permintaan-user' },
+  { label: 'Daftar Permintaan', to: 'list-permintaan' },
+  { label: 'Persediaan', to: 'permintaan-persediaan' },
+  { label: 'BMN', to: 'service-bmn' },
+  { label: 'Peminjaman Tempat', to: 'permintaan-persediaan' },
 ]
 </script>

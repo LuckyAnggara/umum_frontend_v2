@@ -1,5 +1,5 @@
 <template>
-  <section v-if="permintaanPersediaanStore.singleResponses == null">
+  <section v-if="permintaanLayananBmnStore.singleResponses == null">
     <span class="flex"
       ><ArrowPathIcon class="mx-auto w-6 h-6 animate-spin"
     /></span>
@@ -20,7 +20,7 @@
 
       <div class="flex items-center mt-4">
         <h2 class="ml-2 font-semibold text-gray-800 text-md">
-          Nomor Tiket : {{ permintaanPersediaanStore.singleResponses.tiket }}
+          Nomor Tiket : {{ permintaanLayananBmnStore.singleResponses.tiket }}
         </h2>
       </div>
 
@@ -28,42 +28,92 @@
         class="mt-4 bg-white rounded-lg overflow-hidden border border-gray-400"
       >
         <div class="px-4 py-2 border-b border-gray-200">
-          <h2 class="font-semibold text-gray-800">Data Pemohon</h2>
+          <h2 class="font-semibold text-gray-800">Data BMN</h2>
         </div>
         <div class="flex flex-col divide-y divide-gray-200">
-          <div class="p-4 flex flex-col space-y-2">
+          <div
+            v-if="permintaanLayananBmnStore.singleResponses"
+            class="p-4 flex flex-col space-y-2"
+          >
             <div>
               <label
                 for="nip"
                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                >Tanggal Pengiriman</label
+                >Gambar</label
               >
-
-              <input
-                readonly
-                :value="moment().format('DD MMMM YYYY')"
-                @keyup="search"
-                type="text"
-                id="nip"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                placeholder="kosongkan jika tidak punya nip"
-              />
+              <div class="flex justify-center">
+                <img
+                  class="w-60 h-fit object-cover rounded"
+                  :src="
+                    showImage(
+                      permintaanLayananBmnStore.singleResponses.bmn.image
+                    )
+                  "
+                  alt="Product Image"
+                />
+              </div>
             </div>
 
             <div>
               <label
                 for="nip"
                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                >NIP</label
+                >NUP</label
               >
-
               <input
                 readonly
-                v-model="permintaanPersediaanStore.singleResponses.nip"
-                @keyup="search"
+                v-model="permintaanLayananBmnStore.singleResponses.bmn.nup"
+                type="text"
+                class="bg-gray-200 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              />
+            </div>
+            <div>
+              <label
+                for="nip"
+                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                >Nama BMN</label
+              >
+              <input
+                readonly
+                v-model="permintaanLayananBmnStore.singleResponses.bmn.nama"
+                type="text"
+                class="bg-gray-200 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              />
+            </div>
+          </div>
+        </div>
+
+        <div class="px-4 py-2 border-b border-gray-200">
+          <h2 class="font-semibold text-gray-800">Data Penerima Layanan</h2>
+        </div>
+        <div class="flex flex-col divide-y divide-gray-200">
+          <div class="p-4 flex flex-col space-y-2">
+            <div class="text-left">
+              <label
+                for="name"
+                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                >Jenis Layanan</label
+              >
+              <input
+                readonly
+                v-model="
+                  permintaanLayananBmnStore.singleResponses.jenis_layanan
+                "
+                type="text"
+                class="bg-gray-200 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              />
+            </div>
+            <div v-if="permintaanLayananBmnStore.singleResponses.nip">
+              <label
+                for="nip"
+                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                >NIP</label
+              >
+              <input
+                v-model="permintaanLayananBmnStore.singleResponses.nip"
                 type="text"
                 id="nip"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                class="bg-gray-200 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="kosongkan jika tidak punya nip"
               />
             </div>
@@ -71,15 +121,14 @@
               <label
                 for="nama"
                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                >Nama</label
+                >Nama Penerima Layanan</label
               >
               <input
-                readonly
-                v-model="permintaanPersediaanStore.singleResponses.nama"
+                required
+                v-model="permintaanLayananBmnStore.singleResponses.nama_peminta"
                 type="text"
                 id="nama"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                required
+                class="bg-gray-200 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               />
             </div>
             <div>
@@ -89,45 +138,26 @@
                 >Unit</label
               >
               <input
-                readonly
-                v-model="permintaanPersediaanStore.singleResponses.unit"
+                v-model="permintaanLayananBmnStore.singleResponses.unit"
                 type="text"
                 id="unit"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                class="bg-gray-200 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 required
               />
             </div>
-          </div>
-        </div>
-      </div>
-
-      <div
-        class="mt-4 bg-white rounded-lg overflow-hidden border border-gray-400"
-      >
-        <div class="px-4 py-2 border-b border-gray-200">
-          <h2 class="font-semibold text-gray-800">Detail</h2>
-        </div>
-        <div class="flex flex-col divide-y divide-gray-200">
-          <div
-            v-for="(item, index) in permintaanPersediaanStore.singleResponses
-              ?.detail"
-            class="flex items-center py-4 px-6"
-            :key="item.id"
-          >
-            <img
-              class="w-24 h-24 object-cover rounded"
-              :src="showImage(item.persediaan)"
-              alt="Product Image"
-            />
-            <div class="ml-5">
-              <h3 class="text-gray-900 font-semibold">
-                {{ item.persediaan.nama }}
-              </h3>
-              <div class="flex mt-4">
-                <p>{{ item.jumlah }}</p>
-
-                <p class="text-gray-700 ml-2">{{ item.persediaan.satuan }}</p>
-              </div>
+            <div class="text-left">
+              <label
+                for="brand"
+                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                >Catatan</label
+              >
+              <textarea
+                readonly
+                v-model="permintaanLayananBmnStore.singleResponses.catatan"
+                rows="3"
+                placeholder="Isi dengan catatan yang perlu admin ketahui"
+                class="bg-gray-200 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+              ></textarea>
             </div>
           </div>
         </div>
@@ -141,7 +171,7 @@
         </div>
         <div class="flex flex-col p-6">
           <form
-            v-if="permintaanPersediaanStore.singleResponses.status == 'PROCESS'"
+            v-if="permintaanLayananBmnStore.singleResponses.status == 'ORDER'"
             @submit.prevent="submit()"
           >
             <button
@@ -170,7 +200,7 @@
                 >Nama</label
               >
               <input
-                v-model="permintaanPersediaanStore.doneForm.name"
+                v-model="permintaanLayananBmnStore.doneForm.name"
                 type="text"
                 id="nama"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -196,11 +226,11 @@
 
               <input
                 readonly
-                :value="permintaanPersediaanStore.singleResponses.penerima"
+                :value="permintaanLayananBmnStore.singleResponses.penerima"
                 type="text"
                 id="nip"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                placeholder="kosongkan jika tidak punya nip"
+                class="bg-gray-200 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                placeholder="Isi dengan nama penerima"
               />
             </div>
             <div>
@@ -212,12 +242,12 @@
               <input
                 readonly
                 :value="
-                  permintaanPersediaanStore.singleResponses.tanggal_diterima
+                  permintaanLayananBmnStore.singleResponses.tanggal_diterima
                 "
                 type="text"
                 id="nip"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                placeholder="kosongkan jika tidak punya nip"
+                class="bg-gray-200 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                placeholder="Isi dengan tanggal penerimaan"
               />
             </div>
             <div>
@@ -234,7 +264,7 @@
                   :lock="true"
                   backgroundColor="#FFFFFF"
                   :initial-image="
-                    JSON.parse(permintaanPersediaanStore.singleResponses.ttd)
+                    JSON.parse(permintaanLayananBmnStore.singleResponses.ttd)
                   "
                   saveAs="png"
                 />
@@ -261,20 +291,15 @@ import {
   TrashIcon,
 } from '@heroicons/vue/24/outline'
 import { useDebounceFn } from '@vueuse/core'
-import { usePermintaanPersediaanStore } from '@/stores/permintaanPersediaan'
+import { usePermintaanLayananBmn } from '@/stores/permintaanLayananBmn'
 import { useRoute, useRouter } from 'vue-router'
 import { storageUrl } from '@/services/helper'
 import { toast } from 'vue3-toastify'
 import { computed, onMounted, ref } from 'vue'
 import VueDrawingCanvas from 'vue-drawing-canvas'
-import moment from 'moment'
 
-const permintaanPersediaanStore = usePermintaanPersediaanStore()
-const showModal = ref(false)
-const file = ref(null)
-
+const permintaanLayananBmnStore = usePermintaanLayananBmn()
 const route = useRoute()
-const router = useRouter()
 
 const ttdCanvas = ref(null)
 
@@ -288,11 +313,11 @@ async function submit() {
     type: 'info',
     isLoading: true,
   })
-  permintaanPersediaanStore.$patch((state) => {
+  permintaanLayananBmnStore.$patch((state) => {
     state.doneForm.image = JSON.stringify(ttdCanvas.value.getAllStrokes())
   })
 
-  const success = await permintaanPersediaanStore.updateDone()
+  const success = await permintaanLayananBmnStore.updateDone()
   if (success) {
     toast.update(id, {
       render: 'Berhasil !!',
@@ -317,13 +342,13 @@ async function submit() {
   toast.done(id)
 }
 
-function showImage(item) {
-  if (item.image == null) return 'https://placehold.co/40x40'
-  const a = storageUrl + 'storage/' + item.image
+function showImage(image) {
+  if (image == null) return 'https://placehold.co/40x40'
+  const a = storageUrl + 'storage/' + image
   return a
 }
 
 onMounted(async () => {
-  await permintaanPersediaanStore.show(tiket.value)
+  await permintaanLayananBmnStore.show(tiket.value)
 })
 </script>

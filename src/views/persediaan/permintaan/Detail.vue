@@ -668,7 +668,7 @@ async function undo() {
 }
 
 const shippingUrl = computed(() => {
-  const firstSegment = window.location.origin + '/user/persediaan/permintaan'
+  const firstSegment = window.location.origin + '/#/user/persediaan/permintaan'
   return `${firstSegment}/${tiket.value}/pengiriman`
 })
 

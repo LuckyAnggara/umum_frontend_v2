@@ -72,19 +72,6 @@
                 type="button"
                 class="flex items-center justify-center text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800"
               >
-                <svg
-                  class="h-3.5 w-3.5 mr-2"
-                  fill="currentColor"
-                  viewbox="0 0 20 20"
-                  xmlns="http://www.w3.org/2000/svg"
-                  aria-hidden="true"
-                >
-                  <path
-                    clip-rule="evenodd"
-                    fill-rule="evenodd"
-                    d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"
-                  />
-                </svg>
                 Tambah
               </button>
             </div>
@@ -139,7 +126,7 @@
                   {{ item.nama }}
                 </th>
                 <td class="px-4 py-1">{{ item.ruangan }}</td>
-                <td class="px-4 py-1">{{ item.penanggun_jawab }}</td>
+                <td class="px-4 py-1">{{ item.penanggung_jawab }}</td>
                 <td class="px-4 py-1">{{ item.tahun_perolehan }}</td>
 
                 <td class="px-4 py-1">
@@ -247,16 +234,32 @@
       </div>
     </div>
   </section>
-  <NewModal :show="newModal" @close="newModal = false" />
+  <NewModal
+    :show="newModal"
+    @close="newModal = false"
+    @submit="newStore"
+    @fileChange="uploadFile"
+  />
+
+  <DetailModal
+    :show="editModal"
+    @close="editModal = false"
+    @submit="newUpdate"
+    @fileChange="uploadFile"
+  />
+
+  <DeleteDialog
+    :show="deleteDialog"
+    @submit="deleteData"
+    @close="deleteDialog = !deleteDialog"
+  />
 </template>
 
 <script setup>
 import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
 import { useBmnStore } from '@/stores/bmn'
 import { useMainStore } from '@/stores/main'
-
 import { defineAsyncComponent, onMounted, ref } from 'vue'
-
 import {
   EllipsisVerticalIcon,
   DocumentTextIcon,
@@ -265,18 +268,25 @@ import {
   ArrowsRightLeftIcon,
   ArrowsUpDownIcon,
 } from '@heroicons/vue/24/outline'
+
+import DeleteDialog from '@/components/DeleteDialog.vue'
 import { toast } from 'vue3-toastify'
 import { storageUrl } from '@/services/helper'
 
 const NewModal = defineAsyncComponent(() => import('./New.vue'))
+const DetailModal = defineAsyncComponent(() => import('./Detail.vue'))
 
 const bmnStore = useBmnStore()
 const mainStore = useMainStore()
 const newModal = ref(false)
+const editModal = ref(false)
+const file = ref(null)
+const deleteDialog = ref(false)
+const deleteId = ref(0)
 
 const itemMenu = [
   {
-    function: detail,
+    function: onDetail,
     label: 'Detail',
     icon: DocumentTextIcon,
   },
@@ -286,15 +296,16 @@ const itemMenu = [
     icon: TrashIcon,
   },
 ]
-
+function uploadFile(event) {
+  file.value = event
+}
 function onDelete(item) {
   deleteId.value = item.id
-  confirmDialog.value = true
+  deleteDialog.value = true
 }
-
-function newProduct() {}
-function detail(item) {
+function onDetail(item) {
   bmnStore.show(item)
+  editModal.value = true
 }
 
 function nextPage() {
@@ -308,7 +319,7 @@ function previousPage() {
 }
 
 async function deleteData() {
-  confirmDialog.value = false
+  deleteDialog.value = false
   const id = toast.loading('Hapus data...', {
     position: toast.POSITION.BOTTOM_CENTER,
     type: 'info',
@@ -338,7 +349,6 @@ async function deleteData() {
       isLoading: false,
     })
   }
-  file.value = null
 }
 
 async function newStore() {
@@ -360,7 +370,7 @@ async function newStore() {
       isLoading: false,
     })
     toast.done(id)
-    newDrawerShow.value = !newDrawerShow.value
+    newModal.value = !newModal.value
     bmnStore.getData()
     file.value = null
   } else {
@@ -377,7 +387,7 @@ async function newStore() {
   }
 }
 
-async function update() {
+async function newUpdate() {
   const id = toast.loading('Update data...', {
     position: toast.POSITION.BOTTOM_CENTER,
     type: 'info',
@@ -397,7 +407,7 @@ async function update() {
       isLoading: false,
     })
     toast.done(id)
-    detailDrawerShow.value = !detailDrawerShow.value
+    editModal.value = !editModal.value
     bmnStore.getData()
     file.value = null
   } else {

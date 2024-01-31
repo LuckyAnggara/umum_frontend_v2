@@ -4,6 +4,8 @@ import {
   createWebHistory,
 } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
+import bmn from './bmn'
+import user from './user'
 
 const routes = [
   {
@@ -67,16 +69,7 @@ const routes = [
     name: 'shipping-permintaan-admin',
     component: () => import('@/views/persediaan/permintaan/Shipping.vue'),
   },
-  {
-    meta: {
-      title: 'Dashboard',
-      requiresAuth: false,
-      layout: 'layout-guest',
-    },
-    path: '/user/dashboard',
-    name: 'dashboard-user',
-    component: () => import('@/views/user/Dashboard.vue'),
-  },
+
   {
     meta: {
       title: 'Permintaan Persediaan',
@@ -84,7 +77,7 @@ const routes = [
       layout: 'layout-guest',
     },
     path: '/user/persediaan/permintaan',
-    name: 'permintaan-user',
+    name: 'permintaan-persediaan',
     component: () => import('@/views/user/persediaan/New.vue'),
   },
   {
@@ -117,26 +110,8 @@ const routes = [
     name: 'output-permintaan-user',
     component: () => import('@/views/user/persediaan/Output.vue'),
   },
-  {
-    meta: {
-      title: 'Cari',
-      requiresAuth: false,
-      layout: 'layout-guest',
-    },
-    path: '/user/bmn/cari',
-    name: 'cari-bmn',
-    component: () => import('@/views/user/bmn/Cari.vue'),
-  },
-  {
-    meta: {
-      title: 'Daftar Barang Milik Negara',
-      requiresAuth: false,
-      layout: 'layout-auth',
-    },
-    path: '/bmn/list',
-    name: 'list-bmn',
-    component: () => import('@/views/bmn/List.vue'),
-  },
+  ...user,
+  ...bmn,
 ]
 
 const router = createRouter({

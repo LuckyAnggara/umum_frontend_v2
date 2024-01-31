@@ -1,6 +1,6 @@
 <template>
   <TransitionRoot appear :show="show" as="template">
-    <Dialog as="div" @close="emit('close')" class="relative z-50">
+    <Dialog as="div" @close="close" class="relative z-50">
       <TransitionChild
         as="template"
         enter="duration-300 ease-out"
@@ -34,10 +34,10 @@
                 class="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5 dark:border-gray-600"
               >
                 <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
-                  Tambah Data
+                  Detail Data
                 </h3>
                 <button
-                  @click="emit('close')"
+                  @click="close"
                   type="button"
                   class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
                   data-modal-toggle="updateProductModal"
@@ -77,10 +77,11 @@
                       >Nomor Urut Pendaftaran*</label
                     >
                     <input
+                      :readonly="!isEdit"
                       @keyup="search"
                       required
-                      v-model="bmnStore.form.nup"
-                      placeholder="Isi dengan nomor urut"
+                      v-model="bmnStore.singleResponses.nup"
+                      placeholder="Isi dengan nomor urut pendaftaran"
                       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                     />
                   </div>
@@ -91,8 +92,9 @@
                       >Nama*</label
                     >
                     <input
+                      :readonly="!isEdit"
                       required
-                      v-model="bmnStore.form.nama"
+                      v-model="bmnStore.singleResponses.nama"
                       placeholder="isi dengan nama barang"
                       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                     />
@@ -104,7 +106,8 @@
                       >Tahun Perolehan*</label
                     >
                     <select
-                      v-model="bmnStore.form.tahun_perolehan"
+                      :readonly="!isEdit"
+                      v-model="bmnStore.singleResponses.tahun_perolehan"
                       class="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block px-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     >
                       <option
@@ -123,7 +126,8 @@
                       >Ruangan</label
                     >
                     <input
-                      v-model="bmnStore.form.ruangan"
+                      :readonly="!isEdit"
+                      v-model="bmnStore.singleResponses.ruangan"
                       required
                       placeholder="isi dengan nama bmn disimpan"
                       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
@@ -136,7 +140,8 @@
                       >Penanggung Jawab</label
                     >
                     <input
-                      v-model="bmnStore.form.penanggung_jawab"
+                      :readonly="!isEdit"
+                      v-model="bmnStore.singleResponses.penanggung_jawab"
                       required
                       placeholder="isi dengan penanggung jawab"
                       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
@@ -150,23 +155,74 @@
                       >Keterangan</label
                     >
                     <textarea
-                      v-model="bmnStore.form.catatan"
+                      :readonly="!isEdit"
+                      v-model="bmnStore.singleResponses.catatan"
                       rows="2"
                       placeholder="Isi keterangan atas pelaksanaan Stock Opname"
                       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                     ></textarea>
                   </div>
-                  <div>
-                    <label
-                      for="name"
-                      class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                      >Gambar</label
-                    >
-                    <FilePond :allow-mutiple="false" @fileChange="fileChange" />
+
+                  <div v-if="bmnStore.singleResponses.image">
+                    <div class="flex justify-between items-center">
+                      <label
+                        for="price"
+                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                        >Gambar</label
+                      >
+                      <button
+                        v-if="isEdit"
+                        @click="deleteImage()"
+                        type="button"
+                        class="text-gray-400 bg-transparent hover:bg-red-200 hover:text-gray-900 rounded-lg text-sm p-1.5 top-2.5 right-2.5 inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                      >
+                        <TrashIcon class="h-6 w-6" />
+                      </button>
+                    </div>
+                    <div class="border p-4 rounded-lg">
+                      <img class="w-48 h-fit mx-auto" :src="showImage" />
+                    </div>
+                  </div>
+
+                  <div v-else>
+                    <div>
+                      <label
+                        for="name"
+                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                        >Gambar</label
+                      >
+                      <FilePond
+                        v-if="isEdit"
+                        :allow-mutiple="false"
+                        @fileChange="fileChange"
+                      />
+                      <div v-else>
+                        <div
+                          class="p-4 mb-4 text-sm text-yellow-800 rounded-lg bg-yellow-50 dark:bg-gray-800 dark:text-yellow-300"
+                          role="alert"
+                        >
+                          <span class="font-medium">Tidak ada gambar!</span>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
                 <div class="flex items-center space-x-4">
                   <button
+                    v-if="!isEdit"
+                    type="button"
+                    @click="isEdit = true"
+                    :class="
+                      bmnStore.validNup
+                        ? 'bg-gray-200'
+                        : 'bg-blue-100 hover:bg-blue-200'
+                    "
+                    class="inline-flex justify-center rounded-md border border-transparent px-4 py-2 text-sm font-medium text-blue-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                  >
+                    Edit
+                  </button>
+                  <button
+                    v-else
                     :disabled="bmnStore.validNup"
                     type="submit"
                     :class="
@@ -182,7 +238,7 @@
                   <button
                     type="button"
                     class="inline-flex justify-center rounded-md border border-transparent bg-red-100 px-4 py-2 text-sm font-medium text-red-900 hover:bg-red-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2"
-                    @click="emit('close')"
+                    @click="close"
                   >
                     Cancel
                   </button>
@@ -198,22 +254,18 @@
 
 <script setup>
 import FilePond from '@/components/FilePond.vue'
-import { onMounted, onUpdated, ref } from 'vue'
-import {
-  TransitionRoot,
-  TransitionChild,
-  Dialog,
-  DialogPanel,
-  DialogTitle,
-} from '@headlessui/vue'
+import { computed, onMounted, onUpdated, ref } from 'vue'
+import { TransitionRoot, TransitionChild, Dialog } from '@headlessui/vue'
 
-import { ArrowPathIcon } from '@heroicons/vue/24/outline'
+import { ArrowPathIcon, TrashIcon } from '@heroicons/vue/24/outline'
 import { useBmnStore } from '@/stores/bmn'
 import { useMainStore } from '@/stores/main'
 import { useDebounceFn } from '@vueuse/core'
+import { storageUrl } from '@/services/helper'
 
 const bmnStore = useBmnStore()
 const mainStore = useMainStore()
+const isEdit = ref(false)
 
 const emit = defineEmits(['close', 'submit', 'fileChange'])
 const props = defineProps({
@@ -234,4 +286,22 @@ const search = useDebounceFn(() => {
 function fileChange(event) {
   emit('fileChange', event)
 }
+
+function deleteImage() {
+  bmnStore.$patch((state) => {
+    state.singleResponses.image = null
+  })
+}
+
+function close() {
+  emit('close')
+  isEdit.value = false
+}
+
+const showImage = computed(() => {
+  if (bmnStore.singleResponses.image == null)
+    return 'https://placehold.co/40x40'
+  const a = storageUrl + 'storage/' + bmnStore.singleResponses.image
+  return a
+})
 </script>

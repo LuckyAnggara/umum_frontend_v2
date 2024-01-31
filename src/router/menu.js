@@ -35,8 +35,8 @@ export const menu = [
         to: 'list-bmn',
       },
       {
-        name: 'Service',
-        to: 'dashboard',
+        name: 'Layanan',
+        to: 'permintaan-layanan-bmn-admin',
       },
     ],
     // to: 'persediaan',
