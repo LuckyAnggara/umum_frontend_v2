@@ -209,7 +209,7 @@ const id = computed(() => {
 
 function showImage(image) {
   if (image == null) return 'https://placehold.co/40x40'
-  const a = storageUrl + 'public/' + image
+  const a = storageUrl + '/' + image
   return a
 }
 

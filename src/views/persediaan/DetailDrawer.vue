@@ -173,7 +173,7 @@ function fileChange(event) {
 const showImage = computed(() => {
   if (persediaanStore.singleResponses.image == null)
     return 'https://placehold.co/40x40'
-  const a = storageUrl + 'public/' + persediaanStore.singleResponses.image
+  const a = storageUrl + '/' + persediaanStore.singleResponses.image
   return a
 })
 

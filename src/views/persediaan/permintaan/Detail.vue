@@ -678,7 +678,7 @@ const tiket = computed(() => {
 
 function showImage(item) {
   if (item.image == null) return 'https://placehold.co/40x40'
-  const a = storageUrl + 'public/' + item.image
+  const a = storageUrl + '/' + item.image
   return a
 }
 

@@ -301,7 +301,7 @@ function close() {
 const showImage = computed(() => {
   if (bmnStore.singleResponses.image == null)
     return 'https://placehold.co/40x40'
-  const a = storageUrl + 'public/' + bmnStore.singleResponses.image
+  const a = storageUrl + '/' + bmnStore.singleResponses.image
   return a
 })
 </script>
