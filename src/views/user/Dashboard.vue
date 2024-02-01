@@ -1,11 +1,9 @@
 <template>
-  <div
-    class="max-w-md mx-auto px-6 py-8 md:max-w-lg h-screen"
-    :style="{
+  <div class="max-w-md mx-auto px-6 py-8 md:max-w-lg h-screen">
+    <!-- :style="{
       background: 'url(' + logo + ')',
-      'background-size': 'cover',
-    }"
-  >
+      'background-size': '50% auto',
+    }" -->
     <h2 class="font-semibold text-gray-800 text-2xl">Layanan Umum</h2>
     <div class="mt-6">
       <span class="font-semibold">Menu</span>

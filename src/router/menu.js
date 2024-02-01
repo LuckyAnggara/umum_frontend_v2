@@ -2,6 +2,8 @@ import {
   RectangleGroupIcon,
   BriefcaseIcon,
   ArchiveBoxIcon,
+  HomeModernIcon,
+  RectangleStackIcon,
 } from '@heroicons/vue/24/solid'
 
 export const menu = [
@@ -28,7 +30,7 @@ export const menu = [
 
   {
     name: 'BMN',
-    icon: BriefcaseIcon,
+    icon: RectangleStackIcon,
     child: [
       {
         name: 'Daftar',
@@ -40,6 +42,17 @@ export const menu = [
       },
     ],
     // to: 'persediaan',
+  },
+
+  {
+    name: 'Peminjaman Ruangan',
+    icon: HomeModernIcon,
+    child: [
+      {
+        name: 'Jadwal',
+        to: 'jadwal-tempat',
+      },
+    ],
   },
 
   // {

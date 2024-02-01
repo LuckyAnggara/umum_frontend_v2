@@ -87,6 +87,7 @@ import { useDebounceFn } from '@vueuse/core'
 
 import { useUserStore } from '@/stores/user'
 import { useRouter } from 'vue-router'
+import { onMounted } from 'vue'
 
 const userStore = useUserStore()
 
@@ -110,5 +111,7 @@ function toDetail(item) {
   }
 }
 
-const search = useDebounceFn(() => {}, 500)
+onMounted(() => {
+  userStore.getStatus()
+})
 </script>

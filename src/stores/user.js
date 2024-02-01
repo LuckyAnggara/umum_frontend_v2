@@ -14,6 +14,7 @@ export const useUserStore = defineStore('user', {
     updateBmn(item) {
       this.listPermintaanUser.bmn.push({
         id: item.id,
+        tipe: 'BMN',
         tiket: item.tiket,
         created_at: item.created_at,
       })
@@ -22,6 +23,7 @@ export const useUserStore = defineStore('user', {
       console.info(item)
       this.listPermintaanUser.persediaan.push({
         id: item.id,
+        tipe: 'PERSEDIAAN',
         tiket: item.tiket,
         created_at: item.created_at,
       })
@@ -48,22 +50,43 @@ export const useUserStore = defineStore('user', {
         return 'error'
       }
     },
+    bmnDelete(id) {
+      const index = this.listPermintaanUser.bmn.findIndex((i) => i.id == id)
+      this.listPermintaanUser.bmn.splice(index, 1)
+    },
+    persediaanDelete(id) {
+      const index = this.listPermintaanUser.persediaan.findIndex(
+        (i) => i.id == id
+      )
+      this.listPermintaanUser.persediaan.splice(index, 1)
+    },
+    getStatus() {
+      this.mergedArray.forEach(async (e) => {
+        let status = null
+        if (e.tipe == 'BMN') {
+          status = await this.getStatusPermintaanLayananBmn(e.tiket)
+          if (status == 'delete') {
+            this.bmnDelete(e.id)
+          } else {
+            e.status = status
+          }
+        } else {
+          status = await this.getStatusPermintaanPersediaan(e.tiket)
+
+          if (status == 'delete') {
+            this.persediaanDelete(e.id)
+          } else {
+            e.status = status
+          }
+        }
+      })
+    },
   },
   getters: {
-    bmn(state) {
-      state.listPermintaanUser.bmn.forEach((e) => {
-        e.tipe = 'BMN'
-      })
-      return state.listPermintaanUser.bmn
-    },
-    persediaan(state) {
-      state.listPermintaanUser.persediaan.forEach((e) => {
-        e.tipe = 'PERSEDIAAN'
-      })
-      return state.listPermintaanUser.persediaan
-    },
     mergedArray(state) {
-      const mergedArray = state.bmn.concat(state.persediaan)
+      const mergedArray = state.listPermintaanUser.bmn.concat(
+        state.listPermintaanUser.persediaan
+      )
       // Jika search term tidak kosong, lakukan filter berdasarkan nomor tiket
       if (state.searchTerm) {
         const filteredArray = mergedArray.filter((item) => {
@@ -87,15 +110,8 @@ export const useUserStore = defineStore('user', {
       return sortedArray
     },
     items(state) {
-      state.mergedArray.forEach(async (e) => {
-        let status = null
-        if (e.tipe == 'BMN') {
-          status = await this.getStatusPermintaanLayananBmn(e.tiket)
-        } else {
-          status = await this.getStatusPermintaanPersediaan(e.tiket)
-        }
-        e.status = status
-      })
+      let newArray = []
+
       return state.mergedArray
     },
   },

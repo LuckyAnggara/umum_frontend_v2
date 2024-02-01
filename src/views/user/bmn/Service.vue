@@ -3,7 +3,7 @@
     <div class="max-w-md mx-auto px-6 py-8 md:max-w-lg">
       <div class="flex items-center">
         <button
-          @click="toList()"
+          @click="toDashboard()"
           class="bg-transparent relative hover:-translate-x-1 duration-300 rounded-lg p-1.5 items-center"
         >
           <ArrowLeftIcon class="h-5" />
@@ -455,6 +455,10 @@ async function cariPegawai() {
 
 function toQrCode() {
   router.push({ name: 'cari-bmn' })
+}
+
+function toDashboard() {
+  router.push({ name: 'dashboard-user' })
 }
 
 function showImage(image) {

@@ -6,6 +6,7 @@ import {
 import { useAuthStore } from '@/stores/auth'
 import bmn from './bmn'
 import user from './user'
+import tempat from './tempat'
 
 const routes = [
   {
@@ -112,6 +113,7 @@ const routes = [
   },
   ...user,
   ...bmn,
+  ...tempat,
 ]
 
 const router = createRouter({
