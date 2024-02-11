@@ -130,15 +130,28 @@ router.beforeEach(async (to, from, next) => {
   const authUser = authStore.userData
   const reqAuth = to.matched.some((record) => record.meta.requiresAuth)
   const loginQuery = { path: '/admin' }
+  const dashboardQuery = { path: '/admin/dashboard' }
 
   if (reqAuth && !authUser) {
-    console.info('cek auth')
     const isAuth = await authStore.getAuthUser()
-    console.info(isAuth)
-    if (!isAuth) next(loginQuery)
-    else next()
+    if (to.fullPath == loginQuery) {
+    }
+    if (!isAuth) {
+      next(loginQuery)
+    } else {
+      next()
+    }
   } else {
-    next() // make sure to always call next()!
+    if (to.fullPath == '/admin') {
+      const isAuth = await authStore.getAuthUser()
+      if (isAuth) {
+        next(dashboardQuery)
+      } else {
+        next()
+      }
+    } else {
+      next()
+    }
   }
 })
 

@@ -47,6 +47,20 @@ export const useMainStore = defineStore('main', {
         label: 'SEMUA',
       },
     ],
+    ruangOptions: [
+      {
+        id: '1',
+        label: 'AUDITORIUM',
+      },
+      {
+        id: '2',
+        label: 'RUANG RAPAT INSPEKTUR JENDERAL',
+      },
+      {
+        id: '3',
+        label: 'RUANG RAPAT SEKRETARIS INSPEKTORAT JENDERAL',
+      },
+    ],
     form: {
       nip: '1',
       password: '123456',

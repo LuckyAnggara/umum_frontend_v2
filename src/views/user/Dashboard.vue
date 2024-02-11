@@ -38,6 +38,6 @@ const menu = [
   { label: 'Daftar Permintaan', to: 'list-permintaan' },
   { label: 'Persediaan', to: 'permintaan-persediaan' },
   { label: 'BMN', to: 'service-bmn' },
-  { label: 'Peminjaman Tempat', to: 'permintaan-persediaan' },
+  { label: 'Booking Ruangan', to: 'booking-tempat' },
 ]
 </script>
