@@ -2,36 +2,21 @@
   <div>
     <div class="max-w-md mx-auto px-6 py-8 md:max-w-lg">
       <div class="flex items-center">
-        <button
-          @click="toDashboard()"
-          class="bg-transparent relative hover:-translate-x-1 duration-300 rounded-lg p-1.5 items-center"
-        >
+        <button @click="toDashboard()" class="bg-transparent relative hover:-translate-x-1 duration-300 rounded-lg p-1.5 items-center">
           <ArrowLeftIcon class="h-5" />
         </button>
-        <h2 class="ml-2 font-semibold text-gray-800 text-xl">
-          Permintaan Pelayanan BMN
-        </h2>
+        <h2 class="ml-2 font-semibold text-gray-800 text-xl">Permintaan Pelayanan BMN</h2>
       </div>
-      <div
-        class="mt-4 bg-white rounded-lg overflow-hidden border border-gray-400"
-      >
+      <div class="mt-4 bg-white rounded-lg overflow-hidden border border-gray-400">
         <div class="px-4 py-2 border-b border-gray-200">
           <h2 class="font-semibold text-gray-800">Cari BMN</h2>
         </div>
         <div class="flex flex-col divide-y divide-gray-200 p-4">
-          <div
-            class="p-4 mb-4 text-sm text-blue-800 rounded-lg bg-blue-50 dark:bg-gray-800 dark:text-blue-400"
-            role="alert"
-          >
-            <span class="font-medium">Info!</span> scan barcode nup untuk
-            mempermudah pencarian
+          <div class="p-4 mb-4 text-sm text-blue-800 rounded-lg bg-blue-50 dark:bg-gray-800 dark:text-blue-400" role="alert">
+            <span class="font-medium">Info!</span> scan barcode nup untuk mempermudah pencarian
           </div>
           <div>
-            <label
-              for="nip"
-              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-              >NUP</label
-            >
+            <label for="nip" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">NUP</label>
             <div class="relative">
               <input
                 v-model="bmnStore.nup"
@@ -53,40 +38,21 @@
         </div>
       </div>
 
-      <form
-        autocomplete="off"
-        class="mt-4 bg-white rounded-lg overflow-hidden border border-gray-400"
-        @submit.prevent="confirm()"
-      >
+      <form autocomplete="off" class="mt-4 bg-white rounded-lg overflow-hidden border border-gray-400" @submit.prevent="confirm()">
         <div class="px-4 py-2 border-b border-gray-200">
           <h2 class="font-semibold text-gray-800">Data BMN</h2>
         </div>
         <div class="flex flex-col divide-y divide-gray-200"></div>
-        <div
-          v-if="bmnStore.singleResponsesPermintaan"
-          class="p-4 flex flex-col space-y-2"
-        >
+        <div v-if="bmnStore.singleResponsesPermintaan" class="p-4 flex flex-col space-y-2">
           <div>
-            <label
-              for="nip"
-              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-              >Gambar</label
-            >
+            <label for="nip" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Gambar</label>
             <div class="flex justify-center">
-              <img
-                class="w-60 h-fit object-cover rounded"
-                :src="showImage(bmnStore.singleResponsesPermintaan.image)"
-                alt="Product Image"
-              />
+              <img class="w-60 h-fit object-cover rounded" :src="showImage(bmnStore.singleResponsesPermintaan.image)" alt="Product Image" />
             </div>
           </div>
 
           <div>
-            <label
-              for="nip"
-              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-              >NUP</label
-            >
+            <label for="nip" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">NUP</label>
             <input
               readonly
               v-model="bmnStore.singleResponsesPermintaan.nup"
@@ -95,11 +61,7 @@
             />
           </div>
           <div>
-            <label
-              for="nip"
-              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-              >Nama BMN</label
-            >
+            <label for="nip" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nama BMN</label>
             <input
               readonly
               v-model="bmnStore.singleResponsesPermintaan.nama"
@@ -110,11 +72,7 @@
 
           <div class="flex flex-col divide-y divide-gray-200"></div>
           <div class="text-left">
-            <label
-              for="name"
-              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-              >Jenis Layanan</label
-            >
+            <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Jenis Layanan</label>
             <select
               required
               v-model="layananBmnStore.form.jenis_layanan"
@@ -125,11 +83,7 @@
             </select>
           </div>
           <div>
-            <label
-              for="nip"
-              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-              >NIP</label
-            >
+            <label for="nip" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">NIP</label>
             <div class="relative">
               <input
                 v-model="layananBmnStore.form.nip"
@@ -143,14 +97,7 @@
                 type="button"
                 class="absolute top-0 end-0 p-2.5 h-full text-sm font-medium text-white bg-gray-700 rounded-e-lg border border-gray-700 hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
               >
-                <svg
-                  v-if="!cariPegawaiLoading"
-                  class="w-4 h-4"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 20 20"
-                >
+                <svg v-if="!cariPegawaiLoading" class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
                   <path
                     stroke="currentColor"
                     stroke-linecap="round"
@@ -159,18 +106,12 @@
                     d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
                   />
                 </svg>
-                <span v-else
-                  ><ArrowPathIcon class="mx-auto w-4 h-4 animate-spin"
-                /></span>
+                <span v-else><ArrowPathIcon class="mx-auto w-4 h-4 animate-spin" /></span>
               </button>
             </div>
           </div>
           <div>
-            <label
-              for="nama"
-              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-              >Nama Penerima Layanan</label
-            >
+            <label for="nama" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nama Penerima Layanan</label>
             <input
               required
               v-model="layananBmnStore.form.nama_peminta"
@@ -180,25 +121,17 @@
             />
           </div>
           <div>
-            <label
-              for="unit"
-              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-              >Unit</label
-            >
+            <label for="unit" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Unit</label>
             <input
               v-model="layananBmnStore.form.unit"
               type="text"
               id="unit"
               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               required
-            />toDashboard
+            />
           </div>
           <div class="text-left">
-            <label
-              for="brand"
-              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-              >Catatan</label
-            >
+            <label for="brand" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Catatan</label>
             <textarea
               v-model="layananBmnStore.form.catatan"
               rows="3"
@@ -207,26 +140,12 @@
             ></textarea>
           </div>
         </div>
-        <div
-          v-else
-          class="p-4 mt-4 text-sm text-blue-800 rounded-lg bg-blue-50 dark:bg-gray-800 dark:text-blue-400"
-          role="alert"
-        >
-          <span class="font-medium">Info!</span> Tidak ada data, silahkan cari
-          data pada kolom diatas.
+        <div v-else class="p-4 mt-4 text-sm text-blue-800 rounded-lg bg-blue-50 dark:bg-gray-800 dark:text-blue-400" role="alert">
+          <span class="font-medium">Info!</span> Tidak ada data, silahkan cari data pada kolom diatas.
         </div>
-        <div
-          v-if="bmnStore.isSearching"
-          class="p-4 my-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
-          role="alert"
-        >
-          <span v-if="!bmnStore.isLoading">
-            <span class="font-medium">Oopss!</span> BMN tidak ditemukan, periksa
-            kembali NUP dengan baik
-          </span>
-          <span class="flex" v-else
-            ><ArrowPathIcon class="mx-auto w-5 h-5 animate-spin"
-          /></span>
+        <div v-if="bmnStore.isSearching" class="p-4 my-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
+          <span v-if="!bmnStore.isLoading"> <span class="font-medium">Oopss!</span> BMN tidak ditemukan, periksa kembali NUP dengan baik </span>
+          <span class="flex" v-else><ArrowPathIcon class="mx-auto w-5 h-5 animate-spin" /></span>
         </div>
         <div class="flex items-center justify-between p-3 bg-gray-100">
           <h3 class="text-gray-900 font-semibold"></h3>
@@ -241,11 +160,7 @@
 
       <div>
         <TransitionRoot appear :show="showModal" as="template">
-          <Dialog
-            as="div"
-            @close="showModal = !showModal"
-            class="relative z-50"
-          >
+          <Dialog as="div" @close="showModal = !showModal" class="relative z-50">
             <TransitionChild
               as="template"
               enter="duration-300 ease-out"
@@ -259,9 +174,7 @@
             </TransitionChild>
 
             <div class="fixed inset-0 overflow-y-auto">
-              <div
-                class="flex min-h-full items-center justify-center p-4 text-center"
-              >
+              <div class="flex min-h-full items-center justify-center p-4 text-center">
                 <TransitionChild
                   as="template"
                   enter="duration-300 ease-out"
@@ -271,20 +184,10 @@
                   leave-from="opacity-100 scale-100"
                   leave-to="opacity-0 scale-95"
                 >
-                  <DialogPanel
-                    class="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all"
-                  >
-                    <DialogTitle
-                      as="h3"
-                      class="text-lg font-medium leading-6 text-gray-900"
-                    >
-                      Proses Permintaan
-                    </DialogTitle>
+                  <DialogPanel class="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
+                    <DialogTitle as="h3" class="text-lg font-medium leading-6 text-gray-900"> Proses Permintaan </DialogTitle>
                     <div class="mt-2">
-                      <p class="text-sm text-gray-500">
-                        Permintaan layanan akan di proses ke Admin pada Bagian
-                        Umum Inspektorat Jenderal
-                      </p>
+                      <p class="text-sm text-gray-500">Permintaan layanan akan di proses ke Admin pada Bagian Umum Inspektorat Jenderal</p>
                     </div>
 
                     <div class="mt-4 flex space-x-4">
@@ -294,12 +197,8 @@
                         class="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                         @click="submit"
                       >
-                        <span v-if="!layananBmnStore.isStoreLoading">
-                          Proses
-                        </span>
-                        <span class="flex" v-else
-                          ><ArrowPathIcon class="mx-auto w-6 h-6 animate-spin"
-                        /></span>
+                        <span v-if="!layananBmnStore.isStoreLoading"> Proses </span>
+                        <span class="flex" v-else><ArrowPathIcon class="mx-auto w-6 h-6 animate-spin" /></span>
                       </button>
 
                       <button
@@ -323,19 +222,8 @@
 </template>
 
 <script setup>
-import {
-  TransitionRoot,
-  TransitionChild,
-  Dialog,
-  DialogPanel,
-  DialogTitle,
-} from '@headlessui/vue'
-import {
-  ArrowLeftIcon,
-  ArrowPathIcon,
-  QrCodeIcon,
-  TrashIcon,
-} from '@heroicons/vue/24/outline'
+import { TransitionRoot, TransitionChild, Dialog, DialogPanel, DialogTitle } from '@headlessui/vue'
+import { ArrowLeftIcon, ArrowPathIcon, QrCodeIcon, TrashIcon } from '@heroicons/vue/24/outline'
 import { useDebounceFn, useStorage } from '@vueuse/core'
 import { useBmnStore } from '@/stores/bmn'
 import { useRoute, useRouter } from 'vue-router'
@@ -364,9 +252,7 @@ async function submit() {
     isLoading: true,
   })
 
-  const success = await layananBmnStore.store(
-    bmnStore.singleResponsesPermintaan.nup
-  )
+  const success = await layananBmnStore.store(bmnStore.singleResponsesPermintaan.nup)
   if (success.status) {
     toast.update(id, {
       render: 'Berhasil !!',
@@ -405,9 +291,7 @@ async function cariPegawai() {
     isLoading: true,
   })
   try {
-    const response = await fetch(
-      `https://lapkin.bbmakmur.com/api/employee-show/${layananBmnStore.form.nip}`
-    )
+    const response = await fetch(`https://lapkin.bbmakmur.com/api/employee-show/${layananBmnStore.form.nip}`)
       .then((response) => {
         response.json().then((data) => {
           if (data.success == true) {

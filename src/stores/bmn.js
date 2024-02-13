@@ -30,7 +30,6 @@ export const useBmnStore = defineStore('bmn', {
     isUpdateLoading: false,
     isLoading: false,
     isStoreLoading: false,
-    isUpdateLoading: false,
     isDestroyLoading: false,
     userData: null,
     upload: {
@@ -77,12 +76,7 @@ export const useBmnStore = defineStore('bmn', {
       if (state.filter.date.length == 0 || state.filter.date.length == null) {
         return ''
       }
-      return (
-        '&start-date=' +
-        state.filter.date[0] +
-        '&end-date=' +
-        state.filter.date[1]
-      )
+      return '&start-date=' + state.filter.date[0] + '&end-date=' + state.filter.date[1]
     },
     searchQuery(state) {
       if (state.filter.searchQuery == '' || state.filter.searchQuery == null) {
@@ -101,9 +95,7 @@ export const useBmnStore = defineStore('bmn', {
     async getData(page = '') {
       this.isLoading = true
       try {
-        const response = await axiosIns.get(
-          `/api/bmn?limit=${this.filter.currentLimit}${this.pageQuery}${this.searchQuery}${this.dateQuery}`
-        )
+        const response = await axiosIns.get(`/api/bmn?limit=${this.filter.currentLimit}${this.pageQuery}${this.searchQuery}${this.dateQuery}`)
         this.responses = response.data.data
       } catch (error) {
         alert(error.message)
@@ -115,9 +107,7 @@ export const useBmnStore = defineStore('bmn', {
     async getDataUser(page = '') {
       this.isLoading = true
       try {
-        const response = await axiosIns.get(
-          `/api/bmn/get?limit=${this.filter.currentLimit}${this.pageQuery}${this.searchQuery}${this.dateQuery}`
-        )
+        const response = await axiosIns.get(`/api/bmn/get?limit=${this.filter.currentLimit}${this.pageQuery}${this.searchQuery}${this.dateQuery}`)
         this.responses = response.data.data
       } catch (error) {
         alert(error.message)
@@ -155,15 +145,11 @@ export const useBmnStore = defineStore('bmn', {
       // }
       this.isStoreLoading = true
       try {
-        const response = await axiosIns.post(
-          `/api/bmn`,
-          uploadFile ? formData : this.form,
-          {
-            headers: {
-              'Content-Type': 'multipart/form-data',
-            },
-          }
-        )
+        const response = await axiosIns.post(`/api/bmn`, uploadFile ? formData : this.form, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        })
         if (response.status == 200) {
           this.clearForm()
           return true
@@ -211,10 +197,7 @@ export const useBmnStore = defineStore('bmn', {
       // }
       this.isUpdateLoading = true
       try {
-        const response = await axiosIns.post(
-          `/api/bmn/${this.singleResponses.id}`,
-          formData
-        )
+        const response = await axiosIns.post(`/api/bmn/${this.singleResponses.id}`, formData)
         if (response.status == 200) {
           return true
         } else {
@@ -237,9 +220,7 @@ export const useBmnStore = defineStore('bmn', {
       }
     },
     async cekNup() {
-      const response = await axiosIns.get(
-        `/api/bmn/cek-nup?query=${this.form.nup}`
-      )
+      const response = await axiosIns.get(`/api/bmn/cek-nup?query=${this.form.nup}`)
       this.validNup = response.data
     },
     setCurrentData(item) {
