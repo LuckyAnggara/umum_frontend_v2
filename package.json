@@ -26,6 +26,7 @@
     "filepond-plugin-image-preview": "^4.0.3",
     "flowbite": "^2.2.1",
     "html2pdf.js": "^0.10.1",
+    "konsta": "^3.1.2",
     "moment": "^2.29.4",
     "pinia": "^2.1.7",
     "qrcode-vue3": "^1.6.8",

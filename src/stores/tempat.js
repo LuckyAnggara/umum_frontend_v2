@@ -2,13 +2,13 @@
 import { defineStore } from 'pinia'
 import { axiosIns } from '@/services/axios'
 import { useToast } from 'vue-toastification'
-import { shallowRef } from 'vue'
 import moment from 'moment'
 
 const toast = useToast()
 export const useTempatStore = defineStore('tempat', {
   state: () => ({
     responses: null,
+    singleResponse: null,
     isSearching: false,
     isUpdateLoading: false,
     isLoading: false,
@@ -36,20 +36,13 @@ export const useTempatStore = defineStore('tempat', {
     items(state) {
       return state.responses?.data ?? []
     },
-    currentPage(state) {
-      return state.responses?.current_page
-    },
-    pageLength(state) {
-      return Math.round(state.responses?.total / state.responses?.per_page)
-    },
-    lastPage(state) {
-      return state.responses?.last_page
-    },
-    from(state) {
-      return state.responses?.from
-    },
-    to(state) {
-      return state.responses?.to
+    dataCalendar(state) {
+      return state.items.map((event) => ({
+        title: event.title,
+        date: event.tanggal,
+        start: event.start,
+        end: event.end,
+      }))
     },
     total(state) {
       return state.responses?.total
@@ -65,9 +58,7 @@ export const useTempatStore = defineStore('tempat', {
     async getData(page = '') {
       this.isLoading = true
       try {
-        const response = await axiosIns.get(
-          `/api/tempat?query=${this.form.ruangan}${this.dateQuery}`
-        )
+        const response = await axiosIns.get(`/api/tempat?query=${this.form.ruangan}${this.dateQuery}`)
         this.responses = response.data
       } catch (error) {
         alert(error.message)
@@ -81,7 +72,6 @@ export const useTempatStore = defineStore('tempat', {
       try {
         const response = await axiosIns.post(`/api/tempat`, this.form)
         if (response.status == 200) {
-          this.clearForm()
           return {
             status: true,
             data: response.data.data,
@@ -113,6 +103,11 @@ export const useTempatStore = defineStore('tempat', {
         nama: null,
         unit: null,
       }
+    },
+    setDataSingle(id) {
+      this.singleResponse = this.items.find((x) => {
+        return x.id == id
+      })
     },
   },
 })

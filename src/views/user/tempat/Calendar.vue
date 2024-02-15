@@ -1,32 +1,21 @@
 <template>
   <div class="max-w-xl mx-auto px-6 py-8 md:max-w-lg">
     <div class="flex items-center">
-      <button
-        @click="toBooking()"
-        class="bg-transparent relative hover:-translate-x-1 duration-300 rounded-lg p-1.5 items-center"
-      >
+      <button @click="toBooking()" class="bg-transparent relative hover:-translate-x-1 duration-300 rounded-lg p-1.5 items-center">
         <ArrowLeftIcon class="h-5" />
       </button>
-      <h2 class="ml-2 font-semibold text-gray-800 text-xl">
-        Kalender Kegiatan
-      </h2>
+      <h2 class="ml-2 font-semibold text-gray-800 text-xl">Kalender Kegiatan</h2>
     </div>
-    <div
-      class="mt-4 bg-white rounded-lg overflow-hidden border border-gray-400"
-    >
+    <div class="mt-4 bg-white rounded-lg overflow-hidden border border-gray-400">
       <div class="px-4 py-4 border-b border-gray-200">
         <div class="text-left">
-          <label
-            for="name"
-            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-            >Ruangan</label
-          >
+          <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Ruangan</label>
           <select
             @change="tempatStore.getData()"
             v-model="tempatStore.form.ruangan"
             class="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block px-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           >
-            <option v-for="item in mainStore.ruangOptions" :value="item.id">
+            <option :key="item.id" v-for="item in mainStore.ruangOptions" :value="item.id">
               {{ item.label }}
             </option>
           </select>
@@ -65,7 +54,8 @@ const router = useRouter()
 
 const calendarOptions = computed(() => {
   return {
-    editable: true,
+    editable: false,
+    dragable: false,
     dayMaxEvents: true,
     locale: 'id', // the initial locale
     plugins: [listPlugin, interactionPlugin],
@@ -84,7 +74,7 @@ function handleDateClick(arg) {
 }
 
 onMounted(() => {
-  tempatStore.clearForm()
   tempatStore.getData()
+  tempatStore.clearForm()
 })
 </script>
