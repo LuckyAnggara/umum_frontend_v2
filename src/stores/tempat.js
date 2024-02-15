@@ -118,20 +118,22 @@ export const useTempatStore = defineStore('tempat', {
     async kirimPesan() {
       const noWa = '6282116562811'
 
-      const body = {
-        device: '888662421399',
-        phone: noWa,
-        message: 'Your Message',
-      }
-
-      const res = await axios.post('https://api.alatwa.com/send/text', body, {
+      const requestOptions = {
+        method: 'POST',
         headers: {
           'content-type': 'application/json',
-          Authorization: 'fbec06eb35b86ac0184853a4fabcd747',
+          authorization: 'fbec06eb35b86ac0184853a4fabcd747',
         },
-      })
+        body: JSON.stringify({
+          device: '888662421399',
+          phone: noWa,
+          message: 'Your Message',
+        }),
+      }
 
-      console.info(res)
+      fetch('https://api.alatwa.com/send/text', requestOptions)
+        .then((response) => response.json())
+        .then((data) => console.info(data))
 
       // const response = await fetch(`https://api.alatwa.com/send/text`).then(
       //   (response) => {}
