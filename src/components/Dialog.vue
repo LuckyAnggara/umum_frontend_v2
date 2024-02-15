@@ -38,7 +38,15 @@
               <div class="mt-2">
                 <slot name="content"></slot>
               </div>
-              <div class="mt-4">
+              <div class="mt-4 flex flex-row space-x-2">
+                <button
+                  v-if="submit"
+                  type="button"
+                  class="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                  @click="emit('submit')"
+                >
+                  Submit
+                </button>
                 <button
                   type="button"
                   class="inline-flex justify-center rounded-md border border-transparent bg-red-100 px-4 py-2 text-sm font-medium text-red-900 hover:bg-red-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2"
@@ -65,9 +73,13 @@ import {
   DialogTitle,
 } from '@headlessui/vue'
 
-const emit = defineEmits(['close'])
+const emit = defineEmits(['close', 'submit'])
 const props = defineProps({
   show: {
+    type: Boolean,
+    default: false,
+  },
+  submit: {
     type: Boolean,
     default: false,
   },
