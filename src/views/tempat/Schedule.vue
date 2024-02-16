@@ -3,35 +3,23 @@
     <div class="mx-auto max-w-screen-2xl px-4 lg:px-12">
       <div class="py-4 border-gray-200 w-fit">
         <div class="text-left">
-          <label
-            for="name"
-            class="block font-medium text-gray-900 dark:text-white"
-            >Ruangan</label
-          >
+          <label for="name" class="block font-medium text-gray-900 dark:text-white">Ruangan</label>
           <select
             @change="tempatStore.getData()"
             v-model="tempatStore.form.ruangan"
             class="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block px-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           >
-            <option
-              :key="item.id"
-              v-for="item in mainStore.ruangOptions"
-              :value="item.id"
-            >
+            <option :key="item.id" v-for="item in mainStore.ruangOptions" :value="item.id">
               {{ item.label }}
             </option>
           </select>
         </div>
       </div>
       <div class="w-full mx-auto">
-        <span v-if="tempatStore.isLoading"
-          ><ArrowPathIcon class="h-6 w-6 animate-spin"
-        /></span>
+        <span v-if="tempatStore.isLoading"><ArrowPathIcon class="h-6 w-6 animate-spin" /></span>
         <FullCalendar v-else :options="calendarOptions">
           <template v-slot:eventContent="arg">
-            <div
-              class="cursor-pointer flex flex-col bg-blue-500 p-2 rounded-md shadow-md"
-            >
+            <div class="cursor-pointer flex flex-col bg-blue-500 p-2 rounded-md shadow-md">
               <span class="text-gray-200">{{ arg.event.title }}</span>
               <span class="text-gray-200"
                 >{{ moment(arg.event.start).format('HH:mm') }} -
@@ -43,18 +31,9 @@
       </div>
     </div>
 
-    <DetailModal
-      :show="detailDialog"
-      @close="detailDialog = false"
-      @destroy="deleteConfirm()"
-    />
+    <DetailModal :show="detailDialog" @close="detailDialog = false" @destroy="deleteConfirm()" />
 
-    <DeleteDialog
-      :show="confirmDialog"
-      @close="confirmDialog = !confirmDialog"
-      :submit="true"
-      @submit="tempatStore.kirimPesan()"
-    >
+    <DeleteDialog :show="confirmDialog" @close="confirmDialog = !confirmDialog" :can-submit="true" @submit="deleteData()">
       <template #title>
         <h1>Kegiatan {{ tempatStore.singleResponse.title }} akan di hapus!</h1>
       </template>

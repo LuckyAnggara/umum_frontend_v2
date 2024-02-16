@@ -1,43 +1,111 @@
 <template>
-  <div class="max-w-md mx-auto px-6 py-8 md:max-w-lg h-screen">
-    <!-- :style="{
-      background: 'url(' + logo + ')',
-      'background-size': '50% auto',
-    }" -->
-    <h2 class="font-semibold text-gray-800 text-2xl">Layanan Umum</h2>
-    <div class="mt-6">
-      <span class="font-semibold">Menu</span>
-      <div class="grid grid-cols-2 gap-4 mt-2">
-        <router-link
-          v-for="i in menu"
-          :key="i"
-          :to="{ name: i.to }"
-          class="shadow-lg cursor-pointer h-24 justify-center flex border p-4 text-center bg-gray-500 rounded-md text-lg text-white"
-        >
-          <span class="my-auto">
-            {{ i.label.toUpperCase() }}
-          </span>
-        </router-link>
+  <van-nav-bar>
+    <template #left>
+      <van-image height="30" src="https://itjen.kemenkumham.go.id/wp-content/uploads/2022/02/logov2.png" />
+    </template>
+    <template #right>
+      <van-image height="30" src="https://itjen.kemenkumham.go.id/wp-content/uploads/2022/02/itjen.png" />
+    </template>
+  </van-nav-bar>
+
+  <div class="p-4 bg-gray-200 h-screen">
+    <div v-if="active == 'menu'">
+      <van-cell-group inset>
+        <van-cell v-for="(item, index) in menu" :key="index" :title="item.label" :label="item.desc" :icon="item.icon" @click="router.push({ name: item.to })" />
+      </van-cell-group>
+    </div>
+
+    <div v-else>
+      <div v-if="userStore.listPermintaanUser?.persediaan.length > 0">
+        <van-cell-group title="Persediaan" inset>
+          <van-cell v-for="(item, index) in userStore.listPermintaanUser.persediaan" :key="index" :title="item.tiket" @click="toDetail(item)">
+            <template #value>
+              <van-tag :type="item.status == 'REJECT' ? 'danger' : 'primary'" size="large">{{ item.status }}</van-tag>
+            </template>
+          </van-cell>
+        </van-cell-group>
+      </div>
+      <div v-if="userStore.listPermintaanUser?.bmn.length > 0">
+        <van-cell-group title="BMN" inset>
+          <van-cell title="Cell title" value="Content" />
+          <van-cell title="Cell title" value="Content" />
+        </van-cell-group>
+      </div>
+
+      <div v-if="userStore.listPermintaanUser?.tempat.length > 0">
+        <van-cell-group title="Booking Ruangan" inset>
+          <van-cell v-for="(item, index) in userStore.listPermintaanUser.tempat" :title="item.kegiatan" :key="index" @click="toDetail(item)">
+            <template #label>
+              <div class="flex flex-col">
+                <span> {{ getRuangan(item.ruangan).label }}</span>
+                <span>
+                  {{ moment(item.tanggal).format('DD MMMM YYYY') }} ( {{ moment(item.jam_mulai).format('HH:mm') }} -
+                  {{ moment(item.jam_akhir).format('HH:mm') }})</span
+                >
+              </div>
+            </template>
+            <template #value>
+              <van-tag :type="item.status == 'REJECT' ? 'danger' : 'primary'" size="large">{{ item.status }}</van-tag>
+            </template>
+          </van-cell>
+        </van-cell-group>
       </div>
     </div>
   </div>
+
+  <van-tabbar v-model="active">
+    <van-tabbar-item name="menu" icon="apps-o">Menu</van-tabbar-item>
+    <van-tabbar-item name="home" icon="orders-o">List</van-tabbar-item>
+  </van-tabbar>
 </template>
 
 <script setup>
-import logo from '@/assets/logo_itjen.png'
-import { TrashIcon } from '@heroicons/vue/24/outline'
-import { useDebounceFn } from '@vueuse/core'
-import { usePermintaanPersediaanStore } from '@/stores/permintaanPersediaan'
-const permintaanPersediaanStore = usePermintaanPersediaanStore()
+import { ref } from 'vue'
 
-function getImageUrl() {
-  return new URL(`./assets/logo_itjen.png`, import.meta.url).href
-}
+import { useUserStore } from '@/stores/user'
+import { useMainStore } from '@/stores/main'
+
+import { useRouter } from 'vue-router'
+import { onMounted } from 'vue'
+import moment from 'moment'
+
+const userStore = useUserStore()
+const mainStore = useMainStore()
+
+const router = useRouter()
+const active = ref('menu')
+
+const show = ref(false)
 
 const menu = [
-  { label: 'Daftar Permintaan', to: 'list-permintaan' },
-  { label: 'Persediaan', to: 'permintaan-persediaan' },
-  { label: 'BMN', to: 'service-bmn' },
-  { label: 'Booking Ruangan', to: 'booking-tempat' },
+  { label: 'Persediaan', to: 'permintaan-persediaan', desc: 'Layanan Persediaan', icon: 'description-o' },
+  { label: 'BMN', to: 'service-bmn', desc: 'Layanan Barang Milik Negara', icon: 'desktop-o' },
+  { label: 'Booking Ruangan', to: 'booking-tempat', desc: 'Layanan Peminjaman Ruangan', icon: 'wap-home-o' },
+  { label: 'Pertanggung Jawaban Kegiatan', to: 'booking-tempat', desc: 'Layanan Pertanggung Jawaban Kegiatan', icon: 'completed-o' },
+  { label: 'Agenda Pimpinan', to: 'booking-tempat', desc: 'Layanan Pengisian Agenda Pimpinan', icon: 'manager-o' },
 ]
+
+function toDetail(item) {
+  if (item.tipe == 'PERSEDIAAN') {
+    router.push({
+      name: 'output-permintaan-user',
+      params: { tiket: item.tiket },
+    })
+  } else if (item.tipe == 'BMN') {
+    router.push({
+      name: 'output-permintaan-layanan-bmn',
+      params: { tiket: item.tiket },
+    })
+  }
+}
+
+function getRuangan(id) {
+  return mainStore.ruangOptions.find((x) => {
+    return x.id == id
+  })
+}
+
+onMounted(() => {
+  userStore.getStatus()
+})
 </script>

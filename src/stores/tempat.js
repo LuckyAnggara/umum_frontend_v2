@@ -20,13 +20,15 @@ export const useTempatStore = defineStore('tempat', {
     pesanDelete: null,
     form: {
       kegiatan: null,
-      tanggal: null,
+      tanggal: new Date(),
       ruangan: 1,
       jam_mulai: { hours: 8, minutes: 0, seconds: 0 },
       jam_akhir: { hours: 16, minutes: 0, seconds: 0 },
       nip: null,
+      jumlah_peserta: null,
       nama: null,
       unit: null,
+      no_wa: null,
     },
     filter: {
       date: [],
@@ -61,9 +63,7 @@ export const useTempatStore = defineStore('tempat', {
     async getData(page = '') {
       this.isLoading = true
       try {
-        const response = await axiosIns.get(
-          `/api/tempat?query=${this.form.ruangan}${this.dateQuery}`
-        )
+        const response = await axiosIns.get(`/api/tempat?query=${this.form.ruangan}${this.dateQuery}`)
         this.responses = response.data
       } catch (error) {
         alert(error.message)
@@ -115,30 +115,7 @@ export const useTempatStore = defineStore('tempat', {
         this.isDestroyLoading = false
       }
     },
-    async kirimPesan() {
-      const noWa = '6282116562811'
 
-      const requestOptions = {
-        method: 'POST',
-        headers: {
-          'content-type': 'application/json',
-          authorization: 'fbec06eb35b86ac0184853a4fabcd747',
-        },
-        body: JSON.stringify({
-          device: '888662421399',
-          phone: noWa,
-          message: 'Your Message',
-        }),
-      }
-
-      fetch('https://api.alatwa.com/send/text', requestOptions)
-        .then((response) => response.json())
-        .then((data) => console.info(data))
-
-      // const response = await fetch(`https://api.alatwa.com/send/text`).then(
-      //   (response) => {}
-      // )
-    },
     setDataPegawai(item) {
       this.form.nama = item.name
       this.form.unit = item.unit?.name

@@ -22,6 +22,7 @@ export const usePermintaanLayananBmn = defineStore('permintaanLayananBmn', {
       tanggalPenerimaan: moment().format('DD MMMM YYYY'),
       image: null,
       status: 'DONE',
+      no_wa: null,
     },
     selectAll: true,
     form: {
@@ -106,10 +107,7 @@ export const usePermintaanLayananBmn = defineStore('permintaanLayananBmn', {
       this.form.nup = nup
       this.isStoreLoading = true
       try {
-        const response = await axiosIns.post(
-          `/api/permintaan-layanan-bmn`,
-          this.form
-        )
+        const response = await axiosIns.post(`/api/permintaan-layanan-bmn`, this.form)
         if (response.status == 200) {
           this.clearForm()
           return {
@@ -142,9 +140,7 @@ export const usePermintaanLayananBmn = defineStore('permintaanLayananBmn', {
       this.isDestroyLoading = true
       setTimeout(() => {}, 500)
       try {
-        const response = await axiosIns.delete(
-          `/api/permintaan-layanan-bmn/${id}`
-        )
+        const response = await axiosIns.delete(`/api/permintaan-layanan-bmn/${id}`)
         if (response.status == 200) {
           const index = this.items.findIndex((item) => item.id === id)
           this.responses.data.splice(index, 1)
@@ -164,10 +160,7 @@ export const usePermintaanLayananBmn = defineStore('permintaanLayananBmn', {
         detail: this.singleResponses.detail,
       }
       try {
-        const response = await axiosIns.patch(
-          `/api/permintaan-layanan-bmn/${this.singleResponses.id}`,
-          form
-        )
+        const response = await axiosIns.patch(`/api/permintaan-layanan-bmn/${this.singleResponses.id}`, form)
         if (response.status == 200) {
           this.setCurrentData(response.data.data)
           return true
@@ -183,10 +176,7 @@ export const usePermintaanLayananBmn = defineStore('permintaanLayananBmn', {
     async updateDone() {
       this.isUpdateLoading = true
       try {
-        const response = await axiosIns.put(
-          `/api/permintaan-layanan-bmn/done/${this.singleResponses.id}`,
-          this.doneForm
-        )
+        const response = await axiosIns.put(`/api/permintaan-layanan-bmn/done/${this.singleResponses.id}`, this.doneForm)
         if (response.status == 200) {
           this.setCurrentData(response.data.data)
           return true
@@ -202,9 +192,7 @@ export const usePermintaanLayananBmn = defineStore('permintaanLayananBmn', {
     async updateUndo() {
       this.isUpdateLoading = true
       try {
-        const response = await axiosIns.put(
-          `/api/permintaan-layanan-bmn/undo/${this.singleResponses.id}`
-        )
+        const response = await axiosIns.put(`/api/permintaan-layanan-bmn/undo/${this.singleResponses.id}`)
         if (response.status == 200) {
           this.setCurrentData(response.data.data)
           return true

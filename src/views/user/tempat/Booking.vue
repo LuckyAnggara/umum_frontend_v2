@@ -44,7 +44,7 @@
           <select
             @change="find()"
             v-model="tempatStore.form.ruangan"
-            class="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block px-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            class="w-full border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block px-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           >
             <option :key="item.id" v-for="item in mainStore.ruangOptions" :value="item.id">
               {{ item.label }}
@@ -99,15 +99,27 @@
         </div>
 
         <div class="text-left">
-          <label for="unit" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nama Kegiatan</label>
+          <label for="unit" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nama Kegiatan*</label>
           <textarea
             v-model="tempatStore.form.kegiatan"
+            placeholder="Isi dengan nama kegiatan"
             type="text"
             id="unit"
-            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             required
           >
           </textarea>
+        </div>
+        <div>
+          <label for="nama" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Jumlah Peserta Kegiatan</label>
+          <input
+            v-model="tempatStore.form.jumlah_peserta"
+            type="number"
+            id="nama"
+            placeholder="Estimasi jumlah peserta kegiatan"
+            class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            required
+          />
         </div>
 
         <div class="py-2 border-b border-gray-200">
@@ -120,7 +132,7 @@
               v-model="tempatStore.form.nip"
               type="text"
               id="nip"
-              class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               placeholder="kosongkan jika tidak punya nip"
             />
             <button
@@ -136,22 +148,35 @@
           </div>
         </div>
         <div>
-          <label for="nama" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nama</label>
+          <label for="nama" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nama*</label>
           <input
             v-model="tempatStore.form.nama"
             type="text"
             id="nama"
-            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            placeholder="Nama pengguna fasilitas"
+            class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             required
           />
         </div>
         <div>
-          <label for="unit" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Unit</label>
+          <label for="unit" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Unit*</label>
           <input
             v-model="tempatStore.form.unit"
             type="text"
             id="unit"
-            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            placeholder="Unit pengguna fasilitas"
+            class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            required
+          />
+        </div>
+        <div>
+          <label for="unit" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nomor WhatsApp*</label>
+          <input
+            v-model="tempatStore.form.no_wa"
+            type="text"
+            placeholder="menggunakan format (0821111xxxx)"
+            id="unit"
+            class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             required
           />
         </div>
@@ -240,9 +265,12 @@ import { useTempatStore } from '@/stores/tempat'
 import { useMainStore } from '@/stores/main'
 import { useRouter } from 'vue-router'
 import { onMounted, ref } from 'vue'
+import { useUserStore } from '@/stores/user'
 
 const mainStore = useMainStore()
 const tempatStore = useTempatStore()
+const userStore = useUserStore()
+
 const router = useRouter()
 const showModal = ref(false)
 import { toast } from 'vue3-toastify'
@@ -266,21 +294,35 @@ async function cariPegawai() {
   try {
     const response = await fetch(`https://lapkin.bbmakmur.com/api/employee-show/${tempatStore.form.nip}`)
       .then((response) => {
-        response.json().then((data) => {
-          if (data.success == true) {
+        response
+          .json()
+          .then((data) => {
+            if (data.success == true) {
+              toast.update(id, {
+                render: 'Berhasil',
+                position: toast.POSITION.BOTTOM_CENTER,
+                type: 'success',
+                autoClose: 1000,
+                closeOnClick: true,
+                closeButton: true,
+                isLoading: false,
+              })
+              tempatStore.setDataPegawai(data.data)
+            } else {
+              toast.update(id, {
+                render: 'tidak dapat ditemukan',
+                position: toast.POSITION.BOTTOM_CENTER,
+                type: 'error',
+                autoClose: 1000,
+                closeOnClick: true,
+                closeButton: true,
+                isLoading: false,
+              })
+            }
+          })
+          .catch((err) => {
             toast.update(id, {
-              render: 'Berhasil',
-              position: toast.POSITION.BOTTOM_CENTER,
-              type: 'success',
-              autoClose: 1000,
-              closeOnClick: true,
-              closeButton: true,
-              isLoading: false,
-            })
-            tempatStore.setDataPegawai(data.data)
-          } else {
-            toast.update(id, {
-              render: 'tidak dapat ditemukan',
+              render: 'ada permasalahan',
               position: toast.POSITION.BOTTOM_CENTER,
               type: 'error',
               autoClose: 1000,
@@ -288,8 +330,10 @@ async function cariPegawai() {
               closeButton: true,
               isLoading: false,
             })
-          }
-        })
+          })
+          .finally(() => {
+            toast.done(id)
+          })
       })
       .catch((err) => {
         console.error(err)
@@ -338,6 +382,7 @@ async function submit() {
       isLoading: false,
     })
     showModal.value = !showModal.value
+    userStore.updateBookingTempat(success.data)
     toCalendar()
   } else {
     toast.update(id, {

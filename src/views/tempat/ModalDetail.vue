@@ -14,9 +14,7 @@
       </TransitionChild>
 
       <div class="fixed inset-0 overflow-y-auto">
-        <div
-          class="flex min-h-full items-center justify-center p-4 text-center"
-        >
+        <div class="flex min-h-full items-center justify-center p-4 text-center">
           <TransitionChild
             as="template"
             enter="duration-300 ease-out"
@@ -26,16 +24,10 @@
             leave-from="opacity-100 scale-100"
             leave-to="opacity-0 scale-95"
           >
-            <div
-              class="relative p-4 bg-white w-2/4 rounded-lg shadow dark:bg-gray-800 sm:p-5"
-            >
+            <div class="relative p-4 bg-white w-2/4 rounded-lg shadow dark:bg-gray-800 sm:p-5">
               <!-- Modal header -->
-              <div
-                class="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5 dark:border-gray-600"
-              >
-                <h3
-                  class="flex flex-row space-x-4 justify-center text-lg font-semibold text-gray-900 dark:text-white"
-                >
+              <div class="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5 dark:border-gray-600">
+                <h3 class="flex flex-row space-x-4 justify-center text-lg font-semibold text-gray-900 dark:text-white">
                   <span>Detail Kegiatan</span>
                   <span
                     v-if="tempatStore.singleResponse.status == 'BELUM SELESAI'"
@@ -54,13 +46,7 @@
                   class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
                   data-modal-toggle="updateProductModal"
                 >
-                  <svg
-                    aria-hidden="true"
-                    class="w-5 h-5"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
+                  <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                     <path
                       fill-rule="evenodd"
                       d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
@@ -78,11 +64,7 @@
                 </div>
                 <div class="flex flex-col space-y-4">
                   <div>
-                    <label
-                      for="nip"
-                      class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                      >Nama Kegiatan</label
-                    >
+                    <label for="nip" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nama Kegiatan</label>
                     <textarea
                       readonly
                       :value="tempatStore.singleResponse.title"
@@ -92,51 +74,27 @@
                   </div>
                   <div class="flex flex-row space-x-2">
                     <div class="flex-1">
-                      <label
-                        for="nip"
-                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                        >Tanggal</label
-                      >
+                      <label for="nip" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Tanggal</label>
                       <input
                         readonly
-                        :value="
-                          moment(tempatStore.singleResponse.tanggal).format(
-                            'DD MMMM YYYY'
-                          )
-                        "
+                        :value="moment(tempatStore.singleResponse.tanggal).format('DD MMMM YYYY')"
                         type="text"
                         class="bg-gray-200 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                       />
                     </div>
                     <div>
-                      <label
-                        for="nip"
-                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                        >Jam Mulai</label
-                      >
+                      <label for="nip" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Jam Mulai</label>
                       <input
                         readonly
-                        :value="
-                          moment(tempatStore.singleResponse.jam_mulai).format(
-                            'HH:mm'
-                          )
-                        "
+                        :value="moment(tempatStore.singleResponse.jam_mulai).format('HH:mm')"
                         class="bg-gray-200 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                       />
                     </div>
                     <div>
-                      <label
-                        for="nip"
-                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                        >Jam Berakhir</label
-                      >
+                      <label for="nip" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Jam Berakhir</label>
                       <input
                         readonly
-                        :value="
-                          moment(tempatStore.singleResponse.jam_akhir).format(
-                            'HH:mm'
-                          )
-                        "
+                        :value="moment(tempatStore.singleResponse.jam_akhir).format('HH:mm')"
                         class="bg-gray-200 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                       />
                     </div>
@@ -150,25 +108,16 @@
                 </div>
                 <div class="grid gap-4 mb-4 sm:grid-cols-2 my-3">
                   <div>
-                    <label
-                      for="nip"
-                      class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                      >NIP</label
-                    >
+                    <label for="nip" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">NIP</label>
                     <input
-                      v-if="tempatStore.singleResponse.nip"
                       readonly
-                      v-model="tempatStore.singleResponse.nip"
+                      :value="tempatStore.singleResponse.nip ?? '-'"
                       type="text"
                       class="bg-gray-200 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     />
                   </div>
                   <div>
-                    <label
-                      for="nip"
-                      class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                      >Nama</label
-                    >
+                    <label for="nip" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nama</label>
                     <input
                       readonly
                       v-model="tempatStore.singleResponse.nama"
@@ -177,17 +126,41 @@
                     />
                   </div>
                   <div>
-                    <label
-                      for="nip"
-                      class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                      >Unit</label
-                    >
+                    <label for="nip" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Unit</label>
                     <input
                       readonly
                       v-model="tempatStore.singleResponse.unit"
                       type="text"
                       class="bg-gray-200 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     />
+                  </div>
+                  <div>
+                    <label for="nip" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nomor WhatsApp</label>
+                    <div class="w-full flex flex-row space-x-2">
+                      <input
+                        readonly
+                        v-model="tempatStore.singleResponse.no_wa"
+                        type="text"
+                        class="bg-gray-200 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                      />
+
+                      <a
+                        :href="`https://web.whatsapp.com/send/?phone=${tempatStore.singleResponse.no_wa}&text&type=phone_number&app_absent=0`"
+                        target="_blank"
+                        class="text-center text-sm font-medium text-white bg-green-700 rounded-lg border border-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
+                      >
+                        Chat WhatsApp
+                        <span class="sr-only">Search</span>
+                      </a>
+                    </div>
+
+                    <!-- 
+                    <label for="nip" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nomor WhatsApp</label>
+                    <input
+                  
+                      type="text"
+                      class="bg-gray-200 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    /> -->
                   </div>
                 </div>
               </div>
