@@ -3,11 +3,9 @@ import { defineStore } from 'pinia'
 import { axiosIns } from '@/services/axios'
 import { useToast } from 'vue-toastification'
 import moment from 'moment'
-
-import axios from 'axios'
-
 const toast = useToast()
-export const useTempatStore = defineStore('tempat', {
+
+export const usePtjStore = defineStore('ptj', {
   state: () => ({
     responses: null,
     singleResponse: null,
@@ -17,18 +15,15 @@ export const useTempatStore = defineStore('tempat', {
     isStoreLoading: false,
     isUpdateLoading: false,
     isDestroyLoading: false,
-    pesanDelete: null,
     form: {
-      kegiatan: null,
+      nama_kegiatan: null,
+      realisasi: 0,
       tanggal: null,
-      ruangan: 1,
-      jam_mulai: { hours: 8, minutes: 0, seconds: 0 },
-      jam_akhir: { hours: 16, minutes: 0, seconds: 0 },
       nip: null,
-      jumlah_peserta: null,
       nama: null,
       unit: null,
       no_wa: null,
+      lampiran: [],
     },
     filter: {
       date: [],
@@ -64,7 +59,7 @@ export const useTempatStore = defineStore('tempat', {
       this.isLoading = true
       try {
         const response = await axiosIns.get(
-          `/api/tempat?query=${this.form.ruangan}${this.dateQuery}`
+          `/api/ptj?query=${this.form.ruangan}${this.dateQuery}`
         )
         this.responses = response.data
       } catch (error) {
@@ -74,10 +69,32 @@ export const useTempatStore = defineStore('tempat', {
       }
       return false
     },
-    async store() {
+    async store({ uploadFile = null }) {
+      // if (uploadFile !== null) {
+      let formData = new FormData()
+      uploadFile.forEach((element, index) => {
+        formData.append(`file[${index}]`, element)
+      })
+      formData.append('jumlah_lampiran', uploadFile.length)
+      formData.append('nama_kegiatan', this.form.nama_kegiatan)
+      formData.append('realisasi', this.form.realisasi)
+      formData.append('tanggal', this.form.tanggal)
+      formData.append('nip', this.form.nip)
+      formData.append('nama', this.form.nama)
+      formData.append('unit', this.form.unit)
+      formData.append('no_wa', this.form.no_wa)
+
       this.isStoreLoading = true
       try {
-        const response = await axiosIns.post(`/api/tempat`, this.form)
+        const response = await axiosIns.post(
+          `/api/ptj`,
+          uploadFile ? formData : this.form,
+          {
+            headers: {
+              'Content-Type': 'multipart/form-data',
+            },
+          }
+        )
         if (response.status == 200) {
           return {
             status: true,
@@ -99,7 +116,7 @@ export const useTempatStore = defineStore('tempat', {
       this.isDestroyLoading = true
       setTimeout(() => {}, 500)
       try {
-        const response = await axiosIns.delete(`/api/tempat/${id}`, {
+        const response = await axiosIns.delete(`/api/ptj/${id}`, {
           params: {
             pesan: this.pesanDelete,
           },
@@ -124,14 +141,14 @@ export const useTempatStore = defineStore('tempat', {
     },
     clearForm() {
       this.form = {
-        kegiatan: null,
+        nama_kegiatan: null,
+        realisasi: 0,
         tanggal: null,
-        ruangan: 1,
-        jam_mulai: { hours: 8, minutes: 0, seconds: 0 },
-        jam_akhir: { hours: 16, minutes: 0, seconds: 0 },
         nip: null,
         nama: null,
         unit: null,
+        no_wa: null,
+        lampiran: [],
       }
     },
     setDataSingle(id) {

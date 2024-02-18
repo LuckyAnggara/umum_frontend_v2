@@ -3,11 +3,10 @@
     <file-pond
       name="test"
       ref="input"
-      label-idle="Drop files here or <span class='filepond--label-action'>Browse</span>"
-      :allow-multiple="allowMultiple"
-      accepted-file-types="image/jpeg, image/png"
-      v-on:init="handleFilePondInit"
-      @addfile="filesChange"
+      :label-idle="`${label} <span class='filepond--label-action'>Browse</span>`"
+      :allow-multiple="multiple"
+      :accepted-file-types="type"
+      @updatefiles="fileChange"
     />
   </div>
 </template>
@@ -32,25 +31,34 @@ import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type'
 import FilePondPluginImagePreview from 'filepond-plugin-image-preview'
 
 // Create component
-const FilePond = vueFilePond(FilePondPluginFileValidateType, FilePondPluginImagePreview)
-const myFiles = ref([])
+const FilePond = vueFilePond(
+  FilePondPluginFileValidateType,
+  FilePondPluginImagePreview
+)
 const input = ref(null)
 
-function handleFilePondInit() {
-  console.log('FilePond has initialized')
-}
-
-function filesChange() {
-  let files = input.value.getFiles()
-  console.info(files[0].file)
-  emit('fileChange', files[0].file)
-}
-
-const emit = defineEmits(['fileChange'])
+const emit = defineEmits(['fileChange', 'filesChange'])
 const props = defineProps({
-  allowMultiple: {
+  multiple: {
     type: Boolean,
     default: false,
   },
+  label: {
+    type: String,
+    default: 'Drop files here or ',
+  },
+  type: {
+    type: String,
+    default: 'image/jpeg, image/png',
+  },
 })
+
+function fileChange() {
+  let files = input.value.getFiles()
+  if (props.multiple == true) {
+    emit('fileChange', files)
+  } else {
+    emit('fileChange', files[0].file)
+  }
+}
 </script>

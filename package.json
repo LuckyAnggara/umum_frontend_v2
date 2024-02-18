@@ -32,6 +32,7 @@
     "vant": "^4.8.4",
     "vue": "^3.4.14",
     "vue-barcode-reader": "^1.0.3",
+    "vue-currency-input": "^3.1.0",
     "vue-drawing-canvas": "^1.0.14",
     "vue-filepond": "^7.0.4",
     "vue-router": "^4.2.5",

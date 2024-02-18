@@ -1,6 +1,6 @@
 import {
   RectangleGroupIcon,
-  BriefcaseIcon,
+  SwatchIcon,
   ArchiveBoxIcon,
   HomeModernIcon,
   RectangleStackIcon,
@@ -53,6 +53,18 @@ export const menu = [
         to: 'jadwal-tempat',
       },
     ],
+  },
+
+  {
+    name: 'Pertanggung Jawaban',
+    icon: SwatchIcon,
+    child: [
+      {
+        name: 'Daftar',
+        to: 'list-bmn',
+      },
+    ],
+    // to: 'persediaan',
   },
 
   // {

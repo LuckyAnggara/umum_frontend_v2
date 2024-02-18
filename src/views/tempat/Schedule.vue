@@ -1,25 +1,45 @@
 <template>
-  <section class="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5">
-    <div class="mx-auto max-w-screen-2xl px-4 lg:px-12">
-      <div class="py-4 border-gray-200 w-fit">
+  <section class="dark:bg-gray-900 p-3 sm:p-5">
+    <div
+      class="mx-auto max-w-screen-2xl px-6 py-4 bg-white shadow-lg rounded-lg"
+    >
+      <div
+        class="py-4 border-gray-200 w-full flex flex-row justify-between items-center"
+      >
         <div class="text-left">
-          <label for="name" class="block font-medium text-gray-900 dark:text-white">Ruangan</label>
+          <label
+            for="name"
+            class="block font-medium text-gray-900 dark:text-white"
+            >Ruangan</label
+          >
           <select
             @change="tempatStore.getData()"
             v-model="tempatStore.form.ruangan"
             class="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block px-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           >
-            <option :key="item.id" v-for="item in mainStore.ruangOptions" :value="item.id">
+            <option
+              :key="item.id"
+              v-for="item in mainStore.ruangOptions"
+              :value="item.id"
+            >
               {{ item.label }}
             </option>
           </select>
         </div>
+        <button
+          @click="newKegiatan()"
+          type="button"
+          class="h-fit flex items-center justify-center text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-md text-sm px-4 py-2 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800"
+        >
+          Tambah Kegiatan
+        </button>
       </div>
       <div class="w-full mx-auto">
-        <span v-if="tempatStore.isLoading"><ArrowPathIcon class="h-6 w-6 animate-spin" /></span>
-        <FullCalendar v-else :options="calendarOptions">
+        <FullCalendar :options="calendarOptions">
           <template v-slot:eventContent="arg">
-            <div class="cursor-pointer flex flex-col bg-blue-500 p-2 rounded-md shadow-md">
+            <div
+              class="cursor-pointer flex flex-col bg-blue-500 p-2 rounded-md shadow-md"
+            >
               <span class="text-gray-200">{{ arg.event.title }}</span>
               <span class="text-gray-200"
                 >{{ moment(arg.event.start).format('HH:mm') }} -
@@ -31,9 +51,18 @@
       </div>
     </div>
 
-    <DetailModal :show="detailDialog" @close="detailDialog = false" @destroy="deleteConfirm()" />
+    <DetailModal
+      :show="detailDialog"
+      @close="detailDialog = false"
+      @destroy="deleteConfirm()"
+    />
 
-    <DeleteDialog :show="confirmDialog" @close="confirmDialog = !confirmDialog" :can-submit="true" @submit="deleteData()">
+    <DeleteDialog
+      :show="confirmDialog"
+      @close="confirmDialog = !confirmDialog"
+      :can-submit="true"
+      @submit="deleteData()"
+    >
       <template #title>
         <h1>Kegiatan {{ tempatStore.singleResponse.title }} akan di hapus!</h1>
       </template>
@@ -46,6 +75,8 @@
         ></textarea>
       </template>
     </DeleteDialog>
+
+    <BookingModal :show="bookingDialog" @close="bookingDialog = false" />
   </section>
 </template>
 
@@ -65,13 +96,21 @@ import { computed, defineAsyncComponent, onMounted, ref } from 'vue'
 import { ArrowPathIcon } from '@heroicons/vue/24/outline'
 
 const DetailModal = defineAsyncComponent(() => import('./ModalDetail.vue'))
+const BookingModal = defineAsyncComponent(() => import('./ModalBooking.vue'))
 
 const tempatStore = useTempatStore()
 const mainStore = useMainStore()
 
 const detailDialog = ref(false)
+const bookingDialog = ref(false)
 const confirmDialog = ref(false)
 
+function newKegiatan() {
+  bookingDialog.value = true
+  tempatStore.form.nama = 'Administrator'
+  tempatStore.form.unit = 'Administrator'
+  tempatStore.form.no_wa = '088'
+}
 function deleteConfirm() {
   detailDialog.value = false
   confirmDialog.value = true
@@ -138,6 +177,9 @@ function handleDateClick(arg) {
 }
 
 onMounted(() => {
+  tempatStore.$patch((state) => {
+    state.form.tanggal = null
+  })
   tempatStore.getData()
 })
 </script>

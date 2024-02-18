@@ -5,6 +5,7 @@ import {
 } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
 import bmn from './bmn'
+import ptj from './ptj'
 import user from './user'
 import tempat from './tempat'
 
@@ -114,6 +115,7 @@ const routes = [
   ...user,
   ...bmn,
   ...tempat,
+  ...ptj,
 ]
 
 const router = createRouter({
