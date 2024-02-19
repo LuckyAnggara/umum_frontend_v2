@@ -19,6 +19,16 @@ const user = [
     name: 'list-permintaan',
     component: () => import('@/views/user/ListPermintaan.vue'),
   },
+  {
+    meta: {
+      title: 'Cari',
+      requiresAuth: false,
+      layout: 'layout-guest',
+    },
+    path: '/user/ptj/',
+    name: 'user-ptj',
+    component: () => import('@/views/user/ptj/Index.vue'),
+  },
 ]
 
 export default user

@@ -1,20 +1,16 @@
-import {
-  createRouter,
-  createWebHashHistory,
-  createWebHistory,
-} from 'vue-router'
+import { createRouter, createWebHashHistory, createWebHistory } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
 
 const ptj = [
   {
     meta: {
-      title: 'Cari',
+      title: 'Daftar Pertanggung Jawaban',
       requiresAuth: false,
-      layout: 'layout-guest',
+      layout: 'layout-auth',
     },
-    path: '/user/ptj/',
-    name: 'user-ptj',
-    component: () => import('@/views/user/ptj/Index.vue'),
+    path: '/ptj/list',
+    name: 'list-ptj',
+    component: () => import('@/views/ptj/List.vue'),
   },
 ]
 

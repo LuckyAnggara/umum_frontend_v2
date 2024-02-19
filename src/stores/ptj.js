@@ -28,7 +28,7 @@ export const usePtjStore = defineStore('ptj', {
     filter: {
       date: [],
       currentLimit: 10,
-      searchQuery: 1,
+      searchQuery: null,
       page: '',
     },
   }),
@@ -36,32 +36,44 @@ export const usePtjStore = defineStore('ptj', {
     items(state) {
       return state.responses?.data ?? []
     },
-    dataCalendar(state) {
-      return state.items.map((event) => ({
-        title: event.title,
-        date: event.tanggal,
-        start: event.start,
-        end: event.end,
-      }))
+    currentPage(state) {
+      return state.responses?.current_page
+    },
+    pageLength(state) {
+      return Math.round(state.responses?.total / state.responses?.per_page)
+    },
+    lastPage(state) {
+      return state.responses?.last_page
+    },
+    from(state) {
+      return state.responses?.from
+    },
+    to(state) {
+      return state.responses?.to
     },
     total(state) {
       return state.responses?.total
     },
+
     dateQuery(state) {
       if (state.form.tanggal == '' || state.form.tanggal == null) {
         return ''
       }
       return '&date=' + moment(state.form.tanggal).format('YYYY-MM-DD')
     },
+    searchQuery(state) {
+      if (state.filter.searchQuery == '' || state.filter.searchQuery == null) {
+        return ''
+      }
+      return '?query=' + state.filter.searchQuery
+    },
   },
   actions: {
     async getData(page = '') {
       this.isLoading = true
       try {
-        const response = await axiosIns.get(
-          `/api/ptj?query=${this.form.ruangan}${this.dateQuery}`
-        )
-        this.responses = response.data
+        const response = await axiosIns.get(`/api/ptj?${this.searchQuery}${this.dateQuery}`)
+        this.responses = response.data.data
       } catch (error) {
         alert(error.message)
       } finally {
@@ -86,15 +98,11 @@ export const usePtjStore = defineStore('ptj', {
 
       this.isStoreLoading = true
       try {
-        const response = await axiosIns.post(
-          `/api/ptj`,
-          uploadFile ? formData : this.form,
-          {
-            headers: {
-              'Content-Type': 'multipart/form-data',
-            },
-          }
-        )
+        const response = await axiosIns.post(`/api/ptj`, uploadFile ? formData : this.form, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        })
         if (response.status == 200) {
           return {
             status: true,
@@ -134,7 +142,28 @@ export const usePtjStore = defineStore('ptj', {
         this.isDestroyLoading = false
       }
     },
+    async download(id) {
+      try {
+        const response = await axiosIns
+          .get(`/ptj-lampiran-download/${id}`, {
+            responseType: 'arraybuffer',
+          })
+          .then((response) => {
+            console.log(response)
 
+            let blob = new Blob([response.data], {
+              type: 'application/pdf',
+            })
+
+            let link = document.createElement('a')
+            link.href = window.URL.createObjectURL(blob)
+            link.download = label
+            link.click()
+          })
+      } catch (error) {
+        alert(error.message)
+      }
+    },
     setDataPegawai(item) {
       this.form.nama = item.name
       this.form.unit = item.unit?.name

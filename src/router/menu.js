@@ -1,10 +1,4 @@
-import {
-  RectangleGroupIcon,
-  SwatchIcon,
-  ArchiveBoxIcon,
-  HomeModernIcon,
-  RectangleStackIcon,
-} from '@heroicons/vue/24/solid'
+import { RectangleGroupIcon, SwatchIcon, ArchiveBoxIcon, HomeModernIcon, RectangleStackIcon } from '@heroicons/vue/24/solid'
 
 export const menu = [
   {
@@ -61,7 +55,7 @@ export const menu = [
     child: [
       {
         name: 'Daftar',
-        to: 'list-bmn',
+        to: 'list-ptj',
       },
     ],
     // to: 'persediaan',
