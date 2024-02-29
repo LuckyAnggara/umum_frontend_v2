@@ -6,6 +6,7 @@ export const useUserStore = defineStore('user', {
   state: () => ({
     listPermintaanUser: useStorage('UMUM', {
       bmn: [],
+      peminjamanbmn: [],
       persediaan: [],
       tempat: [],
       agenda: [],
@@ -16,7 +17,15 @@ export const useUserStore = defineStore('user', {
     updateBmn(item) {
       this.listPermintaanUser.bmn.push({
         id: item.id,
-        tipe: 'BMN',
+        tipe: 'LAYANAN BMN',
+        tiket: item.tiket,
+        created_at: item.created_at,
+      })
+    },
+    updatePeminjamanBmn(item) {
+      this.listPermintaanUser.peminjamanbmn.push({
+        id: item.id,
+        tipe: 'PEMINJAMAN BMN',
         tiket: item.tiket,
         created_at: item.created_at,
       })

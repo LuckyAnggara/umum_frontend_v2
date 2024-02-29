@@ -1,8 +1,4 @@
-import {
-  createRouter,
-  createWebHashHistory,
-  createWebHistory,
-} from 'vue-router'
+import { createRouter, createWebHashHistory, createWebHistory } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
 
 const bmn = [
@@ -85,6 +81,36 @@ const bmn = [
     path: '/user/bmn/permintaan/:id/detail',
     name: 'detail-permintaan-layanan-bmn',
     component: () => import('@/views/user/bmn/Detail.vue'),
+  },
+  {
+    meta: {
+      title: 'Peminjaman BMN',
+      requiresAuth: false,
+      layout: 'layout-guest',
+    },
+    path: '/user/bmn/peminjaman',
+    name: 'cari-peminjaman-bmn',
+    component: () => import('@/views/user/pinjambmn/New.vue'),
+  },
+  {
+    meta: {
+      title: 'Peminjaman BMN',
+      requiresAuth: false,
+      layout: 'layout-guest',
+    },
+    path: '/user/bmn/peminjaman/detail',
+    name: 'detail-peminjaman-bmn',
+    component: () => import('@/views/user/pinjambmn/Detail.vue'),
+  },
+  {
+    meta: {
+      title: 'Peminjaman BMN',
+      requiresAuth: false,
+      layout: 'layout-guest',
+    },
+    path: '/user/bmn/peminjaman/:tiket/output',
+    name: 'output-peminjaman-bmn',
+    component: () => import('@/views/user/pinjambmn/Output.vue'),
   },
 ]
 
