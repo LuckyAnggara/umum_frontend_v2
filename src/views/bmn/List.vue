@@ -3,7 +3,7 @@
     <div class="mx-auto max-w-screen-xl px-4 lg:px-12">
       <!-- Start coding here -->
       <div class="bg-white dark:bg-gray-800 relative shadow-md sm:rounded-lg overflow-visible">
-        <div class="flex flex-col w-2/3 md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 p-4">
+        <div class="flex flex-col w-full md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 p-4">
           <div class="w-full flex space-x-3">
             <div class="flex items-center">
               <label for="years" class="block text-sm font-medium text-gray-900 dark:text-white mr-2">Show</label>
@@ -52,6 +52,19 @@
               </div>
             </div>
 
+            <div class="flex items-center w-full">
+              <label for="years" class="block text-sm font-medium text-gray-900 dark:text-white mr-2">Status Sewa</label>
+              <select
+                @change="bmnStore.getData()"
+                v-model="bmnStore.filter.sewa"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block px-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              >
+                <option :selected="bmnStore.filter.sewa == item ? true : false" :value="item" v-for="(item, index) in bmnStore.typeSewa" :key="index">
+                  {{ item }}
+                </option>
+              </select>
+            </div>
+
             <div class="w-full md:w-auto flex flex-col md:flex-row space-y-2 md:space-y-0 items-stretch md:items-center justify-end md:space-x-3 flex-shrink-0">
               <button
                 @click="newModal = true"
@@ -74,7 +87,7 @@
                 <th scope="col" class="px-4 py-3">Ruangan</th>
                 <th scope="col" class="px-4 py-3">Pemilik</th>
                 <th scope="col" class="px-4 py-3">Tahun Perolehan</th>
-                <th scope="col" class="px-4 py-3">Status Peminjaman</th>
+                <th scope="col" class="px-4 py-3">Status</th>
                 <th scope="col" class="px-4 py-3"></th>
               </tr>
             </thead>
@@ -109,13 +122,19 @@
                 <td class="px-4 py-1">{{ item.tahun_perolehan }}</td>
                 <td class="px-4 py-1">
                   <span
-                    v-if="item.sewa == true"
+                    v-if="item.sewa == 'tersedia'"
                     class="bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300"
-                    >Available</span
+                    >{{ item.sewa.toUpperCase() }}</span
                   >
-                  <span v-else class="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300"
-                    >Not Available</span
+                  <span
+                    v-else-if="item.sewa == 'tidak tersedia'"
+                    class="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300"
+                    >{{ item.sewa.toUpperCase() }}</span
                   >
+
+                  <span v-else class="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">{{
+                    item.sewa.toUpperCase()
+                  }}</span>
                 </td>
 
                 <td class="px-4 py-1">
@@ -223,6 +242,8 @@ const DetailModal = defineAsyncComponent(() => import('./Detail.vue'))
 
 const bmnStore = useBmnStore()
 const mainStore = useMainStore()
+
+const sewa = ref('tersedia')
 const newModal = ref(false)
 const editModal = ref(false)
 const file = ref(null)
@@ -340,7 +361,6 @@ async function newUpdate() {
   })
 
   const success = await bmnStore.update({ uploadFile: file.value })
-  console.info(success)
   if (success) {
     toast.update(id, {
       render: 'Berhasil !!',

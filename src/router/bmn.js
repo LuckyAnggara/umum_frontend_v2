@@ -112,6 +112,16 @@ const bmn = [
     name: 'output-peminjaman-bmn',
     component: () => import('@/views/user/pinjambmn/Output.vue'),
   },
+  {
+    meta: {
+      title: 'Daftar Peminjaman BMN',
+      requiresAuth: true,
+      layout: 'layout-auth',
+    },
+    path: '/bmn/peminjaman',
+    name: 'peminjaman-bmn-admin',
+    component: () => import('@/views/bmn/peminjaman/List.vue'),
+  },
 ]
 
 export default bmn

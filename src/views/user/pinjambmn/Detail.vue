@@ -53,7 +53,6 @@
           <div class="text-left">
             <label for="unit" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Tanggal Pengembalian</label>
             <VueDatePicker
-              @closed="find()"
               @cleared="peminjamanBmnStore.form.tanggal_pengembalian = null"
               required
               v-model="peminjamanBmnStore.form.tanggal_pengembalian"

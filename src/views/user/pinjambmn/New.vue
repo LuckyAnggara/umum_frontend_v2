@@ -210,7 +210,7 @@ const search = useDebounceFn(() => {
 
 onMounted(() => {
   bmnStore.$patch((state) => {
-    state.filter.sewa = true
+    state.filter.sewa = 'tersedia'
   })
 })
 </script>

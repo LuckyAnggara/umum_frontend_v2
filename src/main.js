@@ -7,6 +7,9 @@ import 'vant/lib/index.css'
 import Vue3Toasity from 'vue3-toastify'
 
 import 'vue3-toastify/dist/index.css'
+
+import VueSweetAlert from 'vue-sweetalert2'
+import 'sweetalert2/dist/sweetalert2.min.css'
 // import VueQrcode from '@chenfengyuan/vue-qrcode'
 
 import { createPinia } from 'pinia'
@@ -17,6 +20,7 @@ const app = createApp(App)
 app.use(pinia)
 
 app.use(router)
+app.use(VueSweetAlert)
 
 app.use(Vue3Toasity, {
   theme: 'dark',

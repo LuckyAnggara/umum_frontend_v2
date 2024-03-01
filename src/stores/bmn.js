@@ -11,7 +11,7 @@ export const useBmnStore = defineStore('bmn', {
     validNup: null,
     notFound: false,
     nup: null,
-
+    typeSewa: ['semua', 'tersedia', 'tidak tersedia', 'di pinjam'],
     responses: null,
     singleResponses: {
       nama: null,
@@ -44,7 +44,7 @@ export const useBmnStore = defineStore('bmn', {
       tahun_perolehan: moment().format('YYYY'),
     },
     filter: {
-      sewa: 0,
+      sewa: 'semua',
       date: [],
       currentLimit: 10,
       searchQuery: '',
@@ -92,10 +92,10 @@ export const useBmnStore = defineStore('bmn', {
       return '&page=' + state.filter.page
     },
     sewaQuery(state) {
-      if (state.filter.sewa == false || state.filter.sewa == 0) {
+      if (state.filter.sewa == null || state.filter.sewa == 'semua') {
         return ''
       }
-      return '&sewa=1'
+      return `&sewa=${state.filter.sewa}`
     },
   },
   actions: {

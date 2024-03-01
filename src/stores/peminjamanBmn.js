@@ -151,7 +151,6 @@ export const usePeminjamanBmn = defineStore('peminjamanBmn', {
           return false
         }
       } catch (error) {
-        alert(error)
       } finally {
         this.isDestroyLoading = false
       }
@@ -159,7 +158,7 @@ export const usePeminjamanBmn = defineStore('peminjamanBmn', {
     async update({ status = 'APPROVE' }) {
       let form = {
         status: status,
-        detail: this.singleResponses.detail,
+        detail: this.singleResponses,
       }
       try {
         const response = await axiosIns.patch(`/api/peminjaman-bmn/${this.singleResponses.id}`, form)

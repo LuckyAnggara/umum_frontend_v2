@@ -52,7 +52,6 @@ export const useUserStore = defineStore('user', {
     async getStatusPermintaanPersediaan(tiket) {
       try {
         const response = await axiosIns.get(`/api/permintaan-persediaan/get-status/${tiket}`)
-        console.info(response.data)
         return response.data
       } catch (error) {
         return 'error'
@@ -61,7 +60,14 @@ export const useUserStore = defineStore('user', {
     async getStatusPermintaanLayananBmn(tiket) {
       try {
         const response = await axiosIns.get(`/api/permintaan-layanan-bmn/get-status/${tiket}`)
-        console.info(response.data)
+        return response.data
+      } catch (error) {
+        return 'error'
+      }
+    },
+    async getStatusPeminjamanBmn(tiket) {
+      try {
+        const response = await axiosIns.get(`/api/peminjaman-bmn/get-status/${tiket}`)
         return response.data
       } catch (error) {
         return 'error'
@@ -71,30 +77,58 @@ export const useUserStore = defineStore('user', {
       const index = this.listPermintaanUser.bmn.findIndex((i) => i.id == id)
       this.listPermintaanUser.bmn.splice(index, 1)
     },
+    peminjamanbmnDelete(id) {
+      const index = this.listPermintaanUser.peminjamanbmn.findIndex((i) => i.id == id)
+      this.listPermintaanUser.peminjamanbmn.splice(index, 1)
+    },
     persediaanDelete(id) {
       const index = this.listPermintaanUser.persediaan.findIndex((i) => i.id == id)
       this.listPermintaanUser.persediaan.splice(index, 1)
     },
     getStatus() {
-      this.mergedArray.forEach(async (e) => {
+      this.listPermintaanUser.peminjamanbmn.forEach(async (e) => {
         let status = null
-        if (e.tipe == 'BMN') {
-          status = await this.getStatusPermintaanLayananBmn(e.tiket)
-          if (status == 'delete') {
-            this.bmnDelete(e.id)
-          } else {
-            e.status = status
-          }
+        status = await this.getStatusPeminjamanBmn(e.tiket)
+        if (status == 'delete') {
+          this.peminjamanbmnDelete(e.id)
         } else {
-          status = await this.getStatusPermintaanPersediaan(e.tiket)
-
-          if (status == 'delete') {
-            this.persediaanDelete(e.id)
-          } else {
-            e.status = status
-          }
+          e.status = status
         }
       })
+      this.listPermintaanUser.persediaan.forEach(async (e) => {
+        let status = null
+        status = await this.getStatusPermintaanPersediaan(e.tiket)
+        if (status == 'delete') {
+          this.peminjamanbmnDelete(e.id)
+        } else {
+          e.status = status
+        }
+      })
+      // this.mergedArray.forEach(async (e) => {
+      //   let status = null
+      //   if (e.tipe == 'BMN') {
+      //     status = await this.getStatusPermintaanLayananBmn(e.tiket)
+      //     if (status == 'delete') {
+      //       this.bmnDelete(e.id)
+      //     } else {
+      //       e.status = status
+      //     }
+      //   } else if (e.tipe == 'PEMINJAMAN BMN') {
+      //     status = await this.getStatusPeminjamanBmn(e.tiket)
+      //     if (status == 'delete') {
+      //       this.persediaanDelete(e.id)
+      //     } else {
+      //       e.status = status
+      //     }
+      //   } else {
+      //     status = await this.getStatusPermintaanPersediaan(e.tiket)
+      //     if (status == 'delete') {
+      //       this.persediaanDelete(e.id)
+      //     } else {
+      //       e.status = status
+      //     }
+      //   }
+      // })
     },
   },
   getters: {
@@ -122,7 +156,6 @@ export const useUserStore = defineStore('user', {
     },
     items(state) {
       let newArray = []
-
       return state.mergedArray
     },
   },

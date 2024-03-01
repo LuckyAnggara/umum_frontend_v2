@@ -27,12 +27,16 @@ export const menu = [
     icon: RectangleStackIcon,
     child: [
       {
-        name: 'Daftar',
+        name: 'Daftar Data',
         to: 'list-bmn',
       },
       {
-        name: 'Layanan',
+        name: 'Layanan BMN',
         to: 'permintaan-layanan-bmn-admin',
+      },
+      {
+        name: 'Peminjaman BMN',
+        to: 'peminjaman-bmn-admin',
       },
     ],
     // to: 'persediaan',

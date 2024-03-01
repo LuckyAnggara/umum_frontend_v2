@@ -38,9 +38,19 @@
         </van-cell-group>
       </div>
       <div v-if="userStore.listPermintaanUser?.bmn.length > 0">
-        <van-cell-group title="BMN" inset>
+        <van-cell-group title="Layanan BMN" inset>
           <van-cell title="Cell title" value="Content" />
           <van-cell title="Cell title" value="Content" />
+        </van-cell-group>
+      </div>
+
+      <div v-if="userStore.listPermintaanUser?.peminjamanbmn.length > 0">
+        <van-cell-group title="Peminjaman BMN" inset>
+          <van-cell v-for="(item, index) in userStore.listPermintaanUser.peminjamanbmn" :title="item.tiket" :key="index" @click="toDetail(item)">
+            <template #value>
+              <van-tag size="large">{{ item.status }}</van-tag>
+            </template>
+          </van-cell>
         </van-cell-group>
       </div>
 
@@ -137,6 +147,11 @@ function toDetail(item) {
   } else if (item.tipe == 'BMN') {
     router.push({
       name: 'output-permintaan-layanan-bmn',
+      params: { tiket: item.tiket },
+    })
+  } else if (item.tipe == 'PEMINJAMAN BMN') {
+    router.push({
+      name: 'output-peminjaman-bmn',
       params: { tiket: item.tiket },
     })
   }
