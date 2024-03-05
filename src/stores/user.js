@@ -86,24 +86,30 @@ export const useUserStore = defineStore('user', {
       this.listPermintaanUser.persediaan.splice(index, 1)
     },
     getStatus() {
-      this.listPermintaanUser.peminjamanbmn.forEach(async (e) => {
-        let status = null
-        status = await this.getStatusPeminjamanBmn(e.tiket)
-        if (status == 'delete') {
-          this.peminjamanbmnDelete(e.id)
-        } else {
-          e.status = status
-        }
-      })
-      this.listPermintaanUser.persediaan.forEach(async (e) => {
-        let status = null
-        status = await this.getStatusPermintaanPersediaan(e.tiket)
-        if (status == 'delete') {
-          this.peminjamanbmnDelete(e.id)
-        } else {
-          e.status = status
-        }
-      })
+      if (this.listPermintaanUser.peminjamanbmn.length > 0) {
+        this.listPermintaanUser.peminjamanbmn.forEach(async (e) => {
+          let status = null
+          status = await this.getStatusPeminjamanBmn(e.tiket)
+          if (status == 'delete') {
+            this.peminjamanbmnDelete(e.id)
+          } else {
+            e.status = status
+          }
+        })
+      }
+
+      if (this.listPermintaanUser.persediaan.length > 0) {
+        this.listPermintaanUser.persediaan.forEach(async (e) => {
+          let status = null
+          status = await this.getStatusPermintaanPersediaan(e.tiket)
+          if (status == 'delete') {
+            this.peminjamanbmnDelete(e.id)
+          } else {
+            e.status = status
+          }
+        })
+      }
+
       // this.mergedArray.forEach(async (e) => {
       //   let status = null
       //   if (e.tipe == 'BMN') {

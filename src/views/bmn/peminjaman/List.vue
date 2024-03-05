@@ -109,8 +109,23 @@
                 <td class="px-4 py-1">{{ item.nama_peminta }}</td>
                 <td class="px-4 py-1">{{ item.unit ?? '-' }}</td>
                 <td class="px-4 py-1">
-                  <span class="bg-blue-100 text-blue-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">{{
-                    item.status
+                  <span
+                    v-if="item.status == 'DONE'"
+                    class="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300"
+                    >{{ item.status.toUpperCase() }}</span
+                  >
+                  <span
+                    v-if="item.status == 'VERIFIKASI ADMIN'"
+                    class="bg-yellow-100 text-yellow-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-yellow-900 dark:text-yellow-300"
+                    >Yellow</span
+                  >
+                  <span
+                    v-else-if="item.status == 'APPROVE'"
+                    class="bg-blue-100 text-blue-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300"
+                    >{{ item.status.toUpperCase() }}</span
+                  >
+                  <span v-else class="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300">{{
+                    item.status.toUpperCase()
                   }}</span>
                 </td>
 
@@ -196,33 +211,49 @@
       </div>
     </div>
 
-    <DeleteDialog :show="confirmDialog" @close="confirmDialog = !confirmDialog" />
-  </section>
+    <DetailModal :show="detailDialog" @close="detailDialog = false" />
+    <DeleteDialog :show="deleteDialog" @submit="deleteData" @close="deleteDialog = !deleteDialog" />
 
-  <DetailModal :show="detailDialog" @close="detailDialog = false" />
+    <QRDialog :show="qrDialog" @close="qrDialog = !qrDialog">
+      <template #title>
+        <h1>Scan This QR Code</h1>
+      </template>
+
+      <template #content>
+        <div class="flex flex-col justify-center items-center space-y-4 mt-6">
+          <QRCodeVue3 :value="tindakLanjutUrl" />
+          <span class="text-sm text-gray-600">Scan QRCode pada saat pengiriman persediaan</span>
+        </div>
+      </template>
+    </QRDialog>
+  </section>
 </template>
 
 <script setup>
 import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
 import HeadlessMenu from '@/components/menu/HeadlessMenu.vue'
+import QRCodeVue3 from 'qrcode-vue3'
+import { usePeminjamanBmn } from '@/stores/peminjamanBmn'
+import { useMainStore } from '@/stores/main'
+import QRDialog from '@/components/Dialog.vue'
+import { computed, defineAsyncComponent, onMounted, ref } from 'vue'
+import { EllipsisVerticalIcon, DocumentTextIcon, ArrowPathIcon, QrCodeIcon, TrashIcon } from '@heroicons/vue/24/outline'
+import { useRouter } from 'vue-router'
+import { toast } from 'vue3-toastify'
 
 import DeleteDialog from '@/components/DeleteDialog.vue'
 
-import { usePeminjamanBmn } from '@/stores/peminjamanBmn'
-import { useMainStore } from '@/stores/main'
-
-import { computed, defineAsyncComponent, onMounted, ref } from 'vue'
-import { EllipsisVerticalIcon, DocumentTextIcon, ArrowPathIcon, QrCodeIcon } from '@heroicons/vue/24/outline'
-import { useRouter } from 'vue-router'
-
 const DetailModal = defineAsyncComponent(() => import('./Detail.vue'))
-
+const qrDialog = ref(false)
 const peminjamanBmnStore = usePeminjamanBmn()
 const mainStore = useMainStore()
-
+const deleteDialog = ref(false)
 const confirmDialog = ref(false)
 const detailDialog = ref(false)
 
+const tiket = ref(null)
+
+const deleteId = ref(0)
 const itemMenu = [
   {
     function: detail,
@@ -230,9 +261,14 @@ const itemMenu = [
     icon: DocumentTextIcon,
   },
   {
-    function: () => {},
-    label: 'Tindak Lanjut',
+    function: qrToShow,
+    label: 'Serah Terima',
     icon: QrCodeIcon,
+  },
+  {
+    function: onDelete,
+    label: 'Hapus',
+    icon: TrashIcon,
   },
 ]
 
@@ -241,6 +277,16 @@ function detail(item) {
     state.tiketToShow = item.tiket
   })
   detailDialog.value = true
+}
+
+function qrToShow(item) {
+  tiket.value = item.tiket
+  qrDialog.value = true
+}
+
+function onDelete(item) {
+  deleteId.value = item.id
+  deleteDialog.value = true
 }
 
 function nextPage() {
@@ -252,6 +298,44 @@ function previousPage() {
   peminjamanBmnStore.filter.page = peminjamanBmnStore.currentPage - 1
   peminjamanBmnStore.getData()
 }
+
+async function deleteData() {
+  deleteDialog.value = false
+  const id = toast.loading('Hapus data...', {
+    position: toast.POSITION.BOTTOM_CENTER,
+    type: 'info',
+    isLoading: true,
+  })
+
+  const success = await peminjamanBmnStore.destroy(deleteId.value)
+  if (success) {
+    toast.update(id, {
+      render: 'Berhasil !!',
+      position: toast.POSITION.BOTTOM_CENTER,
+      type: 'success',
+      autoClose: 1000,
+      closeOnClick: true,
+      closeButton: true,
+      isLoading: false,
+    })
+    toast.done(id)
+  } else {
+    toast.update(id, {
+      render: 'Terjadi kesalahan',
+      position: toast.POSITION.BOTTOM_CENTER,
+      type: 'error',
+      autoClose: 1000,
+      closeOnClick: true,
+      closeButton: true,
+      isLoading: false,
+    })
+  }
+}
+
+const tindakLanjutUrl = computed(() => {
+  const firstSegment = window.location.origin + '/#/bmn/peminjaman'
+  return `${firstSegment}/${tiket.value}/serahterima`
+})
 
 onMounted(() => {
   peminjamanBmnStore.getData()

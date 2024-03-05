@@ -22,7 +22,6 @@ export const usePeminjamanBmn = defineStore('peminjamanBmn', {
       tanggalPenerimaan: moment().format('DD MMMM YYYY'),
       image: null,
       status: 'DONE',
-      no_wa: null,
     },
     selectAll: true,
     form: {

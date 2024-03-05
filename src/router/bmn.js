@@ -122,6 +122,16 @@ const bmn = [
     name: 'peminjaman-bmn-admin',
     component: () => import('@/views/bmn/peminjaman/List.vue'),
   },
+  {
+    meta: {
+      title: 'Serah Terima Peminjaman BMN',
+      requiresAuth: false,
+      layout: 'layout-guest',
+    },
+    path: '/bmn/peminjaman/:tiket/serahterima',
+    name: 'serah-terima-bmn-admin',
+    component: () => import('@/views/bmn/peminjaman/SerahTerima.vue'),
+  },
 ]
 
 export default bmn

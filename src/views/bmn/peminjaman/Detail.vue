@@ -298,7 +298,6 @@ const emit = defineEmits(['close', 'approve', 'reject'])
 
 function close() {
   emit('close')
-  isEdit.value = false
 }
 
 const peminjamanBmnStore = usePeminjamanBmn()

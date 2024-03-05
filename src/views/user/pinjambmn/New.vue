@@ -212,5 +212,6 @@ onMounted(() => {
   bmnStore.$patch((state) => {
     state.filter.sewa = 'tersedia'
   })
+  bmnStore.getData()
 })
 </script>
