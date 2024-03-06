@@ -74,12 +74,11 @@
             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
               <tr>
                 <th scope="col" class="px-4 py-3">#</th>
-                <th scope="col" class="px-4 py-3">Tanggal</th>
                 <th scope="col" class="px-4 py-3">Tiket</th>
-                <th scope="col" class="px-4 py-3">NUP</th>
+                <th scope="col" class="px-4 py-3">Nama BMN</th>
                 <th scope="col" class="px-4 py-3">Penerima Layanan</th>
-                <th scope="col" class="px-4 py-3">Unit</th>
                 <th scope="col" class="px-4 py-3">Status</th>
+                <th scope="col" class="px-4 py-3">Tanggal Pengembalian</th>
                 <th scope="col" class="px-4 py-3"></th>
               </tr>
             </thead>
@@ -101,13 +100,30 @@
                 <td class="px-4 py-1">
                   {{ peminjamanBmnStore.from + index }}
                 </td>
-                <td class="px-4 py-1">{{ item.created_at }}</td>
-                <th class="px-4 py-1">{{ item.tiket }}</th>
+                <th class="px-4 py-1">
+                  <div class="flex flex-col">
+                    <span>{{ item.tiket }}</span> <span class="font-normal">{{ item.created_at }}</span>
+                  </div>
+                </th>
                 <td class="px-4 py-1">
-                  {{ item.nup }}
+                  <div class="flex flex-col">
+                    <span class="font-semibold">{{ item.bmn.nama }}</span>
+                    <span>
+                      {{ item.nup }}
+                    </span>
+                  </div>
                 </td>
-                <td class="px-4 py-1">{{ item.nama_peminta }}</td>
-                <td class="px-4 py-1">{{ item.unit ?? '-' }}</td>
+                <td class="px-4 py-1">
+                  <div class="flex flex-col">
+                    <span class="font-semibold"> {{ item.nama_peminta }}</span>
+                    <span>
+                      {{ item.nip }}
+                    </span>
+                    <span>
+                      {{ item.unit }}
+                    </span>
+                  </div>
+                </td>
                 <td class="px-4 py-1">
                   <span
                     v-if="item.status == 'DONE'"
@@ -115,7 +131,7 @@
                     >{{ item.status.toUpperCase() }}</span
                   >
                   <span
-                    v-if="item.status == 'VERIFIKASI ADMIN'"
+                    v-else-if="item.status == 'VERIFIKASI ADMIN'"
                     class="bg-yellow-100 text-yellow-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-yellow-900 dark:text-yellow-300"
                     >Yellow</span
                   >
@@ -127,6 +143,19 @@
                   <span v-else class="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300">{{
                     item.status.toUpperCase()
                   }}</span>
+                </td>
+                <td class="px-4 py-1">
+                  <div class="flex flex-col w-fit">
+                    <span class="font-semibold"> {{ item.tanggal_pengembalian }}</span>
+                    <span
+                      v-if="item.status_pengembalian == 'BELUM KEMBALI'"
+                      class="bg-yellow-100 text-yellow-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-yellow-900 dark:text-yellow-300"
+                      >{{ item.status_pengembalian.toUpperCase() }}</span
+                    >
+                    <span v-else class="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">{{
+                      item.status.toUpperCase()
+                    }}</span>
+                  </div>
                 </td>
 
                 <td class="px-4 py-1">
@@ -214,7 +243,7 @@
     <DetailModal :show="detailDialog" @close="detailDialog = false" />
     <DeleteDialog :show="deleteDialog" @submit="deleteData" @close="deleteDialog = !deleteDialog" />
 
-    <QRDialog :show="qrDialog" @close="qrDialog = !qrDialog">
+    <QRDialog :show="qrBawaDialog" @close="qrBawaDialog = !qrBawaDialog">
       <template #title>
         <h1>Scan This QR Code</h1>
       </template>
@@ -222,10 +251,22 @@
       <template #content>
         <div class="flex flex-col justify-center items-center space-y-4 mt-6">
           <QRCodeVue3 :value="tindakLanjutUrl" />
-          <span class="text-sm text-gray-600">Scan QRCode pada saat pengiriman persediaan</span>
+          <span class="text-sm text-gray-600">Scan QRCode pada saat Serah Terima BMN</span>
         </div>
       </template>
     </QRDialog>
+    <QRBalikDialog :show="qrBalikDialog" @close="qrBalikDialog = !qrBalikDialog">
+      <template #title>
+        <h1>Scan This QR Code</h1>
+      </template>
+
+      <template #content>
+        <div class="flex flex-col justify-center items-center space-y-4 mt-6">
+          <QRCodeVue3 :value="balikUrl" />
+          <span class="text-sm text-gray-600">Scan QRCode pada saat Pengembalian BMN</span>
+        </div>
+      </template>
+    </QRBalikDialog>
   </section>
 </template>
 
@@ -236,6 +277,7 @@ import QRCodeVue3 from 'qrcode-vue3'
 import { usePeminjamanBmn } from '@/stores/peminjamanBmn'
 import { useMainStore } from '@/stores/main'
 import QRDialog from '@/components/Dialog.vue'
+import QRBalikDialog from '@/components/Dialog.vue'
 import { computed, defineAsyncComponent, onMounted, ref } from 'vue'
 import { EllipsisVerticalIcon, DocumentTextIcon, ArrowPathIcon, QrCodeIcon, TrashIcon } from '@heroicons/vue/24/outline'
 import { useRouter } from 'vue-router'
@@ -244,11 +286,11 @@ import { toast } from 'vue3-toastify'
 import DeleteDialog from '@/components/DeleteDialog.vue'
 
 const DetailModal = defineAsyncComponent(() => import('./Detail.vue'))
-const qrDialog = ref(false)
+const qrBawaDialog = ref(false)
+const qrBalikDialog = ref(false)
 const peminjamanBmnStore = usePeminjamanBmn()
 const mainStore = useMainStore()
 const deleteDialog = ref(false)
-const confirmDialog = ref(false)
 const detailDialog = ref(false)
 
 const tiket = ref(null)
@@ -261,8 +303,13 @@ const itemMenu = [
     icon: DocumentTextIcon,
   },
   {
-    function: qrToShow,
+    function: qrBawaToShow,
     label: 'Serah Terima',
+    icon: QrCodeIcon,
+  },
+  {
+    function: qrBalikToShow,
+    label: 'Pengembalian',
     icon: QrCodeIcon,
   },
   {
@@ -279,9 +326,13 @@ function detail(item) {
   detailDialog.value = true
 }
 
-function qrToShow(item) {
+function qrBawaToShow(item) {
   tiket.value = item.tiket
-  qrDialog.value = true
+  qrBawaDialog.value = true
+}
+function qrBalikToShow(item) {
+  tiket.value = item.tiket
+  qrBalikDialog.value = true
 }
 
 function onDelete(item) {
@@ -335,6 +386,11 @@ async function deleteData() {
 const tindakLanjutUrl = computed(() => {
   const firstSegment = window.location.origin + '/#/bmn/peminjaman'
   return `${firstSegment}/${tiket.value}/serahterima`
+})
+
+const balikUrl = computed(() => {
+  const firstSegment = window.location.origin + '/#/bmn/peminjaman'
+  return `${firstSegment}/${tiket.value}/pengembalian`
 })
 
 onMounted(() => {
