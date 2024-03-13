@@ -147,7 +147,7 @@ const menu = [
   },
   {
     label: 'Agenda Pimpinan',
-    to: 'booking-tempat',
+    to: 'booking-agenda',
     desc: 'Layanan Pengisian Agenda Pimpinan',
     icon: 'manager-o',
   },

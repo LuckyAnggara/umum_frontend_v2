@@ -61,6 +61,40 @@ export const useMainStore = defineStore('main', {
         label: 'RUANG RAPAT SEKRETARIS INSPEKTORAT JENDERAL',
       },
     ],
+    pimpinanOptions: [
+      {
+        id: '1',
+        label: 'INSPEKTUR JENDERAL',
+      },
+      {
+        id: '2',
+        label: 'SEKRETARIS INSPEKTORAT JENDERAL',
+      },
+      {
+        id: '3',
+        label: 'INSPEKTUR WILAYAH I',
+      },
+      {
+        id: '4',
+        label: 'INSPEKTUR WILAYAH II',
+      },
+      {
+        id: '5',
+        label: 'INSPEKTUR WILAYAH III',
+      },
+      {
+        id: '6',
+        label: 'INSPEKTUR WILAYAH IV',
+      },
+      {
+        id: '7',
+        label: 'INSPEKTUR WILAYAH V',
+      },
+      {
+        id: '8',
+        label: 'INSPEKTUR WILAYAH VI',
+      },
+    ],
     form: {
       nip: '1',
       password: '123456',

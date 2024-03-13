@@ -8,6 +8,7 @@ import bmn from './bmn'
 import ptj from './ptj'
 import user from './user'
 import tempat from './tempat'
+import agenda from './agenda'
 
 const routes = [
   {
@@ -116,6 +117,7 @@ const routes = [
   ...bmn,
   ...tempat,
   ...ptj,
+  ...agenda,
 ]
 
 const router = createRouter({
