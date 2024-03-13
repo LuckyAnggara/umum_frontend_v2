@@ -51,7 +51,9 @@ export const useUserStore = defineStore('user', {
     },
     async getStatusPermintaanPersediaan(tiket) {
       try {
-        const response = await axiosIns.get(`/api/permintaan-persediaan/get-status/${tiket}`)
+        const response = await axiosIns.get(
+          `/api/permintaan-persediaan/get-status/${tiket}`
+        )
         return response.data
       } catch (error) {
         return 'error'
@@ -59,7 +61,9 @@ export const useUserStore = defineStore('user', {
     },
     async getStatusPermintaanLayananBmn(tiket) {
       try {
-        const response = await axiosIns.get(`/api/permintaan-layanan-bmn/get-status/${tiket}`)
+        const response = await axiosIns.get(
+          `/api/permintaan-layanan-bmn/get-status/${tiket}`
+        )
         return response.data
       } catch (error) {
         return 'error'
@@ -67,7 +71,9 @@ export const useUserStore = defineStore('user', {
     },
     async getStatusPeminjamanBmn(tiket) {
       try {
-        const response = await axiosIns.get(`/api/peminjaman-bmn/get-status/${tiket}`)
+        const response = await axiosIns.get(
+          `/api/peminjaman-bmn/get-status/${tiket}`
+        )
         return response.data
       } catch (error) {
         return 'error'
@@ -78,15 +84,19 @@ export const useUserStore = defineStore('user', {
       this.listPermintaanUser.bmn.splice(index, 1)
     },
     peminjamanbmnDelete(id) {
-      const index = this.listPermintaanUser.peminjamanbmn.findIndex((i) => i.id == id)
+      const index = this.listPermintaanUser.peminjamanbmn.findIndex(
+        (i) => i.id == id
+      )
       this.listPermintaanUser.peminjamanbmn.splice(index, 1)
     },
     persediaanDelete(id) {
-      const index = this.listPermintaanUser.persediaan.findIndex((i) => i.id == id)
+      const index = this.listPermintaanUser.persediaan.findIndex(
+        (i) => i.id == id
+      )
       this.listPermintaanUser.persediaan.splice(index, 1)
     },
     getStatus() {
-      if (this.listPermintaanUser.peminjamanbmn.length > 0) {
+      if (this.listPermintaanUser.peminjamanbmn?.length > 0) {
         this.listPermintaanUser.peminjamanbmn.forEach(async (e) => {
           let status = null
           status = await this.getStatusPeminjamanBmn(e.tiket)
@@ -97,8 +107,7 @@ export const useUserStore = defineStore('user', {
           }
         })
       }
-
-      if (this.listPermintaanUser.persediaan.length > 0) {
+      if (this.listPermintaanUser.persediaan?.length > 0) {
         this.listPermintaanUser.persediaan.forEach(async (e) => {
           let status = null
           status = await this.getStatusPermintaanPersediaan(e.tiket)
@@ -136,14 +145,27 @@ export const useUserStore = defineStore('user', {
       //   }
       // })
     },
+    initState() {
+      useStorage('UMUM', {
+        bmn: [],
+        peminjamanbmn: [],
+        persediaan: [],
+        tempat: [],
+        agenda: [],
+      })
+    },
   },
   getters: {
     mergedArray(state) {
-      const mergedArray = state.listPermintaanUser.bmn.concat(state.listPermintaanUser.persediaan)
+      const mergedArray = state.listPermintaanUser.bmn.concat(
+        state.listPermintaanUser.persediaan
+      )
       // Jika search term tidak kosong, lakukan filter berdasarkan nomor tiket
       if (state.searchTerm) {
         const filteredArray = mergedArray.filter((item) => {
-          return item.tiket.toLowerCase().includes(state.searchTerm.toLowerCase())
+          return item.tiket
+            .toLowerCase()
+            .includes(state.searchTerm.toLowerCase())
         })
         // Mengurutkan array hasil filter berdasarkan created_at
         const sortedArray = filteredArray.sort((a, b) => {

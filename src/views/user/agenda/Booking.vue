@@ -53,7 +53,7 @@
 
           <select
             @change="find()"
-            v-model="tempatStore.form.ruangan"
+            v-model="agendaStore.form.pimpinan"
             class="w-full border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block px-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           >
             <option
@@ -74,9 +74,9 @@
           >
           <VueDatePicker
             @closed="find()"
-            @cleared="tempatStore.responses = null"
+            @cleared="agendaStore.responses = null"
             required
-            v-model="tempatStore.form.tanggal"
+            v-model="agendaStore.form.tanggal"
             :format="'dd MMMM yyyy'"
             auto-apply
             date-picker
@@ -85,20 +85,20 @@
         </div>
         <section>
           <div
-            v-if="tempatStore.items.length > 0 && tempatStore.form.tanggal"
+            v-if="agendaStore.items.length > 0 && agendaStore.form.tanggal"
             class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
             role="alert"
           >
             <span class="font-medium"
               >Daftar kegiatan di tanggal
               {{
-                moment(tempatStore.form.tanggal).format('DD MMMM YYYY')
+                moment(agendaStore.form.tanggal).format('DD MMMM YYYY')
               }}</span
             >
             <ul>
               <li
                 :key="index"
-                v-for="(item, index) in tempatStore.items"
+                v-for="(item, index) in agendaStore.items"
                 class="w-full py-2 border-b border-gray-200 rounded-t-lg dark:border-gray-600"
               >
                 {{ index + 1 }}. {{ item.title }}
@@ -108,7 +108,7 @@
             </ul>
           </div>
           <div
-            v-if="tempatStore.isLoading"
+            v-if="agendaStore.isLoading"
             class="p-4 mb-4 text-sm text-blue-800 rounded-lg bg-blue-50 dark:bg-gray-800 dark:text-blue-400"
             role="alert"
           >
@@ -126,7 +126,7 @@
             >Nama Kegiatan*</label
           >
           <textarea
-            v-model="tempatStore.form.kegiatan"
+            v-model="agendaStore.form.kegiatan"
             placeholder="Isi dengan nama kegiatan"
             type="text"
             id="unit"
@@ -145,7 +145,7 @@
             >
             <VueDatePicker
               required
-              v-model="tempatStore.form.jam_mulai"
+              v-model="agendaStore.form.jam_mulai"
               time-picker
               auto-apply
               locale="id"
@@ -160,7 +160,7 @@
             >
             <VueDatePicker
               required
-              v-model="tempatStore.form.jam_akhir"
+              v-model="agendaStore.form.jam_akhir"
               time-picker
               auto-apply
               locale="id"
@@ -175,7 +175,7 @@
             >Tempat Kegiatan</label
           >
           <input
-            v-model="tempatStore.form.jumlah_peserta"
+            v-model="agendaStore.form.tempat"
             type="text"
             id="nama"
             placeholder="isi dengan tempat kegiatan"
@@ -196,10 +196,9 @@
         <small class="text-gray-600"
           >Contoh :
           <ul>
-            <li>1. Paparan Kegiatan</li>
-            <li>2. Transcript Paparan Pimpinan</li>
-            <li>3. Undangan</li>
-            <li>3. Lainnya</li>
+            <li>Paparan Kegiatan</li>
+            <li>Transcript Paparan Pimpinan</li>
+            <li>Undangan</li>
           </ul>
         </small>
 
@@ -210,14 +209,10 @@
           class="mt-4"
           :type="'application/pdf'"
         />
-
-        <small class="text-gray-600">
-          Tipe yang di perbolehkan adalah PDF
-        </small>
       </div>
 
       <div
-        v-if="tempatStore.items.length == 0"
+        v-if="agendaStore.items.length == 0"
         class="flex items-center justify-between p-3 bg-gray-100"
       >
         <button
@@ -275,19 +270,19 @@
 
                   <div class="mt-4 flex space-x-4">
                     <button
-                      :disabled="tempatStore.isStoreLoading"
+                      :disabled="agendaStore.isStoreLoading"
                       type="button"
                       class="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                       @click="submit"
                     >
-                      <span v-if="!tempatStore.isStoreLoading"> Proses </span>
+                      <span v-if="!agendaStore.isStoreLoading"> Proses </span>
                       <span class="flex" v-else
                         ><ArrowPathIcon class="mx-auto w-6 h-6 animate-spin"
                       /></span>
                     </button>
 
                     <button
-                      :disabled="tempatStore.isStoreLoading"
+                      :disabled="agendaStore.isStoreLoading"
                       type="button"
                       class="inline-flex justify-center rounded-md border border-transparent bg-red-100 px-4 py-2 text-sm font-medium text-red-900 hover:bg-red-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2"
                       @click="showModal = !showModal"
@@ -323,15 +318,16 @@ import {
 import VueDatePicker from '@vuepic/vue-datepicker'
 import '@vuepic/vue-datepicker/dist/main.css'
 import moment from 'moment'
-import { useTempatStore } from '@/stores/tempat'
 import { useMainStore } from '@/stores/main'
 import { useRouter } from 'vue-router'
 import { onMounted, ref } from 'vue'
 import { useUserStore } from '@/stores/user'
+import { useAgendaStore } from '@/stores/agenda'
 
 const mainStore = useMainStore()
-const tempatStore = useTempatStore()
+const agendaStore = useAgendaStore()
 const userStore = useUserStore()
+const file = ref(null)
 
 const router = useRouter()
 const showModal = ref(false)
@@ -343,87 +339,15 @@ function toDashboard() {
 }
 
 function toCalendar() {
-  router.push({ name: 'calendar-tempat' })
-}
-
-async function cariPegawai() {
-  cariPegawaiLoading.value = true
-  const id = toast.loading('Cari data...', {
-    position: toast.POSITION.BOTTOM_CENTER,
-    type: 'info',
-    isLoading: true,
-  })
-  try {
-    const response = await fetch(
-      `https://lapkin.bbmakmur.com/api/employee-show/${tempatStore.form.nip}`
-    )
-      .then((response) => {
-        response
-          .json()
-          .then((data) => {
-            if (data.success == true) {
-              toast.update(id, {
-                render: 'Berhasil',
-                position: toast.POSITION.BOTTOM_CENTER,
-                type: 'success',
-                autoClose: 1000,
-                closeOnClick: true,
-                closeButton: true,
-                isLoading: false,
-              })
-              tempatStore.setDataPegawai(data.data)
-            } else {
-              toast.update(id, {
-                render: 'tidak dapat ditemukan',
-                position: toast.POSITION.BOTTOM_CENTER,
-                type: 'error',
-                autoClose: 1000,
-                closeOnClick: true,
-                closeButton: true,
-                isLoading: false,
-              })
-            }
-          })
-          .catch((err) => {
-            toast.update(id, {
-              render: 'ada permasalahan',
-              position: toast.POSITION.BOTTOM_CENTER,
-              type: 'error',
-              autoClose: 1000,
-              closeOnClick: true,
-              closeButton: true,
-              isLoading: false,
-            })
-          })
-          .finally(() => {
-            toast.done(id)
-          })
-      })
-      .catch((err) => {
-        console.error(err)
-        toast.update(id, {
-          render: 'terjadi kesalahan',
-          position: toast.POSITION.BOTTOM_CENTER,
-          type: 'error',
-          autoClose: 1000,
-          closeOnClick: true,
-          closeButton: true,
-          isLoading: false,
-        })
-      })
-  } catch (error) {
-    console.error(error)
-  } finally {
-    cariPegawaiLoading.value = false
-  }
+  router.push({ name: 'calendar-agenda' })
 }
 
 function find() {
-  tempatStore.$patch((state) => {
+  agendaStore.$patch((state) => {
     state.responses = null
   })
-  if (tempatStore.form.tanggal && tempatStore.form.ruangan) {
-    tempatStore.getData()
+  if (agendaStore.form.tanggal && agendaStore.form.pimpinan) {
+    agendaStore.getData()
   }
 }
 
@@ -434,7 +358,8 @@ async function submit() {
     isLoading: true,
   })
 
-  const success = await tempatStore.store()
+  const success = await agendaStore.store({ uploadFile: file.value })
+  console.info(success.status)
   if (success.status) {
     toast.update(id, {
       render: 'Berhasil !!',
@@ -446,7 +371,6 @@ async function submit() {
       isLoading: false,
     })
     showModal.value = !showModal.value
-    userStore.updateBookingTempat(success.data)
     toCalendar()
   } else {
     toast.update(id, {
@@ -460,6 +384,14 @@ async function submit() {
     })
   }
   toast.done(id)
+}
+
+function fileChange(event) {
+  let b = []
+  event.forEach((element, index) => {
+    b.push(element.file)
+  })
+  file.value = b
 }
 
 function confirm() {

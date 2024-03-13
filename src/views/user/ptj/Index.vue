@@ -223,7 +223,6 @@ function fileChange(event) {
   event.forEach((element, index) => {
     b.push(element.file)
   })
-  console.info(b)
   file.value = b
 }
 
