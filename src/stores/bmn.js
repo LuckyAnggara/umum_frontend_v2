@@ -11,7 +11,7 @@ export const useBmnStore = defineStore('bmn', {
     validNup: null,
     notFound: false,
     nup: null,
-
+    typeSewa: ['semua', 'tersedia', 'tidak tersedia', 'di pinjam'],
     responses: null,
     singleResponses: {
       nama: null,
@@ -44,6 +44,7 @@ export const useBmnStore = defineStore('bmn', {
       tahun_perolehan: moment().format('YYYY'),
     },
     filter: {
+      sewa: 'semua',
       date: [],
       currentLimit: 10,
       searchQuery: '',
@@ -90,12 +91,18 @@ export const useBmnStore = defineStore('bmn', {
       }
       return '&page=' + state.filter.page
     },
+    sewaQuery(state) {
+      if (state.filter.sewa == null || state.filter.sewa == 'semua') {
+        return ''
+      }
+      return `&sewa=${state.filter.sewa}`
+    },
   },
   actions: {
     async getData(page = '') {
       this.isLoading = true
       try {
-        const response = await axiosIns.get(`/api/bmn?limit=${this.filter.currentLimit}${this.pageQuery}${this.searchQuery}${this.dateQuery}`)
+        const response = await axiosIns.get(`/api/bmn?limit=${this.filter.currentLimit}${this.pageQuery}${this.sewaQuery}${this.searchQuery}${this.dateQuery}`)
         this.responses = response.data.data
       } catch (error) {
         alert(error.message)
@@ -132,6 +139,7 @@ export const useBmnStore = defineStore('bmn', {
       } catch (error) {}
       this.isLoading = false
     },
+
     async store({ uploadFile = null }) {
       // if (uploadFile !== null) {
       let formData = new FormData()

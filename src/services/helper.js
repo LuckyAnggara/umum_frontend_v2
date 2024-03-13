@@ -4,3 +4,8 @@
 export const storageUrl = 'http://127.0.0.1:8000/storage'
 
 // export const storageUrl = 'http://192.168.16.128:8000/'
+
+export const rupiah = new Intl.NumberFormat('id-ID', {
+  style: 'currency',
+  currency: 'IDR',
+})

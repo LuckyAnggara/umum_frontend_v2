@@ -1,20 +1,10 @@
 <template>
   <div class="max-w-md mx-auto md:max-w-lg p-4">
-    <div class="py-4 flex flex-row items-center justify-between">
+    <div class="flex items-center">
       <button @click="toDashboard()" class="bg-transparent relative hover:-translate-x-1 duration-300 rounded-lg p-1.5 items-center">
         <ArrowLeftIcon class="h-5" />
       </button>
-      <h5 class="items-center font-semibold uppercase py-2">Daftar Persediaan</h5>
-      <button @click="toCart()" class="bg-transparent relative hover:-translate-y-1 duration-300 rounded-lg p-1.5 items-center">
-        <ShoppingBagIcon class="h-8" />
-        <span class="sr-only">Notifications</span>
-        <div
-          v-if="permintaanPersediaanStore.form.detail.length > 0"
-          class="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full -top-1 -end-1 dark:border-gray-900"
-        >
-          {{ permintaanPersediaanStore.form.detail.length }}
-        </div>
-      </button>
+      <h2 class="ml-2 font-semibold text-gray-800 text-xl">Peminjaman BMN</h2>
     </div>
     <div class="flex items-center w-full my-4" autocomplete="off">
       <label for="simple-search" class="sr-only">Search</label>
@@ -30,22 +20,22 @@
         </div>
         <input
           @keyup="search"
-          v-model="persediaanStore.filter.searchQuery"
+          v-model="bmnStore.filter.searchQuery"
           type="text"
           id="simple-search"
           class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          placeholder="Cari data persediaan"
+          placeholder="Cari data BMN"
         />
       </div>
     </div>
 
-    <template v-if="!persediaanStore.isLoading">
-      <template v-if="persediaanStore.items.length > 0">
+    <template v-if="!bmnStore.isLoading">
+      <template v-if="bmnStore.items.length > 0">
         <div class="grid grid-cols-2 gap-4">
           <div
-            v-for="item in persediaanStore.items"
+            v-for="item in bmnStore.items"
             :key="item.id"
-            @click="showModalItem(item)"
+            @click="pilihItem(item)"
             class="p-6 cursor-pointer bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700"
           >
             <div class="mb-4">
@@ -66,9 +56,9 @@
                 >Previous</a
               >
             </li>
-            <li @click="choosePage(num)" v-for="num in persediaanStore.lastPage" :key="num">
+            <li @click="choosePage(num)" v-for="num in bmnStore.lastPage" :key="num">
               <a
-                :class="num == persediaanStore.currentPage ? 'text-blue-600 bg-blue-50' : 'text-gray-500'"
+                :class="num == bmnStore.currentPage ? 'text-blue-600 bg-blue-50' : 'text-gray-500'"
                 class="cursor-pointer flex items-center justify-center px-3 h-8 leading-tight bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
                 >{{ num }}</a
               >
@@ -132,24 +122,13 @@
                     <input class="h-8 w-16 border bg-white text-center text-xs outline-none" type="number" v-model="qty" min="1" />
                     <span class="cursor-pointer rounded-r bg-blue-100 py-1 px-3 duration-100 hover:bg-blue-500 hover:text-blue-50" @click="qty++"> + </span>
                   </div>
-
-                  <div class="mt-4 flex space-x-4">
-                    <button
-                      type="button"
-                      class="mt-4 inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-                      @click="addItem"
-                    >
-                      Tambah
-                    </button>
-                    <button
-                      :disabled="permintaanPersediaanStore.isStoreLoading"
-                      type="button"
-                      class="mt-4 inline-flex justify-center rounded-md border border-transparent bg-red-100 px-4 py-2 text-sm font-medium text-red-900 hover:bg-red-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2"
-                      @click="showModal = !showModal"
-                    >
-                      Batal!
-                    </button>
-                  </div>
+                  <button
+                    type="button"
+                    class="mt-4 inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                    @click="addItem"
+                  >
+                    Tambah
+                  </button>
                 </DialogPanel>
               </TransitionChild>
             </div>
@@ -165,22 +144,21 @@ import { TransitionRoot, TransitionChild, Dialog, DialogPanel, DialogTitle } fro
 import { ArrowLeftIcon, ArrowPathIcon, ShoppingBagIcon, TrashIcon } from '@heroicons/vue/24/outline'
 import { useDebounceFn } from '@vueuse/core'
 import { usePermintaanPersediaanStore } from '@/stores/permintaanPersediaan'
-const permintaanPersediaanStore = usePermintaanPersediaanStore()
 
 import { storageUrl } from '@/services/helper'
-import { usePersediaanStore } from '@/stores/persediaan'
 import { onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { useBmnStore } from '@/stores/bmn'
+import { usePeminjamanBmn } from '@/stores/peminjamanBmn'
+import { useUserStore } from '@/stores/user'
 
-const persediaanStore = usePersediaanStore()
+const bmnStore = useBmnStore()
+const peminjamanBmnStore = usePeminjamanBmn()
+const userStore = useUserStore()
 const showModal = ref(false)
 const qty = ref(1)
 const itemShow = ref({})
 const router = useRouter()
-
-function toCart() {
-  router.push({ name: 'cart-permintaan-user' })
-}
 
 function toDashboard() {
   router.push({ name: 'dashboard-user' })
@@ -192,50 +170,48 @@ function showImage(item) {
   return a
 }
 
-function showModalItem(item) {
-  qty.value = 1
-  itemShow.value = item
-  showModal.value = true
-}
-
-function addItem() {
-  permintaanPersediaanStore.addCart({ item: itemShow.value, qty: qty.value })
-  showModal.value = false
+function pilihItem(item) {
+  bmnStore.setCurrentDataBmn(item)
+  bmnStore.filter.searchQuery = null
+  router.push({ name: 'detail-peminjaman-bmn' })
 }
 
 function choosePage(num) {
-  persediaanStore.$patch((state) => {
+  bmnStore.$patch((state) => {
     state.filter.page = num
   })
-  persediaanStore.getDataUser()
+  bmnStore.getDataUser()
 }
 
 function nextPage() {
-  if (persediaanStore.filter.page == persediaanStore.lastPage) {
+  if (bmnStore.filter.page == bmnStore.lastPage) {
     return
   }
 
-  persediaanStore.$patch((state) => {
-    state.filter.page = persediaanStore.currentPage + 1
+  bmnStore.$patch((state) => {
+    state.filter.page = bmnStore.currentPage + 1
   })
-  persediaanStore.getDataUser()
+  bmnStore.getDataUser()
 }
 
 function previousPage() {
-  if (persediaanStore.filter.page < 2) {
+  if (bmnStore.filter.page < 2) {
     return
   }
-  persediaanStore.$patch((state) => {
-    state.filter.page = persediaanStore.currentPage - 1
+  bmnStore.$patch((state) => {
+    state.filter.page = bmnStore.currentPage - 1
   })
-  persediaanStore.getDataUser()
+  bmnStore.getDataUser()
 }
 
 const search = useDebounceFn(() => {
-  persediaanStore.getDataUser()
+  bmnStore.getData()
 }, 500)
 
 onMounted(() => {
-  persediaanStore.getDataUser()
+  bmnStore.$patch((state) => {
+    state.filter.sewa = 'tersedia'
+  })
+  bmnStore.getData()
 })
 </script>

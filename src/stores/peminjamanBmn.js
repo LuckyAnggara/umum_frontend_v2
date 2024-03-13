@@ -4,7 +4,7 @@ import { axiosIns } from '@/services/axios'
 import { toast } from 'vue3-toastify'
 import moment from 'moment'
 
-export const usePermintaanLayananBmn = defineStore('permintaanLayananBmn', {
+export const usePeminjamanBmn = defineStore('peminjamanBmn', {
   state: () => ({
     responses: null,
     tiketToShow: null,
@@ -22,26 +22,18 @@ export const usePermintaanLayananBmn = defineStore('permintaanLayananBmn', {
       tanggalPenerimaan: moment().format('DD MMMM YYYY'),
       image: null,
       status: 'DONE',
-      no_wa: null,
     },
     selectAll: true,
     form: {
       nup: null,
-      jenis_layanan: 'Perbaikan',
+      jenis_layanan: 'Peminjaman',
+      tanggal_pengembalian: null,
       catatan: null,
       nip: null,
       nama_peminta: null,
       unit: null,
     },
-    formSewa: {
-      nup: null,
-      layanan: 'Peminjaman',
-      tanggal_pengembalian: new Date(),
-      catatan: null,
-      nip: null,
-      nama_peminta: null,
-      unit: null,
-    },
+
     filter: {
       date: null,
       currentLimit: 10,
@@ -102,7 +94,7 @@ export const usePermintaanLayananBmn = defineStore('permintaanLayananBmn', {
       this.isLoading = true
       try {
         const response = await axiosIns.get(
-          `/api/permintaan-layanan-bmn?limit=${this.filter.currentLimit}${this.pageQuery}${this.searchQuery}${this.dateQuery}${this.statusQuery}`
+          `/api/peminjaman-bmn?limit=${this.filter.currentLimit}${this.pageQuery}${this.searchQuery}${this.dateQuery}${this.statusQuery}`
         )
         this.responses = response.data.data
       } catch (error) {
@@ -116,7 +108,7 @@ export const usePermintaanLayananBmn = defineStore('permintaanLayananBmn', {
       this.form.nup = nup
       this.isStoreLoading = true
       try {
-        const response = await axiosIns.post(`/api/permintaan-layanan-bmn`, this.form)
+        const response = await axiosIns.post(`/api/peminjaman-bmn`, this.form)
         if (response.status == 200) {
           this.clearForm()
           return {
@@ -138,7 +130,7 @@ export const usePermintaanLayananBmn = defineStore('permintaanLayananBmn', {
     async show(id = '') {
       this.isShowLoading = true
       try {
-        const response = await axiosIns.get(`/api/permintaan-layanan-bmn/${id}`)
+        const response = await axiosIns.get(`/api/peminjaman-bmn/${id}`)
         this.setCurrentData(response.data.data)
       } catch (error) {
         alert(error)
@@ -149,7 +141,7 @@ export const usePermintaanLayananBmn = defineStore('permintaanLayananBmn', {
       this.isDestroyLoading = true
       setTimeout(() => {}, 500)
       try {
-        const response = await axiosIns.delete(`/api/permintaan-layanan-bmn/${id}`)
+        const response = await axiosIns.delete(`/api/peminjaman-bmn/${id}`)
         if (response.status == 200) {
           const index = this.items.findIndex((item) => item.id === id)
           this.responses.data.splice(index, 1)
@@ -158,7 +150,6 @@ export const usePermintaanLayananBmn = defineStore('permintaanLayananBmn', {
           return false
         }
       } catch (error) {
-        alert(error)
       } finally {
         this.isDestroyLoading = false
       }
@@ -166,10 +157,10 @@ export const usePermintaanLayananBmn = defineStore('permintaanLayananBmn', {
     async update({ status = 'APPROVE' }) {
       let form = {
         status: status,
-        detail: this.singleResponses.detail,
+        detail: this.singleResponses,
       }
       try {
-        const response = await axiosIns.patch(`/api/permintaan-layanan-bmn/${this.singleResponses.id}`, form)
+        const response = await axiosIns.patch(`/api/peminjaman-bmn/${this.singleResponses.id}`, form)
         if (response.status == 200) {
           this.setCurrentData(response.data.data)
           return true
@@ -185,7 +176,7 @@ export const usePermintaanLayananBmn = defineStore('permintaanLayananBmn', {
     async updateDone() {
       this.isUpdateLoading = true
       try {
-        const response = await axiosIns.put(`/api/permintaan-layanan-bmn/done/${this.singleResponses.id}`, this.doneForm)
+        const response = await axiosIns.put(`/api/peminjaman-bmn/done/${this.singleResponses.id}`, this.doneForm)
         if (response.status == 200) {
           this.setCurrentData(response.data.data)
           return true
@@ -201,7 +192,7 @@ export const usePermintaanLayananBmn = defineStore('permintaanLayananBmn', {
     async updateUndo() {
       this.isUpdateLoading = true
       try {
-        const response = await axiosIns.put(`/api/permintaan-layanan-bmn/undo/${this.singleResponses.id}`)
+        const response = await axiosIns.put(`/api/peminjaman-bmn/undo/${this.singleResponses.id}`)
         if (response.status == 200) {
           this.setCurrentData(response.data.data)
           return true
@@ -225,7 +216,8 @@ export const usePermintaanLayananBmn = defineStore('permintaanLayananBmn', {
     clearForm() {
       this.form = {
         nup: null,
-        jenis_layanan: 'Perbaikan',
+        layanan: 'Peminjaman',
+        tanggal_pengembalian: new Date(),
         catatan: null,
         nip: null,
         nama_peminta: null,

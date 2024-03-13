@@ -8,13 +8,13 @@
             <div class="flex items-center">
               <label for="years" class="block text-sm font-medium text-gray-900 dark:text-white mr-2">Show</label>
               <select
-                @change="permintaanLayananBmnStore.getData()"
-                v-model="permintaanLayananBmnStore.filter.currentLimit"
+                @change="peminjamanBmnStore.getData()"
+                v-model="peminjamanBmnStore.filter.currentLimit"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block px-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               >
                 <option
                   :value="limit.value"
-                  :selected="permintaanLayananBmnStore.filter.currentLimit == limit.value ? true : false"
+                  :selected="peminjamanBmnStore.filter.currentLimit == limit.value ? true : false"
                   v-for="(limit, index) in mainStore.limitOptions"
                   :key="index"
                 >
@@ -25,13 +25,13 @@
             <div class="flex items-center">
               <label for="years" class="block text-sm font-medium text-gray-900 dark:text-white mr-2">Status</label>
               <select
-                @change="permintaanLayananBmnStore.getData()"
-                v-model="permintaanLayananBmnStore.filter.status"
+                @change="peminjamanBmnStore.getData()"
+                v-model="peminjamanBmnStore.filter.status"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block px-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               >
                 <option
                   :value="limit.value"
-                  :selected="permintaanLayananBmnStore.filter.currentLimit == limit.value ? true : false"
+                  :selected="peminjamanBmnStore.filter.currentLimit == limit.value ? true : false"
                   v-for="(limit, index) in mainStore.statusOptions"
                   :key="index"
                 >
@@ -58,8 +58,8 @@
                   </svg>
                 </div>
                 <input
-                  @keyup.enter="permintaanLayananBmnStore.getData()"
-                  v-model="permintaanLayananBmnStore.filter.searchQuery"
+                  @keyup.enter="peminjamanBmnStore.getData()"
+                  v-model="peminjamanBmnStore.filter.searchQuery"
                   type="text"
                   id="simple-search"
                   class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -74,64 +74,88 @@
             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
               <tr>
                 <th scope="col" class="px-4 py-3">#</th>
-                <th scope="col" class="px-4 py-3">Tanggal</th>
                 <th scope="col" class="px-4 py-3">Tiket</th>
-                <th scope="col" class="px-4 py-3">NUP</th>
-                <th scope="col" class="px-4 py-3">Jenis Layanan</th>
+                <th scope="col" class="px-4 py-3">Nama BMN</th>
                 <th scope="col" class="px-4 py-3">Penerima Layanan</th>
-                <th scope="col" class="px-4 py-3">Unit</th>
                 <th scope="col" class="px-4 py-3">Status</th>
+                <th scope="col" class="px-4 py-3">Tanggal Pengembalian</th>
                 <th scope="col" class="px-4 py-3"></th>
               </tr>
             </thead>
             <tbody>
-              <tr v-if="permintaanLayananBmnStore.isLoading">
+              <tr v-if="peminjamanBmnStore.isLoading">
                 <td colspan="9" class="text-center">
                   <span class=""><ArrowPathIcon class="w-6 h-6 animate-spin mx-auto" /></span>
                 </td>
               </tr>
-              <tr v-else-if="!permintaanLayananBmnStore.isLoading && permintaanLayananBmnStore.items.length < 1">
+              <tr v-else-if="!peminjamanBmnStore.isLoading && peminjamanBmnStore.items.length < 1">
                 <td colspan="9" class="text-center">No Data</td>
               </tr>
               <tr
                 v-else
-                v-for="(item, index) in permintaanLayananBmnStore.items"
+                v-for="(item, index) in peminjamanBmnStore.items"
                 :key="index"
                 class="odd:bg-white odd:dark:bg-gray-900 odd:dark:border-gray-700 even:bg-gray-50 even:dark:bg-gray-800 even:dark:border-gray-700 border-b"
               >
                 <td class="px-4 py-1">
-                  {{ permintaanLayananBmnStore.from + index }}
+                  {{ peminjamanBmnStore.from + index }}
                 </td>
-                <td class="px-4 py-1">{{ item.created_at }}</td>
-                <th class="px-4 py-1">{{ item.tiket }}</th>
+                <th class="px-4 py-1">
+                  <div class="flex flex-col">
+                    <span>{{ item.tiket }}</span> <span class="font-normal">{{ item.created_at }}</span>
+                  </div>
+                </th>
                 <td class="px-4 py-1">
-                  {{ item.nup }}
+                  <div class="flex flex-col">
+                    <span class="font-semibold">{{ item.bmn.nama }}</span>
+                    <span>
+                      {{ item.nup }}
+                    </span>
+                  </div>
                 </td>
-                <td class="px-4 py-1">{{ item.jenis_layanan }}</td>
-                <td class="px-4 py-1">{{ item.nama_peminta }}</td>
-                <td class="px-4 py-1">{{ item.unit ?? '-' }}</td>
+                <td class="px-4 py-1">
+                  <div class="flex flex-col">
+                    <span class="font-semibold"> {{ item.nama_peminta }}</span>
+                    <span>
+                      {{ item.nip }}
+                    </span>
+                    <span>
+                      {{ item.unit }}
+                    </span>
+                  </div>
+                </td>
                 <td class="px-4 py-1">
                   <span
-                    v-if="item.status == 'ORDER'"
-                    class="bg-blue-100 text-blue-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300"
-                    >{{ item.status }}</span
+                    v-if="item.status == 'DONE'"
+                    class="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300"
+                    >{{ item.status.toUpperCase() }}</span
+                  >
+                  <span
+                    v-else-if="item.status == 'VERIFIKASI ADMIN'"
+                    class="bg-yellow-100 text-yellow-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-yellow-900 dark:text-yellow-300"
+                    >Yellow</span
                   >
                   <span
                     v-else-if="item.status == 'APPROVE'"
-                    class="bg-yellow-100 text-yellow-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-yellow-900 dark:text-yellow-300"
-                    >{{ item.status }}</span
+                    class="bg-blue-100 text-blue-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300"
+                    >{{ item.status.toUpperCase() }}</span
                   >
-                  <span
-                    v-else-if="item.status == 'DONE'"
-                    class="bg-green-100 text-green-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300"
-                    >{{ item.status }}</span
-                  >
-                  <span
-                    v-else-if="item.status == 'PROCESS'"
-                    class="bg-green-100 text-orange-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-orange-900 dark:text-orange-300"
-                    >{{ item.status }}</span
-                  >
-                  <span v-else class="bg-red-100 text-red-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300">REJECT</span>
+                  <span v-else class="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300">{{
+                    item.status.toUpperCase()
+                  }}</span>
+                </td>
+                <td class="px-4 py-1">
+                  <div class="flex flex-col w-fit">
+                    <span class="font-semibold"> {{ item.tanggal_pengembalian }}</span>
+                    <span
+                      v-if="item.status_pengembalian == 'BELUM KEMBALI'"
+                      class="bg-yellow-100 text-yellow-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-yellow-900 dark:text-yellow-300"
+                      >{{ item.status_pengembalian.toUpperCase() }}</span
+                    >
+                    <span v-else class="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">{{
+                      item.status.toUpperCase()
+                    }}</span>
+                  </div>
                 </td>
 
                 <td class="px-4 py-1">
@@ -180,17 +204,17 @@
         <nav class="flex flex-col md:flex-row justify-between items-start md:items-center space-y-3 md:space-y-0 p-4" aria-label="Table navigation">
           <span class="text-sm font-normal text-gray-500 dark:text-gray-400">
             Showing
-            <span class="font-semibold text-gray-900 dark:text-white">{{ permintaanLayananBmnStore.from }} - {{ permintaanLayananBmnStore.to }}</span>
+            <span class="font-semibold text-gray-900 dark:text-white">{{ peminjamanBmnStore.from }} - {{ peminjamanBmnStore.to }}</span>
             of
-            <span class="font-semibold text-gray-900 dark:text-white">{{ permintaanLayananBmnStore.total }}</span>
+            <span class="font-semibold text-gray-900 dark:text-white">{{ peminjamanBmnStore.total }}</span>
           </span>
           <ul class="inline-flex items-stretch -space-x-px">
             <li>
               <a
-                @click="permintaanLayananBmnStore.currentPage == 1 ? '' : previousPage()"
-                :disabled="permintaanLayananBmnStore.currentPage == 1 ? true : false"
+                @click="peminjamanBmnStore.currentPage == 1 ? '' : previousPage()"
+                :disabled="peminjamanBmnStore.currentPage == 1 ? true : false"
                 :class="
-                  permintaanLayananBmnStore.currentPage == 1
+                  peminjamanBmnStore.currentPage == 1
                     ? 'cursor-not-allowed'
                     : 'cursor-pointer dark:hover:bg-blue-700 dark:hover:text-white hover:bg-blue-100 hover:text-gray-700'
                 "
@@ -201,9 +225,9 @@
 
             <li>
               <a
-                @click="permintaanLayananBmnStore.lastPage == permintaanLayananBmnStore.currentPage ? '' : nextPage()"
+                @click="peminjamanBmnStore.lastPage == peminjamanBmnStore.currentPage ? '' : nextPage()"
                 :class="
-                  permintaanLayananBmnStore.lastPage == permintaanLayananBmnStore.currentPage
+                  peminjamanBmnStore.lastPage == peminjamanBmnStore.currentPage
                     ? 'cursor-not-allowed'
                     : 'cursor-pointer dark:hover:bg-blue-700 dark:hover:text-white hover:bg-blue-100 hover:text-gray-700'
                 "
@@ -216,54 +240,62 @@
       </div>
     </div>
 
-    <DeleteDialog :show="confirmDialog" @close="confirmDialog = !confirmDialog" />
+    <DetailModal :show="detailDialog" @close="detailDialog = false" />
+    <DeleteDialog :show="deleteDialog" @submit="deleteData" @close="deleteDialog = !deleteDialog" />
+
+    <QRDialog :show="qrBawaDialog" @close="qrBawaDialog = !qrBawaDialog">
+      <template #title>
+        <h1>Scan This QR Code</h1>
+      </template>
+
+      <template #content>
+        <div class="flex flex-col justify-center items-center space-y-4 mt-6">
+          <QRCodeVue3 :value="tindakLanjutUrl" />
+          <span class="text-sm text-gray-600">Scan QRCode pada saat Serah Terima BMN</span>
+        </div>
+      </template>
+    </QRDialog>
+    <QRBalikDialog :show="qrBalikDialog" @close="qrBalikDialog = !qrBalikDialog">
+      <template #title>
+        <h1>Scan This QR Code</h1>
+      </template>
+
+      <template #content>
+        <div class="flex flex-col justify-center items-center space-y-4 mt-6">
+          <QRCodeVue3 :value="balikUrl" />
+          <span class="text-sm text-gray-600">Scan QRCode pada saat Pengembalian BMN</span>
+        </div>
+      </template>
+    </QRBalikDialog>
   </section>
-
-  <DetailModal :show="detailDialog" @close="detailDialog = false" />
-
-  <QRDialog :show="qrDialog" @close="qrDialog = !qrDialog">
-    <template #title>
-      <h1>Scan This QR Code</h1>
-    </template>
-
-    <template #content>
-      <div class="flex flex-col justify-center items-center space-y-4 mt-6">
-        <QRCodeVue3 :value="tindakLanjutUrl" />
-        <span class="text-sm text-gray-600">Scan QRCode pada saat pengiriman persediaan</span>
-      </div>
-    </template>
-  </QRDialog>
 </template>
 
 <script setup>
 import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
 import HeadlessMenu from '@/components/menu/HeadlessMenu.vue'
-import DeleteDialog from '@/components/DeleteDialog.vue'
-import QRDialog from '@/components/Dialog.vue'
 import QRCodeVue3 from 'qrcode-vue3'
-import { usePermintaanLayananBmn } from '@/stores/permintaanLayananBmn'
+import { usePeminjamanBmn } from '@/stores/peminjamanBmn'
 import { useMainStore } from '@/stores/main'
-
+import QRDialog from '@/components/Dialog.vue'
+import QRBalikDialog from '@/components/Dialog.vue'
 import { computed, defineAsyncComponent, onMounted, ref } from 'vue'
-import { EllipsisVerticalIcon, DocumentTextIcon, ArrowPathIcon, QrCodeIcon } from '@heroicons/vue/24/outline'
+import { EllipsisVerticalIcon, DocumentTextIcon, ArrowPathIcon, QrCodeIcon, TrashIcon } from '@heroicons/vue/24/outline'
 import { useRouter } from 'vue-router'
+import { toast } from 'vue3-toastify'
+
+import DeleteDialog from '@/components/DeleteDialog.vue'
 
 const DetailModal = defineAsyncComponent(() => import('./Detail.vue'))
-
-const tindakLanjutUrl = computed(() => {
-  const firstSegment = window.location.origin + '/#/bmn/permintaan'
-  return `${firstSegment}/${tiket.value}/penyelesaian`
-})
-
-const permintaanLayananBmnStore = usePermintaanLayananBmn()
+const qrBawaDialog = ref(false)
+const qrBalikDialog = ref(false)
+const peminjamanBmnStore = usePeminjamanBmn()
 const mainStore = useMainStore()
-
-const confirmDialog = ref(false)
+const deleteDialog = ref(false)
 const detailDialog = ref(false)
-const qrDialog = ref(false)
 
 const tiket = ref(null)
 
+const deleteId = ref(0)
 const itemMenu = [
   {
     function: detail,
@@ -271,35 +303,97 @@ const itemMenu = [
     icon: DocumentTextIcon,
   },
   {
-    function: qrToShow,
-    label: 'Tindak Lanjut',
+    function: qrBawaToShow,
+    label: 'Serah Terima',
     icon: QrCodeIcon,
+  },
+  {
+    function: qrBalikToShow,
+    label: 'Pengembalian',
+    icon: QrCodeIcon,
+  },
+  {
+    function: onDelete,
+    label: 'Hapus',
+    icon: TrashIcon,
   },
 ]
 
-function qrToShow(item) {
-  tiket.value = item.tiket
-  qrDialog.value = true
-}
-
 function detail(item) {
-  permintaanLayananBmnStore.$patch((state) => {
+  peminjamanBmnStore.$patch((state) => {
     state.tiketToShow = item.tiket
   })
   detailDialog.value = true
 }
 
+function qrBawaToShow(item) {
+  tiket.value = item.tiket
+  qrBawaDialog.value = true
+}
+function qrBalikToShow(item) {
+  tiket.value = item.tiket
+  qrBalikDialog.value = true
+}
+
+function onDelete(item) {
+  deleteId.value = item.id
+  deleteDialog.value = true
+}
+
 function nextPage() {
-  permintaanLayananBmnStore.filter.page = permintaanLayananBmnStore.currentPage + 1
-  permintaanLayananBmnStore.getData()
+  peminjamanBmnStore.filter.page = peminjamanBmnStore.currentPage + 1
+  peminjamanBmnStore.getData()
 }
 
 function previousPage() {
-  permintaanLayananBmnStore.filter.page = permintaanLayananBmnStore.currentPage - 1
-  permintaanLayananBmnStore.getData()
+  peminjamanBmnStore.filter.page = peminjamanBmnStore.currentPage - 1
+  peminjamanBmnStore.getData()
 }
 
+async function deleteData() {
+  deleteDialog.value = false
+  const id = toast.loading('Hapus data...', {
+    position: toast.POSITION.BOTTOM_CENTER,
+    type: 'info',
+    isLoading: true,
+  })
+
+  const success = await peminjamanBmnStore.destroy(deleteId.value)
+  if (success) {
+    toast.update(id, {
+      render: 'Berhasil !!',
+      position: toast.POSITION.BOTTOM_CENTER,
+      type: 'success',
+      autoClose: 1000,
+      closeOnClick: true,
+      closeButton: true,
+      isLoading: false,
+    })
+    toast.done(id)
+  } else {
+    toast.update(id, {
+      render: 'Terjadi kesalahan',
+      position: toast.POSITION.BOTTOM_CENTER,
+      type: 'error',
+      autoClose: 1000,
+      closeOnClick: true,
+      closeButton: true,
+      isLoading: false,
+    })
+  }
+}
+
+const tindakLanjutUrl = computed(() => {
+  const firstSegment = window.location.origin + '/#/bmn/peminjaman'
+  return `${firstSegment}/${tiket.value}/serahterima`
+})
+
+const balikUrl = computed(() => {
+  const firstSegment = window.location.origin + '/#/bmn/peminjaman'
+  return `${firstSegment}/${tiket.value}/pengembalian`
+})
+
 onMounted(() => {
-  permintaanLayananBmnStore.getData()
+  peminjamanBmnStore.getData()
 })
 </script>

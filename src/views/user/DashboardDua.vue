@@ -37,7 +37,7 @@ function getImageUrl() {
 const menu = [
   { label: 'Daftar Permintaan', to: 'list-permintaan' },
   { label: 'Persediaan', to: 'permintaan-persediaan' },
-  { label: 'BMN', to: 'service-bmn' },
+  { label: 'Perbaikan BMN', to: 'service-bmn' },
   { label: 'Booking Ruangan', to: 'booking-tempat' },
 ]
 </script>
