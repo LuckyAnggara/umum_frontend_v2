@@ -9,3 +9,11 @@ export const rupiah = new Intl.NumberFormat('id-ID', {
   style: 'currency',
   currency: 'IDR',
 })
+
+export function getLastDayOfMonth(year, month) {
+  // Membuat objek Date untuk tanggal awal bulan berikutnya
+  var nextMonthDate = new Date(year, month, 1)
+  // Mengatur tanggalnya menjadi 0, yang akan menggeser ke tanggal terakhir dari bulan sebelumnya
+  var lastDay = new Date(nextMonthDate - 1)
+  return lastDay.getDate()
+}

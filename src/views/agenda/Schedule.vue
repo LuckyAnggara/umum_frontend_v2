@@ -6,25 +6,69 @@
       <div
         class="py-4 border-gray-200 w-full flex flex-row justify-between items-center"
       >
-        <div class="text-left">
-          <label
-            for="name"
-            class="block font-medium text-gray-900 dark:text-white"
-            >Ruangan</label
-          >
-          <select
-            @change="agendaStore.getData()"
-            v-model="agendaStore.form.pimpinan"
-            class="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block px-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          >
-            <option
-              :key="item.id"
-              v-for="item in mainStore.pimpinanOptions"
-              :value="item.id"
+        <div class="flex flex-col space-y-4 w-2/3">
+          <div class="text-left w-1/2">
+            <label
+              for="name"
+              class="block font-medium text-gray-900 dark:text-white"
+              >Pimpinan</label
             >
-              {{ item.label }}
-            </option>
-          </select>
+            <select
+              @change="agendaStore.getData()"
+              v-model="agendaStore.form.pimpinan"
+              class="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block px-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            >
+              <option
+                :key="item.id"
+                v-for="item in mainStore.pimpinanOptions"
+                :value="item.id"
+              >
+                {{ item.label }}
+              </option>
+            </select>
+          </div>
+          <div class="flex flex-row space-x-2 w-1/2">
+            <div class="text-left w-full">
+              <label
+                for="name"
+                class="block font-medium text-gray-900 dark:text-white"
+                >Bulan</label
+              >
+              <select
+                @change="agendaStore.getData()"
+                v-model="agendaStore.filter.month"
+                class="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block px-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              >
+                <option
+                  :key="item.id"
+                  v-for="item in mainStore.bulanOptions"
+                  :value="item.id"
+                >
+                  {{ item.label.toUpperCase() }}
+                </option>
+              </select>
+            </div>
+            <div class="text-left w-full">
+              <label
+                for="name"
+                class="block font-medium text-gray-900 dark:text-white"
+                >Tahun</label
+              >
+              <select
+                @change="agendaStore.getData()"
+                v-model="agendaStore.filter.year"
+                class="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block px-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              >
+                <option
+                  :key="item"
+                  v-for="item in mainStore.tahunOptions"
+                  :value="item"
+                >
+                  {{ item }}
+                </option>
+              </select>
+            </div>
+          </div>
         </div>
         <button
           @click="newKegiatan()"
@@ -91,7 +135,7 @@ import DeleteDialog from '@/components/Dialog.vue'
 import { toast } from 'vue3-toastify'
 import { useAgendaStore } from '@/stores/agenda'
 import { useMainStore } from '@/stores/main'
-
+import { getLastDayOfMonth } from '@/services/helper'
 import { computed, defineAsyncComponent, onMounted, ref } from 'vue'
 import { ArrowPathIcon } from '@heroicons/vue/24/outline'
 
@@ -107,10 +151,8 @@ const confirmDialog = ref(false)
 
 function newKegiatan() {
   bookingDialog.value = true
-  agendaStore.form.nama = 'Administrator'
-  agendaStore.form.unit = 'Administrator'
-  agendaStore.form.no_wa = '088'
 }
+
 function deleteConfirm() {
   detailDialog.value = false
   confirmDialog.value = true
@@ -152,10 +194,11 @@ async function deleteData() {
 const calendarOptions = computed(() => {
   return {
     headerToolbar: {
-      left: 'prev,next today',
+      left: '',
       center: 'title',
-      right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek',
+      right: 'dayGridMonth,timeGridDay,listWeek',
     },
+    initialDate: agendaStore.form.tanggal,
     editable: false,
     dayMaxEvents: true,
     locale: 'id', // the initial locale
@@ -178,7 +221,8 @@ function handleDateClick(arg) {
 
 onMounted(() => {
   agendaStore.$patch((state) => {
-    state.form.tanggal = null
+    state.filter.month = moment().format('MM')
+    state.filter.year = moment().format('YYYY')
   })
   agendaStore.getData()
 })

@@ -3,6 +3,7 @@ import { defineStore } from 'pinia'
 import { axiosIns } from '@/services/axios'
 import { useToast } from 'vue-toastification'
 import moment from 'moment'
+import { getLastDayOfMonth } from '@/services/helper'
 
 export const useAgendaStore = defineStore('agenda', {
   state: () => ({
@@ -25,6 +26,8 @@ export const useAgendaStore = defineStore('agenda', {
     filter: {
       date: moment().format('YYYY-MM-DD'),
       currentLimit: 10,
+      month: null,
+      year: null,
       searchQuery: 1,
       page: '',
     },
@@ -51,13 +54,30 @@ export const useAgendaStore = defineStore('agenda', {
       }
       return '&date=' + moment(state.form.tanggal).format('YYYY-MM-DD')
     },
+    adminQuery(state) {
+      if (state.minMaxDate == null) {
+        return ''
+      }
+      return `&start-date=${state.minMaxDate.min}&end-date=${state.minMaxDate.max}`
+    },
+    minMaxDate(state) {
+      const maxDate = getLastDayOfMonth(state.filter.year, state.filter.month)
+      if (state.filter.month == null && state.filter.year == null) {
+        return null
+      } else {
+        return {
+          min: state.filter.year + '-' + state.filter.month + '-01',
+          max: state.filter.year + '-' + state.filter.month + '-' + maxDate,
+        }
+      }
+    },
   },
   actions: {
     async getData(page = '') {
       this.isLoading = true
       try {
         const response = await axiosIns.get(
-          `/api/agenda?query=${this.form.pimpinan}${this.dateQuery}`
+          `/api/agenda?query=${this.form.pimpinan}${this.dateQuery}${this.adminQuery}`
         )
         this.responses = response.data
       } catch (error) {

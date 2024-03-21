@@ -3,6 +3,56 @@ import { defineStore } from 'pinia'
 export const useMainStore = defineStore('main', {
   state: () => ({
     tahunOptions: [2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026],
+    bulanOptions: [
+      {
+        id: '01',
+        label: 'Januari',
+      },
+      {
+        id: '02',
+        label: 'Februari',
+      },
+      {
+        id: '03',
+        label: 'Maret',
+      },
+      {
+        id: '04',
+        label: 'April',
+      },
+      {
+        id: '05',
+        label: 'Mei',
+      },
+      {
+        id: '06',
+        label: 'Juni',
+      },
+      {
+        id: '07',
+        label: 'Juli',
+      },
+      {
+        id: '08',
+        label: 'Agustus',
+      },
+      {
+        id: '09',
+        label: 'September',
+      },
+      {
+        id: '10',
+        label: 'Oktober',
+      },
+      {
+        id: '11',
+        label: 'November',
+      },
+      {
+        id: '12',
+        label: 'Desember',
+      },
+    ],
     limitOptions: [
       {
         value: '10',
