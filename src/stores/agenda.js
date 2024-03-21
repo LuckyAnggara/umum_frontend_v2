@@ -4,9 +4,6 @@ import { axiosIns } from '@/services/axios'
 import { useToast } from 'vue-toastification'
 import moment from 'moment'
 
-import axios from 'axios'
-
-const toast = useToast()
 export const useAgendaStore = defineStore('agenda', {
   state: () => ({
     responses: null,
@@ -26,7 +23,7 @@ export const useAgendaStore = defineStore('agenda', {
       jam_akhir: { hours: 16, minutes: 0, seconds: 0 },
     },
     filter: {
-      date: [],
+      date: moment().format('YYYY-MM-DD'),
       currentLimit: 10,
       searchQuery: 1,
       page: '',
@@ -38,6 +35,7 @@ export const useAgendaStore = defineStore('agenda', {
     },
     dataCalendar(state) {
       return state.items.map((event) => ({
+        id: event.id,
         title: event.kegiatan,
         date: event.tanggal,
         start: event.start,
@@ -78,10 +76,14 @@ export const useAgendaStore = defineStore('agenda', {
         formData.append('jumlah_lampiran', uploadFile.length)
       }
       formData.append('kegiatan', this.form.kegiatan)
-      formData.append('jam_akhir', this.form.jam_akhir)
-      formData.append('jam_mulai', this.form.jam_mulai)
+      formData.append('jam_akhir[hours]', this.form.jam_akhir.hours)
+      formData.append('jam_akhir[minutes]', this.form.jam_akhir.minutes)
+      formData.append('jam_akhir[seconds]', this.form.jam_akhir.seconds)
+      formData.append('jam_mulai[hours]', this.form.jam_akhir.hours)
+      formData.append('jam_mulai[minutes]', this.form.jam_akhir.minutes)
+      formData.append('jam_mulai[seconds]', this.form.jam_akhir.seconds)
       formData.append('pimpinan', this.form.pimpinan)
-      formData.append('tanggal', this.form.tanggal)
+      formData.append('tanggal', moment(this.form.tanggal).toString())
       formData.append('tempat', this.form.tempat)
 
       this.isStoreLoading = true

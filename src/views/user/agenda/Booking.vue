@@ -332,7 +332,6 @@ const file = ref(null)
 const router = useRouter()
 const showModal = ref(false)
 import { toast } from 'vue3-toastify'
-const cariPegawaiLoading = ref(false)
 
 function toDashboard() {
   router.push({ name: 'dashboard-user' })
@@ -397,4 +396,8 @@ function fileChange(event) {
 function confirm() {
   showModal.value = true
 }
+
+onMounted(() => {
+  agendaStore.clearForm()
+})
 </script>

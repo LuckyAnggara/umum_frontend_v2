@@ -14,7 +14,7 @@
     <div
       class="mt-4 bg-white rounded-lg overflow-hidden border border-gray-400"
     >
-      <div class="px-4 py-4 border-b border-gray-200">
+      <div class="px-4 py-4 border-b border-gray-200 flex-col space-y-4">
         <div class="text-left">
           <label
             for="name"
@@ -22,7 +22,7 @@
             >Pimpinan</label
           >
           <select
-            @change="agendaStore.getData()"
+            @change="find()"
             v-model="agendaStore.form.pimpinan"
             class="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block px-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           >
@@ -35,6 +35,24 @@
             </option>
           </select>
         </div>
+
+        <div class="text-left">
+          <label
+            for="unit"
+            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+            >Tanggal</label
+          >
+          <VueDatePicker
+            @closed="find()"
+            @cleared="clear()"
+            required
+            v-model="agendaStore.form.tanggal"
+            :format="'dd MMMM yyyy'"
+            auto-apply
+            date-picker
+            locale="id"
+          ></VueDatePicker>
+        </div>
       </div>
       <div class="flex flex-col divide-y divide-gray-200 p-5">
         <div v-if="agendaStore.isLoading" class="flex flex-col py-4">
@@ -44,13 +62,22 @@
         <FullCalendar v-else :options="calendarOptions" />
       </div>
     </div>
+
+    <DetailModal
+      :show="detailDialog"
+      @close="detailDialog = false"
+      @destroy="deleteConfirm()"
+    />
   </div>
 </template>
 
 <script setup>
 import FullCalendar from '@fullcalendar/vue3'
 import dayGridPlugin from '@fullcalendar/daygrid'
+import VueDatePicker from '@vuepic/vue-datepicker'
+import '@vuepic/vue-datepicker/dist/main.css'
 import timeGridPlugin from '@fullcalendar/timegrid'
+import moment from 'moment'
 import interactionPlugin from '@fullcalendar/interaction'
 import listPlugin from '@fullcalendar/list'
 import allLocales from '@fullcalendar/core/locales-all'
@@ -63,33 +90,67 @@ const mainStore = useMainStore()
 const agendaStore = useAgendaStore()
 
 import { useRouter } from 'vue-router'
-import { computed, onMounted } from 'vue'
+import {
+  computed,
+  defineAsyncComponent,
+  onBeforeMount,
+  onMounted,
+  watch,
+} from 'vue'
+import { ref } from 'vue'
 
+const DetailModal = defineAsyncComponent(() => import('./ModalDetail.vue'))
+
+const detailDialog = ref(false)
 const router = useRouter()
 
 const calendarOptions = computed(() => {
   return {
     editable: false,
-    dragable: false,
     dayMaxEvents: true,
+    initialDate: agendaStore.form.tanggal,
     locale: 'id', // the initial locale
-    plugins: [listPlugin, interactionPlugin],
-    initialView: 'listWeek',
-    dateClick: handleDateClick,
+    plugins: [dayGridPlugin, listPlugin, interactionPlugin],
+    initialView: 'dayGridDay',
+    headerToolbar: {
+      start: '', // will normally be on the left. if RTL, will be on the right
+      center: '',
+      end: '', // will normally be on the right. if RTL, will be on the left
+    },
+    eventClick: handleEventClick,
     events: agendaStore.dataCalendar,
   }
 })
+
+function find() {
+  agendaStore.$patch((state) => {
+    state.responses = null
+  })
+  if (agendaStore.form.tanggal && agendaStore.form.pimpinan) {
+    agendaStore.getData()
+  }
+}
+
+function clear() {
+  agendaStore.$patch((state) => {
+    state.responses = null
+  })
+}
 
 function toBooking() {
   router.push({ name: 'booking-agenda' })
 }
 
-function handleDateClick(arg) {
-  alert('date click! ' + arg.dateStr)
+async function handleEventClick(arg) {
+  await agendaStore.setDataSingle(arg.event._def.publicId)
+  detailDialog.value = true
 }
 
 onMounted(() => {
-  agendaStore.getData()
   agendaStore.clearForm()
+  agendaStore.$patch((state) => {
+    state.form.tanggal = moment().format('YYYY-MM-DD')
+  })
+  agendaStore.getData()
 })
 </script>
