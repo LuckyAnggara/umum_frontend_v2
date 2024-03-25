@@ -244,6 +244,8 @@
         </div>
       </div>
     </div>
+
+    <PopRate :show="showPopRate" @close="showPopRate = !showPopRate" />
   </section>
 </template>
 
@@ -268,10 +270,12 @@ import { toast } from 'vue3-toastify'
 import { computed, onMounted, ref } from 'vue'
 import VueDrawingCanvas from 'vue-drawing-canvas'
 import moment from 'moment'
+import PopRate from '@/components/PopRate.vue'
 
 const permintaanPersediaanStore = usePermintaanPersediaanStore()
 const showModal = ref(false)
 const file = ref(null)
+const showPopRate = ref(false)
 
 const route = useRoute()
 const router = useRouter()
@@ -303,6 +307,8 @@ async function submit() {
       closeButton: true,
       isLoading: false,
     })
+
+    showPopRate.value = true
   } else {
     toast.update(id, {
       render: 'Terjadi kesalahan',

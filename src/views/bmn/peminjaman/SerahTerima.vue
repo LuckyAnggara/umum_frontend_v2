@@ -2,17 +2,28 @@
   <div>
     <div class="max-w-md mx-auto px-6 py-8 md:max-w-lg">
       <div class="flex items-center">
-        <h2 class="ml-2 font-semibold text-gray-800 text-xl">Serah Terima Peminjaman BMN</h2>
+        <h2 class="ml-2 font-semibold text-gray-800 text-xl">
+          Serah Terima Peminjaman BMN
+        </h2>
       </div>
 
-      <div class="mt-4 bg-white rounded-lg overflow-hidden border border-gray-400">
+      <div
+        class="mt-4 bg-white rounded-lg overflow-hidden border border-gray-400"
+      >
         <div class="px-4 py-2 border-b border-gray-200">
           <h2 class="font-semibold text-gray-800">Data BMN</h2>
         </div>
         <div class="flex flex-col divide-y divide-gray-200"></div>
-        <div v-if="peminjamanBmnStore.singleResponses" class="p-4 flex flex-col space-y-2">
+        <div
+          v-if="peminjamanBmnStore.singleResponses"
+          class="p-4 flex flex-col space-y-2"
+        >
           <div>
-            <label for="nama" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nomor Tiket</label>
+            <label
+              for="nama"
+              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              >Nomor Tiket</label
+            >
             <input
               readonly
               v-model="peminjamanBmnStore.singleResponses.tiket"
@@ -22,7 +33,11 @@
             />
           </div>
           <div>
-            <label for="nama" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Status</label>
+            <label
+              for="nama"
+              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              >Status</label
+            >
             <input
               readonly
               v-model="peminjamanBmnStore.singleResponses.status"
@@ -32,7 +47,11 @@
             />
           </div>
           <div>
-            <label for="nama" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Tanggal Pengajuan</label>
+            <label
+              for="nama"
+              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              >Tanggal Pengajuan</label
+            >
             <input
               readonly
               v-model="peminjamanBmnStore.singleResponses.created_at"
@@ -42,14 +61,26 @@
             />
           </div>
           <div>
-            <label for="nip" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Gambar</label>
+            <label
+              for="nip"
+              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              >Gambar</label
+            >
             <div class="flex justify-center">
-              <img class="w-60 h-fit object-cover rounded" :src="showImage(peminjamanBmnStore.singleResponses.bmn.image)" alt="Product Image" />
+              <img
+                class="w-60 h-fit object-cover rounded"
+                :src="showImage(peminjamanBmnStore.singleResponses.bmn.image)"
+                alt="Product Image"
+              />
             </div>
           </div>
 
           <div>
-            <label for="nip" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">NUP</label>
+            <label
+              for="nip"
+              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              >NUP</label
+            >
             <input
               readonly
               v-model="peminjamanBmnStore.singleResponses.bmn.nup"
@@ -58,7 +89,11 @@
             />
           </div>
           <div>
-            <label for="nip" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nama BMN</label>
+            <label
+              for="nip"
+              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              >Nama BMN</label
+            >
             <input
               readonly
               v-model="peminjamanBmnStore.singleResponses.bmn.nama"
@@ -68,7 +103,11 @@
           </div>
 
           <div>
-            <label for="nip" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Jenis Layanan</label>
+            <label
+              for="nip"
+              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              >Jenis Layanan</label
+            >
             <input
               readonly
               v-model="peminjamanBmnStore.singleResponses.jenis_layanan"
@@ -78,7 +117,11 @@
           </div>
 
           <div>
-            <label for="unit" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Tanggal Pengembalian</label>
+            <label
+              for="unit"
+              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              >Tanggal Pengembalian</label
+            >
             <input
               v-model="peminjamanBmnStore.singleResponses.tanggal_pengembalian"
               type="text"
@@ -88,7 +131,11 @@
             />
           </div>
           <div>
-            <label for="nip" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">NIP</label>
+            <label
+              for="nip"
+              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              >NIP</label
+            >
             <div class="relative">
               <input
                 readonly
@@ -101,7 +148,11 @@
             </div>
           </div>
           <div>
-            <label for="nama" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nama Penerima Layanan</label>
+            <label
+              for="nama"
+              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              >Nama Penerima Layanan</label
+            >
             <input
               readonly
               v-model="peminjamanBmnStore.singleResponses.nama_peminta"
@@ -111,7 +162,11 @@
             />
           </div>
           <div>
-            <label for="unit" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Unit</label>
+            <label
+              for="unit"
+              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              >Unit</label
+            >
             <input
               v-model="peminjamanBmnStore.singleResponses.unit"
               type="text"
@@ -121,7 +176,11 @@
             />
           </div>
           <div class="text-left">
-            <label for="no_wa" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nomor WhatsApp*</label>
+            <label
+              for="no_wa"
+              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              >Nomor WhatsApp*</label
+            >
             <input
               placeholder="menggunakan format (0821111xxxx)"
               v-model="peminjamanBmnStore.singleResponses.no_wa"
@@ -135,7 +194,10 @@
           <div class="py-2 border-b border-gray-200">
             <h2 class="font-semibold text-gray-800">Tanda Terima</h2>
           </div>
-          <form v-if="peminjamanBmnStore.singleResponses.status == 'APPROVE'" @submit.prevent="submit()">
+          <form
+            v-if="peminjamanBmnStore.singleResponses.status == 'APPROVE'"
+            @submit.prevent="submit()"
+          >
             <button
               @click.prevent="$refs.ttdCanvas.reset()"
               type="button"
@@ -145,11 +207,22 @@
             </button>
 
             <div class="border-2 rounded-xl p-2">
-              <vue-drawing-canvas ref="ttdCanvas" :width="410" :height="300" :lineWidth="2" backgroundColor="#FFFFFF" saveAs="png" />
+              <vue-drawing-canvas
+                ref="ttdCanvas"
+                :width="410"
+                :height="300"
+                :lineWidth="2"
+                backgroundColor="#FFFFFF"
+                saveAs="png"
+              />
             </div>
 
             <div class="my-2">
-              <label for="nama" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nama</label>
+              <label
+                for="nama"
+                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                >Nama</label
+              >
               <input
                 v-model="peminjamanBmnStore.doneForm.name"
                 type="text"
@@ -169,7 +242,11 @@
 
           <div class="flex flex-col space-y-4" v-else>
             <div>
-              <label for="nip" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Penerima</label>
+              <label
+                for="nip"
+                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                >Penerima</label
+              >
 
               <input
                 readonly
@@ -181,7 +258,11 @@
               />
             </div>
             <div>
-              <label for="nip" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Tanggal Penerimaan</label>
+              <label
+                for="nip"
+                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                >Tanggal Penerimaan</label
+              >
               <input
                 readonly
                 :value="peminjamanBmnStore.singleResponses.tanggal_diterima"
@@ -192,7 +273,11 @@
               />
             </div>
             <div>
-              <label for="nip" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Penerima</label>
+              <label
+                for="nip"
+                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                >Penerima</label
+              >
               <div class="border-2 rounded-xl p-2">
                 <vue-drawing-canvas
                   :width="410"
@@ -200,7 +285,9 @@
                   :lineWidth="2"
                   :lock="true"
                   backgroundColor="#FFFFFF"
-                  :initial-image="JSON.parse(peminjamanBmnStore.singleResponses.ttd)"
+                  :initial-image="
+                    JSON.parse(peminjamanBmnStore.singleResponses.ttd)
+                  "
                   saveAs="png"
                 />
               </div>
@@ -209,11 +296,18 @@
         </div>
       </div>
     </div>
+    <PopRate :show="showPopRate" @close="showPopRate = !showPopRate" />
   </div>
 </template>
 
 <script setup>
-import { ArrowLeftIcon, ArrowPathIcon, MagnifyingGlassIcon, QrCodeIcon, TrashIcon } from '@heroicons/vue/24/outline'
+import {
+  ArrowLeftIcon,
+  ArrowPathIcon,
+  MagnifyingGlassIcon,
+  QrCodeIcon,
+  TrashIcon,
+} from '@heroicons/vue/24/outline'
 import VueDatePicker from '@vuepic/vue-datepicker'
 import '@vuepic/vue-datepicker/dist/main.css'
 import { useDebounceFn, useStorage } from '@vueuse/core'
@@ -225,11 +319,13 @@ import { computed, onMounted, ref, watch } from 'vue'
 import { usePeminjamanBmn } from '@/stores/peminjamanBmn'
 import { useUserStore } from '@/stores/user'
 import VueDrawingCanvas from 'vue-drawing-canvas'
+import PopRate from '@/components/PopRate.vue'
 
 const ttdCanvas = ref(null)
 
 const router = useRouter()
 const route = useRoute()
+const showPopRate = ref(false)
 
 const peminjamanBmnStore = usePeminjamanBmn()
 
@@ -264,6 +360,7 @@ async function submit() {
       closeButton: true,
       isLoading: false,
     })
+    showPopRate.value = true
   } else {
     toast.update(id, {
       render: 'Terjadi kesalahan',
