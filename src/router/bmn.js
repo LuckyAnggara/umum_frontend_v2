@@ -68,6 +68,16 @@ const bmn = [
       requiresAuth: false,
       layout: 'layout-guest',
     },
+    path: '/bmn/permintaan/:tiket/pengembalian',
+    name: 'pengembalian-permintaan-layanan-bmn',
+    component: () => import('@/views/bmn/permintaan/Pengembalian.vue'),
+  },
+  {
+    meta: {
+      title: 'Permintaan Layanan BMN',
+      requiresAuth: false,
+      layout: 'layout-guest',
+    },
     path: '/user/bmn/permintaan/:tiket/output',
     name: 'output-permintaan-layanan-bmn',
     component: () => import('@/views/user/bmn/Output.vue'),

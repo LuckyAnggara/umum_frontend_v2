@@ -51,9 +51,7 @@ export const useUserStore = defineStore('user', {
     },
     async getStatusPermintaanPersediaan(tiket) {
       try {
-        const response = await axiosIns.get(
-          `/api/permintaan-persediaan/get-status/${tiket}`
-        )
+        const response = await axiosIns.get(`/api/permintaan-persediaan/get-status/${tiket}`)
         return response.data
       } catch (error) {
         return 'error'
@@ -61,9 +59,7 @@ export const useUserStore = defineStore('user', {
     },
     async getStatusPermintaanLayananBmn(tiket) {
       try {
-        const response = await axiosIns.get(
-          `/api/permintaan-layanan-bmn/get-status/${tiket}`
-        )
+        const response = await axiosIns.get(`/api/permintaan-layanan-bmn/get-status/${tiket}`)
         return response.data
       } catch (error) {
         return 'error'
@@ -71,9 +67,7 @@ export const useUserStore = defineStore('user', {
     },
     async getStatusPeminjamanBmn(tiket) {
       try {
-        const response = await axiosIns.get(
-          `/api/peminjaman-bmn/get-status/${tiket}`
-        )
+        const response = await axiosIns.get(`/api/peminjaman-bmn/get-status/${tiket}`)
         return response.data
       } catch (error) {
         return 'error'
@@ -84,18 +78,25 @@ export const useUserStore = defineStore('user', {
       this.listPermintaanUser.bmn.splice(index, 1)
     },
     peminjamanbmnDelete(id) {
-      const index = this.listPermintaanUser.peminjamanbmn.findIndex(
-        (i) => i.id == id
-      )
+      const index = this.listPermintaanUser.peminjamanbmn.findIndex((i) => i.id == id)
       this.listPermintaanUser.peminjamanbmn.splice(index, 1)
     },
     persediaanDelete(id) {
-      const index = this.listPermintaanUser.persediaan.findIndex(
-        (i) => i.id == id
-      )
+      const index = this.listPermintaanUser.persediaan.findIndex((i) => i.id == id)
       this.listPermintaanUser.persediaan.splice(index, 1)
     },
     getStatus() {
+      if (this.listPermintaanUser.bmn?.length > 0) {
+        this.listPermintaanUser.bmn.forEach(async (e) => {
+          let status = null
+          status = await this.getStatusPermintaanLayananBmn(e.tiket)
+          if (status == 'delete') {
+            this.bmnDelete(e.id)
+          } else {
+            e.status = status
+          }
+        })
+      }
       if (this.listPermintaanUser.peminjamanbmn?.length > 0) {
         this.listPermintaanUser.peminjamanbmn.forEach(async (e) => {
           let status = null
@@ -157,15 +158,11 @@ export const useUserStore = defineStore('user', {
   },
   getters: {
     mergedArray(state) {
-      const mergedArray = state.listPermintaanUser.bmn.concat(
-        state.listPermintaanUser.persediaan
-      )
+      const mergedArray = state.listPermintaanUser.bmn.concat(state.listPermintaanUser.persediaan)
       // Jika search term tidak kosong, lakukan filter berdasarkan nomor tiket
       if (state.searchTerm) {
         const filteredArray = mergedArray.filter((item) => {
-          return item.tiket
-            .toLowerCase()
-            .includes(state.searchTerm.toLowerCase())
+          return item.tiket.toLowerCase().includes(state.searchTerm.toLowerCase())
         })
         // Mengurutkan array hasil filter berdasarkan created_at
         const sortedArray = filteredArray.sort((a, b) => {

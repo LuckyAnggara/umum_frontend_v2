@@ -22,7 +22,7 @@
 
       <div class="mt-4 bg-white rounded-lg overflow-hidden border border-gray-400">
         <div class="px-4 py-2 border-b border-gray-200">
-          <p>Berita Acara Penarikan BMN</p>
+          <p>Berita Acara Pengembalian BMN</p>
           <h2 class="font-semibold text-gray-800">Data BMN</h2>
         </div>
         <div class="flex flex-col divide-y divide-gray-200">
@@ -118,7 +118,7 @@
           <h2 class="font-semibold text-gray-800">Tanda Terima</h2>
         </div>
         <div class="flex flex-col p-6">
-          <form v-if="permintaanLayananBmnStore.singleResponses.status == 'ORDER'" @submit.prevent="submit()">
+          <form v-if="permintaanLayananBmnStore.singleResponses.status == 'UMUM'" @submit.prevent="submit()">
             <button
               @click.prevent="$refs.ttdCanvas.reset()"
               type="button"
@@ -134,7 +134,7 @@
             <div class="my-2">
               <label for="nama" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nama</label>
               <input
-                v-model="permintaanLayananBmnStore.doneForm.name"
+                v-model="permintaanLayananBmnStore.doneBalik.name"
                 type="text"
                 id="nama"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -156,7 +156,7 @@
 
               <input
                 readonly
-                :value="permintaanLayananBmnStore.singleResponses.penerima"
+                :value="permintaanLayananBmnStore.singleResponses.penerima_pengembalian"
                 type="text"
                 id="nip"
                 class="bg-gray-200 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -167,7 +167,7 @@
               <label for="nip" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Tanggal Penerimaan</label>
               <input
                 readonly
-                :value="permintaanLayananBmnStore.singleResponses.tanggal_diterima"
+                :value="permintaanLayananBmnStore.singleResponses.tanggal_terima_pengembalian"
                 type="text"
                 id="nip"
                 class="bg-gray-200 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -175,7 +175,7 @@
               />
             </div>
             <div>
-              <label for="nip" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Penerima</label>
+              <label for="nip" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Tanda Terima</label>
               <div class="border-2 rounded-xl p-2">
                 <vue-drawing-canvas
                   :width="410"
@@ -183,7 +183,7 @@
                   :lineWidth="2"
                   :lock="true"
                   backgroundColor="#FFFFFF"
-                  :initial-image="JSON.parse(permintaanLayananBmnStore.singleResponses.ttd)"
+                  :initial-image="JSON.parse(permintaanLayananBmnStore.singleResponses.ttd_pengembalian)"
                   saveAs="png"
                 />
               </div>
@@ -192,6 +192,8 @@
         </div>
       </div>
     </div>
+
+    <PopRate :show="showPopRate" @close="showPopRate = !showPopRate" />
   </section>
 </template>
 
@@ -206,10 +208,13 @@ import { toast } from 'vue3-toastify'
 import { computed, onMounted, ref } from 'vue'
 import VueDrawingCanvas from 'vue-drawing-canvas'
 
+import PopRate from '@/components/PopRate.vue'
+
 const permintaanLayananBmnStore = usePermintaanLayananBmn()
 const route = useRoute()
 
 const ttdCanvas = ref(null)
+const showPopRate = ref(false)
 
 const tiket = computed(() => {
   return route.params.tiket ?? null
@@ -222,10 +227,10 @@ async function submit() {
     isLoading: true,
   })
   permintaanLayananBmnStore.$patch((state) => {
-    state.doneForm.image = JSON.stringify(ttdCanvas.value.getAllStrokes())
+    state.doneBalik.image = JSON.stringify(ttdCanvas.value.getAllStrokes())
   })
 
-  const success = await permintaanLayananBmnStore.updateDoneBawa()
+  const success = await permintaanLayananBmnStore.updateDoneBalik()
   if (success) {
     toast.update(id, {
       render: 'Berhasil !!',
@@ -236,6 +241,8 @@ async function submit() {
       closeButton: true,
       isLoading: false,
     })
+
+    showPopRate.value = true
   } else {
     toast.update(id, {
       render: 'Terjadi kesalahan',

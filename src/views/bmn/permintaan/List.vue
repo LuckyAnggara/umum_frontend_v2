@@ -131,7 +131,14 @@
                     class="bg-green-100 text-orange-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-orange-900 dark:text-orange-300"
                     >{{ item.status }}</span
                   >
-                  <span v-else class="bg-red-100 text-red-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300">REJECT</span>
+                  <span
+                    v-else-if="item.status == 'REJECT'"
+                    class="bg-red-100 text-red-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300"
+                    >{{ item.status }}</span
+                  >
+                  <span v-else class="bg-green-100 text-orange-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-orange-900 dark:text-orange-300">{{
+                    item.status
+                  }}</span>
                 </td>
 
                 <td class="px-4 py-1">
@@ -229,10 +236,23 @@
     <template #content>
       <div class="flex flex-col justify-center items-center space-y-4 mt-6">
         <QRCodeVue3 :value="tindakLanjutUrl" />
-        <span class="text-sm text-gray-600">Scan QRCode pada saat pengiriman persediaan</span>
+        <span class="text-sm text-gray-600">Scan QRCode pada saat penerimaan BMN</span>
       </div>
     </template>
   </QRDialog>
+
+  <QRBalikDialog :show="qrBalikDialog" @close="qrBalikDialog = !qrBalikDialog">
+    <template #title>
+      <h1>Scan This QR Code</h1>
+    </template>
+
+    <template #content>
+      <div class="flex flex-col justify-center items-center space-y-4 mt-6">
+        <QRCodeVue3 :value="pengembalianUrl" />
+        <span class="text-sm text-gray-600">Scan QRCode pada saat pengembalian BMN</span>
+      </div>
+    </template>
+  </QRBalikDialog>
 </template>
 
 <script setup>
@@ -240,10 +260,11 @@ import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
 import HeadlessMenu from '@/components/menu/HeadlessMenu.vue'
 import DeleteDialog from '@/components/DeleteDialog.vue'
 import QRDialog from '@/components/Dialog.vue'
+import QRBalikDialog from '@/components/Dialog.vue'
 import QRCodeVue3 from 'qrcode-vue3'
 import { usePermintaanLayananBmn } from '@/stores/permintaanLayananBmn'
 import { useMainStore } from '@/stores/main'
-
+import { toast } from 'vue3-toastify'
 import { computed, defineAsyncComponent, onMounted, ref } from 'vue'
 import { EllipsisVerticalIcon, DocumentTextIcon, ArrowPathIcon, QrCodeIcon } from '@heroicons/vue/24/outline'
 import { useRouter } from 'vue-router'
@@ -254,6 +275,10 @@ const tindakLanjutUrl = computed(() => {
   const firstSegment = window.location.origin + '/#/bmn/permintaan'
   return `${firstSegment}/${tiket.value}/penyelesaian`
 })
+const pengembalianUrl = computed(() => {
+  const firstSegment = window.location.origin + '/#/bmn/permintaan'
+  return `${firstSegment}/${tiket.value}/pengembalian`
+})
 
 const permintaanLayananBmnStore = usePermintaanLayananBmn()
 const mainStore = useMainStore()
@@ -261,6 +286,7 @@ const mainStore = useMainStore()
 const confirmDialog = ref(false)
 const detailDialog = ref(false)
 const qrDialog = ref(false)
+const qrBalikDialog = ref(false)
 
 const tiket = ref(null)
 
@@ -275,6 +301,11 @@ const itemMenu = [
     label: 'Tindak Lanjut',
     icon: QrCodeIcon,
   },
+  {
+    function: pengembalian,
+    label: 'Pengembalian',
+    icon: QrCodeIcon,
+  },
 ]
 
 function qrToShow(item) {
@@ -287,6 +318,18 @@ function detail(item) {
     state.tiketToShow = item.tiket
   })
   detailDialog.value = true
+}
+
+function pengembalian(item) {
+  if (item.status == 'UMUM' || item.status == 'DONE') {
+    tiket.value = item.tiket
+    qrBalikDialog.value = true
+  } else {
+    toast.error('BMN belum di tarik', {
+      autoClose: 1500,
+      position: toast.POSITION.BOTTOM_RIGHT,
+    })
+  }
 }
 
 function nextPage() {

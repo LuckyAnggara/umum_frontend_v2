@@ -21,6 +21,13 @@ export const usePermintaanLayananBmn = defineStore('permintaanLayananBmn', {
       name: null,
       tanggalPenerimaan: moment().format('DD MMMM YYYY'),
       image: null,
+      status: 'UMUM',
+      no_wa: null,
+    },
+    balikForm: {
+      name: null,
+      tanggalPenerimaan: moment().format('DD MMMM YYYY'),
+      image: null,
       status: 'DONE',
       no_wa: null,
     },
@@ -182,10 +189,26 @@ export const usePermintaanLayananBmn = defineStore('permintaanLayananBmn', {
         this.isUpdateLoading = false
       }
     },
-    async updateDone() {
+    async updateDoneBawa() {
       this.isUpdateLoading = true
       try {
-        const response = await axiosIns.put(`/api/permintaan-layanan-bmn/done/${this.singleResponses.id}`, this.doneForm)
+        const response = await axiosIns.put(`/api/permintaan-layanan-bmn/done-bawa/${this.singleResponses.id}`, this.doneForm)
+        if (response.status == 200) {
+          this.setCurrentData(response.data.data)
+          return true
+        } else {
+          return false
+        }
+      } catch (error) {
+        alert(error)
+      } finally {
+        this.isUpdateLoading = false
+      }
+    },
+    async updateDoneBalik() {
+      this.isUpdateLoading = true
+      try {
+        const response = await axiosIns.put(`/api/permintaan-layanan-bmn/done-balik/${this.singleResponses.id}`, this.balikForm)
         if (response.status == 200) {
           this.setCurrentData(response.data.data)
           return true
