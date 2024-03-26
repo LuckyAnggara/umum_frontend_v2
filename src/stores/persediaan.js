@@ -37,6 +37,7 @@ export const usePersediaanStore = defineStore('persediaan', {
       saldo: 0,
     },
     filter: {
+      dateReport: null,
       date: [],
       currentLimit: 10,
       searchQuery: '',
@@ -72,10 +73,10 @@ export const usePersediaanStore = defineStore('persediaan', {
       return '&start-date=' + state.filter.date[0] + '&end-date=' + state.filter.date[1]
     },
     reportDateQuery(state) {
-      if (state.filter.date == '' || state.filter.date == null) {
+      if (state.filter.dateReport == '' || state.filter.dateReport == null) {
         return `date=${moment().format('YYYY-MM-DD')}`
       }
-      return '&date=' + moment(state.form.date).format('YYYY-MM-DD')
+      return 'date=' + moment(state.filter.dateReport).format('YYYY-MM-DD')
     },
     searchQuery(state) {
       if (state.filter.searchQuery == '' || state.filter.searchQuery == null) {

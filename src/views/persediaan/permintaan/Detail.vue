@@ -1,20 +1,13 @@
 <template>
   <section v-if="permintaanPersediaanStore.singleResponses == null">
-    <span class="flex"
-      ><ArrowPathIcon class="mx-auto w-6 h-6 animate-spin"
-    /></span>
+    <span class="flex"><ArrowPathIcon class="mx-auto w-6 h-6 animate-spin" /></span>
   </section>
-  <section
-    v-else
-    class="px-16 flex flex-col space-y-4 py-5 bg-gray-50 dark:bg-gray-900"
-  >
+  <section v-else class="px-16 flex flex-col space-y-4 py-5 bg-gray-50 dark:bg-gray-900">
     <div class="flex flex-row justify-between">
       <div class="flex flex-col">
         <div class="flex flex-row items-center">
           <span class="font-semibold text-3xl text-gray-600">Tiket #</span>
-          <span class="font-semibold text-3xl text-gray-600">{{
-            permintaanPersediaanStore.singleResponses.tiket
-          }}</span>
+          <span class="font-semibold text-3xl text-gray-600">{{ permintaanPersediaanStore.singleResponses.tiket }}</span>
           <div class="ml-2">
             <span
               v-if="permintaanPersediaanStore.singleResponses.status == 'ORDER'"
@@ -22,42 +15,27 @@
               >{{ permintaanPersediaanStore.singleResponses.status }}</span
             >
             <span
-              v-else-if="
-                permintaanPersediaanStore.singleResponses.status == 'APPROVE'
-              "
+              v-else-if="permintaanPersediaanStore.singleResponses.status == 'APPROVE'"
               class="bg-yellow-100 text-yellow-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-yellow-900 dark:text-yellow-300"
               >{{ permintaanPersediaanStore.singleResponses.status }}</span
             >
             <span
-              v-else-if="
-                permintaanPersediaanStore.singleResponses.status == 'DONE'
-              "
+              v-else-if="permintaanPersediaanStore.singleResponses.status == 'DONE'"
               class="bg-green-100 text-green-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300"
               >{{ permintaanPersediaanStore.singleResponses.status }}</span
             >
             <span
-              v-else-if="
-                permintaanPersediaanStore.singleResponses.status == 'PROCESS'
-              "
+              v-else-if="permintaanPersediaanStore.singleResponses.status == 'PROCESS'"
               class="bg-green-100 text-yellow-800 text-md font-medium px-2.5 py-0.5 rounded dark:bg-yellow-900 dark:text-yellow-300"
               >{{ permintaanPersediaanStore.singleResponses.status }}</span
             >
-            <span
-              v-else
-              class="bg-red-100 text-red-800 text-md font-medium px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300"
-              >REJECTED</span
-            >
+            <span v-else class="bg-red-100 text-red-800 text-md font-medium px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300">REJECTED</span>
           </div>
         </div>
-        <span class="text-lg text-gray-400 mt-1">{{
-          permintaanPersediaanStore.singleResponses.created_at
-        }}</span>
+        <span class="text-lg text-gray-400 mt-1">{{ permintaanPersediaanStore.singleResponses.created_at }}</span>
       </div>
 
-      <div
-        v-if="permintaanPersediaanStore.singleResponses.status == 'ORDER'"
-        class="flex flex-row place-self-end"
-      >
+      <div v-if="permintaanPersediaanStore.singleResponses.status == 'ORDER'" class="flex flex-row place-self-end">
         <button
           @click="approveConfirm()"
           type="button"
@@ -75,10 +53,7 @@
         </button>
       </div>
 
-      <div
-        v-if="permintaanPersediaanStore.singleResponses.status == 'APPROVE'"
-        class="flex flex-row place-self-end"
-      >
+      <div v-if="permintaanPersediaanStore.singleResponses.status == 'APPROVE'" class="flex flex-row place-self-end">
         <button
           @click="undoConfirm()"
           type="button"
@@ -95,10 +70,7 @@
         </button>
       </div>
 
-      <div
-        v-if="permintaanPersediaanStore.singleResponses.status == 'PROCESS'"
-        class="flex flex-row place-self-end"
-      >
+      <div v-if="permintaanPersediaanStore.singleResponses.status == 'PROCESS'" class="flex flex-row place-self-end">
         <button
           @click="qrDialog = true"
           type="button"
@@ -112,34 +84,15 @@
     <div class="flex flex-row space-x-8">
       <div class="w-3/4 flex flex-col space-y-8">
         <!-- Start coding here -->
-        <div
-          class="bg-white dark:bg-gray-800 relative shadow-md sm:rounded-lg overflow-visible"
-        >
-          <div
-            class="flex flex-col w-2/3 md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 p-4"
-          >
-            <span class="text-gray-700 text-xl font-semibold"
-              >Detail Permintaan</span
-            >
+        <div class="bg-white dark:bg-gray-800 relative shadow-md sm:rounded-lg overflow-visible">
+          <div class="flex flex-col w-2/3 md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 p-4">
+            <span class="text-gray-700 text-xl font-semibold">Detail Permintaan</span>
           </div>
-          <div
-            class="overflow-y-visible w-full scrollbar-thin scrollbar-track-gray-500 scrollbar-thumb-gray-700"
-          >
-            <table
-              class="lg:w-full min-w-full text-sm text-left text-gray-500 dark:text-gray-400"
-            >
-              <thead
-                class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400"
-              >
+          <div class="overflow-y-visible w-full scrollbar-thin scrollbar-track-gray-500 scrollbar-thumb-gray-700">
+            <table class="lg:w-full min-w-full text-sm text-left text-gray-500 dark:text-gray-400">
+              <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
-                  <th
-                    v-if="
-                      permintaanPersediaanStore.singleResponses.status ==
-                      'ORDER'
-                    "
-                    scope="col"
-                    class="px-4 py-3"
-                  >
+                  <th v-if="permintaanPersediaanStore.singleResponses.status == 'ORDER'" scope="col" class="px-4 py-3">
                     <input
                       v-model="permintaanPersediaanStore.selectAll"
                       @change="permintaanPersediaanStore.checkAll"
@@ -150,7 +103,7 @@
                     />
                   </th>
                   <th scope="col" class="px-2 py-3">Barang</th>
-                  <th scope="col" class="px-4 py-3">Saldo Persediaan</th>
+                  <th scope="col" class="px-4 py-3" v-if="permintaanPersediaanStore.singleResponses.status == 'ORDER'">Saldo Persediaan</th>
                   <th scope="col" class="px-4 py-3">Jumlah Permintaan</th>
                   <th scope="col" class="px-4 py-3">Jumlah disetujui</th>
                   <th scope="col" class="px-4 py-3">Status</th>
@@ -159,17 +112,10 @@
               <tbody>
                 <tr v-if="permintaanPersediaanStore.isLoading">
                   <td colspan="6" class="text-center">
-                    <span class=""
-                      ><ArrowPathIcon class="w-6 h-6 animate-spin mx-auto"
-                    /></span>
+                    <span class=""><ArrowPathIcon class="w-6 h-6 animate-spin mx-auto" /></span>
                   </td>
                 </tr>
-                <tr
-                  v-else-if="
-                    !permintaanPersediaanStore.isLoading &&
-                    permintaanPersediaanStore.singleResponses.detail.length < 1
-                  "
-                >
+                <tr v-else-if="!permintaanPersediaanStore.isLoading && permintaanPersediaanStore.singleResponses.detail.length < 1">
                   <td colspan="6" class="text-center">No Data</td>
                 </tr>
                 <tr
@@ -178,13 +124,7 @@
                   :key="index"
                   class="odd:bg-white odd:dark:bg-gray-900 odd:dark:border-gray-700 even:bg-gray-50 even:dark:bg-gray-800 even:dark:border-gray-700 border-b"
                 >
-                  <td
-                    v-if="
-                      permintaanPersediaanStore.singleResponses.status ==
-                      'ORDER'
-                    "
-                    class="px-4 py-1"
-                  >
+                  <td v-if="permintaanPersediaanStore.singleResponses.status == 'ORDER'" class="px-4 py-1">
                     <input
                       @change="permintaanPersediaanStore.checkSingle"
                       id="default-checkbox"
@@ -195,29 +135,21 @@
                   </td>
                   <td class="px-2 py-1">
                     <div class="flex flex-row space-x-2 items-center">
-                      <img
-                        class="w-16 h-16"
-                        :src="showImage(item.persediaan)"
-                      />
+                      <img class="w-16 h-16" :src="showImage(item.persediaan)" />
                       <span class="font-bold">
                         {{ item.persediaan.nama }}
                       </span>
                     </div>
                   </td>
-                  <td class="px-4 py-1">
+                  <td class="px-4 py-1" v-if="permintaanPersediaanStore.singleResponses.status == 'ORDER'">
                     {{ item.persediaan.saldo }} {{ item.persediaan.satuan }}
                   </td>
-                  <td class="px-4 py-1">
-                    {{ item.jumlah }} {{ item.persediaan.satuan }}
-                  </td>
+                  <td class="px-4 py-1">{{ item.jumlah }} {{ item.persediaan.satuan }}</td>
 
                   <td class="px-4 py-1">
                     <div class="flex flex-row space-x-4 items-center">
                       <input
-                        v-if="
-                          permintaanPersediaanStore.singleResponses.status ==
-                          'ORDER'
-                        "
+                        v-if="permintaanPersediaanStore.singleResponses.status == 'ORDER'"
                         v-model="item.confirm_permintaan"
                         type="number"
                         id="nama"
@@ -233,21 +165,14 @@
                     </div>
                   </td>
                   <td class="px-4 py-1">
-                    <section
-                      v-if="
-                        permintaanPersediaanStore.singleResponses.status ==
-                        'ORDER'
-                      "
-                    >
+                    <section v-if="permintaanPersediaanStore.singleResponses.status == 'ORDER'">
                       <span
                         v-if="item.confirm_permintaan <= item.persediaan.saldo"
                         class="bg-blue-100 text-blue-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300"
                         >STOK TERSEDIA</span
                       >
 
-                      <span
-                        v-else
-                        class="bg-red-100 text-red-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300"
+                      <span v-else class="bg-red-100 text-red-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300"
                         >STOK KURANG</span
                       >
                     </section>
@@ -257,9 +182,7 @@
                         class="bg-blue-100 text-blue-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300"
                         >OK</span
                       >
-                      <span
-                        v-else
-                        class="bg-red-100 text-red-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300"
+                      <span v-else class="bg-red-100 text-red-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300"
                         >DITOLAK</span
                       >
                     </section>
@@ -268,10 +191,7 @@
               </tbody>
             </table>
           </div>
-          <nav
-            class="flex flex-col md:flex-row justify-between items-start md:items-center space-y-3 md:space-y-0 p-4"
-            aria-label="Table navigation"
-          >
+          <nav class="flex flex-col md:flex-row justify-between items-start md:items-center space-y-3 md:space-y-0 p-4" aria-label="Table navigation">
             <div class="w-full flex flex-row justify-end">
               <span class="font-semibold">Total </span>
               <span class="mx-4">: </span>
@@ -284,19 +204,12 @@
         </div>
 
         <div class="bg-white dark:bg-gray-800 relative shadow-md rounded-lg">
-          <div
-            class="flex flex-col w-2/3 md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 p-4"
-          >
+          <div class="flex flex-col w-2/3 md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 p-4">
             <span class="text-gray-700 text-xl font-semibold">Log</span>
           </div>
           <div class="p-6 mb-3">
             <ol class="relative border-s border-gray-200 dark:border-gray-700">
-              <li
-                v-for="(log, index) in permintaanPersediaanStore.singleResponses
-                  .log"
-                :key="index"
-                class="mb-10 ms-6"
-              >
+              <li v-for="(log, index) in permintaanPersediaanStore.singleResponses.log" :key="index" class="mb-10 ms-6">
                 <span
                   class="absolute flex items-center justify-center w-6 h-6 bg-blue-100 rounded-full -start-3 ring-8 ring-white dark:ring-gray-900 dark:bg-blue-900"
                 >
@@ -312,51 +225,31 @@
                     />
                   </svg>
                 </span>
-                <h3
-                  class="mb-1 text-lg font-semibold text-gray-900 dark:text-white"
-                >
+                <h3 class="mb-1 text-lg font-semibold text-gray-900 dark:text-white">
                   {{ log.status }}
                 </h3>
-                <time
-                  class="block mb-2 text-sm font-normal leading-none text-gray-400 dark:text-gray-500"
-                  >Tanggal {{ log.created_at }}</time
-                >
-                <p
-                  class="text-base font-normal text-gray-500 dark:text-gray-400"
-                >
+                <time class="block mb-2 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">Tanggal {{ log.created_at }}</time>
+                <p class="text-base font-normal text-gray-500 dark:text-gray-400">
                   {{ log.catatan }}
                 </p>
-                <p class="text-sm font-normal text-gray-500 dark:text-gray-400">
-                  oleh : {{ log.created_by }}
-                </p>
+                <p class="text-sm font-normal text-gray-500 dark:text-gray-400">oleh : {{ log.created_by }}</p>
               </li>
             </ol>
           </div>
         </div>
       </div>
       <div class="w-1/4">
-        <div
-          class="bg-white dark:bg-gray-800 relative shadow-md sm:rounded-lg overflow-visible py-4 px-3"
-        >
+        <div class="bg-white dark:bg-gray-800 relative shadow-md sm:rounded-lg overflow-visible py-4 px-3">
           <div class="flex flex-col md:flex-row items-center mb-4">
-            <span class="text-gray-700 text-xl font-semibold"
-              >Detail Pemohon</span
-            >
+            <span class="text-gray-700 text-xl font-semibold">Detail Pemohon</span>
           </div>
           <div class="flex flex-col space-y-2 mb-3">
             <div class="flex flex-col">
               <label class="font-bold">Nama</label>
-              <span class="">{{
-                permintaanPersediaanStore.singleResponses.nama
-              }}</span>
-              <span
-                v-if="permintaanPersediaanStore.singleResponses.nip !== ''"
-                class="text-md font-thin text-gray-600"
-              >
+              <span class="">{{ permintaanPersediaanStore.singleResponses.nama }}</span>
+              <span v-if="permintaanPersediaanStore.singleResponses.nip !== ''" class="text-md font-thin text-gray-600">
                 NIP
-                <span>{{
-                  permintaanPersediaanStore.singleResponses.nip
-                }}</span></span
+                <span>{{ permintaanPersediaanStore.singleResponses.nip }}</span></span
               >
             </div>
             <div class="flex flex-col">
@@ -365,26 +258,16 @@
             </div>
             <div class="flex flex-col">
               <label class="font-bold">Catatan</label>
-              <span>
-                {{ permintaanPersediaanStore.singleResponses.catatan }}</span
-              >
+              <span> {{ permintaanPersediaanStore.singleResponses.catatan }}</span>
             </div>
-            <section
-              v-if="permintaanPersediaanStore.singleResponses.status == 'DONE'"
-            >
+            <section v-if="permintaanPersediaanStore.singleResponses.status == 'DONE'">
               <div class="flex flex-col">
                 <label class="font-bold">Penerima</label>
-                <span>
-                  {{ permintaanPersediaanStore.singleResponses.penerima }}</span
-                >
+                <span> {{ permintaanPersediaanStore.singleResponses.penerima }}</span>
               </div>
               <div class="flex flex-col">
                 <label class="font-bold">Tanggal diterima</label>
-                <span>
-                  {{
-                    permintaanPersediaanStore.singleResponses.tanggal_diterima
-                  }}</span
-                >
+                <span> {{ permintaanPersediaanStore.singleResponses.tanggal_diterima }}</span>
               </div>
               <div class="flex flex-col">
                 <label class="font-bold">Tanda Penerima</label>
@@ -395,9 +278,7 @@
                     :lineWidth="2"
                     :lock="true"
                     backgroundColor="#FFFFFF"
-                    :initial-image="
-                      JSON.parse(permintaanPersediaanStore.singleResponses.ttd)
-                    "
+                    :initial-image="JSON.parse(permintaanPersediaanStore.singleResponses.ttd)"
                     saveAs="png"
                   />
                 </div>
@@ -408,11 +289,7 @@
       </div>
     </div>
 
-    <ApproveDialog
-      :show="approveDialog"
-      @submit="approved"
-      @close="approveDialog = !approveDialog"
-    >
+    <ApproveDialog :show="approveDialog" @submit="approved" @close="approveDialog = !approveDialog">
       <template #title>
         <h1>Konfirmasi</h1>
       </template>
@@ -424,11 +301,7 @@
       <template #confirmTitle> <span>Approve</span> </template>
     </ApproveDialog>
 
-    <RejectDialog
-      :show="rejectDialog"
-      @submit="reject"
-      @close="rejectDialog = !rejectDialog"
-    >
+    <RejectDialog :show="rejectDialog" @submit="reject" @close="rejectDialog = !rejectDialog">
       <template #title>
         <h1>Konfirmasi</h1>
       </template>
@@ -440,11 +313,7 @@
       <template #confirmTitle> <span>Reject</span> </template>
     </RejectDialog>
 
-    <UndoDialog
-      :show="undoDialog"
-      @submit="undo"
-      @close="undoDialog = !undoDialog"
-    >
+    <UndoDialog :show="undoDialog" @submit="undo" @close="undoDialog = !undoDialog">
       <template #title>
         <h1>Konfirmasi</h1>
       </template>
@@ -456,11 +325,7 @@
       <template #confirmTitle> <span>Setuju</span> </template>
     </UndoDialog>
 
-    <ShippingDialog
-      :show="shippingDialog"
-      @submit="shipping"
-      @close="shippingDialog = !shippingDialog"
-    >
+    <ShippingDialog :show="shippingDialog" @submit="shipping" @close="shippingDialog = !shippingDialog">
       <template #title>
         <h1>Konfirmasi</h1>
       </template>
@@ -480,9 +345,7 @@
       <template #content>
         <div class="flex flex-col justify-center items-center space-y-4 mt-6">
           <QRCodeVue3 :value="shippingUrl" />
-          <span class="text-sm text-gray-600"
-            >Scan QRCode pada saat pengiriman persediaan</span
-          >
+          <span class="text-sm text-gray-600">Scan QRCode pada saat pengiriman persediaan</span>
         </div>
       </template>
     </QRDialog>
@@ -503,11 +366,7 @@ import { computed, onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import { toast } from 'vue3-toastify'
 import { storageUrl } from '@/services/helper'
-import {
-  ArrowPathIcon,
-  QrCodeIcon,
-  RocketLaunchIcon,
-} from '@heroicons/vue/24/outline'
+import { ArrowPathIcon, QrCodeIcon, RocketLaunchIcon } from '@heroicons/vue/24/outline'
 
 const route = useRoute()
 const permintaanPersediaanStore = usePermintaanPersediaanStore()

@@ -1,8 +1,4 @@
-import {
-  createRouter,
-  createWebHashHistory,
-  createWebHistory,
-} from 'vue-router'
+import { createRouter, createWebHashHistory, createWebHistory } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
 import bmn from './bmn'
 import ptj from './ptj'
@@ -31,6 +27,17 @@ const routes = [
     path: '/admin/dashboard',
     name: 'dashboard',
     component: () => import('@/views/dashboard/User.vue'),
+  },
+
+  {
+    meta: {
+      title: 'Account Setting',
+      requiresAuth: true,
+      layout: 'layout-auth',
+    },
+    path: '/admin/account-setting',
+    name: 'account-setting',
+    component: () => import('@/views/dashboard/AccountSetting.vue'),
   },
   {
     meta: {

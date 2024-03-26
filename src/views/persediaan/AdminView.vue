@@ -62,7 +62,7 @@
               </button>
 
               <button
-                @click="reportDialog = true"
+                @click="reportView()"
                 type="button"
                 class="flex items-center justify-center justify-self-end text-white bg-yellow-700 hover:bg-yellow-800 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-yellow-600 dark:hover:bg-yellow-700 focus:outline-none dark:focus:ring-yellow-800"
               >
@@ -200,7 +200,7 @@
 
     <StockOpname :show="stockOpnameDialog" @submit="stockOpnameSubmit" @close="stockOpnameDialog = !stockOpnameDialog" />
 
-    <ReportDialog :overflowVisible="true" :show="reportDialog" @submit="reportSubmit" @close="reportDialog = !reportDialog" canSubmit="true">
+    <ReportDialog :overflowVisible="true" :show="reportDialog" @submit="reportSubmit" @close="reportDialog = !reportDialog" :canSubmit="true">
       <template #title>
         <h1>Pilih tanggal persediaan</h1>
       </template>
@@ -209,7 +209,15 @@
         <div class="flex flex-col space-y-4 mt-6">
           <div class="text-left">
             <label for="unit" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Tanggal</label>
-            <VueDatePicker class="" required v-model="persediaanStore.filter.date" :format="'dd MMMM yyyy'" auto-apply date-picker locale="id"></VueDatePicker>
+            <VueDatePicker
+              class=""
+              required
+              v-model="persediaanStore.filter.dateReport"
+              :format="'dd MMMM yyyy'"
+              auto-apply
+              date-picker
+              locale="id"
+            ></VueDatePicker>
           </div>
         </div>
       </template>
@@ -322,6 +330,10 @@ function uploadFile(event) {
 
 function uploadFileEdit(event) {
   file.value = event
+}
+
+function reportView() {
+  reportDialog.value = true
 }
 
 async function deleteData() {

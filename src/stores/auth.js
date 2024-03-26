@@ -13,6 +13,7 @@ export const useAuthStore = defineStore('auth', {
       nip: '1',
       password: '123456',
     },
+    isUpdateLoading: false,
     isLoading: false,
   }),
   getters: {
@@ -47,6 +48,21 @@ export const useAuthStore = defineStore('auth', {
         return false
       } finally {
         this.isLoading = false
+      }
+    },
+    async update() {
+      this.isUpdateLoading = true
+      try {
+        const response = await axiosIns.patch(`/api/auth/user/${this.user.id}`, this.user)
+        if (response.status == 200) {
+          return true
+        } else {
+          return false
+        }
+      } catch (error) {
+        alert(error)
+      } finally {
+        this.isUpdateLoading = false
       }
     },
     async getAuthUser() {
