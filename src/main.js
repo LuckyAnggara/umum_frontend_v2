@@ -10,7 +10,6 @@ import 'vue3-toastify/dist/index.css'
 
 import VueSweetAlert from 'vue-sweetalert2'
 import 'sweetalert2/dist/sweetalert2.min.css'
-// import VueQrcode from '@chenfengyuan/vue-qrcode'
 
 import { createPinia } from 'pinia'
 

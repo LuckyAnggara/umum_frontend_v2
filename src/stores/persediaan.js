@@ -3,6 +3,7 @@ import { defineStore } from 'pinia'
 import { axiosIns } from '@/services/axios'
 import { useToast } from 'vue-toastification'
 import { shallowRef } from 'vue'
+import moment from 'moment'
 
 const toast = useToast()
 export const usePersediaanStore = defineStore('persediaan', {
@@ -69,6 +70,12 @@ export const usePersediaanStore = defineStore('persediaan', {
         return ''
       }
       return '&start-date=' + state.filter.date[0] + '&end-date=' + state.filter.date[1]
+    },
+    reportDateQuery(state) {
+      if (state.filter.date == '' || state.filter.date == null) {
+        return `date=${moment().format('YYYY-MM-DD')}`
+      }
+      return '&date=' + moment(state.form.date).format('YYYY-MM-DD')
     },
     searchQuery(state) {
       if (state.filter.searchQuery == '' || state.filter.searchQuery == null) {
@@ -189,6 +196,18 @@ export const usePersediaanStore = defineStore('persediaan', {
     async cekNama() {
       const response = await axiosIns.get(`/api/persediaan/cek-nama?query=${this.form.nama}`)
       this.validNama = response.data
+    },
+    async getReport() {
+      this.isLoadingDownload = true
+      try {
+        const response = await axiosIns.get(`/api/report/inventory?${this.reportDateQuery}`)
+        let responseHtml = response.data
+        var myWindow = window.open('response')
+        myWindow.document.write(responseHtml)
+      } catch (error) {
+        console.info(error)
+      }
+      this.isLoadingDownload = false
     },
   },
 })
