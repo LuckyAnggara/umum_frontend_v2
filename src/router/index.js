@@ -1,10 +1,11 @@
-import { createRouter, createWebHashHistory, createWebHistory } from 'vue-router'
+import { createMemoryHistory, createRouter, createWebHashHistory, createWebHistory } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
 import bmn from './bmn'
 import ptj from './ptj'
 import user from './user'
 import tempat from './tempat'
 import agenda from './agenda'
+import arsip from './arsip'
 
 const routes = [
   {
@@ -125,6 +126,7 @@ const routes = [
   ...tempat,
   ...ptj,
   ...agenda,
+  ...arsip,
 ]
 
 const router = createRouter({

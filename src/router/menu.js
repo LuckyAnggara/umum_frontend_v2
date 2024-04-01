@@ -1,10 +1,4 @@
-import {
-  RectangleGroupIcon,
-  SwatchIcon,
-  ArchiveBoxIcon,
-  HomeModernIcon,
-  RectangleStackIcon,
-} from '@heroicons/vue/24/solid'
+import { RectangleGroupIcon, SwatchIcon, ArchiveBoxIcon, HomeModernIcon, RectangleStackIcon, DocumentTextIcon } from '@heroicons/vue/24/solid'
 
 export const menu = [
   {
@@ -61,6 +55,21 @@ export const menu = [
         to: 'list-agenda-pimpinan',
       },
     ],
+  },
+  {
+    name: 'Arsip',
+    icon: DocumentTextIcon,
+    child: [
+      {
+        name: 'Tambah',
+        to: 'tambah-arsip',
+      },
+      {
+        name: 'Daftar',
+        to: 'list-arsip',
+      },
+    ],
+    // to: 'persediaan',
   },
 
   {

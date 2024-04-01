@@ -45,7 +45,7 @@
           id="dropdown"
         >
           <div class="py-3 px-4">
-            <span class="block text-sm font-semibold text-gray-900 dark:text-white">{{ authStore.user.name }}</span>
+            <span class="block text-sm font-semibold text-gray-900 dark:text-white">{{ authStore.user?.name }}</span>
           </div>
           <ul class="py-1 text-gray-700 dark:text-gray-300" aria-labelledby="dropdown">
             <li>
