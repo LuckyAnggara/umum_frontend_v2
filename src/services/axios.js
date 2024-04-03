@@ -7,10 +7,10 @@ export const axiosIns = axios.create({
   // baseURL: 'http://192.168.10.127:8000',
   // baseURL: 'http://192.168.16.128:8000',
   // baseURL: 'http://192.168.46.163:8000',
-  withCredentials: true,
+  // withCredentials: true,
   // withXSRFToken: true,
   // baseURL: "https://www.lapkin.bbmakmur.com/api/",
-  // baseURL: "http://192.168.16.128:8000/api",
+  // baseURL: 'http://192.168.16.128:8000/api',
 })
 
 export const authClient = axios.create({

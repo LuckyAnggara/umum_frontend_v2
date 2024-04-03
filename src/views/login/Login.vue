@@ -98,6 +98,16 @@ const login = async () => {
     })
     toast.done(id)
     router.push({ name: 'dashboard' })
+  } else {
+    toast.update(id, {
+      render: 'Terjadi kesalahan',
+      position: toast.POSITION.BOTTOM_CENTER,
+      type: 'error',
+      autoClose: 1000,
+      closeOnClick: true,
+      closeButton: true,
+      isLoading: false,
+    })
   }
 }
 </script>

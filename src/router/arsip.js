@@ -11,13 +11,23 @@ const arsip = [
   },
   {
     meta: {
-      title: 'Arsip',
+      title: 'Daftar Arsip',
       requiresAuth: false,
       layout: 'layout-auth',
     },
     path: '/arsip/list',
     name: 'list-arsip',
-    // component: () => import('@/views/user/agenda/Booking.vue'),
+    component: () => import('@/views/arsip/List.vue'),
+  },
+  {
+    meta: {
+      title: 'Detail Arsip',
+      requiresAuth: false,
+      layout: 'layout-auth',
+    },
+    path: '/arsip/detail/:id',
+    name: 'detail-arsip',
+    component: () => import('@/views/arsip/Detail.vue'),
   },
 ]
 
