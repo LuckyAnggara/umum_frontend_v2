@@ -167,13 +167,23 @@ const calendarOptions = computed(() => {
     ],
     initialView: 'dayGridMonth',
     eventClick: handleDateClick,
-    events: tempatStore.items,
+    events: tempatStore.dataCalendar,
   }
 })
 
-function handleDateClick(arg) {
-  tempatStore.setDataSingle(arg.event._def.publicId)
-  detailDialog.value = true
+async function handleDateClick(arg) {
+  console.info(arg)
+  const result = await tempatStore.setDataSingle(arg.event._def.publicId)
+  if (result) {
+    detailDialog.value = true
+  } else {
+    toast.error('Terjadi kesalahan !', {
+      position: toast.POSITION.TOP_LEFT,
+      autoClose: 1000,
+      closeOnClick: true,
+      closeButton: true,
+    })
+  }
 }
 
 onMounted(() => {

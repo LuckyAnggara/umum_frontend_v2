@@ -98,7 +98,9 @@ export const useArsipStore = defineStore('arsip', {
     async getData(page = '') {
       this.isLoading = true
       try {
-        const response = await axiosIns.get(`/api/arsip?${this.searchQuery}${this.dateQuery}`)
+        const response = await axiosIns.get(
+          `/api/arsip?${this.searchQuery}${this.dateQuery}`
+        )
         this.responses = response.data.data
       } catch (error) {
         alert(error.message)
@@ -110,11 +112,14 @@ export const useArsipStore = defineStore('arsip', {
     async store({ uploadFile = null }) {
       // if (uploadFile !== null) {
       let formData = new FormData()
-      uploadFile.forEach((element, index) => {
-        formData.append(`file[${index}]`, element)
-      })
+      if (uploadFile !== null) {
+        uploadFile.forEach((element, index) => {
+          formData.append(`file[${index}]`, element)
+          formData.append('jumlah_lampiran', uploadFile.length)
+        })
+      }
+
       formData.append('update', 'false')
-      formData.append('jumlah_lampiran', uploadFile.length)
       formData.append('nomor_surat', this.form.nomor_surat)
       formData.append('tanggal_surat', this.form.tanggal_surat)
       formData.append('klasifikasi', this.form.klasifikasi)
@@ -132,11 +137,15 @@ export const useArsipStore = defineStore('arsip', {
 
       this.isStoreLoading = true
       try {
-        const response = await axiosIns.post(`/api/arsip`, uploadFile ? formData : this.form, {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-        })
+        const response = await axiosIns.post(
+          `/api/arsip`,
+          uploadFile ? formData : this.form,
+          {
+            headers: {
+              'Content-Type': 'multipart/form-data',
+            },
+          }
+        )
         if (response.status == 200) {
           return {
             status: true,
@@ -175,7 +184,10 @@ export const useArsipStore = defineStore('arsip', {
       formData.append('klasifikasi', this.singleResponse.klasifikasi)
       formData.append('pencipta_arsip', this.singleResponse.pencipta_arsip)
       formData.append('pengolah_arsip', this.singleResponse.pengolah_arsip)
-      formData.append('tingkat_perkembangan', this.singleResponse.tingkat_perkembangan)
+      formData.append(
+        'tingkat_perkembangan',
+        this.singleResponse.tingkat_perkembangan
+      )
       formData.append('jumlah', this.singleResponse.jumlah)
       formData.append('uraian', this.singleResponse.uraian)
       formData.append('lokasi', this.singleResponse.lokasi)
@@ -188,7 +200,10 @@ export const useArsipStore = defineStore('arsip', {
       this.isUpdateLoading = true
 
       try {
-        const response = await axiosIns.post(`/api/arsip/${this.singleResponse.id}`, formData)
+        const response = await axiosIns.post(
+          `/api/arsip/${this.singleResponse.id}`,
+          formData
+        )
         if (response.status == 200) {
           this.singleResponse = response.data.data
           this.deleteLampiran = []
@@ -214,7 +229,9 @@ export const useArsipStore = defineStore('arsip', {
       try {
         const response = await axiosIns.get(`/api/arsip/${id}`)
         this.singleResponse = JSON.parse(JSON.stringify(response.data.data))
-        this.originalSingleResponses = JSON.parse(JSON.stringify(response.data.data))
+        this.originalSingleResponses = JSON.parse(
+          JSON.stringify(response.data.data)
+        )
       } catch (error) {
         alert(error.message)
       } finally {
@@ -281,7 +298,9 @@ export const useArsipStore = defineStore('arsip', {
       }
     },
     resetData() {
-      this.singleResponse = JSON.parse(JSON.stringify(this.originalSingleResponses))
+      this.singleResponse = JSON.parse(
+        JSON.stringify(this.originalSingleResponses)
+      )
     },
   },
 })

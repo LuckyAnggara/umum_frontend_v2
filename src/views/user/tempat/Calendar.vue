@@ -69,8 +69,8 @@ const router = useRouter()
 
 const calendarOptions = computed(() => {
   return {
+    timeZone: 'Asia/Jakarta',
     editable: false,
-    dragable: false,
     dayMaxEvents: true,
     locale: 'id', // the initial locale
     plugins: [listPlugin, interactionPlugin],

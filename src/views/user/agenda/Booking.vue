@@ -123,7 +123,7 @@
           <label
             for="unit"
             class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-            >Nama Kegiatan*</label
+            >Agenda Kegiatan*</label
           >
           <textarea
             v-model="agendaStore.form.kegiatan"

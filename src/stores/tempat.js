@@ -43,6 +43,7 @@ export const useTempatStore = defineStore('tempat', {
     },
     dataCalendar(state) {
       return state.items.map((event) => ({
+        id: event.id,
         title: event.title,
         date: event.tanggal,
         start: event.start,
@@ -134,10 +135,15 @@ export const useTempatStore = defineStore('tempat', {
         unit: null,
       }
     },
-    setDataSingle(id) {
-      this.singleResponse = this.items.find((x) => {
+    async setDataSingle(id) {
+      this.singleResponse = await this.items.find((x) => {
         return x.id == id
       })
+
+      if (this.singleResponse == null || this.singleResponse == 'undefined') {
+        return false
+      }
+      return true
     },
   },
 })

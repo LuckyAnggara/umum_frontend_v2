@@ -205,9 +205,9 @@
                       <a
                         :href="`https://web.whatsapp.com/send/?phone=${tempatStore.singleResponse.no_wa}&text&type=phone_number&app_absent=0`"
                         target="_blank"
-                        class="text-center text-sm font-medium text-white bg-green-700 rounded-lg border border-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
+                        class="p-2 w-24 text-center text-sm font-medium text-white bg-green-700 rounded-lg border border-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
                       >
-                        Chat WhatsApp
+                        Chat
                         <span class="sr-only">Search</span>
                       </a>
                     </div>

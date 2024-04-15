@@ -2,13 +2,20 @@
   <section class="bg-gray-50 dark:bg-gray-900 p-3 sm:p-">
     <div class="mx-auto max-w-screen-xl px-4 lg:px-12">
       <!-- Start coding here -->
-      <div class="bg-white dark:bg-gray-800 relative shadow-md sm:rounded-lg overflow-visible">
+      <div
+        class="bg-white dark:bg-gray-800 relative shadow-md sm:rounded-lg overflow-visible"
+      >
         <div class="flex flex-col items-cnter justify-between space-y-4 p-6">
-          <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Data Arsip</h3>
+          <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
+            Data Arsip
+          </h3>
           <form @submit.prevent="submit()" class="">
             <div class="grid gap-3 mb-4 sm:grid-cols-2">
               <div>
-                <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nomor Surat</label>
+                <label
+                  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  >Nomor Surat</label
+                >
                 <input
                   required
                   v-model="arsipStore.form.nomor_surat"
@@ -17,11 +24,25 @@
                 />
               </div>
               <div>
-                <label for="brand" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Tanggal Surat</label>
-                <VueDatePicker required v-model="arsipStore.form.tanggal_surat" :format="'dd MMMM yyyy'" auto-apply date-picker locale="id"></VueDatePicker>
+                <label
+                  for="brand"
+                  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  >Tanggal Surat</label
+                >
+                <VueDatePicker
+                  required
+                  v-model="arsipStore.form.tanggal_surat"
+                  :format="'dd MMMM yyyy'"
+                  auto-apply
+                  date-picker
+                  locale="id"
+                ></VueDatePicker>
               </div>
               <div>
-                <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Klasifikasi</label>
+                <label
+                  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  >Klasifikasi</label
+                >
                 <input
                   required
                   v-model="arsipStore.form.klasifikasi"
@@ -30,28 +51,49 @@
                 />
               </div>
               <div>
-                <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Pencipta Arsip</label>
+                <label
+                  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  >Pencipta Arsip</label
+                >
                 <select
                   required
                   v-model="arsipStore.form.pencipta_arsip"
                   class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                 >
-                  <option v-for="(item, index) in mainStore.unitOptions" :key="index" :value="item">{{ item }}</option>
+                  <option
+                    v-for="(item, index) in mainStore.unitOptions"
+                    :key="index"
+                    :value="item"
+                  >
+                    {{ item }}
+                  </option>
                 </select>
               </div>
               <div>
-                <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Pengolah Arsip</label>
+                <label
+                  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  >Pengolah Arsip</label
+                >
                 <select
                   required
                   v-model="arsipStore.form.pengolah_arsip"
                   class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                 >
-                  <option v-for="(item, index) in mainStore.unitOptions" :key="index" :value="item">{{ item }}</option>
+                  <option
+                    v-for="(item, index) in mainStore.unitOptions"
+                    :key="index"
+                    :value="item"
+                  >
+                    {{ item }}
+                  </option>
                 </select>
               </div>
 
               <div>
-                <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Tingkat Perkembangan</label>
+                <label
+                  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  >Tingkat Perkembangan</label
+                >
                 <select
                   required
                   v-model="arsipStore.form.tingkat_perkembangan"
@@ -66,7 +108,10 @@
               </div>
 
               <div>
-                <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Jumlah</label>
+                <label
+                  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  >Jumlah</label
+                >
                 <input
                   required
                   v-model="arsipStore.form.jumlah"
@@ -76,7 +121,10 @@
               </div>
 
               <div>
-                <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Uraian</label>
+                <label
+                  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  >Uraian</label
+                >
                 <textarea
                   required
                   v-model="arsipStore.form.uraian"
@@ -87,7 +135,10 @@
               </div>
 
               <div>
-                <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Lokasi</label>
+                <label
+                  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  >Lokasi</label
+                >
                 <select
                   required
                   v-model="arsipStore.form.lokasi"
@@ -101,7 +152,10 @@
               </div>
 
               <div>
-                <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Roll O'Pack / Lemari </label>
+                <label
+                  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  >Roll O'Pack / Lemari
+                </label>
                 <input
                   required
                   v-model="arsipStore.form.lemari"
@@ -111,7 +165,10 @@
               </div>
 
               <div>
-                <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Kompartemen Rak</label>
+                <label
+                  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  >Kompartemen Rak</label
+                >
                 <input
                   required
                   v-model="arsipStore.form.rak"
@@ -121,7 +178,10 @@
               </div>
 
               <div>
-                <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">No Box</label>
+                <label
+                  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  >No Box</label
+                >
                 <input
                   required
                   v-model="arsipStore.form.no_box"
@@ -131,7 +191,10 @@
               </div>
 
               <div>
-                <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">No Folder</label>
+                <label
+                  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  >No Folder</label
+                >
                 <input
                   required
                   v-model="arsipStore.form.no_folder"
@@ -141,7 +204,10 @@
               </div>
 
               <div>
-                <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Jenis Media</label>
+                <label
+                  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  >Jenis Media</label
+                >
                 <select
                   required
                   v-model="arsipStore.form.jenis_media"
@@ -154,8 +220,17 @@
               </div>
 
               <div>
-                <label for="nama" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">File </label>
-                <FilePond :label="'Drop lampiran disini ...'" :multiple="true" @fileChange="fileChange" :type="'application/pdf'" />
+                <label
+                  for="nama"
+                  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  >File
+                </label>
+                <FilePond
+                  :label="'Drop lampiran disini ...'"
+                  :multiple="true"
+                  @fileChange="fileChange"
+                  :type="'application/pdf'"
+                />
               </div>
             </div>
 
@@ -172,7 +247,13 @@
       </div>
     </div>
 
-    <ConfirmDialog :overflowVisible="true" :show="confirmDialog" @submit="store()" @close="confirmDialog = !confirmDialog" :canSubmit="true">
+    <ConfirmDialog
+      :overflowVisible="true"
+      :show="confirmDialog"
+      @submit="store()"
+      @close="confirmDialog = !confirmDialog"
+      :canSubmit="true"
+    >
       <template #title>
         <h1>Konfirmasi</h1>
       </template>
@@ -189,6 +270,7 @@
 <script setup>
 import VueDatePicker from '@vuepic/vue-datepicker'
 import '@vuepic/vue-datepicker/dist/main.css'
+import { useRouter } from 'vue-router'
 
 import ConfirmDialog from '@/components/Dialog.vue'
 import { toast } from 'vue3-toastify'
@@ -198,6 +280,8 @@ import { ref } from 'vue'
 
 const mainStore = useMainStore()
 const arsipStore = useArsipStore()
+
+const router = useRouter()
 
 const confirmDialog = ref(false)
 const file = ref(null)
@@ -235,6 +319,7 @@ async function store() {
     toast.done(id)
     file.value = []
     arsipStore.resetForm()
+    router.push({ name: 'list-arsip' })
   } else {
     toast.update(id, {
       render: 'Terjadi kesalahan',
