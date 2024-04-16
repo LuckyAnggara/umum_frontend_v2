@@ -192,7 +192,7 @@
 
     <ReportDialog :overflowVisible="true" :show="reportDialog" @submit="reportSubmit" @close="reportDialog = !reportDialog" :canSubmit="true">
       <template #title>
-        <h1>Pilih tanggal persediaan</h1>
+        <h1>Pilih tanggal Laporan Arsip</h1>
       </template>
 
       <template #content>
