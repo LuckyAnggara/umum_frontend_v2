@@ -29,6 +29,16 @@ const routes = [
     name: 'dashboard',
     component: () => import('@/views/dashboard/User.vue'),
   },
+  {
+    meta: {
+      title: 'User Management',
+      requiresAuth: true,
+      layout: 'layout-auth',
+    },
+    path: '/admin/user/management',
+    name: 'user-management',
+    component: () => import('@/views/management/List.vue'),
+  },
 
   {
     meta: {

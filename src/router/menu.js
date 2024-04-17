@@ -1,10 +1,14 @@
-import { RectangleGroupIcon, SwatchIcon, ArchiveBoxIcon, HomeModernIcon, RectangleStackIcon, DocumentTextIcon } from '@heroicons/vue/24/solid'
+import { RectangleGroupIcon, SwatchIcon, ArchiveBoxIcon, HomeModernIcon, RectangleStackIcon, DocumentTextIcon, UserIcon } from '@heroicons/vue/24/solid'
 
 export const menu = [
   {
     name: 'Dashboard',
     icon: RectangleGroupIcon,
     to: 'dashboard',
+  },
+
+  {
+    name: '-',
   },
 
   {
@@ -81,6 +85,17 @@ export const menu = [
         to: 'list-ptj',
       },
     ],
+    // to: 'persediaan',
+  },
+
+  {
+    name: '-',
+  },
+
+  {
+    name: 'User Management',
+    icon: UserIcon,
+    to: 'user-management',
     // to: 'persediaan',
   },
 

@@ -9,14 +9,44 @@ export const useAuthStore = defineStore('auth', {
   state: () => ({
     /* User */
     user: null,
+    responses: null,
+    singleResponses: null,
     form: {
+      nip: '1',
+      password: '123456',
+    },
+    formNew: {
       nip: '1',
       password: '123456',
     },
     isUpdateLoading: false,
     isLoading: false,
+    filter: {
+      currentLimit: 5,
+    },
   }),
   getters: {
+    items(state) {
+      return state.responses?.data ?? []
+    },
+    currentPage(state) {
+      return state.responses?.current_page
+    },
+    pageLength(state) {
+      return Math.round(state.responses?.total / state.responses?.per_page)
+    },
+    lastPage(state) {
+      return state.responses?.last_page
+    },
+    from(state) {
+      return state.responses?.from
+    },
+    to(state) {
+      return state.responses?.to
+    },
+    total(state) {
+      return state.responses?.total
+    },
     userData(state) {
       return state.user
     },
@@ -25,6 +55,18 @@ export const useAuthStore = defineStore('auth', {
       if (!storageItem) return false
       if (storageItem === 'isGuest') return true
       if (storageItem === 'isNotGuest') return false
+    },
+    searchQuery(state) {
+      if (state.filter.searchQuery == '' || state.filter.searchQuery == null) {
+        return ''
+      }
+      return '&query=' + state.filter.searchQuery
+    },
+    pageQuery(state) {
+      if (state.filter.page == '' || state.filter.page == null) {
+        return ''
+      }
+      return '&page=' + state.filter.page
     },
   },
   actions: {
@@ -64,6 +106,18 @@ export const useAuthStore = defineStore('auth', {
       } finally {
         this.isUpdateLoading = false
       }
+    },
+    async getData(page = '') {
+      this.isLoading = true
+      try {
+        const response = await axiosIns.get(`/api/users?limit=${this.filter.currentLimit}${this.pageQuery}${this.searchQuery}`)
+        this.responses = response.data.data
+      } catch (error) {
+        alert(error.message)
+      } finally {
+        this.isLoading = false
+      }
+      return false
     },
     async getAuthUser() {
       try {

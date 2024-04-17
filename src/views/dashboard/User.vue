@@ -105,8 +105,8 @@
         </div>
       </div>
 
-      <div class="border-2 rounded-lg border-gray-300 dark:border-gray-600 h-12 md:h-64 bg-white shadow-md">
-        <div class="h-full flex flex-col rounded-[25px] p-8">
+      <div class="border-2 rounded-lg border-gray-300 dark:border-gray-600 h-fit bg-white md:h-64 shadow-md">
+        <div class="h-fit flex flex-col p-8">
           <p class="font-sans text-xl font-medium mb-2">Agenda Pimpinan Hari Ini</p>
           <table class="lg:w-full min-w-full text-sm text-left text-gray-500 dark:text-gray-400">
             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
