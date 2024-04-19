@@ -1,5 +1,5 @@
 <template>
-  <van-popup :show="show" position="bottom" :style="{ height: '40%' }" round closeable>
+  <van-popup :show="rateStore.popShow" position="bottom" :style="{ height: '40%' }" round @click-close-icon="naon()" closeable>
     <div class="p-6 text-sm">
       <h5 class="mb-2 text-xl font-bold tracking-tight text-gray-900 dark:text-white">Nilai Layanan Kami</h5>
       <p class="font-normal text-gray-700 dark:text-gray-400">mohon beri nilai atas layanan yang telah kami berikan.</p>
@@ -31,18 +31,23 @@
 
 <script setup>
 import { toast } from 'vue3-toastify'
-import { ref } from 'vue'
+import { ref, shallowRef } from 'vue'
 import { useRateStore } from '@/stores/rate'
 
 const rateStore = useRateStore()
 
 const emit = defineEmits(['close', 'submit'])
+
 const props = defineProps({
   show: {
     type: Boolean,
     default: false,
   },
 })
+
+function naon() {
+  rateStore.popShow = false
+}
 
 async function submit() {
   const id = toast.loading('Rating sedang di proses...', {

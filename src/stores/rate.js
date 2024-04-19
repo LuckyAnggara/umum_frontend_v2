@@ -7,6 +7,7 @@ import { getLastDayOfMonth } from '@/services/helper'
 export const useRateStore = defineStore('rate', {
   state: () => ({
     responses: null,
+    popShow: false,
     form: {
       value: null,
       saran: null,

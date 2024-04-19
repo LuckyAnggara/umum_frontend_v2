@@ -85,7 +85,7 @@
     <van-tabbar-item name="home" icon="orders-o">List</van-tabbar-item>
   </van-tabbar>
 
-  <PopRate :show="showPopRate" @close="showPopRate = !showPopRate" />
+  <PopRate :show="rateStore.popShow" />
 </template>
 
 <script setup>
@@ -93,6 +93,7 @@ import { ref } from 'vue'
 
 import { useUserStore } from '@/stores/user'
 import { useMainStore } from '@/stores/main'
+import { useRateStore } from '@/stores/rate'
 import PopRate from '@/components/PopRate.vue'
 import { useRouter } from 'vue-router'
 import { onMounted } from 'vue'
@@ -101,6 +102,7 @@ import moment from 'moment'
 const userStore = useUserStore()
 const mainStore = useMainStore()
 const showPopRate = ref(false)
+const rateStore = useRateStore()
 
 const router = useRouter()
 const active = ref('menu')
@@ -147,7 +149,7 @@ const menu = [
 ]
 
 function popRateShow() {
-  showPopRate.value = true
+  rateStore.popShow = true
 }
 function toDetail(item) {
   if (item.tipe == 'PERSEDIAAN') {
