@@ -1,7 +1,7 @@
 <template>
-  <van-popup :show="show" position="bottom" :style="{ height: '50%' }" round closeable>
-    <div class="p-6">
-      <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Nilai Layanan Kami</h5>
+  <van-popup :show="show" position="bottom" :style="{ height: '40%' }" round closeable>
+    <div class="p-6 text-sm">
+      <h5 class="mb-2 text-xl font-bold tracking-tight text-gray-900 dark:text-white">Nilai Layanan Kami</h5>
       <p class="font-normal text-gray-700 dark:text-gray-400">mohon beri nilai atas layanan yang telah kami berikan.</p>
       <div class="flex justify-center mt-4">
         <van-rate v-model="rateStore.form.value" :size="50" color="#ffd21e" void-icon="star" void-color="#eee" />
@@ -55,7 +55,7 @@ async function submit() {
 
   if (success.status) {
     toast.update(id, {
-      render: 'Terima kasih ata penilaiannya !!',
+      render: 'Terima kasih atas penilaian anda !!',
       position: toast.POSITION.BOTTOM_CENTER,
       type: 'success',
       autoClose: 2000,

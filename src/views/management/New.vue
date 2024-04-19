@@ -47,7 +47,7 @@
               <!-- Modal body -->
 
               <form class="text-left" @submit.prevent="emit('submit')">
-                <div v-if="authStore.validNup" class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
+                <div v-if="authStore.validUsername" class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
                   <span class="font-medium">Alert!</span> Username sudah sudah ada.
                 </div>
                 <div class="grid gap-4 mb-4 flex-col">
@@ -56,7 +56,7 @@
                     <input
                       @keyup="search"
                       required
-                      v-model="authStore.formNew.username"
+                      v-model="authStore.formNew.nip"
                       placeholder="Username"
                       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                     />
@@ -137,10 +137,6 @@ const props = defineProps({
 })
 
 const search = useDebounceFn(() => {
-  authStore.cekNup()
+  authStore.cekUserName()
 }, 500)
-
-function fileChange(event) {
-  emit('fileChange', event)
-}
 </script>

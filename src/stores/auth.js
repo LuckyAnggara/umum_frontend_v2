@@ -10,19 +10,28 @@ export const useAuthStore = defineStore('auth', {
     /* User */
     user: null,
     responses: null,
-    singleResponses: null,
+    singleResponses: {
+      nip: null,
+      name: null,
+      last_login: null,
+    },
+    validUsername: null,
     form: {
-      nip: '1',
-      password: '123456',
+      nip: null,
+      password: null,
     },
     formNew: {
-      nip: '1',
-      password: '123456',
+      nip: null,
+      name: null,
+      password: null,
     },
     isUpdateLoading: false,
+    isStoreLoading: false,
+    isGetLoading: false,
+    isDestroyLoading: false,
     isLoading: false,
     filter: {
-      currentLimit: 5,
+      currentLimit: 10,
     },
   }),
   getters: {
@@ -108,16 +117,32 @@ export const useAuthStore = defineStore('auth', {
       }
     },
     async getData(page = '') {
-      this.isLoading = true
+      this.isGetLoading = true
       try {
         const response = await axiosIns.get(`/api/users?limit=${this.filter.currentLimit}${this.pageQuery}${this.searchQuery}`)
         this.responses = response.data.data
       } catch (error) {
         alert(error.message)
       } finally {
-        this.isLoading = false
+        this.isGetLoading = false
       }
       return false
+    },
+    async store({ uploadFile = null }) {
+      this.isStoreLoading = true
+      try {
+        const response = await axiosIns.post(`/api/users`, this.formNew, {})
+        if (response.status == 200) {
+          this.clearForm()
+          return true
+        } else {
+          return false
+        }
+      } catch (error) {
+        alert(error)
+      } finally {
+        this.isStoreLoading = false
+      }
     },
     async getAuthUser() {
       try {
@@ -129,6 +154,28 @@ export const useAuthStore = defineStore('auth', {
         this.isLoading = false
       }
       return false
+    },
+    async cekUserName() {
+      const response = await axiosIns.get(`/api/users/cek-username?query=${this.formNew.username}`)
+      this.validUsername = response.data
+    },
+    async destroy(id) {
+      this.isDestroyLoading = true
+      setTimeout(() => {}, 500)
+      try {
+        const response = await axiosIns.delete(`/api/users/${id}`)
+        if (response.status == 200) {
+          const index = this.items.findIndex((item) => item.id === id)
+          this.responses.data.splice(index, 1)
+          return true
+        } else {
+          return false
+        }
+      } catch (error) {
+        alert(error)
+      } finally {
+        this.isDestroyLoading = false
+      }
     },
     async logout() {
       this.isLoading = true
@@ -145,6 +192,14 @@ export const useAuthStore = defineStore('auth', {
       } finally {
         this.isLoading = false
       }
+    },
+    clearForm() {
+      this.formNew.nip = null
+      this.formNew.username = null
+      this.formNew.password = null
+    },
+    setCurrentUser(item) {
+      this.singleResponses = JSON.parse(JSON.stringify(item))
     },
   },
 })

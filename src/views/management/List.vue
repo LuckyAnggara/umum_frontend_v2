@@ -71,16 +71,17 @@
                 <th scope="col" class="px-4 py-3">Username</th>
                 <th scope="col" class="px-4 py-3">Nama</th>
                 <th scope="col" class="px-4 py-3">Last Login</th>
+                <th scope="col" class="px-4 py-3">Last IP Login</th>
                 <th scope="col" class="px-4 py-3"></th>
               </tr>
             </thead>
             <tbody>
-              <tr v-if="authStore.isLoading">
+              <tr v-if="authStore.isGetLoading">
                 <td colspan="5" class="text-center">
                   <span class=""><ArrowPathIcon class="w-6 h-6 animate-spin mx-auto" /></span>
                 </td>
               </tr>
-              <tr v-else-if="!authStore.isLoading && authStore.items.length < 1">
+              <tr v-else-if="!authStore.isGetLoading && authStore.items.length < 1">
                 <td colspan="5" class="text-center">No Data</td>
               </tr>
               <tr
@@ -94,6 +95,7 @@
                 <td class="px-4 py-1">{{ item.nip }}</td>
                 <td class="px-4 py-1">{{ item.name }}</td>
                 <td class="px-4 py-1">{{ item.last_login }}</td>
+                <td class="px-4 py-1">{{ item.last_ip_login }}</td>
 
                 <td class="px-4 py-1">
                   <div>
@@ -225,7 +227,7 @@ function onDelete(item) {
   deleteDialog.value = true
 }
 function onDetail(item) {
-  authStore.show(item)
+  authStore.setCurrentUser(item)
   editModal.value = true
 }
 
@@ -241,6 +243,13 @@ function previousPage() {
 
 async function deleteData() {
   deleteDialog.value = false
+  if (deleteId.value == authStore.user.id) {
+    toast.error('Tidak bisa menghapus user ini...', {
+      position: toast.POSITION.BOTTOM_CENTER,
+      type: 'error',
+    })
+    return false
+  }
   const id = toast.loading('Hapus data...', {
     position: toast.POSITION.BOTTOM_CENTER,
     type: 'info',
@@ -342,12 +351,6 @@ async function newUpdate() {
     })
     file.value = null
   }
-}
-
-function showImage(item) {
-  if (item.image == null) return 'https://placehold.co/40x40'
-  const a = storageUrl + '/' + item.image
-  return a
 }
 
 onMounted(() => {
