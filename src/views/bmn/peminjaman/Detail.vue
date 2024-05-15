@@ -247,7 +247,7 @@
     </Dialog>
   </TransitionRoot>
 
-  <ApproveDialog :show="approveDialog" @close="approveDialog = !approveDialog" @submit="approve">
+  <ApproveDialog :show="approveDialog" @close="approveDialog = !approveDialog" @submit="approveConfirmation">
     <template #title>
       <h1>Konfirmasi ?</h1>
     </template>
@@ -257,13 +257,13 @@
     </template>
     <template #confirmTitle> <span>Approve</span> </template>
   </ApproveDialog>
-  <RejectDialog :show="rejectDialog" @close="rejectDialog = !rejectDialog" @submit="approve">
+  <RejectDialog :show="rejectDialog" @close="rejectDialog = !rejectDialog" @submit="rejectConfirmation">
     <template #title>
       <h1>Konfirmasi ?</h1>
     </template>
 
     <template #subTitle>
-      <span> Apakah Peminjaman BMN ini akan di setujui ?</span>
+      <span> Apakah Peminjaman BMN ini akan di tolak ?</span>
     </template>
     <template #confirmTitle> <span>Approve</span> </template>
   </RejectDialog>
@@ -304,36 +304,40 @@ const peminjamanBmnStore = usePeminjamanBmn()
 
 const route = useRoute()
 
+async function approveConfirmation() {
+  const result = await peminjamanBmnStore.update({ status: 'APPROVE' })
+}
+
 function approve() {
-  // approveDialog.value = true
-  swal.fire({
-    title: 'Hapus data?',
-    text: 'Data kegitan ini berkaitan dengan program unggulan!',
-    icon: 'warning',
-    showCancelButton: true,
-    confirmButtonText: 'Approve!',
-    cancelButtonText: 'Cancel!',
-    showLoaderOnConfirm: true,
-    reverseButtons: true,
-    preConfirm: async () => {
-      const result = await peminjamanBmnStore.update({ status: 'APPROVE' })
-      if (result) {
-        swal.fire({
-          title: 'Approved!',
-          text: 'Perminjaman di Setujui.',
-          icon: 'success',
-        })
-      } else {
-        swal.fire({
-          title: 'Oopss',
-          text: 'Error',
-          icon: 'error',
-        })
-      }
-    },
-    allowOutsideClick: () => !peminjamanBmnStore.isStoreLoading,
-    backdrop: true,
-  })
+  approveDialog.value = true
+  // swal.fire({
+  //   title: 'Setujui Peminjaman?',
+  //   text: 'Peminjaman BMN ini akan di setujui!',
+  //   icon: 'warning',
+  //   showCancelButton: true,
+  //   confirmButtonText: 'Approve!',
+  //   cancelButtonText: 'Cancel!',
+  //   showLoaderOnConfirm: true,
+  //   reverseButtons: true,
+  //   preConfirm: async () => {
+  //     const result = await peminjamanBmnStore.update({ status: 'APPROVE' })
+  //     if (result) {
+  //       swal.fire({
+  //         title: 'Approved!',
+  //         text: 'Perminjaman di Setujui.',
+  //         icon: 'success',
+  //       })
+  //     } else {
+  //       swal.fire({
+  //         title: 'Oopss',
+  //         text: 'Error',
+  //         icon: 'error',
+  //       })
+  //     }
+  //   },
+  //   allowOutsideClick: () => !peminjamanBmnStore.isStoreLoading,
+  //   backdrop: true,
+  // })
 }
 function reject() {
   rejectDialog.value = true

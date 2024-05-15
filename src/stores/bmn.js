@@ -45,6 +45,7 @@ export const useBmnStore = defineStore('bmn', {
     },
     filter: {
       sewa: 'semua',
+      mobil: null,
       date: [],
       currentLimit: 10,
       searchQuery: '',
@@ -97,6 +98,12 @@ export const useBmnStore = defineStore('bmn', {
       }
       return `&sewa=${state.filter.sewa}`
     },
+    mobilQuery(state) {
+      if (state.filter.mobil == null || state.filter.mobil == '0') {
+        return ''
+      }
+      return `&mobil=${state.filter.mobil}`
+    },
   },
   actions: {
     async getData(page = '') {
@@ -114,7 +121,7 @@ export const useBmnStore = defineStore('bmn', {
     async getDataUser(page = '') {
       this.isLoading = true
       try {
-        const response = await axiosIns.get(`/api/bmn/get?limit=${this.filter.currentLimit}${this.pageQuery}${this.searchQuery}${this.dateQuery}`)
+        const response = await axiosIns.get(`/api/bmn?limit=${this.filter.currentLimit}${this.pageQuery}${this.searchQuery}${this.dateQuery}`)
         this.responses = response.data.data
       } catch (error) {
         alert(error.message)

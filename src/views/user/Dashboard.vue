@@ -128,6 +128,12 @@ const menu = [
     desc: 'Layanan Barang Milik Negara',
     icon: 'desktop-o',
   },
+  // {
+  //   label: 'Pinjam Mobil Dinas',
+  //   to: 'cari-peminjaman-bmn',
+  //   desc: 'Layanan Barang Milik Negara',
+  //   icon: 'desktop-o',
+  // },
   {
     label: 'Booking Ruangan',
     to: 'booking-tempat',
