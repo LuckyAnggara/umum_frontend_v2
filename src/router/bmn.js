@@ -152,6 +152,58 @@ const bmn = [
     name: 'pengembalian-bmn-admin',
     component: () => import('@/views/bmn/peminjaman/Pengembalian.vue'),
   },
+
+  {
+    meta: {
+      title: 'Permintaan Peminjaman BMN',
+      requiresAuth: false,
+      layout: 'layout-guest',
+    },
+    path: '/user/bmn/peminjaman',
+    name: 'cari-peminjaman-bmn-dua',
+    component: () => import('@/views/user/pinjambmndua/New.vue'),
+  },
+  {
+    meta: {
+      title: 'Permintaan Peminjaman BMN',
+      requiresAuth: false,
+      layout: 'layout-guest',
+    },
+    path: '/user/bmn/peminjaman/cart',
+    name: 'cart-permintaan-bmn-dua',
+    component: () => import('@/views/user/pinjambmndua/Cart.vue'),
+  },
+  // {
+  //   meta: {
+  //     title: 'Pengiriman',
+  //     requiresAuth: false,
+  //     layout: 'layout-guest',
+  //   },
+  //   path: '/user/persediaan/permintaan/:tiket/pengiriman',
+  //   name: 'shipping-permintaan-admin',
+  //   component: () => import('@/views/persediaan/permintaan/Shipping.vue'),
+  // },
+
+  // {
+  //   meta: {
+  //     title: 'Permintaan Persediaan',
+  //     requiresAuth: false,
+  //     layout: 'layout-guest',
+  //   },
+  //   path: '/user/persediaan/permintaan/:id/detail',
+  //   name: 'detail-permintaan-user',
+  //   component: () => import('@/views/user/persediaan/Detail.vue'),
+  // },
+  // {
+  //   meta: {
+  //     title: 'Permintaan Persediaan',
+  //     requiresAuth: false,
+  //     layout: 'layout-guest',
+  //   },
+  //   path: '/user/persediaan/permintaan/:tiket/output',
+  //   name: 'output-permintaan-user',
+  //   component: () => import('@/views/user/persediaan/Output.vue'),
+  // },
 ]
 
 export default bmn

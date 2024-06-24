@@ -29,6 +29,7 @@ export const usePeminjamanBmn = defineStore('peminjamanBmn', {
       jenis_layanan: 'Peminjaman',
       tanggal_pengembalian: null,
       catatan: null,
+      detail: [],
       nip: null,
       nama_peminta: null,
       unit: null,
@@ -204,6 +205,33 @@ export const usePeminjamanBmn = defineStore('peminjamanBmn', {
       } finally {
         this.isUpdateLoading = false
       }
+    },
+    addCart(item) {
+      if (!this.checkItem(item.id)) {
+        this.form.detail.push(item)
+        toast.success(`${item.nama} ditambahkan`, {
+          autoClose: 1000,
+          position: toast.POSITION.BOTTOM_CENTER,
+        })
+      } else {
+        toast.error(`${item.nama} sudah ada`, {
+          autoClose: 1500,
+          position: toast.POSITION.BOTTOM_CENTER,
+        })
+      }
+    },
+    checkItem(id) {
+      const b = this.form.detail.find((e) => e.id == id)
+      if (b) {
+        return true
+      }
+      return false
+    },
+    removeCart(index) {
+      this.form.detail.splice(index, 1)
+    },
+    clearCart() {
+      this.form.detail = []
     },
     setDataPegawai(item) {
       this.form.nama_peminta = item.name
