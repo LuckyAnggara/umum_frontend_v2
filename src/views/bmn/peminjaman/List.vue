@@ -75,7 +75,6 @@
               <tr>
                 <th scope="col" class="px-4 py-3">#</th>
                 <th scope="col" class="px-4 py-3">Tiket</th>
-                <th scope="col" class="px-4 py-3">Nama BMN</th>
                 <th scope="col" class="px-4 py-3">Penerima Layanan</th>
                 <th scope="col" class="px-4 py-3">Status</th>
                 <th scope="col" class="px-4 py-3">Tanggal Pengembalian</th>
@@ -105,17 +104,10 @@
                     <span>{{ item.tiket }}</span> <span class="font-normal">{{ item.created_at }}</span>
                   </div>
                 </th>
+
                 <td class="px-4 py-1">
                   <div class="flex flex-col">
-                    <span class="font-semibold">{{ item.bmn.nama }}</span>
-                    <span>
-                      {{ item.nup }}
-                    </span>
-                  </div>
-                </td>
-                <td class="px-4 py-1">
-                  <div class="flex flex-col">
-                    <span class="font-semibold"> {{ item.nama_peminta }}</span>
+                    <span class="font-semibold"> {{ item.nama }}</span>
                     <span>
                       {{ item.nip }}
                     </span>
@@ -131,12 +123,12 @@
                     >{{ item.status.toUpperCase() }}</span
                   >
                   <span
-                    v-else-if="item.status == 'VERIFIKASI ADMIN'"
+                    v-else-if="item.status == 'BELUM KEMBALI'"
                     class="bg-yellow-100 text-yellow-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-yellow-900 dark:text-yellow-300"
                     >{{ item.status }}</span
                   >
                   <span
-                    v-else-if="item.status == 'APPROVE'"
+                    v-else-if="item.status == 'ORDER'"
                     class="bg-blue-100 text-blue-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300"
                     >{{ item.status.toUpperCase() }}</span
                   >
@@ -144,17 +136,15 @@
                     item.status.toUpperCase()
                   }}</span>
                 </td>
+
                 <td class="px-4 py-1">
                   <div class="flex flex-col w-fit">
-                    <span class="font-semibold"> {{ item.tanggal_pengembalian }}</span>
+                    <span class="font-semibold"> {{ item.tanggal_kembali }}</span>
                     <span
-                      v-if="item.status_pengembalian == 'BELUM KEMBALI'"
-                      class="bg-yellow-100 text-yellow-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-yellow-900 dark:text-yellow-300"
-                      >{{ item.status_pengembalian.toUpperCase() }}</span
+                      v-if="moment(item.tanggal_kembali).diff(moment.now(), 'days') < 0"
+                      class="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300"
+                      >JATUH TEMPO</span
                     >
-                    <span v-else class="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">{{
-                      item.status.toUpperCase()
-                    }}</span>
                   </div>
                 </td>
 
@@ -284,6 +274,7 @@ import { useRouter } from 'vue-router'
 import { toast } from 'vue3-toastify'
 
 import DeleteDialog from '@/components/DeleteDialog.vue'
+import moment from 'moment'
 
 const DetailModal = defineAsyncComponent(() => import('./Detail.vue'))
 const qrBawaDialog = ref(false)

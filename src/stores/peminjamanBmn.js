@@ -31,7 +31,7 @@ export const usePeminjamanBmn = defineStore('peminjamanBmn', {
       catatan: null,
       detail: [],
       nip: null,
-      nama_peminta: null,
+      nama: null,
       unit: null,
     },
 
@@ -123,7 +123,10 @@ export const usePeminjamanBmn = defineStore('peminjamanBmn', {
           }
         }
       } catch (error) {
-        alert(error)
+        return {
+          status: false,
+          data: null,
+        }
       } finally {
         this.isStoreLoading = false
       }
@@ -234,7 +237,7 @@ export const usePeminjamanBmn = defineStore('peminjamanBmn', {
       this.form.detail = []
     },
     setDataPegawai(item) {
-      this.form.nama_peminta = item.name
+      this.form.nama = item.name
       this.form.unit = item.unit?.name
     },
     setCurrentData(item) {
@@ -248,7 +251,7 @@ export const usePeminjamanBmn = defineStore('peminjamanBmn', {
         tanggal_pengembalian: new Date(),
         catatan: null,
         nip: null,
-        nama_peminta: null,
+        nama: null,
         unit: null,
       }
     },

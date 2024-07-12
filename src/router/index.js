@@ -149,7 +149,6 @@ const router = createRouter({
 
 router.beforeEach(async (to, from, next) => {
   const authStore = useAuthStore()
-
   const authUser = authStore.userData
   const reqAuth = to.matched.some((record) => record.meta.requiresAuth)
   const loginQuery = { path: '/admin' }

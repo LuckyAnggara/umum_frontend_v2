@@ -64,57 +64,20 @@
                       <span class="ml-4 bg-blue-100 text-blue-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">{{
                         peminjamanBmnStore.singleResponses.status
                       }}</span>
+                      <span
+                        v-if="moment(peminjamanBmnStore.singleResponses.tanggal_kembali).diff(moment.now(), 'days') < 0"
+                        class="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300"
+                        >JATUH TEMPO</span
+                      >
                     </div>
                   </div>
 
                   <div class="mt-4 bg-white rounded-lg overflow-hidden border border-gray-400">
                     <div class="px-4 py-2 border-b border-gray-200">
-                      <h2 class="font-semibold text-gray-800">Data BMN</h2>
-                    </div>
-                    <div class="flex flex-col divide-y divide-gray-200">
-                      <div v-if="peminjamanBmnStore.singleResponses" class="p-4 flex flex-col space-y-2">
-                        <div>
-                          <label for="nip" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Gambar</label>
-                          <div class="flex justify-center">
-                            <img class="w-60 h-fit object-cover rounded" :src="showImage(peminjamanBmnStore.singleResponses.bmn.image)" alt="Product Image" />
-                          </div>
-                        </div>
-
-                        <div>
-                          <label for="nip" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">NUP</label>
-                          <input
-                            readonly
-                            v-model="peminjamanBmnStore.singleResponses.bmn.nup"
-                            type="text"
-                            class="bg-gray-200 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                          />
-                        </div>
-                        <div>
-                          <label for="nip" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nama BMN</label>
-                          <input
-                            readonly
-                            v-model="peminjamanBmnStore.singleResponses.bmn.nama"
-                            type="text"
-                            class="bg-gray-200 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                          />
-                        </div>
-                      </div>
-                    </div>
-
-                    <div class="px-4 py-2 border-b border-gray-200">
-                      <h2 class="font-semibold text-gray-800">Data Penerima Layanan</h2>
+                      <h2 class="font-semibold text-gray-800">Detail</h2>
                     </div>
                     <div class="flex flex-col divide-y divide-gray-200">
                       <div class="p-4 flex flex-col space-y-2">
-                        <div class="text-left">
-                          <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Jenis Layanan</label>
-                          <input
-                            readonly
-                            v-model="peminjamanBmnStore.singleResponses.jenis_layanan"
-                            type="text"
-                            class="bg-gray-200 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                          />
-                        </div>
                         <div class="grid grid-cols-2 gap-2">
                           <div>
                             <label for="nip" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">NIP</label>
@@ -130,7 +93,7 @@
                             <label for="nama" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nama Penerima Layanan</label>
                             <input
                               required
-                              v-model="peminjamanBmnStore.singleResponses.nama_peminta"
+                              v-model="peminjamanBmnStore.singleResponses.nama"
                               type="text"
                               id="nama"
                               class="bg-gray-200 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -169,11 +132,40 @@
                             class="bg-gray-200 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                           ></textarea>
                         </div>
+                        <div>
+                          <label for="nama" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Tanggal Kembali</label>
+                          <input
+                            required
+                            v-model="peminjamanBmnStore.singleResponses.tanggal_kembali"
+                            type="text"
+                            id="nama"
+                            class="bg-gray-200 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                          />
+                        </div>
                       </div>
                     </div>
                   </div>
 
-                  <div v-if="peminjamanBmnStore.singleResponses.status == 'VERIFIKASI ADMIN'" class="mt-4 flex space-x-4">
+                  <div class="mt-4 bg-white rounded-lg overflow-hidden border border-gray-400">
+                    <div class="px-4 py-2 border-b border-gray-200">
+                      <h2 class="font-semibold text-gray-800">Daftar BMN</h2>
+                    </div>
+                    <div class="flex flex-col divide-y divide-gray-200">
+                      <div v-for="(item, index) in peminjamanBmnStore.singleResponses?.detail" class="flex items-center py-4 px-6" :key="item.id">
+                        <img class="w-24 h-24 object-cover rounded" :src="showImage(item.bmn.image)" alt="Product Image" />
+                        <div class="ml-5">
+                          <h3 class="text-gray-900 font-semibold">
+                            {{ item.bmn.nama }}
+                          </h3>
+                          <div class="flex text-gray-500 w-full">
+                            <p w-full>{{ item.bmn.keterangan }}</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div v-if="peminjamanBmnStore.singleResponses.status == 'ORDER'" class="mt-4 flex space-x-4">
                     <button
                       type="button"
                       class="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
@@ -279,7 +271,8 @@ import { computed, inject, onMounted, onUpdated, ref } from 'vue'
 
 import ApproveDialog from '@/components/ConfirmDialog.vue'
 import RejectDialog from '@/components/ConfirmDialog.vue'
-
+import { toast } from 'vue3-toastify'
+import moment from 'moment'
 import VueDrawingCanvas from 'vue-drawing-canvas'
 
 const swal = inject('$swal')
@@ -302,42 +295,46 @@ function close() {
 
 const peminjamanBmnStore = usePeminjamanBmn()
 
+function rejectConfirmation() {}
+
 const route = useRoute()
 
 async function approveConfirmation() {
-  const result = await peminjamanBmnStore.update({ status: 'APPROVE' })
+  approveDialog.value = false
+  const id = toast.loading('Sedang dalam proses...', {
+    position: toast.POSITION.BOTTOM_CENTER,
+    type: 'info',
+    isLoading: true,
+  })
+
+  const success = await peminjamanBmnStore.update({ status: 'APPROVE' })
+
+  if (success) {
+    toast.update(id, {
+      render: 'Berhasil !!',
+      position: toast.POSITION.BOTTOM_CENTER,
+      type: 'success',
+      autoClose: 1000,
+      closeOnClick: true,
+      closeButton: true,
+      isLoading: false,
+    })
+    toast.done(id)
+  } else {
+    toast.update(id, {
+      render: 'Terjadi kesalahan',
+      position: toast.POSITION.BOTTOM_CENTER,
+      type: 'error',
+      autoClose: 1000,
+      closeOnClick: true,
+      closeButton: true,
+      isLoading: false,
+    })
+  }
 }
 
 function approve() {
   approveDialog.value = true
-  // swal.fire({
-  //   title: 'Setujui Peminjaman?',
-  //   text: 'Peminjaman BMN ini akan di setujui!',
-  //   icon: 'warning',
-  //   showCancelButton: true,
-  //   confirmButtonText: 'Approve!',
-  //   cancelButtonText: 'Cancel!',
-  //   showLoaderOnConfirm: true,
-  //   reverseButtons: true,
-  //   preConfirm: async () => {
-  //     const result = await peminjamanBmnStore.update({ status: 'APPROVE' })
-  //     if (result) {
-  //       swal.fire({
-  //         title: 'Approved!',
-  //         text: 'Perminjaman di Setujui.',
-  //         icon: 'success',
-  //       })
-  //     } else {
-  //       swal.fire({
-  //         title: 'Oopss',
-  //         text: 'Error',
-  //         icon: 'error',
-  //       })
-  //     }
-  //   },
-  //   allowOutsideClick: () => !peminjamanBmnStore.isStoreLoading,
-  //   backdrop: true,
-  // })
 }
 function reject() {
   rejectDialog.value = true

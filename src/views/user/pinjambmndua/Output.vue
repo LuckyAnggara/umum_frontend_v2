@@ -1,15 +1,11 @@
 <script setup>
-import {
-  ArrowDownTrayIcon,
-  ArrowPathIcon,
-  ShareIcon,
-} from '@heroicons/vue/24/outline'
+import { ArrowDownTrayIcon, ArrowPathIcon, ShareIcon } from '@heroicons/vue/24/outline'
 import QRCodeVue3 from 'qrcode-vue3'
 import { computed, onMounted, ref } from 'vue'
 import html2pdf from 'html2pdf.js'
 import { toast } from 'vue3-toastify'
 import { useRoute } from 'vue-router'
-import { usePermintaanPersediaanStore } from '@/stores/permintaanPersediaan'
+import { usePeminjamanBmn } from '@/stores/peminjamanBmn'
 
 function exportHTMLtoPDF() {
   let htmlElement = document.getElementById('content')
@@ -43,28 +39,25 @@ async function shareLink() {
 }
 
 const route = useRoute()
-const permintaanPersediaanStore = usePermintaanPersediaanStore()
-const data = ref('Hello world')
+const peminjamanBmnStore = usePeminjamanBmn()
 
 const tiket = computed(() => {
   return route.params.tiket ?? null
 })
 
 const detailUrl = computed(() => {
-  const firstSegment = window.location.origin + '/#/user/persediaan/permintaan'
+  const firstSegment = window.location.origin + '/#/user/bmn/peminjaman/'
   return `${firstSegment}/${tiket.value}/detail`
 })
 
 onMounted(async () => {
-  await permintaanPersediaanStore.show(tiket.value)
+  await peminjamanBmnStore.show(tiket.value)
 })
 </script>
 <template>
-  <section v-if="permintaanPersediaanStore.singleResponses == null">
+  <section v-if="peminjamanBmnStore.singleResponses == null">
     <div class="h-screen">
-      <span class="flex mt-24"
-        ><ArrowPathIcon class="mx-auto w-6 h-6 animate-spin" />
-      </span>
+      <span class="flex mt-24"><ArrowPathIcon class="mx-auto w-6 h-6 animate-spin" /> </span>
     </div>
   </section>
   <section v-else>
@@ -81,7 +74,7 @@ onMounted(async () => {
                   <h2 class="font-medium">Nomor Tiket</h2>
                 </div>
                 <div class="ml-auto text-blue-900 font-bold">
-                  {{ permintaanPersediaanStore.singleResponses.tiket }}
+                  {{ peminjamanBmnStore.singleResponses.tiket }}
                 </div>
               </div>
               <div class="border-b border-dashed my-5"></div>
@@ -92,25 +85,21 @@ onMounted(async () => {
               </div>
 
               <div class="border-b border-dashed my-5 pt-5">
-                <div
-                  class="absolute rounded-full w-5 h-5 bg-blue-900 -mt-2 -left-2"
-                ></div>
-                <div
-                  class="absolute rounded-full w-5 h-5 bg-blue-900 -mt-2 -right-2"
-                ></div>
+                <div class="absolute rounded-full w-5 h-5 bg-blue-900 -mt-2 -left-2"></div>
+                <div class="absolute rounded-full w-5 h-5 bg-blue-900 -mt-2 -right-2"></div>
               </div>
               <div class="flex items-start px-5 pt-3 text-sm justify-between">
                 <div class="flex flex-col">
                   <span class="">Nama</span>
                   <div class="font-semibold">
-                    {{ permintaanPersediaanStore.singleResponses.nama }}
+                    {{ peminjamanBmnStore.singleResponses.nama }}
                   </div>
                 </div>
                 <div class="flex flex-col space-y-2">
                   <div class="flex flex-col">
                     <span class="">Tanggal Permintaan</span>
                     <div class="font-semibold">
-                      {{ permintaanPersediaanStore.singleResponses.created_at }}
+                      {{ peminjamanBmnStore.singleResponses.created_at }}
                     </div>
                   </div>
 
@@ -118,38 +107,21 @@ onMounted(async () => {
                     <span class="">Status</span>
                     <div class="font-semibold">
                       <span
-                        v-if="
-                          permintaanPersediaanStore.singleResponses.status ==
-                          'ORDER'
-                        "
+                        v-if="peminjamanBmnStore.singleResponses.status == 'ORDER'"
                         class="bg-blue-100 text-blue-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300"
-                        >{{
-                          permintaanPersediaanStore.singleResponses.status
-                        }}</span
+                        >{{ peminjamanBmnStore.singleResponses.status }}</span
                       >
                       <span
-                        v-else-if="
-                          permintaanPersediaanStore.singleResponses.status ==
-                          'DONE'
-                        "
+                        v-else-if="peminjamanBmnStore.singleResponses.status == 'DONE'"
                         class="bg-green-100 text-green-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300"
-                        >{{
-                          permintaanPersediaanStore.singleResponses.status
-                        }}</span
+                        >{{ peminjamanBmnStore.singleResponses.status }}</span
                       >
                       <span
-                        v-else-if="
-                          permintaanPersediaanStore.singleResponses.status ==
-                          'PROCESS'
-                        "
+                        v-else-if="peminjamanBmnStore.singleResponses.status == 'PROCESS'"
                         class="bg-orange-100 text-orange-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-orange-900 dark:text-orange-300"
-                        >{{
-                          permintaanPersediaanStore.singleResponses.status
-                        }}</span
+                        >{{ peminjamanBmnStore.singleResponses.status }}</span
                       >
-                      <span
-                        v-else
-                        class="bg-red-100 text-red-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300"
+                      <span v-else class="bg-red-100 text-red-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300"
                         >REJECTED</span
                       >
                     </div>
@@ -185,9 +157,9 @@ onMounted(async () => {
 
                 <router-link
                   :to="{
-                    name: 'detail-permintaan-user',
+                    name: 'detail-peminjaman-bmn',
                     params: {
-                      id: permintaanPersediaanStore.singleResponses.tiket,
+                      id: peminjamanBmnStore.singleResponses.tiket,
                     },
                   }"
                   class="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"

@@ -1,5 +1,5 @@
 <template>
-  <section v-if="permintaanPersediaanStore.singleResponses == null">
+  <section v-if="peminjamanBmnStore.singleResponses == null">
     <span class="flex"><ArrowPathIcon class="mx-auto w-6 h-6 animate-spin" /></span>
   </section>
   <section v-else>
@@ -8,30 +8,30 @@
         <button @click="toDashboard()" class="bg-transparent relative hover:-translate-x-1 duration-300 rounded-lg p-1.5 items-center">
           <ArrowLeftIcon class="h-5" />
         </button>
-        <h2 class="ml-2 font-semibold text-gray-800 text-xl">Permintaan Persediaan</h2>
+        <h2 class="ml-2 font-semibold text-gray-800 text-xl">Permintaan bmn</h2>
       </div>
 
       <div class="flex items-center">
-        <h2 class="ml-2 font-semibold text-gray-800 text-xl">Nomor Tiket : {{ permintaanPersediaanStore.singleResponses.tiket }}</h2>
+        <h2 class="ml-2 font-semibold text-gray-800 text-xl">Nomor Tiket : {{ peminjamanBmnStore.singleResponses.tiket }}</h2>
       </div>
 
       <div class="mt-4 bg-white rounded-lg overflow-hidden border border-gray-400">
         <div class="px-4 py-2 border-b border-gray-200 flex flex-row">
           <h2 class="font-semibold text-gray-800">Status</h2>
           <span
-            v-if="permintaanPersediaanStore.singleResponses.status == 'ORDER'"
+            v-if="peminjamanBmnStore.singleResponses.status == 'ORDER'"
             class="ml-4 bg-blue-100 text-blue-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300"
-            >{{ permintaanPersediaanStore.singleResponses.status }}</span
+            >{{ peminjamanBmnStore.singleResponses.status }}</span
           >
           <span
-            v-else-if="permintaanPersediaanStore.singleResponses.status == 'DONE'"
+            v-else-if="peminjamanBmnStore.singleResponses.status == 'DONE'"
             class="ml-4 bg-green-100 text-green-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300"
-            >{{ permintaanPersediaanStore.singleResponses.status }}</span
+            >{{ peminjamanBmnStore.singleResponses.status }}</span
           >
           <span
-            v-else-if="permintaanPersediaanStore.singleResponses.status == 'PROCESS'"
+            v-else-if="peminjamanBmnStore.singleResponses.status == 'PROCESS'"
             class="ml-4 bg-orange-100 text-orange-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-orange-900 dark:text-orange-300"
-            >{{ permintaanPersediaanStore.singleResponses.status }}</span
+            >{{ peminjamanBmnStore.singleResponses.status }}</span
           >
           <span v-else class="bg-red-100 ml-4 text-red-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300">REJECTED</span>
         </div>
@@ -39,19 +39,19 @@
 
       <div class="mt-4 bg-white rounded-lg overflow-hidden border border-gray-400">
         <div class="px-4 py-2 border-b border-gray-200">
-          <h2 class="font-semibold text-gray-800">Daftar Permintaan</h2>
+          <h2 class="font-semibold text-gray-800">Daftar BMN</h2>
         </div>
         <div class="flex flex-col divide-y divide-gray-200">
-          <div v-for="(item, index) in permintaanPersediaanStore.singleResponses?.detail" class="flex items-center py-4 px-6" :key="item.id">
-            <img class="w-24 h-24 object-cover rounded" :src="showImage(item.persediaan)" alt="Product Image" />
+          <div v-for="(item, index) in peminjamanBmnStore.singleResponses?.detail" class="flex items-center py-4 px-6" :key="item.id">
+            <img class="w-24 h-24 object-cover rounded" :src="showImage(item.bmn)" alt="Product Image" />
             <div class="ml-5">
               <h3 class="text-gray-900 font-semibold">
-                {{ item.persediaan.nama }}
+                {{ item.bmn.nama }}
               </h3>
               <div class="flex mt-4">
                 <p>{{ item.jumlah }}</p>
 
-                <p class="text-gray-700 ml-2">{{ item.persediaan.satuan }}</p>
+                <p class="text-gray-700 ml-2">{{ item.bmn.satuan }}</p>
               </div>
             </div>
           </div>
@@ -66,14 +66,14 @@
           <div class="p-4 flex flex-col space-y-2">
             <div class="flex flex-row space-x-2 text-sm font-medium text-gray-900 dark:text-white">
               <label class="">Tanggal</label>
-              <span>{{ permintaanPersediaanStore.singleResponses.created_at }}</span>
+              <span>{{ peminjamanBmnStore.singleResponses.created_at }}</span>
             </div>
             <div>
               <label for="nip" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">NIP</label>
 
               <input
                 readonly
-                v-model="permintaanPersediaanStore.singleResponses.nip"
+                v-model="peminjamanBmnStore.singleResponses.nip"
                 @keyup="search"
                 type="text"
                 id="nip"
@@ -85,7 +85,7 @@
               <label for="nama" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nama</label>
               <input
                 readonly
-                v-model="permintaanPersediaanStore.singleResponses.nama"
+                v-model="peminjamanBmnStore.singleResponses.nama"
                 type="text"
                 id="nama"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -96,18 +96,18 @@
               <label for="unit" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Unit</label>
               <input
                 readonly
-                v-model="permintaanPersediaanStore.singleResponses.unit"
+                v-model="peminjamanBmnStore.singleResponses.unit"
                 type="text"
                 id="unit"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 required
               />
             </div>
-            <div v-if="permintaanPersediaanStore.singleResponses.catatan">
+            <div v-if="peminjamanBmnStore.singleResponses.catatan">
               <label for="catatan" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Catatan</label>
               <textarea
                 readonly
-                v-model="permintaanPersediaanStore.singleResponses.catatan"
+                v-model="peminjamanBmnStore.singleResponses.catatan"
                 type="text"
                 placeholder="isikan dengan catatan untuk admin jika ada"
                 id="catatan"
@@ -149,22 +149,22 @@
                   >
                     <DialogTitle as="h3" class="text-lg font-medium leading-6 text-gray-900"> Proses Permintaan </DialogTitle>
                     <div class="mt-2">
-                      <p class="text-sm text-gray-500">Permintaan persediaan akan di proses ke Admin pada Bagian Umum Inspektorat Jenderal</p>
+                      <p class="text-sm text-gray-500">Permintaan bmn akan di proses ke Admin pada Bagian Umum Inspektorat Jenderal</p>
                     </div>
 
                     <div class="mt-4 flex space-x-4">
                       <button
-                        :disabled="permintaanPersediaanStore.isStoreLoading"
+                        :disabled="peminjamanBmnStore.isStoreLoading"
                         type="button"
                         class="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                         @click="submit"
                       >
-                        <span v-if="!permintaanPersediaanStore.isStoreLoading"> Proses </span>
+                        <span v-if="!peminjamanBmnStore.isStoreLoading"> Proses </span>
                         <span class="flex" v-else><ArrowPathIcon class="mx-auto w-6 h-6 animate-spin" /></span>
                       </button>
 
                       <button
-                        :disabled="permintaanPersediaanStore.isStoreLoading"
+                        :disabled="peminjamanBmnStore.isStoreLoading"
                         type="button"
                         class="inline-flex justify-center rounded-md border border-transparent bg-red-100 px-4 py-2 text-sm font-medium text-red-900 hover:bg-red-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2"
                         @click="showModal = !showModal"
@@ -187,13 +187,13 @@
 import { TransitionRoot, TransitionChild, Dialog, DialogPanel, DialogTitle } from '@headlessui/vue'
 import { ArrowLeftIcon, ArrowPathIcon, TrashIcon } from '@heroicons/vue/24/outline'
 import { useDebounceFn } from '@vueuse/core'
-import { usePermintaanPersediaanStore } from '@/stores/permintaanPersediaan'
+import { usePeminjamanBmn } from '@/stores/peminjamanBmn'
 import { useRoute, useRouter } from 'vue-router'
 import { storageUrl } from '@/services/helper'
 import { toast } from 'vue3-toastify'
 import { computed, onMounted, ref } from 'vue'
 
-const permintaanPersediaanStore = usePermintaanPersediaanStore()
+const peminjamanBmnStore = usePeminjamanBmn()
 const showModal = ref(false)
 
 const route = useRoute()
@@ -208,7 +208,7 @@ function confirm() {
 }
 
 const id = computed(() => {
-  return route.params.id ?? null
+  return route.params.tiket ?? null
 })
 
 function showImage(item) {
@@ -218,6 +218,6 @@ function showImage(item) {
 }
 
 onMounted(async () => {
-  await permintaanPersediaanStore.show(id.value)
+  await peminjamanBmnStore.show(id.value)
 })
 </script>

@@ -102,16 +102,16 @@ const bmn = [
     name: 'cari-peminjaman-bmn',
     component: () => import('@/views/user/pinjambmn/New.vue'),
   },
-  {
-    meta: {
-      title: 'Peminjaman BMN',
-      requiresAuth: false,
-      layout: 'layout-guest',
-    },
-    path: '/user/bmn/peminjaman/detail',
-    name: 'detail-peminjaman-bmn',
-    component: () => import('@/views/user/pinjambmn/Detail.vue'),
-  },
+  // {
+  //   meta: {
+  //     title: 'Peminjaman BMN',
+  //     requiresAuth: false,
+  //     layout: 'layout-guest',
+  //   },
+  //   path: '/user/bmn/peminjaman/detail',
+  //   name: 'detail-peminjaman-bmn',
+  //   component: () => import('@/views/user/pinjambmn/Detail.vue'),
+  // },
   {
     meta: {
       title: 'Peminjaman BMN',
@@ -120,7 +120,17 @@ const bmn = [
     },
     path: '/user/bmn/peminjaman/:tiket/output',
     name: 'output-peminjaman-bmn',
-    component: () => import('@/views/user/pinjambmn/Output.vue'),
+    component: () => import('@/views/user/pinjambmndua/Output.vue'),
+  },
+  {
+    meta: {
+      title: 'Detail Peminjaman BMN',
+      requiresAuth: false,
+      layout: 'layout-guest',
+    },
+    path: '/user/bmn/peminjaman/:tiket/detail',
+    name: 'detail-peminjaman-bmn',
+    component: () => import('@/views/user/pinjambmndua/Detail.vue'),
   },
   {
     meta: {
@@ -184,16 +194,16 @@ const bmn = [
   //   component: () => import('@/views/persediaan/permintaan/Shipping.vue'),
   // },
 
-  // {
-  //   meta: {
-  //     title: 'Permintaan Persediaan',
-  //     requiresAuth: false,
-  //     layout: 'layout-guest',
-  //   },
-  //   path: '/user/persediaan/permintaan/:id/detail',
-  //   name: 'detail-permintaan-user',
-  //   component: () => import('@/views/user/persediaan/Detail.vue'),
-  // },
+  {
+    meta: {
+      title: 'Permintaan Persediaan',
+      requiresAuth: false,
+      layout: 'layout-guest',
+    },
+    path: '/user/bmn/peminjaman/:tiket/detail',
+    name: 'output-permintaan-bmn-dua',
+    component: () => import('@/views/user/pinjambmndua/Output.vue'),
+  },
   // {
   //   meta: {
   //     title: 'Permintaan Persediaan',
