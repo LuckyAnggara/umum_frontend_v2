@@ -320,6 +320,7 @@ async function approveConfirmation() {
       isLoading: false,
     })
     toast.done(id)
+    peminjamanBmnStore.getData()
   } else {
     toast.update(id, {
       render: 'Terjadi kesalahan',

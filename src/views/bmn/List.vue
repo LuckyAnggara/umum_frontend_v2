@@ -84,7 +84,7 @@
                 <th scope="col" class="px-4 py-3">NUP</th>
                 <th scope="col" class="px-4 py-3">Gambar</th>
                 <th scope="col" class="px-4 py-3">Nama</th>
-                <th scope="col" class="px-4 py-3">Ruangan</th>
+                <!-- <th scope="col" class="px-4 py-3">Ruangan</th> -->
                 <th scope="col" class="px-4 py-3">Pemilik</th>
                 <th scope="col" class="px-4 py-3">Tahun Perolehan</th>
                 <th scope="col" class="px-4 py-3">Status</th>
@@ -117,23 +117,17 @@
                 <th class="px-4 py-1">
                   {{ item.nama }}
                 </th>
-                <td class="px-4 py-1">{{ item.ruangan }}</td>
+                <!-- <td class="px-4 py-1">{{ item.ruangan }}</td> -->
                 <td class="px-4 py-1">{{ item.penanggung_jawab }}</td>
                 <td class="px-4 py-1">{{ item.tahun_perolehan }}</td>
                 <td class="px-4 py-1">
                   <span
-                    v-if="item.sewa == 'tersedia'"
+                    v-if="item.status == '0'"
                     class="bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300"
-                    >{{ item.sewa.toUpperCase() }}</span
+                    >{{ 'Tersedia' }}</span
                   >
-                  <span
-                    v-else-if="item.sewa == 'tidak tersedia'"
-                    class="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300"
-                    >{{ item.sewa.toUpperCase() }}</span
-                  >
-
-                  <span v-else class="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">{{
-                    item.sewa.toUpperCase()
+                  <span v-else class="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300">{{
+                    'Dipinjam'
                   }}</span>
                 </td>
 

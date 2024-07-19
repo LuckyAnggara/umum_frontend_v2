@@ -177,10 +177,12 @@ export const usePeminjamanBmn = defineStore('peminjamanBmn', {
         this.isUpdateLoading = false
       }
     },
-    async updateDone() {
+    async updateDone(id) {
       this.isUpdateLoading = true
       try {
-        const response = await axiosIns.put(`/api/peminjaman-bmn/done/${this.singleResponses.id}`, this.doneForm)
+        // const response = await axiosIns.put(`/api/peminjaman-bmn/done/${this.singleResponses.id}`, this.doneForm) versi lama
+        //  versi detail peminjaman bmn
+        const response = await axiosIns.put(`/api/peminjaman-bmn/done/${id}`, this.doneForm)
         if (response.status == 200) {
           this.setCurrentData(response.data.data)
           return true

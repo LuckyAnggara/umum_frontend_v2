@@ -233,6 +233,18 @@
     <DetailModal :show="detailDialog" @close="detailDialog = false" />
     <DeleteDialog :show="deleteDialog" @submit="deleteData" @close="deleteDialog = !deleteDialog" />
 
+    <ModalPengembalianDialog :show="pengembalianDialog" @submit="pengembalian" @close="pengembalianDialog = !pengembalianDialog">
+      <template #title>
+        <h1>Konfirmasi</h1>
+      </template>
+
+      <template #subTitle>
+        <p>Apakah BMN sudah dikembalikan ?</p>
+      </template>
+
+      <template #confirmTitle> <span>Approve</span> </template>
+    </ModalPengembalianDialog>
+
     <QRDialog :show="qrBawaDialog" @close="qrBawaDialog = !qrBawaDialog">
       <template #title>
         <h1>Scan This QR Code</h1>
@@ -274,6 +286,7 @@ import { useRouter } from 'vue-router'
 import { toast } from 'vue3-toastify'
 
 import DeleteDialog from '@/components/DeleteDialog.vue'
+import ModalPengembalianDialog from '@/components/ConfirmDialog.vue'
 import moment from 'moment'
 
 const DetailModal = defineAsyncComponent(() => import('./Detail.vue'))
@@ -283,10 +296,12 @@ const peminjamanBmnStore = usePeminjamanBmn()
 const mainStore = useMainStore()
 const deleteDialog = ref(false)
 const detailDialog = ref(false)
+const pengembalianDialog = ref(false)
 
 const tiket = ref(null)
 
 const deleteId = ref(0)
+const pengembalianId = ref(0)
 const itemMenu = [
   {
     function: detail,
@@ -322,8 +337,9 @@ function qrBawaToShow(item) {
   qrBawaDialog.value = true
 }
 function qrBalikToShow(item) {
-  tiket.value = item.tiket
-  qrBalikDialog.value = true
+  // tiket.value = item.tiket
+  pengembalianId.value = item.id
+  pengembalianDialog.value = true
 }
 
 function onDelete(item) {
@@ -361,6 +377,40 @@ async function deleteData() {
       isLoading: false,
     })
     toast.done(id)
+  } else {
+    toast.update(id, {
+      render: 'Terjadi kesalahan',
+      position: toast.POSITION.BOTTOM_CENTER,
+      type: 'error',
+      autoClose: 1000,
+      closeOnClick: true,
+      closeButton: true,
+      isLoading: false,
+    })
+  }
+}
+
+async function pengembalian() {
+  pengembalianDialog.value = false
+  const id = toast.loading('Hapus data...', {
+    position: toast.POSITION.BOTTOM_CENTER,
+    type: 'info',
+    isLoading: true,
+  })
+
+  const success = await peminjamanBmnStore.updateDone(pengembalianId.value)
+  if (success) {
+    toast.update(id, {
+      render: 'Berhasil !!',
+      position: toast.POSITION.BOTTOM_CENTER,
+      type: 'success',
+      autoClose: 1000,
+      closeOnClick: true,
+      closeButton: true,
+      isLoading: false,
+    })
+    toast.done(id)
+    peminjamanBmnStore.getData()
   } else {
     toast.update(id, {
       render: 'Terjadi kesalahan',

@@ -199,6 +199,7 @@ export const useBmnStore = defineStore('bmn', {
       this.singleResponses = JSON.parse(JSON.stringify(item))
       this.originalSingleResponses = JSON.parse(JSON.stringify(item))
     },
+
     async update({ uploadFile = null }) {
       let formData = new FormData()
       formData.append('_method', 'put')
