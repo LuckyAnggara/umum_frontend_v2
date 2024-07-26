@@ -66,7 +66,7 @@
                 >Previous</a
               >
             </li>
-            <li @click="choosePage(num)" v-for="num in persediaanStore.lastPage" :key="num">
+            <li @click="choosePage(num)" v-for="num in displayedPages" :key="num">
               <a
                 :class="num == persediaanStore.currentPage ? 'text-blue-600 bg-blue-50' : 'text-gray-500'"
                 class="cursor-pointer flex items-center justify-center px-3 h-8 leading-tight bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
@@ -169,7 +169,7 @@ const permintaanPersediaanStore = usePermintaanPersediaanStore()
 
 import { storageUrl } from '@/services/helper'
 import { usePersediaanStore } from '@/stores/persediaan'
-import { onMounted, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 
 const persediaanStore = usePersediaanStore()
@@ -230,6 +230,28 @@ function previousPage() {
   })
   persediaanStore.getDataUser()
 }
+
+const displayedPages = computed(() => {
+  const pages = []
+  const { currentPage, lastPage } = persediaanStore
+
+  if (lastPage <= 5) {
+    // If total pages are less or equal to 5, display all pages
+    for (let i = 1; i <= lastPage; i++) {
+      pages.push(i)
+    }
+  } else {
+    if (currentPage <= 2) {
+      pages.push(1, 2, '...', lastPage - 1, lastPage)
+    } else if (currentPage >= lastPage - 1) {
+      pages.push(1, 2, '...', lastPage - 1, lastPage)
+    } else {
+      pages.push(1, 2, '...', currentPage, '...', lastPage - 1, lastPage)
+    }
+  }
+
+  return pages
+})
 
 const search = useDebounceFn(() => {
   persediaanStore.getDataUser()
