@@ -4,7 +4,8 @@
       <van-image height="30" src="https://itjen.kemenkumham.go.id/wp-content/uploads/2022/02/logov2.png" />
     </template>
     <template #right>
-      <van-image height="30" src="https://itjen.kemenkumham.go.id/wp-content/uploads/2022/02/itjen.png" />
+        <!-- <van-image height="30" src="https://itjen.kemenkumham.go.id/wp-content/uploads/2022/02/itjen.png" /> -->
+        <van-image height="30" :src=imageUrl /> 
     </template>
   </van-nav-bar>
 
@@ -90,6 +91,8 @@ import { useMainStore } from '@/stores/main'
 import { useRouter } from 'vue-router'
 import { onMounted } from 'vue'
 import moment from 'moment'
+
+import imageUrl from '@/assets/logo_seru.png'
 
 const userStore = useUserStore()
 const mainStore = useMainStore()
