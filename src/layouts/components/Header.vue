@@ -85,7 +85,7 @@ const logout = async () => {
   })
 
   const success = await authStore.logout()
-  if (success) {
+  if (success.status) {
     toast.update(id, {
       position: toast.POSITION.BOTTOM_CENTER,
       autoClose: 1000,
@@ -95,7 +95,7 @@ const logout = async () => {
       isLoading: false,
     })
     toast.done(id)
-    router.push({ name: 'login' })
+    router.push({ name: success.route })
   }
 }
 </script>

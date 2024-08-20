@@ -27,63 +27,64 @@
           />
         </div>
       </form>
-      <ul class="space-y-2">
-        <li v-for="(menu, index) in listMenu" :key="index">
-          <template v-if="!menu.child">
-            <div v-if="menu.name !== '-'">
-              <router-link :to="{ name: menu.to }">
-                <a
-                  href="#"
+      <template v-if="authStore.userData.role == 'ADMIN'">
+        <ul class="space-y-2">
+          <li v-for="(menu, index) in listMenuAdmin" :key="index">
+            <template v-if="!menu.child">
+              <div v-if="menu.name !== '-'">
+                <router-link :to="{ name: menu.to }">
+                  <a
+                    href="#"
+                    class="flex items-center p-2 w-full text-base font-normal text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                  >
+                    <component
+                      class="w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                      :is="menu.icon"
+                    ></component>
+
+                    <span class="ml-3">{{ menu.name }}</span>
+                  </a>
+                </router-link>
+              </div>
+              <div v-else>
+                <hr />
+              </div>
+            </template>
+            <template v-else>
+              <li>
+                <button
+                  type="button"
                   class="flex items-center p-2 w-full text-base font-normal text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                  :aria-controls="`dropdown-pages-${index}`"
+                  :data-collapse-toggle="`dropdown-pages-${index}`"
                 >
                   <component
                     class="w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
                     :is="menu.icon"
                   ></component>
-
-                  <span class="ml-3">{{ menu.name }}</span>
-                </a>
-              </router-link>
-            </div>
-            <div v-else>
-              <hr />
-            </div>
-          </template>
-          <template v-else>
-            <li>
-              <button
-                type="button"
-                class="flex items-center p-2 w-full text-base font-normal text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
-                :aria-controls="`dropdown-pages-${index}`"
-                :data-collapse-toggle="`dropdown-pages-${index}`"
-              >
-                <component
-                  class="w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
-                  :is="menu.icon"
-                ></component>
-                <span class="flex-1 ml-3 text-left whitespace-nowrap">{{ menu.name }}</span>
-                <svg aria-hidden="true" class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                  <path
-                    fill-rule="evenodd"
-                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                    clip-rule="evenodd"
-                  ></path>
-                </svg>
-              </button>
-              <ul :id="`dropdown-pages-${index}`" class="hidden py-2 space-y-2">
-                <li v-for="(child, i) in menu.child" :key="i">
-                  <router-link :to="{ name: child.to }">
-                    <a
-                      href="#"
-                      class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
-                    >
-                      <span class="ml-3">{{ child.name }}</span>
-                    </a>
-                  </router-link>
-                </li>
-              </ul>
-            </li>
-            <!-- <button
+                  <span class="flex-1 ml-3 text-left whitespace-nowrap">{{ menu.name }}</span>
+                  <svg aria-hidden="true" class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                      fill-rule="evenodd"
+                      d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                      clip-rule="evenodd"
+                    ></path>
+                  </svg>
+                </button>
+                <ul :id="`dropdown-pages-${index}`" class="hidden py-2 space-y-2">
+                  <li v-for="(child, i) in menu.child" :key="i">
+                    <router-link :to="{ name: child.to }">
+                      <a
+                        href="#"
+                        class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+                      >
+                        <span class="ml-3">{{ child.name }}</span>
+                      </a>
+                    </router-link>
+                  </li>
+                </ul>
+              </li>
+              <!-- <button
               type="button"
               class="flex items-center p-2 w-full text-base font-normal text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
               aria-controls="dropdown-pages"
@@ -112,9 +113,100 @@
                 </a>
               </li>
             </ul> -->
-          </template>
-        </li>
-      </ul>
+            </template>
+          </li>
+        </ul>
+      </template>
+      <template v-else-if="authStore.userData.role == 'USER'">
+        <ul class="space-y-2">
+          <li v-for="(menu, index) in listMenuUser" :key="index">
+            <template v-if="!menu.child">
+              <div v-if="menu.name !== '-'">
+                <router-link :to="{ name: menu.to }">
+                  <a
+                    href="#"
+                    class="flex items-center p-2 w-full text-base font-normal text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                  >
+                    <component
+                      class="w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                      :is="menu.icon"
+                    ></component>
+
+                    <span class="ml-3">{{ menu.name }}</span>
+                  </a>
+                </router-link>
+              </div>
+              <div v-else>
+                <hr />
+              </div>
+            </template>
+            <template v-else>
+              <li>
+                <button
+                  type="button"
+                  class="flex items-center p-2 w-full text-base font-normal text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                  :aria-controls="`dropdown-pages-${index}`"
+                  :data-collapse-toggle="`dropdown-pages-${index}`"
+                >
+                  <component
+                    class="w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                    :is="menu.icon"
+                  ></component>
+                  <span class="flex-1 ml-3 text-left whitespace-nowrap">{{ menu.name }}</span>
+                  <svg aria-hidden="true" class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                      fill-rule="evenodd"
+                      d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                      clip-rule="evenodd"
+                    ></path>
+                  </svg>
+                </button>
+                <ul :id="`dropdown-pages-${index}`" class="hidden py-2 space-y-2">
+                  <li v-for="(child, i) in menu.child" :key="i">
+                    <router-link :to="{ name: child.to }">
+                      <a
+                        href="#"
+                        class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+                      >
+                        <span class="ml-3">{{ child.name }}</span>
+                      </a>
+                    </router-link>
+                  </li>
+                </ul>
+              </li>
+              <!-- <button
+              type="button"
+              class="flex items-center p-2 w-full text-base font-normal text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+              aria-controls="dropdown-pages"
+              data-collapse-toggle="dropdown-pages"
+            >
+              <component
+                class="w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                :is="menu.icon"
+              ></component>
+              <span class="flex-1 ml-3 text-left whitespace-nowrap">{{ menu.name }}</span>
+              <svg aria-hidden="true" class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  fill-rule="evenodd"
+                  d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                  clip-rule="evenodd"
+                ></path>
+              </svg>
+            </button>
+            <ul id="dropdown-pages" class="hidden py-2 space-y-2">
+              <li v-for="(child, i) in menu[index]" :key="i">
+                <a
+                  href="#"
+                  class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+                >
+                  <span class="ml-3">{{ child.name }}</span>
+                </a>
+              </li>
+            </ul> -->
+            </template>
+          </li>
+        </ul>
+      </template>
     </div>
   </aside>
 </template>
@@ -123,8 +215,12 @@
 import { ArchiveBoxIcon, RectangleGroupIcon } from '@heroicons/vue/24/solid'
 import { ChevronDownIcon } from '@heroicons/vue/24/solid'
 import { reactive } from 'vue'
+import { useAuthStore } from '@/stores/auth'
 
-import { menu } from '@/router/menu'
+import { menuAdmin } from '@/router/menuAdmin'
+import { menuUser } from '@/router/menuUser'
 
-const listMenu = reactive(menu)
+const listMenuAdmin = reactive(menuAdmin)
+const listMenuUser = reactive(menuUser)
+const authStore = useAuthStore()
 </script>

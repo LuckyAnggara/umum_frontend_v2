@@ -85,6 +85,7 @@ export const useAuthStore = defineStore('auth', {
         const resp = await axiosIns.post('/api/login', this.form)
         if (resp.status == 201) {
           localStorage.setItem('token', resp.data.token)
+          this.user = resp.data.user
           axiosIns.defaults.headers.common['Authorization'] = `Bearer ${resp.data.token}`
           toast.success('Login sukses', {
             timeout: 3000,
@@ -179,13 +180,19 @@ export const useAuthStore = defineStore('auth', {
     },
     async logout() {
       this.isLoading = true
+      var route = 'login-user'
       try {
         const response = await axiosIns.post(`/api/logout`)
         if (response.status == 200) {
-          this.user = null
-          return true
+          return {
+            status: true,
+            route: route,
+          }
         } else {
-          return false
+          return {
+            status: true,
+            route: route,
+          }
         }
       } catch (error) {
         alert(error)

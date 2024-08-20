@@ -12,6 +12,16 @@ const ptj = [
     name: 'list-ptj',
     component: () => import('@/views/ptj/List.vue'),
   },
+  {
+    meta: {
+      title: 'Belanja Perjalanan Dinas',
+      requiresAuth: false,
+      layout: 'layout-full',
+    },
+    path: '/belanja/perjadin',
+    name: 'belanja-perjadin',
+    component: () => import('@/views/ptj/List.vue'),
+  },
 ]
 
 export default ptj

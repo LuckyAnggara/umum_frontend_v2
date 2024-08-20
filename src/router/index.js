@@ -21,16 +21,6 @@ const routes = [
 
   {
     meta: {
-      title: 'Dashboard',
-      requiresAuth: true,
-      layout: 'layout-auth',
-    },
-    path: '/admin/dashboard',
-    name: 'dashboard',
-    component: () => import('@/views/dashboard/User.vue'),
-  },
-  {
-    meta: {
       title: 'User Management',
       requiresAuth: true,
       layout: 'layout-auth',
@@ -149,13 +139,20 @@ const router = createRouter({
 
 router.beforeEach(async (to, from, next) => {
   const authStore = useAuthStore()
+  const isAuth = await authStore.getAuthUser()
+
   const authUser = authStore.userData
+
   const reqAuth = to.matched.some((record) => record.meta.requiresAuth)
-  const loginQuery = { path: '/admin' }
-  const dashboardQuery = { path: '/admin/dashboard' }
+  const loginQuery = { path: '/user' }
+  let dashboardQuery = null
+  if (authStore.user.role == 'ADMIN') {
+    dashboardQuery = { path: '/admin/dashboard' }
+  } else if (authStore.user.role == 'USER') {
+    dashboardQuery = { path: '/user/dashboard' }
+  }
 
   if (reqAuth && !authUser) {
-    const isAuth = await authStore.getAuthUser()
     if (to.fullPath == loginQuery) {
     }
     if (!isAuth) {
@@ -164,8 +161,7 @@ router.beforeEach(async (to, from, next) => {
       next()
     }
   } else {
-    if (to.fullPath == '/admin') {
-      const isAuth = await authStore.getAuthUser()
+    if (to.fullPath == '/user') {
       if (isAuth) {
         next(dashboardQuery)
       } else {

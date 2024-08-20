@@ -26,7 +26,7 @@
       </van-cell-group>
 
       <van-cell-group inset title="Admin">
-        <van-cell class="cursor-pointer" title="Admin" label="Menuju Admin Dashboard" icon="apps-o" @click="router.push({ name: 'login' })" />
+        <van-cell class="cursor-pointer" title="Admin" label="Menuju Admin Dashboard" icon="apps-o" @click="router.push({ name: 'login-user' })" />
       </van-cell-group>
     </div>
 
@@ -146,9 +146,15 @@ const menu = [
     desc: 'Layanan Peminjaman Ruangan',
     icon: 'wap-home-o',
   },
+  // {
+  //   label: 'Pertanggung Jawaban Kegiatan',
+  //   to: 'user-ptj',
+  //   desc: 'Layanan Pertanggung Jawaban Kegiatan',
+  //   icon: 'completed-o',
+  // },
   {
-    label: 'Pertanggung Jawaban Kegiatan',
-    to: 'user-ptj',
+    label: 'Perjalanan Dinas',
+    to: 'login-user',
     desc: 'Layanan Pertanggung Jawaban Kegiatan',
     icon: 'completed-o',
   },

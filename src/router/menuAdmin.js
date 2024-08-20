@@ -1,10 +1,10 @@
 import { RectangleGroupIcon, SwatchIcon, ArchiveBoxIcon, HomeModernIcon, RectangleStackIcon, DocumentTextIcon, UserIcon } from '@heroicons/vue/24/solid'
 
-export const menu = [
+export const menuAdmin = [
   {
     name: 'Dashboard',
     icon: RectangleGroupIcon,
-    to: 'dashboard',
+    to: 'admin-dashboard',
   },
 
   {
