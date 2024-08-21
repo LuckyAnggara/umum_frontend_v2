@@ -6,17 +6,11 @@ export const menuUser = [
     icon: RectangleGroupIcon,
     to: 'user-dashboard',
   },
-
-  {
-    name: '-',
-  },
-
   {
     name: 'Perjadin Baru',
     icon: ArchiveBoxIcon,
-    to: 'persediaan-admin',
+    to: 'perjadin-new',
   },
-
   {
     name: 'Daftar',
     icon: RectangleStackIcon,

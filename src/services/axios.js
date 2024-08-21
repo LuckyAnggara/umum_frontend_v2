@@ -20,6 +20,13 @@ export const authClient = axios.create({
   withCredentials: true, // required to handle the CSRF token
 })
 
+export const axiosPegawai = axios.create({
+  baseURL: 'https://dse.kemenkumham.go.id/index.php/home/get_ajax_pegawai/',
+  // baseURL: 'http://127.0.0.1:8000',
+  // baseURL: 'http://192.168.16.128:8000',
+  withCredentials: true, // required to handle the CSRF token
+})
+
 axiosIns.interceptors.request.use((config) => {
   const token = localStorage.getItem('token')
   if (token) {

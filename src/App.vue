@@ -1,7 +1,7 @@
 <script setup>
 import LayoutAuth from '@/layouts/LayoutAuth.vue'
 import LayoutGuest from '@/layouts/LayoutGuest.vue'
-import LayoutFull from '@/layouts/LayoutFull.vue'
+import LayoutUser from '@/layouts/LayoutUser.vue'
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 
@@ -9,7 +9,7 @@ const route = useRoute()
 
 const layout = computed(() => {
   if (route.meta.layout === 'layout-auth') return LayoutAuth
-  if (route.meta.layout === 'layout-full') return LayoutFull
+  if (route.meta.layout === 'layout-user') return LayoutUser
   return LayoutGuest
 })
 </script>

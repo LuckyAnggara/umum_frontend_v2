@@ -43,7 +43,7 @@ const user = [
     meta: {
       title: 'Dashboard',
       requiresAuth: true,
-      layout: 'layout-auth',
+      layout: 'layout-user',
     },
     path: '/user/dashboard',
     name: 'user-dashboard',
@@ -51,7 +51,6 @@ const user = [
       return import('@/views/user/dashboard/Ptj.vue')
     },
   },
-
   {
     meta: {
       title: 'Dashboard',

@@ -6,6 +6,7 @@ import user from './user'
 import tempat from './tempat'
 import agenda from './agenda'
 import arsip from './arsip'
+import perjadin from './perjadin'
 
 const routes = [
   {
@@ -127,6 +128,7 @@ const routes = [
   ...ptj,
   ...agenda,
   ...arsip,
+  ...perjadin,
 ]
 
 const router = createRouter({
