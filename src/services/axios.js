@@ -2,8 +2,9 @@ import axios from 'axios'
 // import { useAuthStore } from '@/stores/auth'
 
 export const axiosIns = axios.create({
-  baseURL: 'http://127.0.0.1:8000',
+  // baseURL: 'http://127.0.0.1:8000',
   // baseURL: 'https://de.bbmakmur.com',
+  baseURL: 'https://seru.itjenkumham.id/backend',
   // baseURL: 'http://192.168.10.127:8000',
   // baseURL: 'http://192.168.16.128:8000',
   // baseURL: 'http://192.168.46.163:8000',
