@@ -148,9 +148,9 @@ router.beforeEach(async (to, from, next) => {
   const reqAuth = to.matched.some((record) => record.meta.requiresAuth)
   const loginQuery = { path: '/user' }
   let dashboardQuery = null
-  if (authStore.user.role == 'ADMIN') {
+  if (authStore.user?.role == 'ADMIN') {
     dashboardQuery = { path: '/admin/dashboard' }
-  } else if (authStore.user.role == 'USER') {
+  } else if (authStore.user?.role == 'USER') {
     dashboardQuery = { path: '/user/dashboard' }
   }
 
