@@ -125,6 +125,13 @@
           </div>
         </div>
       </div>
+      <RecaptchaV2
+        @widget-id="handleWidgetId"
+        @error-callback="handleErrorCalback"
+        @expired-callback="handleExpiredCallback"
+        @load-callback="handleLoadCallback"
+      />
+
       <div class="flex items-center justify-between p-3 bg-gray-100">
         <h3 class="text-gray-900 font-semibold"></h3>
         <button
@@ -207,6 +214,7 @@ import { useRoute, useRouter } from 'vue-router'
 import { storageUrl } from '@/services/helper'
 import { toast } from 'vue3-toastify'
 import { computed, ref } from 'vue'
+import { RecaptchaV2 } from 'vue3-recaptcha-v2'
 
 import { useUserStore } from '@/stores/user'
 
@@ -214,18 +222,13 @@ const permintaanPersediaanStore = usePermintaanPersediaanStore()
 const showModal = ref(false)
 const cariPegawaiLoading = ref(false)
 const userStore = useUserStore()
-
-const route = useRoute()
-
 const router = useRouter()
 function toList() {
   router.push({ name: 'permintaan-persediaan' })
 }
-
 function deleteItem(index) {
   permintaanPersediaanStore.removeCart(index)
 }
-
 async function cariPegawai() {
   cariPegawaiLoading.value = true
   const id = toast.loading('Cari data...', {
@@ -295,7 +298,6 @@ async function cariPegawai() {
     cariPegawaiLoading.value = false
   }
 }
-
 function confirm() {
   if (permintaanPersediaanStore.form.detail.length > 0) {
     showModal.value = true
@@ -306,7 +308,6 @@ function confirm() {
     })
   }
 }
-
 async function submit() {
   const id = toast.loading('Permintaan sedang di proses...', {
     position: toast.POSITION.BOTTOM_CENTER,
@@ -344,10 +345,22 @@ async function submit() {
   }
   toast.done(id)
 }
-
 function showImage(item) {
   if (item.image == null) return 'https://placehold.co/40x40'
   const a = storageUrl + '/' + item.image
   return a
+}
+
+const handleWidgetId = (widgetId) => {
+  console.log('Widget ID: ', widgetId)
+}
+const handleErrorCalback = () => {
+  console.log('Error callback')
+}
+const handleExpiredCallback = () => {
+  console.log('Expired callback')
+}
+const handleLoadCallback = (response) => {
+  console.log('Load callback', response)
 }
 </script>

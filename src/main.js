@@ -26,20 +26,17 @@ const vuetify = createVuetify({
 
 import 'vant/lib/index.css'
 import Vue3Toasity from 'vue3-toastify'
-
 import 'vue3-toastify/dist/index.css'
-
 import VueSweetAlert from 'vue-sweetalert2'
 import 'sweetalert2/dist/sweetalert2.min.css'
 import '@mdi/font/css/materialdesignicons.css'
-
 import { createPinia } from 'pinia'
+import { install } from 'vue3-recaptcha-v2'
 
 const pinia = createPinia()
 const app = createApp(App)
 
 app.use(pinia)
-
 app.use(router)
 app.use(VueSweetAlert)
 
@@ -48,7 +45,10 @@ app.use(Vue3Toasity, {
   type: 'default',
   dangerouslyHTMLString: true,
 })
+app.use(install, {
+  sitekey: '6LcHbywqAAAAABxW6vONnPojhZJ-_-v_Bsk9uHWc',
+  cnDomains: false, // Optional, If you use in China, set this value true
+})
 
 app.use(vuetify)
-
 app.mount('#app')
