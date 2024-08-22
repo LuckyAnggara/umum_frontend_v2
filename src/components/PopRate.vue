@@ -56,8 +56,12 @@ async function submit() {
     isLoading: true,
   })
   const success = await rateStore.store()
-  emit('close')
 
+  rateStore.$patch((state) => {
+    state.popShow = false
+    state.form.value = 0
+    state.form.saran = null
+  })
   if (success.status) {
     toast.update(id, {
       render: 'Terima kasih atas penilaian anda !!',

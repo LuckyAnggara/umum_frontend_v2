@@ -76,9 +76,7 @@ export const useAgendaStore = defineStore('agenda', {
     async getData(page = '') {
       this.isLoading = true
       try {
-        const response = await axiosIns.get(
-          `/api/agenda?query=${this.form.pimpinan}${this.dateQuery}${this.adminQuery}`
-        )
+        const response = await axiosIns.get(`/api/agenda?query=${this.form.pimpinan}${this.dateQuery}${this.adminQuery}`)
         this.responses = response.data
       } catch (error) {
         alert(error.message)
@@ -108,15 +106,11 @@ export const useAgendaStore = defineStore('agenda', {
 
       this.isStoreLoading = true
       try {
-        const response = await axiosIns.post(
-          `/api/agenda`,
-          uploadFile ? formData : this.form,
-          {
-            headers: {
-              'Content-Type': 'multipart/form-data',
-            },
-          }
-        )
+        const response = await axiosIns.post(`/api/agenda`, uploadFile ? formData : this.form, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        })
         if (response.status == 200) {
           return {
             status: true,

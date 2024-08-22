@@ -52,21 +52,51 @@
                 </div>
                 <div class="grid gap-4 mb-4 flex-col">
                   <div>
-                    <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Username*</label>
-                    <input
-                      @keyup="search"
-                      required
-                      v-model="authStore.formNew.nip"
-                      placeholder="Username"
-                      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                    />
+                    <label for="nip" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nomor Induk Pegawai*</label>
+                    <div class="relative">
+                      <input
+                        @keyup="search"
+                        required
+                        v-model="authStore.formNew.username"
+                        type="text"
+                        id="nip"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        placeholder="Username"
+                      />
+                      <button
+                        @click="cariPegawai"
+                        type="button"
+                        class="absolute top-0 end-0 p-2.5 h-full text-sm font-medium text-white bg-gray-700 rounded-e-lg border border-gray-700 hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                      >
+                        <svg v-if="!cariPegawaiLoading" class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                          <path
+                            stroke="currentColor"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
+                          />
+                        </svg>
+                        <span v-else><ArrowPathIcon class="mx-auto w-4 h-4 animate-spin" /></span>
+                      </button>
+                    </div>
                   </div>
+
                   <div class="text-left">
                     <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nama*</label>
                     <input
                       required
                       v-model="authStore.formNew.name"
                       placeholder="Nama"
+                      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                    />
+                  </div>
+                  <div class="text-left">
+                    <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Unit*</label>
+                    <input
+                      required
+                      v-model="authStore.formNew.unit"
+                      placeholder="Unit Kerja"
                       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                     />
                   </div>
@@ -83,9 +113,9 @@
                 </div>
                 <div class="flex items-center space-x-4">
                   <button
-                    :disabled="authStore.validNup"
+                    :disabled="authStore.validUsername"
                     type="submit"
-                    :class="authStore.validNup ? 'bg-gray-200' : 'bg-blue-100 hover:bg-blue-200'"
+                    :class="authStore.validUsername ? 'bg-gray-200' : 'bg-blue-100 hover:bg-blue-200'"
                     class="inline-flex justify-center rounded-md border border-transparent px-4 py-2 text-sm font-medium text-blue-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                   >
                     <span v-if="authStore.isStoreLoading">
@@ -115,14 +145,15 @@
 import FilePond from '@/components/FilePond.vue'
 import { onMounted, onUpdated, ref } from 'vue'
 import { TransitionRoot, TransitionChild, Dialog, DialogPanel, DialogTitle } from '@headlessui/vue'
-
+import { axiosPegawai } from '@/services/axios'
 import { ArrowPathIcon } from '@heroicons/vue/24/outline'
 import { useAuthStore } from '@/stores/auth'
 import { useMainStore } from '@/stores/main'
 import { useDebounceFn } from '@vueuse/core'
-
+import { toast } from 'vue3-toastify'
 const authStore = useAuthStore()
 const mainStore = useMainStore()
+const cariPegawaiLoading = ref(false)
 
 const emit = defineEmits(['close', 'submit', 'fileChange'])
 const props = defineProps({
@@ -139,4 +170,149 @@ const props = defineProps({
 const search = useDebounceFn(() => {
   authStore.cekUserName()
 }, 500)
+
+async function cariPegawai() {
+  cariPegawaiLoading.value = true
+  const id = toast.loading('Cari data...', {
+    position: toast.POSITION.BOTTOM_CENTER,
+    type: 'info',
+    isLoading: true,
+  })
+  try {
+    var data = new FormData()
+    data.append('nip', '196211251989031002')
+
+    const response = await axiosPegawai
+      .post(`get_ajax_pegawai/`, data)
+      .then((response) => {
+        response
+          .json()
+          .then((data) => {
+            console.info(data)
+            // if (data.success == true) {
+            //   toast.update(id, {
+            //     render: 'Berhasil',
+            //     position: toast.POSITION.BOTTOM_CENTER,
+            //     type: 'success',
+            //     autoClose: 1000,
+            //     closeOnClick: true,
+            //     closeButton: true,
+            //     isLoading: false,
+            //   })
+            //   authStore.setDataNewAccount(data.data)
+            // } else {
+            //   toast.update(id, {
+            //     render: 'tidak dapat ditemukan',
+            //     position: toast.POSITION.BOTTOM_CENTER,
+            //     type: 'error',
+            //     autoClose: 1000,
+            //     closeOnClick: true,
+            //     closeButton: true,
+            //     isLoading: false,
+            //   })
+            // }
+          })
+          .catch((err) => {
+            toast.update(id, {
+              render: 'ada permasalahan',
+              position: toast.POSITION.BOTTOM_CENTER,
+              type: 'error',
+              autoClose: 1000,
+              closeOnClick: true,
+              closeButton: true,
+              isLoading: false,
+            })
+          })
+          .finally(() => {
+            toast.done(id)
+          })
+      })
+      .catch((err) => {
+        console.error(err)
+        toast.update(id, {
+          render: 'terjadi kesalahan',
+          position: toast.POSITION.BOTTOM_CENTER,
+          type: 'error',
+          autoClose: 1000,
+          closeOnClick: true,
+          closeButton: true,
+          isLoading: false,
+        })
+      })
+  } catch (error) {
+    console.error(error)
+  } finally {
+    cariPegawaiLoading.value = false
+  }
+}
+
+// async function cariPegawai() {
+//   cariPegawaiLoading.value = true
+//   const id = toast.loading('Cari data...', {
+//     position: toast.POSITION.BOTTOM_CENTER,
+//     type: 'info',
+//     isLoading: true,
+//   })
+//   try {
+//     const response = await fetch(`https://lapkin.bbmakmur.com/api/employee-show/${authStore.formNew.username}`)
+//       .then((response) => {
+//         response
+//           .json()
+//           .then((data) => {
+//             if (data.success == true) {
+//               toast.update(id, {
+//                 render: 'Berhasil',
+//                 position: toast.POSITION.BOTTOM_CENTER,
+//                 type: 'success',
+//                 autoClose: 1000,
+//                 closeOnClick: true,
+//                 closeButton: true,
+//                 isLoading: false,
+//               })
+//               authStore.setDataNewAccount(data.data)
+//             } else {
+//               toast.update(id, {
+//                 render: 'tidak dapat ditemukan',
+//                 position: toast.POSITION.BOTTOM_CENTER,
+//                 type: 'error',
+//                 autoClose: 1000,
+//                 closeOnClick: true,
+//                 closeButton: true,
+//                 isLoading: false,
+//               })
+//             }
+//           })
+//           .catch((err) => {
+//             toast.update(id, {
+//               render: 'ada permasalahan',
+//               position: toast.POSITION.BOTTOM_CENTER,
+//               type: 'error',
+//               autoClose: 1000,
+//               closeOnClick: true,
+//               closeButton: true,
+//               isLoading: false,
+//             })
+//           })
+//           .finally(() => {
+//             toast.done(id)
+//           })
+//       })
+//       .catch((err) => {
+//         console.error(err)
+//         toast.update(id, {
+//           render: 'terjadi kesalahan',
+//           position: toast.POSITION.BOTTOM_CENTER,
+//           type: 'error',
+//           autoClose: 1000,
+//           closeOnClick: true,
+//           closeButton: true,
+//           isLoading: false,
+//         })
+//       })
+//   } catch (error) {
+//     console.error(error)
+//   } finally {
+//     cariPegawaiLoading.value = false
+//   }
+// }
 </script>

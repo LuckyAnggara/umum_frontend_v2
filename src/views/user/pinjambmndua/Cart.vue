@@ -323,7 +323,7 @@ async function submit() {
       isLoading: false,
     })
     showModal.value = !showModal.value
-    userStore.updatePeminjamanBmn(success.data)
+    userStore.getLayanan()
     router.push({
       name: 'output-peminjaman-bmn',
       params: { tiket: success.data.tiket },

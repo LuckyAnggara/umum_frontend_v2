@@ -64,9 +64,7 @@ export const useTempatStore = defineStore('tempat', {
     async getData(page = '') {
       this.isLoading = true
       try {
-        const response = await axiosIns.get(
-          `/api/tempat?query=${this.form.ruangan}${this.dateQuery}`
-        )
+        const response = await axiosIns.get(`/api/tempat?query=${this.form.ruangan}${this.dateQuery}`)
         this.responses = response.data
       } catch (error) {
         alert(error.message)
@@ -92,6 +90,7 @@ export const useTempatStore = defineStore('tempat', {
         }
       } catch (error) {
         alert(error)
+        return false
       } finally {
         this.isStoreLoading = false
       }

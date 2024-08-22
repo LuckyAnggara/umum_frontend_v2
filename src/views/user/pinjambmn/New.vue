@@ -71,6 +71,29 @@
             </li>
           </ul>
         </nav>
+        <!-- <nav class="justify-end items-end flex mt-4">
+          <ul class="inline-flex -space-x-px text-sm">
+            <li @click="previousPage()">
+              <a
+                class="cursor-pointer flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                >Previous</a
+              >
+            </li>
+            <li @click="choosePage(num)" v-for="num in displayedPages" :key="num">
+              <a
+                :class="num == bmnStore.currentPage ? 'text-blue-600 bg-blue-50' : 'text-gray-500'"
+                class="cursor-pointer flex items-center justify-center px-3 h-8 leading-tight bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                >{{ num }}</a
+              >
+            </li>
+            <li @click="nextPage()">
+              <a
+                class="cursor-pointer flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                >Next</a
+              >
+            </li>
+          </ul>
+        </nav> -->
       </template>
       <template v-else>
         <div class="w-full h-96 flex flex-col text-center text-gray-700">
@@ -169,7 +192,7 @@ function showImage(item) {
 }
 
 function pilihItem(item) {
-  bmnStore.setCurrentDataBmn(item)
+  // bmnStore.setCurrentDataBmn(item)
   bmnStore.filter.searchQuery = null
   router.push({ name: 'detail-peminjaman-bmn' })
 }

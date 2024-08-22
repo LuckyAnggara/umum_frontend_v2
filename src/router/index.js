@@ -16,7 +16,7 @@ const routes = [
       requiresAuth: false,
     },
     path: '/admin',
-    name: 'login',
+    name: 'login-admin',
     component: () => import('@/views/login/Login.vue'),
   },
 
@@ -146,7 +146,7 @@ router.beforeEach(async (to, from, next) => {
   const authUser = authStore.userData
 
   const reqAuth = to.matched.some((record) => record.meta.requiresAuth)
-  const loginQuery = { path: '/user' }
+  const loginQuery = { path: '/admin' }
   let dashboardQuery = null
   if (authStore.user?.role == 'ADMIN') {
     dashboardQuery = { path: '/admin/dashboard' }
@@ -163,7 +163,7 @@ router.beforeEach(async (to, from, next) => {
       next()
     }
   } else {
-    if (to.fullPath == '/user') {
+    if (to.fullPath == '/admin') {
       if (isAuth) {
         next(dashboardQuery)
       } else {

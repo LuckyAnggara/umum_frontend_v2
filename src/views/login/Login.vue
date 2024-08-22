@@ -10,15 +10,15 @@
           <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">Sign in</h1>
           <form class="space-y-4 md:space-y-6" @submit.prevent="login">
             <div>
-              <label for="nip" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Username</label>
+              <label for="nip" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nomor Induk Pegawai</label>
               <input
                 type="text"
                 v-model="authStore.form.nip"
                 name="nip"
                 id="nip"
                 class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                placeholder="isi dengan username"
-                required=""
+                placeholder="Isi dengan Nomor Induk Pegawai"
+                required
               />
             </div>
             <div>
@@ -28,9 +28,9 @@
                 v-model="authStore.form.password"
                 name="password"
                 id="password"
-                placeholder="••••••••"
                 class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                required=""
+                required
+                placeholder="Password"
               />
             </div>
 
@@ -72,6 +72,7 @@
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
 import { toast } from 'vue3-toastify'
+import { onMounted } from 'vue'
 
 const authStore = useAuthStore()
 const router = useRouter()
@@ -94,7 +95,7 @@ const login = async () => {
       isLoading: false,
     })
     toast.done(id)
-    router.push({ name: 'dashboard' })
+    router.push({ name: 'admin-dashboard' })
   } else {
     toast.update(id, {
       render: 'Terjadi kesalahan',
@@ -107,4 +108,10 @@ const login = async () => {
     })
   }
 }
+
+onMounted(() => {
+  authStore.$patch((state) => {
+    state.form.isAdmin = true
+  })
+})
 </script>

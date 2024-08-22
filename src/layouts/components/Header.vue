@@ -95,7 +95,7 @@ const logout = async () => {
       isLoading: false,
     })
     toast.done(id)
-    router.push({ name: success.route })
+    router.push({ name: 'dashboard-user' })
   }
 }
 </script>

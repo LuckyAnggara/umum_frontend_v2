@@ -19,6 +19,7 @@ export const useAuthStore = defineStore('auth', {
     form: {
       nip: null,
       password: null,
+      isAdmin: false,
     },
     formNew: {
       nip: null,
@@ -184,6 +185,7 @@ export const useAuthStore = defineStore('auth', {
       try {
         const response = await axiosIns.post(`/api/logout`)
         if (response.status == 200) {
+          this.user = null
           return {
             status: true,
             route: route,
@@ -207,6 +209,11 @@ export const useAuthStore = defineStore('auth', {
     },
     setCurrentUser(item) {
       this.singleResponses = JSON.parse(JSON.stringify(item))
+    },
+    setDataNewAccount(item) {
+      this.formNew.username = item.nip
+      this.formNew.name = item?.name
+      this.formNew.unit = item.unit?.name
     },
   },
 })

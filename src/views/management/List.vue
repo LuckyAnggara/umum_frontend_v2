@@ -68,10 +68,11 @@
             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
               <tr>
                 <th scope="col" class="px-4 py-3">#</th>
-                <th scope="col" class="px-4 py-3">Username</th>
+                <th scope="col" class="px-4 py-3">Nomor Induk Pegawai</th>
                 <th scope="col" class="px-4 py-3">Nama</th>
                 <th scope="col" class="px-4 py-3">Last Login</th>
                 <th scope="col" class="px-4 py-3">Last IP Login</th>
+                <th scope="col" class="px-4 py-3">Role</th>
                 <th scope="col" class="px-4 py-3"></th>
               </tr>
             </thead>
@@ -96,6 +97,7 @@
                 <td class="px-4 py-1">{{ item.name }}</td>
                 <td class="px-4 py-1">{{ item.last_login }}</td>
                 <td class="px-4 py-1">{{ item.last_ip_login }}</td>
+                <td class="px-4 py-1">{{ item.role }}</td>
 
                 <td class="px-4 py-1">
                   <div>

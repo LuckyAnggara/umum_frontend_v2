@@ -125,7 +125,7 @@
           </div>
         </div>
       </div>
-      <RecaptchaV2 @widget-id="handleWidgetId" @load-callback="handleLoadCallback" />
+      <!-- <RecaptchaV2 @widget-id="handleWidgetId" /> -->
 
       <div class="flex items-center justify-between p-3 bg-gray-100">
         <h3 class="text-gray-900 font-semibold"></h3>
@@ -209,7 +209,7 @@ import { useRoute, useRouter } from 'vue-router'
 import { storageUrl } from '@/services/helper'
 import { toast } from 'vue3-toastify'
 import { computed, ref } from 'vue'
-import { RecaptchaV2 } from 'vue3-recaptcha-v2'
+import { RecaptchaV2, useRecaptcha } from 'vue3-recaptcha-v2'
 
 import { useUserStore } from '@/stores/user'
 
@@ -322,7 +322,7 @@ async function submit() {
       isLoading: false,
     })
     showModal.value = !showModal.value
-    userStore.updatePersediaan(success.data)
+    userStore.getLayanan()
     router.push({
       name: 'output-permintaan-user',
       params: { tiket: success.data.tiket },
@@ -346,11 +346,10 @@ function showImage(item) {
   return a
 }
 
+const { handleGetResponse } = useRecaptcha()
+
 const handleWidgetId = (widgetId) => {
   console.log('Widget ID: ', widgetId)
-}
-
-const handleLoadCallback = (response) => {
-  console.log('Load callback', response)
+  handleGetResponse(widgetId)
 }
 </script>
