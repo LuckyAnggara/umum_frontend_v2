@@ -46,7 +46,7 @@ app.use(Vue3Toasity, {
   dangerouslyHTMLString: true,
 })
 app.use(install, {
-  sitekey: '6LcHbywqAAAAABxW6vONnPojhZJ-_-v_Bsk9uHWc',
+  sitekey: '6LfrfSwqAAAAAG03DlRfC2hXit8Wef4XFESTD_rG',
   cnDomains: false, // Optional, If you use in China, set this value true
 })
 

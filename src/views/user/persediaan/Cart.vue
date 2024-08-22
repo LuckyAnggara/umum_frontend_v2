@@ -125,12 +125,7 @@
           </div>
         </div>
       </div>
-      <RecaptchaV2
-        @widget-id="handleWidgetId"
-        @error-callback="handleErrorCalback"
-        @expired-callback="handleExpiredCallback"
-        @load-callback="handleLoadCallback"
-      />
+      <RecaptchaV2 @widget-id="handleWidgetId" @load-callback="handleLoadCallback" />
 
       <div class="flex items-center justify-between p-3 bg-gray-100">
         <h3 class="text-gray-900 font-semibold"></h3>
@@ -354,12 +349,7 @@ function showImage(item) {
 const handleWidgetId = (widgetId) => {
   console.log('Widget ID: ', widgetId)
 }
-const handleErrorCalback = () => {
-  console.log('Error callback')
-}
-const handleExpiredCallback = () => {
-  console.log('Expired callback')
-}
+
 const handleLoadCallback = (response) => {
   console.log('Load callback', response)
 }
