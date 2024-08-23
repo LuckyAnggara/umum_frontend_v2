@@ -7,7 +7,7 @@ const user = [
     },
     path: '/',
     name: 'dashboard-user',
-    component: () => import('@/views/user/Dashboard.vue'),
+    component: () => import('@/views/user/DashboardAlt.vue'),
   },
   {
     meta: {
