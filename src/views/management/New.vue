@@ -179,38 +179,33 @@ async function cariPegawai() {
     isLoading: true,
   })
   try {
-    var data = new FormData()
-    data.append('nip', '196211251989031002')
-
-    const response = await axiosPegawai
-      .post(`get_ajax_pegawai/`, data)
+    const response = await fetch(`https://lapkin.bbmakmur.com/api/employee-show/${authStore.formNew.username}`)
       .then((response) => {
         response
           .json()
           .then((data) => {
-            console.info(data)
-            // if (data.success == true) {
-            //   toast.update(id, {
-            //     render: 'Berhasil',
-            //     position: toast.POSITION.BOTTOM_CENTER,
-            //     type: 'success',
-            //     autoClose: 1000,
-            //     closeOnClick: true,
-            //     closeButton: true,
-            //     isLoading: false,
-            //   })
-            //   authStore.setDataNewAccount(data.data)
-            // } else {
-            //   toast.update(id, {
-            //     render: 'tidak dapat ditemukan',
-            //     position: toast.POSITION.BOTTOM_CENTER,
-            //     type: 'error',
-            //     autoClose: 1000,
-            //     closeOnClick: true,
-            //     closeButton: true,
-            //     isLoading: false,
-            //   })
-            // }
+            if (data.success == true) {
+              toast.update(id, {
+                render: 'Berhasil',
+                position: toast.POSITION.BOTTOM_CENTER,
+                type: 'success',
+                autoClose: 1000,
+                closeOnClick: true,
+                closeButton: true,
+                isLoading: false,
+              })
+              authStore.setDataNewAccount(data.data)
+            } else {
+              toast.update(id, {
+                render: 'tidak dapat ditemukan',
+                position: toast.POSITION.BOTTOM_CENTER,
+                type: 'error',
+                autoClose: 1000,
+                closeOnClick: true,
+                closeButton: true,
+                isLoading: false,
+              })
+            }
           })
           .catch((err) => {
             toast.update(id, {
@@ -245,74 +240,4 @@ async function cariPegawai() {
     cariPegawaiLoading.value = false
   }
 }
-
-// async function cariPegawai() {
-//   cariPegawaiLoading.value = true
-//   const id = toast.loading('Cari data...', {
-//     position: toast.POSITION.BOTTOM_CENTER,
-//     type: 'info',
-//     isLoading: true,
-//   })
-//   try {
-//     const response = await fetch(`https://lapkin.bbmakmur.com/api/employee-show/${authStore.formNew.username}`)
-//       .then((response) => {
-//         response
-//           .json()
-//           .then((data) => {
-//             if (data.success == true) {
-//               toast.update(id, {
-//                 render: 'Berhasil',
-//                 position: toast.POSITION.BOTTOM_CENTER,
-//                 type: 'success',
-//                 autoClose: 1000,
-//                 closeOnClick: true,
-//                 closeButton: true,
-//                 isLoading: false,
-//               })
-//               authStore.setDataNewAccount(data.data)
-//             } else {
-//               toast.update(id, {
-//                 render: 'tidak dapat ditemukan',
-//                 position: toast.POSITION.BOTTOM_CENTER,
-//                 type: 'error',
-//                 autoClose: 1000,
-//                 closeOnClick: true,
-//                 closeButton: true,
-//                 isLoading: false,
-//               })
-//             }
-//           })
-//           .catch((err) => {
-//             toast.update(id, {
-//               render: 'ada permasalahan',
-//               position: toast.POSITION.BOTTOM_CENTER,
-//               type: 'error',
-//               autoClose: 1000,
-//               closeOnClick: true,
-//               closeButton: true,
-//               isLoading: false,
-//             })
-//           })
-//           .finally(() => {
-//             toast.done(id)
-//           })
-//       })
-//       .catch((err) => {
-//         console.error(err)
-//         toast.update(id, {
-//           render: 'terjadi kesalahan',
-//           position: toast.POSITION.BOTTOM_CENTER,
-//           type: 'error',
-//           autoClose: 1000,
-//           closeOnClick: true,
-//           closeButton: true,
-//           isLoading: false,
-//         })
-//       })
-//   } catch (error) {
-//     console.error(error)
-//   } finally {
-//     cariPegawaiLoading.value = false
-//   }
-// }
 </script>

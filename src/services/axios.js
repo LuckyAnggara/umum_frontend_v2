@@ -22,8 +22,6 @@ export const authClient = axios.create({
 })
 
 export const axiosPegawai = axios.create({
-  baseURL: 'https://dse.kemenkumham.go.id/index.php/home/',
-  headers: { 'Content-Type': 'text/html; charset=UTF-8' },
   // baseURL: 'http://127.0.0.1:8000',
   // baseURL: 'http://192.168.16.128:8000',
 })

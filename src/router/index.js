@@ -163,7 +163,7 @@ router.beforeEach(async (to, from, next) => {
       next()
     }
   } else {
-    if (to.fullPath == '/admin') {
+    if (to.fullPath == '/admin' || to.fullPath == '/admin/dashboard') {
       if (isAuth) {
         next(dashboardQuery)
       } else {
