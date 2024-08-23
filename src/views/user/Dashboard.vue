@@ -226,12 +226,12 @@ const menu = [
   //   desc: 'Layanan Pertanggung Jawaban Kegiatan',
   //   icon: 'completed-o',
   // },
-  {
-    label: 'Keuangan',
-    to: 'user-dashboard',
-    desc: 'Layanan Keuangan',
-    icon: 'completed-o',
-  },
+  // {
+  //   label: 'Keuangan',
+  //   to: 'user-dashboard',
+  //   desc: 'Layanan Keuangan',
+  //   icon: 'completed-o',
+  // },
   {
     label: 'Agenda Pimpinan',
     to: 'booking-agenda',

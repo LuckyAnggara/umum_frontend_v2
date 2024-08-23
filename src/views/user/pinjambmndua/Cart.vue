@@ -206,14 +206,16 @@ import { usePeminjamanBmn } from '@/stores/peminjamanBmn'
 import { useRoute, useRouter } from 'vue-router'
 import { storageUrl } from '@/services/helper'
 import { toast } from 'vue3-toastify'
-import { computed, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 
 import { useUserStore } from '@/stores/user'
+import { useAuthStore } from '@/stores/auth'
+
 const peminjamanBmnStore = usePeminjamanBmn()
 const showModal = ref(false)
 const cariPegawaiLoading = ref(false)
 const userStore = useUserStore()
-
+const authStore = useAuthStore()
 const router = useRouter()
 function toList() {
   router.push({ name: 'cari-peminjaman-bmn-dua' })
@@ -348,4 +350,12 @@ function showImage(item) {
   const a = storageUrl + '/' + item.image
   return a
 }
+
+onMounted(() => {
+  peminjamanBmnStore.$patch((state) => {
+    state.form.nip = authStore.user.nip
+    state.form.nama = authStore.user.name
+    state.form.unit = authStore.user.unit
+  })
+})
 </script>

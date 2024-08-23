@@ -207,10 +207,12 @@ import { usePermintaanPersediaanStore } from '@/stores/permintaanPersediaan'
 import { useRoute, useRouter } from 'vue-router'
 import { storageUrl } from '@/services/helper'
 import { toast } from 'vue3-toastify'
-import { computed, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 
 import { useUserStore } from '@/stores/user'
+import { useAuthStore } from '@/stores/auth'
 
+const authStore = useAuthStore()
 const permintaanPersediaanStore = usePermintaanPersediaanStore()
 const showModal = ref(false)
 const cariPegawaiLoading = ref(false)
@@ -343,4 +345,12 @@ function showImage(item) {
   const a = storageUrl + '/' + item.image
   return a
 }
+
+onMounted(() => {
+  permintaanPersediaanStore.$patch((state) => {
+    state.form.nip = authStore.user.nip
+    state.form.nama = authStore.user.name
+    state.form.unit = authStore.user.unit
+  })
+})
 </script>
