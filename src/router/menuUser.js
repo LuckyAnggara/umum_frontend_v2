@@ -4,12 +4,7 @@ export const menuUser = [
   {
     name: 'Dashboard',
     icon: RectangleGroupIcon,
-    to: 'user-dashboard',
-  },
-  {
-    name: 'Perjadin Baru',
-    icon: ArchiveBoxIcon,
-    to: 'perjadin-new',
+    to: 'dashboard-user',
   },
   {
     name: 'Daftar',
@@ -17,5 +12,10 @@ export const menuUser = [
     to: 'list-bmn',
 
     // to: 'persediaan',
+  },
+  {
+    name: 'Perjadin Baru',
+    icon: ArchiveBoxIcon,
+    to: 'perjadin-new',
   },
 ]

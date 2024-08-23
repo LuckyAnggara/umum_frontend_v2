@@ -13,32 +13,14 @@
             <v-window v-model="tab">
               <v-window-item :value="1">
                 <v-container>
-                  <v-text-field color="primary" v-model="perjadinStore.form.name" label="Nama Kegiatan" variant="outlined"></v-text-field>
+                  <v-text-field color="primary" v-model="perjadinStore.form.name" label="Nama Kegiatan"></v-text-field>
                   <div class="d-flex flex-row space-x-5">
-                    <v-text-field
-                      color="primary"
-                      v-model="perjadinStore.form.tanggal_pergi"
-                      label="Tanggal Pergi"
-                      type="date"
-                      variant="outlined"
-                    ></v-text-field>
-                    <v-text-field
-                      color="primary"
-                      v-model="perjadinStore.form.tanggal_pulang"
-                      label="Tanggal Pulang"
-                      type="date"
-                      variant="outlined"
-                    ></v-text-field>
+                    <v-date-input v-model="perjadinStore.form.tanggal_pergi" label="Tanggal Awal Tugas" variant="solo-filled"></v-date-input>
+                    <v-date-input v-model="perjadinStore.form.tanggal_pulang" label="Tanggal Akhir Tugas"></v-date-input>
                   </div>
-                  <v-text-field color="primary" v-model="perjadinStore.form.tempat" label="Nomor Surat Tugas" variant="outlined"></v-text-field>
-                  <v-text-field
-                    color="primary"
-                    v-model="perjadinStore.form.tanggal_surat_tuga"
-                    label="Tanggal Surat Tugas"
-                    type="date"
-                    variant="outlined"
-                  ></v-text-field>
-                  <v-text-field color="primary" v-model="perjadinStore.form.tempat" label="Tempat Kegiatan" variant="outlined"></v-text-field>
+                  <v-text-field color="primary" v-model="perjadinStore.form.tempat" label="Nomor Surat Tugas"></v-text-field>
+                  <v-text-field color="primary" v-model="perjadinStore.form.tanggal_surat_tuga" label="Tanggal Surat Tugas" type="date"></v-text-field>
+                  <v-text-field color="primary" v-model="perjadinStore.form.tempat" label="Tempat Kegiatan"></v-text-field>
                 </v-container>
               </v-window-item>
               <v-window-item :value="2">
@@ -48,7 +30,6 @@
                     color="primary"
                     v-model="perjadinStore.form.tempat"
                     label="Mata Anggaran Kegiatan"
-                    variant="outlined"
                   ></v-text-field>
 
                   <!-- <v-autocomplete
@@ -57,7 +38,7 @@
                     v-model="perjadinStore.form.mak_id"
                     label="Mata Anggaran Kegiatan"
                     color="primary"
-                    variant="outlined"
+                    
                     item-value="id"
                     :item-props="autoCompleteItemProps"
                     :items="makStore.items"
@@ -190,6 +171,7 @@ import { useRouter } from 'vue-router'
 import { IDRCurrency } from '@/utilities/formatter'
 import { onUnmounted } from 'vue'
 import NewPegawaiModal from './dialog/DialogPegawai.vue'
+import { VDateInput } from 'vuetify/labs/VDateInput'
 
 const dialog = ref(false)
 const router = useRouter()

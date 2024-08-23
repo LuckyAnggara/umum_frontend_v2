@@ -25,6 +25,7 @@ export const useAuthStore = defineStore('auth', {
       nip: null,
       name: null,
       password: null,
+      role: 'USER',
     },
     isUpdateLoading: false,
     isStoreLoading: false,
@@ -158,7 +159,7 @@ export const useAuthStore = defineStore('auth', {
       return false
     },
     async cekUserName() {
-      const response = await axiosIns.get(`/api/users/cek-username?query=${this.formNew.username}`)
+      const response = await axiosIns.get(`/api/users/cek-username?query=${this.formNew.nip}`)
       this.validUsername = response.data
     },
     async destroy(id) {
@@ -204,14 +205,16 @@ export const useAuthStore = defineStore('auth', {
     },
     clearForm() {
       this.formNew.nip = null
-      this.formNew.username = null
+      this.formNew.name = null
+      this.formNew.unit = null
+      this.formNew.role = 'USER'
       this.formNew.password = null
     },
     setCurrentUser(item) {
       this.singleResponses = JSON.parse(JSON.stringify(item))
     },
     setDataNewAccount(item) {
-      this.formNew.username = item.nip
+      this.formNew.nip = item.nip
       this.formNew.name = item?.name
       this.formNew.unit = item.unit?.name
     },

@@ -125,7 +125,6 @@
           </div>
         </div>
       </div>
-      <!-- <RecaptchaV2 @widget-id="handleWidgetId" /> -->
 
       <div class="flex items-center justify-between p-3 bg-gray-100">
         <h3 class="text-gray-900 font-semibold"></h3>
@@ -209,7 +208,6 @@ import { useRoute, useRouter } from 'vue-router'
 import { storageUrl } from '@/services/helper'
 import { toast } from 'vue3-toastify'
 import { computed, ref } from 'vue'
-import { RecaptchaV2, useRecaptcha } from 'vue3-recaptcha-v2'
 
 import { useUserStore } from '@/stores/user'
 
@@ -344,12 +342,5 @@ function showImage(item) {
   if (item.image == null) return 'https://placehold.co/40x40'
   const a = storageUrl + '/' + item.image
   return a
-}
-
-const { handleGetResponse } = useRecaptcha()
-
-const handleWidgetId = (widgetId) => {
-  console.log('Widget ID: ', widgetId)
-  handleGetResponse(widgetId)
 }
 </script>

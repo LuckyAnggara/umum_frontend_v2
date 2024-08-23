@@ -70,8 +70,8 @@
                 <th scope="col" class="px-4 py-3">#</th>
                 <th scope="col" class="px-4 py-3">Nomor Induk Pegawai</th>
                 <th scope="col" class="px-4 py-3">Nama</th>
+                <th scope="col" class="px-4 py-3">Unit</th>
                 <th scope="col" class="px-4 py-3">Last Login</th>
-                <th scope="col" class="px-4 py-3">Last IP Login</th>
                 <th scope="col" class="px-4 py-3">Role</th>
                 <th scope="col" class="px-4 py-3"></th>
               </tr>
@@ -95,8 +95,13 @@
                 <td class="px-4 py-1">{{ authStore.from + index }}</td>
                 <td class="px-4 py-1">{{ item.nip }}</td>
                 <td class="px-4 py-1">{{ item.name }}</td>
-                <td class="px-4 py-1">{{ item.last_login }}</td>
-                <td class="px-4 py-1">{{ item.last_ip_login }}</td>
+                <td class="px-4 py-1">{{ item.unit }}</td>
+                <td class="px-4 py-1">
+                  <div class="flex flex-col">
+                    <span>{{ item.last_login }}</span
+                    ><span>{{ item.last_ip_login }}</span>
+                  </div>
+                </td>
                 <td class="px-4 py-1">{{ item.role }}</td>
 
                 <td class="px-4 py-1">

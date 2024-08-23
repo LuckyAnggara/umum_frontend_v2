@@ -6,7 +6,7 @@ import user from './user'
 import tempat from './tempat'
 import agenda from './agenda'
 import arsip from './arsip'
-import perjadin from './perjadin'
+import keuangan from './keuangan'
 
 const routes = [
   {
@@ -128,7 +128,7 @@ const routes = [
   ...ptj,
   ...agenda,
   ...arsip,
-  ...perjadin,
+  ...keuangan,
 ]
 
 const router = createRouter({
@@ -163,7 +163,7 @@ router.beforeEach(async (to, from, next) => {
       next()
     }
   } else {
-    if (to.fullPath == '/admin' || to.fullPath == '/admin/dashboard') {
+    if (to.fullPath == '/admin') {
       if (isAuth) {
         next(dashboardQuery)
       } else {
