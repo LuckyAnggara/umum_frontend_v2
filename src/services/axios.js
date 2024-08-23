@@ -15,7 +15,8 @@ export const axiosIns = axios.create({
 })
 
 export const authClient = axios.create({
-  baseURL: 'https://de.bbmakmur.com',
+  // baseURL: 'https://de.bbmakmur.com',
+  baseURL: 'https://seru.itjenkumham.id/backend',
   // baseURL: 'http://127.0.0.1:8000',
   // baseURL: 'http://192.168.16.128:8000',
   withCredentials: true, // required to handle the CSRF token
