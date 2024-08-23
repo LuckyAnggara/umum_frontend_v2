@@ -31,7 +31,6 @@ import VueSweetAlert from 'vue-sweetalert2'
 import 'sweetalert2/dist/sweetalert2.min.css'
 import '@mdi/font/css/materialdesignicons.css'
 import { createPinia } from 'pinia'
-import { install } from 'vue3-recaptcha-v2'
 
 const pinia = createPinia()
 const app = createApp(App)
@@ -44,10 +43,6 @@ app.use(Vue3Toasity, {
   theme: 'dark',
   type: 'default',
   dangerouslyHTMLString: true,
-})
-app.use(install, {
-  sitekey: '6LfrfSwqAAAAAG03DlRfC2hXit8Wef4XFESTD_rG',
-  cnDomains: false, // Optional, If you use in China, set this value true
 })
 
 app.use(vuetify)
