@@ -11,7 +11,12 @@ export const useUserStore = defineStore('user', {
     //   tempat: [],
     //   agenda: [],
     // }),
-    listPermintaanUser: null,
+    listPermintaanUser: {
+      persediaan: [],
+      peminjamanBmn: [],
+      layananBmn: [],
+      tempat: [],
+    },
     searchTerm: null,
   }),
   actions: {
@@ -141,6 +146,14 @@ export const useUserStore = defineStore('user', {
     // },
   },
   getters: {
+    mergedData: (state) => {
+      return [
+        ...state.listPermintaanUser?.persediaan,
+        ...state.listPermintaanUser?.peminjamanBmn,
+        ...state.listPermintaanUser?.layananBmn,
+        ...state.listPermintaanUser?.tempat,
+      ]
+    },
     // mergedArray(state) {
     //   const mergedArray = state.listPermintaanUser.bmn.concat(state.listPermintaanUser.persediaan)
     //   // Jika search term tidak kosong, lakukan filter berdasarkan nomor tiket

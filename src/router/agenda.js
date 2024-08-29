@@ -17,7 +17,7 @@ const agenda = [
     },
     path: '/user/agenda/calendar',
     name: 'calendar-agenda',
-    component: () => import('@/views/user/agenda/Calendar.vue'),
+    component: () => import('@/views/user/agenda/Calendar2.vue'),
   },
   {
     meta: {

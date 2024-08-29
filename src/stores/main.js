@@ -160,6 +160,13 @@ export const useMainStore = defineStore('main', {
       'Kelompok Sistem Informasi Pengawasan',
       'Kelompok Humas',
     ],
+    peranOptions: [
+      '-',
+      'ANGGOTA',
+      'KETUA TIM',
+      'PENGENDALI TEKNIS',
+      'PENGENDALI MUTU',
+    ],
     form: {
       nip: '1',
       password: '123456',

@@ -1,5 +1,9 @@
 <script setup>
-import { ArrowDownTrayIcon, ArrowPathIcon, ShareIcon } from '@heroicons/vue/24/outline'
+import {
+  ArrowDownTrayIcon,
+  ArrowPathIcon,
+  ShareIcon,
+} from '@heroicons/vue/24/outline'
 import QRCodeVue3 from 'qrcode-vue3'
 import { computed, onMounted, ref } from 'vue'
 import html2pdf from 'html2pdf.js'
@@ -57,7 +61,9 @@ onMounted(async () => {
 <template>
   <section v-if="peminjamanBmnStore.singleResponses == null">
     <div class="h-screen">
-      <span class="flex mt-24"><ArrowPathIcon class="mx-auto w-6 h-6 animate-spin" /> </span>
+      <span class="flex mt-24"
+        ><ArrowPathIcon class="mx-auto w-6 h-6 animate-spin" />
+      </span>
     </div>
   </section>
   <section v-else>
@@ -85,8 +91,12 @@ onMounted(async () => {
               </div>
 
               <div class="border-b border-dashed my-5 pt-5">
-                <div class="absolute rounded-full w-5 h-5 bg-blue-900 -mt-2 -left-2"></div>
-                <div class="absolute rounded-full w-5 h-5 bg-blue-900 -mt-2 -right-2"></div>
+                <div
+                  class="absolute rounded-full w-5 h-5 bg-blue-900 -mt-2 -left-2"
+                ></div>
+                <div
+                  class="absolute rounded-full w-5 h-5 bg-blue-900 -mt-2 -right-2"
+                ></div>
               </div>
               <div class="flex items-start px-5 pt-3 text-sm justify-between">
                 <div class="flex flex-col">
@@ -107,21 +117,29 @@ onMounted(async () => {
                     <span class="">Status</span>
                     <div class="font-semibold">
                       <span
-                        v-if="peminjamanBmnStore.singleResponses.status == 'ORDER'"
+                        v-if="
+                          peminjamanBmnStore.singleResponses.status == 'ORDER'
+                        "
                         class="bg-blue-100 text-blue-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300"
                         >{{ peminjamanBmnStore.singleResponses.status }}</span
                       >
                       <span
-                        v-else-if="peminjamanBmnStore.singleResponses.status == 'DONE'"
+                        v-else-if="
+                          peminjamanBmnStore.singleResponses.status == 'DONE'
+                        "
                         class="bg-green-100 text-green-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300"
                         >{{ peminjamanBmnStore.singleResponses.status }}</span
                       >
                       <span
-                        v-else-if="peminjamanBmnStore.singleResponses.status == 'PROCESS'"
+                        v-else-if="
+                          peminjamanBmnStore.singleResponses.status == 'PROCESS'
+                        "
                         class="bg-orange-100 text-orange-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-orange-900 dark:text-orange-300"
                         >{{ peminjamanBmnStore.singleResponses.status }}</span
                       >
-                      <span v-else class="bg-red-100 text-red-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300"
+                      <span
+                        v-else
+                        class="bg-red-100 text-red-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300"
                         >REJECTED</span
                       >
                     </div>
@@ -148,7 +166,7 @@ onMounted(async () => {
               <div class="flex flex-row justify-center text-sm">
                 <router-link
                   :to="{
-                    name: 'dashboard-user',
+                    name: 'user-dashboard',
                   }"
                   class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
                 >

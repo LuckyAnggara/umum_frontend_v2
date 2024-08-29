@@ -15,13 +15,53 @@ export const usePerjadinStore = defineStore('perjadinStore', {
     isStoreLoading: false,
     isUpdateLoading: false,
     isDestroyLoading: false,
+    newPesawat: {
+      keterangan: null,
+      biaya: 0,
+    },
+    newDarat: {
+      keterangan: null,
+      biaya: 0,
+    },
+    newRepresentatif: {
+      keterangan: null,
+      biaya: 0,
+    },
+    newUangHarian: {
+      keterangan: null,
+      hari: 0,
+      biaya: 0,
+    },
+    newHotel: {
+      keterangan: null,
+      hari: 0,
+      biaya: 0,
+    },
+    newPegawai: {
+      nip: null,
+      nama: null,
+      jabatan: null,
+      pangkat: null,
+      unit: null,
+      tanggal_awal: null,
+      tanggal_akhir: null,
+      peran: '-',
+      hotel: [],
+      uang_harian: [],
+      pesawat: [],
+      darat: [],
+      representatif: [],
+    },
     form: {
-      kegiatan: null,
-      tanggal: null,
-      tempat: null,
-      pimpinan: 1,
-      jam_mulai: { hours: 8, minutes: 0, seconds: 0 },
-      jam_akhir: { hours: 16, minutes: 0, seconds: 0 },
+      no_st: null,
+      tanggal_st: null,
+      tanggal_awal: null,
+      tanggal_akhir: null,
+      tempat_kegiatan: null,
+      nama_kegiatan: null,
+      mak_id: null,
+      total_anggaran: 0,
+      detail: [],
     },
     filter: {
       date: moment().format('YYYY-MM-DD'),
@@ -33,17 +73,74 @@ export const usePerjadinStore = defineStore('perjadinStore', {
     },
   }),
   getters: {
+    validNip(state) {
+      return false
+    },
     items(state) {
       return state.responses?.data ?? []
     },
-    dataCalendar(state) {
-      return state.items.map((event) => ({
-        id: event.id,
-        title: event.kegiatan,
-        date: event.tanggal,
-        start: event.start,
-        end: event.end,
-      }))
+    getTotalHotel(state) {
+      if (state.newPegawai.hotel.length > 0) {
+        const hari = state.newPegawai.hotel.reduce((accumulator, hotel) => {
+          return accumulator + hotel.hari
+        }, 0)
+        const biaya = state.newPegawai.hotel.reduce((accumulator, hotel) => {
+          return accumulator + hotel.hari * hotel.biaya
+        }, 0)
+
+        return {
+          hari: hari,
+          biaya: biaya,
+        }
+      }
+      return {
+        hari: 0,
+        biaya: 0,
+      }
+    },
+    getTotalUH(state) {
+      if (state.newPegawai.uang_harian.length > 0) {
+        const hari = state.newPegawai.uang_harian.reduce((accumulator, uh) => {
+          return accumulator + uh.hari
+        }, 0)
+        const biaya = state.newPegawai.uang_harian.reduce((accumulator, uh) => {
+          return accumulator + uh.hari * uh.biaya
+        }, 0)
+
+        return {
+          hari: hari,
+          biaya: biaya,
+        }
+      }
+      return {
+        hari: 0,
+        biaya: 0,
+      }
+    },
+
+    getTotalPesawat(state) {
+      if (state.newPegawai.pesawat.length > 0) {
+        return state.newPegawai.pesawat.reduce((accumulator, pesawat) => {
+          return accumulator + pesawat.biaya
+        }, 0)
+      }
+      return 0
+    },
+    getTotalDarat(state) {
+      if (state.newPegawai.darat.length > 0) {
+        return state.newPegawai.darat.reduce((accumulator, darat) => {
+          return accumulator + darat.biaya
+        }, 0)
+      }
+      return 0
+    },
+    getTotalRepresentatif(state) {
+      if (state.newPegawai.rep.length > 0) {
+        return state.newPegawai.rep.reduce((accumulator, rep) => {
+          return accumulator + rep.biaya
+        }, 0)
+      }
+      return 0
     },
     total(state) {
       return state.responses?.total
@@ -54,29 +151,14 @@ export const usePerjadinStore = defineStore('perjadinStore', {
       }
       return '&date=' + moment(state.form.tanggal).format('YYYY-MM-DD')
     },
-    adminQuery(state) {
-      if (state.minMaxDate == null) {
-        return ''
-      }
-      return `&start-date=${state.minMaxDate.min}&end-date=${state.minMaxDate.max}`
-    },
-    minMaxDate(state) {
-      const maxDate = getLastDayOfMonth(state.filter.year, state.filter.month)
-      if (state.filter.month == null && state.filter.year == null) {
-        return null
-      } else {
-        return {
-          min: state.filter.year + '-' + state.filter.month + '-01',
-          max: state.filter.year + '-' + state.filter.month + '-' + maxDate,
-        }
-      }
-    },
   },
   actions: {
     async getData(page = '') {
       this.isLoading = true
       try {
-        const response = await axiosIns.get(`/api/agenda?query=${this.form.pimpinan}${this.dateQuery}${this.adminQuery}`)
+        const response = await axiosIns.get(
+          `/api/agenda?query=${this.form.pimpinan}${this.dateQuery}${this.adminQuery}`
+        )
         this.responses = response.data
       } catch (error) {
         alert(error.message)
@@ -85,90 +167,101 @@ export const usePerjadinStore = defineStore('perjadinStore', {
       }
       return false
     },
-    async store({ uploadFile = null }) {
-      let formData = new FormData()
-      if (uploadFile) {
-        uploadFile.forEach((element, index) => {
-          formData.append(`file[${index}]`, element)
-        })
-        formData.append('jumlah_lampiran', uploadFile.length)
+    tambahHotel() {
+      const hotelCopy = { ...this.newHotel }
+      this.newPegawai.hotel.push(hotelCopy)
+      this.newHotel.keterangan = null
+      this.newHotel.hari = 0
+      this.newHotel.biaya = 0
+    },
+    deleteHotel(index) {
+      this.newPegawai.hotel.splice(index, 1)
+    },
+    tambahUH() {
+      const uangHarian = { ...this.newUangHarian }
+      this.newPegawai.uang_harian.push(uangHarian)
+      this.newUangHarian.keterangan = null
+      this.newUangHarian.hari = 0
+      this.newUangHarian.biaya = 0
+    },
+    deleteUH(index) {
+      this.newPegawai.uang_harian.splice(index, 1)
+    },
+    tambahPesawat() {
+      const pesawat = { ...this.newPesawat }
+      this.newPegawai.pesawat.push(pesawat)
+      this.newPesawat.keterangan = null
+      this.newPesawat.biaya = 0
+    },
+    deletePesawat(index) {
+      this.newPegawai.pesawat.splice(index, 1)
+    },
+    tambahDarat() {
+      const darat = { ...this.newDarat }
+      this.newPegawai.darat.push(darat)
+      this.newPesawat.keterangan = null
+      this.newPesawat.biaya = 0
+    },
+    deleteDarat(index) {
+      this.newPegawai.darat.splice(index, 1)
+    },
+    tambahRep() {
+      const rep = { ...this.newRepresentatif }
+      this.newPegawai.representatif.push(rep)
+      this.newPesawat.keterangan = null
+      this.newPesawat.biaya = 0
+    },
+    deleteRep(index) {
+      this.newPegawai.representatif.splice(index, 1)
+    },
+    resetForm() {
+      this.newPegawai = {
+        nip: null,
+        nama: null,
+        jabatan: null,
+        unit: null,
+        pangkat: null,
+        tanggal_awal: null,
+        tanggal_akhir: null,
+        peran: '-',
+        hotel: [],
+        uang_harian: [],
+        pesawat: [],
+        darat: [],
+        representatif: [],
       }
-      formData.append('kegiatan', this.form.kegiatan)
-      formData.append('jam_akhir[hours]', this.form.jam_akhir.hours)
-      formData.append('jam_akhir[minutes]', this.form.jam_akhir.minutes)
-      formData.append('jam_akhir[seconds]', this.form.jam_akhir.seconds)
-      formData.append('jam_mulai[hours]', this.form.jam_akhir.hours)
-      formData.append('jam_mulai[minutes]', this.form.jam_akhir.minutes)
-      formData.append('jam_mulai[seconds]', this.form.jam_akhir.seconds)
-      formData.append('pimpinan', this.form.pimpinan)
-      formData.append('tanggal', moment(this.form.tanggal).toString())
-      formData.append('tempat', this.form.tempat)
-
-      this.isStoreLoading = true
+    },
+    async searchSimpeg() {
+      this.isSearching = true
       try {
-        const response = await axiosIns.post(`/api/agenda`, uploadFile ? formData : this.form, {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-        })
-        if (response.status == 200) {
-          return {
-            status: true,
-            data: response.data.data,
+        const response = await axiosIns.get(
+          `/api/get-pegawai?nip=${this.newPegawai.nip}`
+        )
+        const data = response.data.data
+        console.info(data)
+        if (data.hasil == '2') {
+          this.newPegawai = {
+            nama: data.nama,
+            jabatan: data.jabatan,
+            pangkat: data.pangkat,
+            unit: data.unit,
           }
         } else {
-          return {
-            status: false,
-            data: null,
-          }
+          alert('aaa')
         }
       } catch (error) {
-        alert(error)
+        alert(error.message)
       } finally {
-        this.isStoreLoading = false
+        this.isSearching = false
       }
+      return false
     },
-    async destroy(id) {
-      this.isDestroyLoading = true
-      setTimeout(() => {}, 500)
-      try {
-        const response = await axiosIns.delete(`/api/agenda/${id}`, {
-          params: {
-            pesan: this.pesanDelete,
-          },
-        })
-        if (response.status == 200) {
-          const index = this.items.findIndex((item) => item.id === id)
-          this.responses.data.splice(index, 1)
-          return true
-        } else {
-          return false
-        }
-      } catch (error) {
-        alert(error)
-      } finally {
-        this.isDestroyLoading = false
-      }
-    },
-
-    setDataPegawai(item) {
-      this.form.nama = item.name
-      this.form.unit = item.unit?.name
-    },
-    clearForm() {
-      this.form = {
-        kegiatan: null,
-        tanggal: null,
-        tempat: null,
-        pimpinan: 1,
-        jam_mulai: { hours: 8, minutes: 0, seconds: 0 },
-        jam_akhir: { hours: 16, minutes: 0, seconds: 0 },
-      }
-    },
-    setDataSingle(id) {
-      this.singleResponse = this.items.find((x) => {
-        return x.id == id
-      })
+    setDataPegawaiLapkin(item) {
+      this.newPegawai.nama = item.name
+      this.newPegawai.unit = item.unit?.name
+      this.newPegawai.jabatan = item.jabatan?.name
+      this.newPegawai.pangkat =
+        item.pangkat?.pangkat + ' - ' + item.pangkat?.ruang
     },
   },
 })

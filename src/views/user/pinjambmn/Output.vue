@@ -2,20 +2,32 @@
   <div>
     <div class="max-w-md mx-auto px-6 py-8 md:max-w-lg">
       <div class="flex items-center">
-        <button @click="toDashboard()" class="bg-transparent relative hover:-translate-x-1 duration-300 rounded-lg p-1.5 items-center">
+        <button
+          @click="toDashboard()"
+          class="bg-transparent relative hover:-translate-x-1 duration-300 rounded-lg p-1.5 items-center"
+        >
           <ArrowLeftIcon class="h-5" />
         </button>
         <h2 class="ml-2 font-semibold text-gray-800 text-xl">Peminjaman BMN</h2>
       </div>
 
-      <div class="mt-4 bg-white rounded-lg overflow-hidden border border-gray-400">
+      <div
+        class="mt-4 bg-white rounded-lg overflow-hidden border border-gray-400"
+      >
         <div class="px-4 py-2 border-b border-gray-200">
           <h2 class="font-semibold text-gray-800">Data BMN</h2>
         </div>
         <div class="flex flex-col divide-y divide-gray-200"></div>
-        <div v-if="peminjamanBmnStore.singleResponses" class="p-4 flex flex-col space-y-2">
+        <div
+          v-if="peminjamanBmnStore.singleResponses"
+          class="p-4 flex flex-col space-y-2"
+        >
           <div>
-            <label for="nama" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nomor Tiket</label>
+            <label
+              for="nama"
+              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              >Nomor Tiket</label
+            >
             <input
               readonly
               v-model="peminjamanBmnStore.singleResponses.tiket"
@@ -25,7 +37,11 @@
             />
           </div>
           <div>
-            <label for="nama" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Status</label>
+            <label
+              for="nama"
+              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              >Status</label
+            >
             <input
               readonly
               v-model="peminjamanBmnStore.singleResponses.status"
@@ -35,7 +51,11 @@
             />
           </div>
           <div>
-            <label for="nama" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Tanggal Pengajuan</label>
+            <label
+              for="nama"
+              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              >Tanggal Pengajuan</label
+            >
             <input
               readonly
               v-model="peminjamanBmnStore.singleResponses.created_at"
@@ -45,14 +65,26 @@
             />
           </div>
           <div>
-            <label for="nip" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Gambar</label>
+            <label
+              for="nip"
+              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              >Gambar</label
+            >
             <div class="flex justify-center">
-              <img class="w-60 h-fit object-cover rounded" :src="showImage(peminjamanBmnStore.singleResponses.bmn.image)" alt="Product Image" />
+              <img
+                class="w-60 h-fit object-cover rounded"
+                :src="showImage(peminjamanBmnStore.singleResponses.bmn.image)"
+                alt="Product Image"
+              />
             </div>
           </div>
 
           <div>
-            <label for="nip" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">NUP</label>
+            <label
+              for="nip"
+              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              >NUP</label
+            >
             <input
               readonly
               v-model="peminjamanBmnStore.singleResponses.bmn.nup"
@@ -61,7 +93,11 @@
             />
           </div>
           <div>
-            <label for="nip" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nama BMN</label>
+            <label
+              for="nip"
+              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              >Nama BMN</label
+            >
             <input
               readonly
               v-model="peminjamanBmnStore.singleResponses.bmn.nama"
@@ -71,7 +107,11 @@
           </div>
 
           <div>
-            <label for="nip" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Jenis Layanan</label>
+            <label
+              for="nip"
+              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              >Jenis Layanan</label
+            >
             <input
               readonly
               v-model="peminjamanBmnStore.singleResponses.jenis_layanan"
@@ -81,7 +121,11 @@
           </div>
 
           <div>
-            <label for="unit" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Tanggal Pengembalian</label>
+            <label
+              for="unit"
+              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              >Tanggal Pengembalian</label
+            >
             <input
               v-model="peminjamanBmnStore.singleResponses.tanggal_pengembalian"
               type="text"
@@ -91,7 +135,11 @@
             />
           </div>
           <div>
-            <label for="nip" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">NIP</label>
+            <label
+              for="nip"
+              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              >NIP</label
+            >
             <div class="relative">
               <input
                 readonly
@@ -104,7 +152,11 @@
             </div>
           </div>
           <div>
-            <label for="nama" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nama Penerima Layanan</label>
+            <label
+              for="nama"
+              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              >Nama Penerima Layanan</label
+            >
             <input
               readonly
               v-model="peminjamanBmnStore.singleResponses.nama_peminta"
@@ -114,7 +166,11 @@
             />
           </div>
           <div>
-            <label for="unit" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Unit</label>
+            <label
+              for="unit"
+              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              >Unit</label
+            >
             <input
               v-model="peminjamanBmnStore.singleResponses.unit"
               type="text"
@@ -124,7 +180,11 @@
             />
           </div>
           <div class="text-left">
-            <label for="no_wa" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nomor WhatsApp*</label>
+            <label
+              for="no_wa"
+              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              >Nomor WhatsApp*</label
+            >
             <input
               placeholder="menggunakan format (0821111xxxx)"
               v-model="peminjamanBmnStore.singleResponses.no_wa"
@@ -135,7 +195,11 @@
             />
           </div>
           <div class="text-left">
-            <label for="brand" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Catatan</label>
+            <label
+              for="brand"
+              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              >Catatan</label
+            >
             <textarea
               readonly
               v-model="peminjamanBmnStore.singleResponses.catatan"
@@ -151,7 +215,13 @@
 </template>
 
 <script setup>
-import { ArrowLeftIcon, ArrowPathIcon, MagnifyingGlassIcon, QrCodeIcon, TrashIcon } from '@heroicons/vue/24/outline'
+import {
+  ArrowLeftIcon,
+  ArrowPathIcon,
+  MagnifyingGlassIcon,
+  QrCodeIcon,
+  TrashIcon,
+} from '@heroicons/vue/24/outline'
 import VueDatePicker from '@vuepic/vue-datepicker'
 import '@vuepic/vue-datepicker/dist/main.css'
 import { useDebounceFn, useStorage } from '@vueuse/core'
@@ -173,7 +243,7 @@ const showModal = ref(false)
 const cariPegawaiLoading = ref(false)
 
 function toDashboard() {
-  router.push({ name: 'dashboard-user' })
+  router.push({ name: 'user-dashboard' })
 }
 
 function showImage(image) {

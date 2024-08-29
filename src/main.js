@@ -3,31 +3,15 @@ import './assets/style.css'
 import App from './App.vue'
 import router from './router'
 
-// Vuetify
-import 'vuetify/styles'
-import { createVuetify } from 'vuetify'
-
-const vuetify = createVuetify({
-  treeShake: true,
-  theme: {
-    themes: {
-      light: {
-        colors: {
-          primary: '#1867C0',
-          secondary: '#5CBBF6',
-        },
-      },
-    },
-  },
-})
-
-import 'vant/lib/index.css'
 import Vue3Toasity from 'vue3-toastify'
 import 'vue3-toastify/dist/index.css'
 import VueSweetAlert from 'vue-sweetalert2'
 import 'sweetalert2/dist/sweetalert2.min.css'
 import '@mdi/font/css/materialdesignicons.css'
 import { createPinia } from 'pinia'
+import moment from 'moment'
+
+moment.locale('id')
 
 const pinia = createPinia()
 const app = createApp(App)
@@ -41,6 +25,5 @@ app.use(Vue3Toasity, {
   type: 'default',
   dangerouslyHTMLString: true,
 })
-
-app.use(vuetify)
+app.config.globalProperties.$moment = moment
 app.mount('#app')

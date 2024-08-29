@@ -1,243 +1,75 @@
 <template>
-  <v-col class="d-flex justify-center">
-    <div class="flex-wrap w-100">
-      <v-card :loading="perjadinStore.isLoading" class="my-8" elevation="16" title="Pengajuan Perjalanan Dinas">
-        <form @submit.prevent="submit()">
-          <div class="pa-4">
-            <v-tabs v-model="tab" color="deep-purple-accent-4" align-tabs="start">
-              <v-tab :value="1">Umum</v-tab>
-              <v-tab :value="2">Detail</v-tab>
-              <v-tab :value="3">Lampiran</v-tab>
-            </v-tabs>
+  <div class="mx-auto w-full px-4">
+    <!-- Start coding here -->
 
-            <v-window v-model="tab">
-              <v-window-item :value="1">
-                <v-container>
-                  <v-text-field color="primary" v-model="perjadinStore.form.name" label="Nama Kegiatan"></v-text-field>
-                  <div class="d-flex flex-row space-x-5">
-                    <v-date-input v-model="perjadinStore.form.tanggal_pergi" label="Tanggal Awal Tugas" variant="solo-filled"></v-date-input>
-                    <v-date-input v-model="perjadinStore.form.tanggal_pulang" label="Tanggal Akhir Tugas"></v-date-input>
-                  </div>
-                  <v-text-field color="primary" v-model="perjadinStore.form.tempat" label="Nomor Surat Tugas"></v-text-field>
-                  <v-text-field color="primary" v-model="perjadinStore.form.tanggal_surat_tuga" label="Tanggal Surat Tugas" type="date"></v-text-field>
-                  <v-text-field color="primary" v-model="perjadinStore.form.tempat" label="Tempat Kegiatan"></v-text-field>
-                </v-container>
-              </v-window-item>
-              <v-window-item :value="2">
-                <v-container>
-                  <v-text-field
-                    placeholder="aaaaaaaaaaaaaaaa"
-                    color="primary"
-                    v-model="perjadinStore.form.tempat"
-                    label="Mata Anggaran Kegiatan"
-                  ></v-text-field>
+    <div
+      class="justify-center items-center w-full md:inset-0 h-modal md:h-full"
+    >
+      <div class="relative p-4 w-full h-full md:h-auto flex flex-col space-y-4">
+        <ol
+          class="flex items-center w-full text-sm font-medium text-center text-gray-500 dark:text-gray-400 sm:text-base"
+        >
+          <li
+            v-for="(step, index) in steps"
+            :key="index"
+            :class="
+              currentStep == index ? 'text-blue-600 dark:text-blue-500' : ''
+            "
+            class="flex md:w-full items-center sm:after:content-[''] after:w-full after:h-1 after:border-b after:border-gray-200 after:border-1 after:hidden sm:after:inline-block after:mx-6 xl:after:mx-10 dark:after:border-gray-700"
+          >
+            <span
+              class="flex items-center after:content-['/'] sm:after:hidden after:mx-2 after:text-gray-200 dark:after:text-gray-500"
+            >
+              <CheckCircleIcon class="w-3.5 h-3.5 sm:w-4 sm:h-4 me-2.5" />
+              {{ step }} <span class="hidden sm:inline-flex sm:ms-2"></span>
+            </span>
+          </li>
+        </ol>
+        <!-- Modal content -->
 
-                  <!-- <v-autocomplete
-                    clearable
-                    :loading="makStore.isLoading"
-                    v-model="perjadinStore.form.mak_id"
-                    label="Mata Anggaran Kegiatan"
-                    color="primary"
-                    
-                    item-value="id"
-                    :item-props="autoCompleteItemProps"
-                    :items="makStore.items"
-                  ></v-autocomplete> -->
-
-                  <v-col class="pa-0 ga-3 d-flex flex-column">
-                    <v-sheet title="Rencana Anggaran Biaya" elevation="2" class="pa-4 rounded-lg">
-                      <v-btn @click="perjadinStore.newDetailRab()" color="primary"> Tambah </v-btn>
-
-                      <v-data-table-virtual class="mt-4" density="compact" :headers="rabHeaders" :items="perjadinStore.form.detail_rab" item-value="name">
-                        <!-- <template v-slot:item.no="{ index, item }">
-                          <span> {{ ++index }}</span>
-                        </template>
-                        <template v-slot:item.keterangan="{ item }">
-                          <v-text-field color="primary" v-model="item.keterangan" variant="underlined"></v-text-field>
-                        </template>
-                        <template v-slot:item.jumlah="{ item }">
-                          <v-text-field color="primary" type="number" v-model="item.jumlah" variant="underlined"></v-text-field>
-                        </template>
-                        <template v-slot:item.satuan="{ item }">
-                          <v-select v-model="item.satuan" class="ma-2" variant="underlined" :items="appStore.satuanRkakl"></v-select>
-                        </template>
-                        <template v-slot:item.biaya="{ item }">
-                          <v-text-field color="primary" type="number" prefix="IDR. " v-model="item.biaya" variant="underlined"></v-text-field>
-                        </template>
-                        <template v-slot:item.total="{ item }">
-                          <span> {{ IDRCurrency.format(item.jumlah * item.biaya) }}</span>
-                        </template>
-                        <template v-slot:item.actions="{ item, index }">
-                          <v-icon size="small" color="danger" @click="perjadinStore.removeDetailRab(index)"> mdi-close </v-icon>
-                        </template> -->
-                      </v-data-table-virtual>
-                    </v-sheet>
-
-                    <v-sheet title="Rencana Anggaran Biaya" class="pa-4 rounded-lg">
-                      <div class="mb-6 w-50 flex-column" v-if="perjadinStore.form.mak_id">
-                        <v-sheet class="">
-                          <p class="font-weight-bold">
-                            {{ makStore.getMakById(perjadinStore.form.mak_id).kode }}
-                          </p>
-                        </v-sheet>
-                        <div class="d-flex justify-space-between">
-                          <div>
-                            <v-sheet class=""> <p class="font-italic">Pagu Anggaran</p></v-sheet>
-                            <v-sheet class=""> <p class="font-italic">Realisasi</p></v-sheet>
-                            <v-sheet class=""> <p class="font-italic font-weight-medium">Saldo yang tersedia</p></v-sheet>
-                            <v-sheet class=""> <p class="font-italic">Saldo yang belum di Realisasi</p></v-sheet>
-                            <v-sheet class=""> <p class="font-italic">Rencana Realisasi</p></v-sheet>
-                          </div>
-                          <div>
-                            <v-sheet class="">
-                              <p class="font-italic">
-                                {{ IDRCurrency.format(makStore.getMakById(perjadinStore.form.mak_id).pagu) }}
-                              </p></v-sheet
-                            >
-                            <v-sheet class=""> <p class="font-italic">Rp. 0</p></v-sheet>
-
-                            <v-sheet class="">
-                              <p class="font-italic font-weight-medium">
-                                {{ IDRCurrency.format(makStore.getMakById(perjadinStore.form.mak_id).pagu - 0) }}
-                              </p></v-sheet
-                            >
-                            <v-sheet class=""> <p class="font-italic">IDR 0</p></v-sheet>
-
-                            <v-sheet class="">
-                              <p class="font-italic">
-                                {{ IDRCurrency.format(perjadinStore.totalAnggaranRencana ?? 0) }}
-                              </p></v-sheet
-                            >
-                          </div>
-                        </div>
-                        <v-divider></v-divider>
-                        <div class="d-flex justify-space-between">
-                          <div>
-                            <v-sheet class=""> <p class="font-italic font-weight-bold">Sisa Saldo</p></v-sheet>
-                          </div>
-                          <div>
-                            <v-sheet class=""> <p class="font-italic font-weight-bold">IDR 0</p></v-sheet>
-                          </div>
-                        </div>
-                      </div>
-                    </v-sheet>
-                  </v-col>
-                </v-container>
-              </v-window-item>
-            </v-window>
-          </div>
-
-          <!-- <v-divider></v-divider>
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn @click="makStore.clearForm()" color="orange">
-              Reset
-              <v-icon icon="mdi-reload" end></v-icon>
-            </v-btn>
-            <div>
-              <v-btn v-if="tab > 1" @click="tab--" color="primary">
-                <v-icon icon="mdi-chevron-left" end></v-icon>
-                Previous
-              </v-btn>
-
-              <v-btn v-if="tab === 1 || (tab === 2 && perjadinStore.form.mak_id)" @click="tab++" color="primary">
-                Next
-                <v-icon icon="mdi-chevron-right" end></v-icon>
-              </v-btn>
-
-              <v-btn v-if="tab == 3" type="submit" color="success">
-                Submit
-                <v-icon icon="mdi-chevron-right" end></v-icon>
-              </v-btn>
-            </div>
-          </v-card-actions> -->
-        </form>
-      </v-card>
-
-      <div class="text-center pa-4">
-        <v-btn @click="dialog = true"> Open Dialog </v-btn>
+        <Perencanaan v-if="currentStep == 0" v-model="currentStep" />
+        <Detail v-if="currentStep == 1" @openModal="openModal" />
       </div>
     </div>
-  </v-col>
-  <NewPegawaiModal :openDialog="dialog" @close="dialog = false" />
+    <NewModal :show="newModal" @close="newModal = false" />
+  </div>
 </template>
 
 <script setup>
-import { onMounted, watch, reactive, ref } from 'vue'
+import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
+import { useBmnStore } from '@/stores/bmn'
 import { useMainStore } from '@/stores/main'
-import { usePerjadinStore } from '@/stores/perjadin'
-import { useDebounceFn } from '@vueuse/core'
-import { useRouter } from 'vue-router'
-import { IDRCurrency } from '@/utilities/formatter'
-import { onUnmounted } from 'vue'
-import NewPegawaiModal from './dialog/DialogPegawai.vue'
-import { VDateInput } from 'vuetify/labs/VDateInput'
+import { defineAsyncComponent, onMounted, ref } from 'vue'
+import {
+  DocumentTextIcon,
+  TrashIcon,
+  CheckCircleIcon,
+} from '@heroicons/vue/24/outline'
 
-const dialog = ref(false)
-const router = useRouter()
-const mainStore = useMainStore()
-const perjadinStore = usePerjadinStore()
-const tab = ref(1)
-const rabHeaders = [
+import { toast } from 'vue3-toastify'
+import Perencanaan from './component/Perencanaan.vue'
+import Detail from './component/Detail.vue'
+
+const NewModal = defineAsyncComponent(() =>
+  import('./dialog/ModalNewDetailPegawai.vue')
+)
+
+const newModal = ref(false)
+const currentStep = ref(1)
+const steps = ref(['Perencanaan', 'Detail'])
+
+const itemMenu = [
   {
-    title: 'No',
-    key: 'no',
-    align: 'start',
-    sortable: false,
-    width: 50,
+    label: 'Detail',
+    icon: DocumentTextIcon,
   },
   {
-    title: 'Nama Pegawai',
-    key: 'keterangan',
-    align: 'start',
-    sortable: false,
-    width: 400,
-  },
-  {
-    title: 'Jumlah',
-    key: 'jumlah',
-    align: 'start',
-    sortable: false,
-    width: 100,
-  },
-  {
-    title: 'Satuan',
-    key: 'satuan',
-    align: 'start',
-    sortable: false,
-    width: 100,
-  },
-  {
-    title: 'Biaya',
-    key: 'biaya',
-    align: 'start',
-    sortable: false,
-    width: 150,
-  },
-  {
-    title: 'Total',
-    key: 'total',
-    align: 'start',
-    sortable: false,
-    width: 150,
-  },
-  {
-    key: 'actions',
-    width: 25,
+    label: 'Hapus',
+    icon: TrashIcon,
   },
 ]
 
-function autoCompleteItemProps(item) {
-  return {
-    title: item.kode,
-    subtitle: item.name,
-  }
+function openModal() {
+  newModal.value = true
 }
-
-async function submit() {
-  if (await perjadinStore.store()) router.push({ name: 'login' })
-}
-onMounted(() => {})
-
-onUnmounted(() => {})
 </script>

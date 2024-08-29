@@ -7,6 +7,9 @@ import moment from 'moment'
 export const useDashboardStore = defineStore('dashboard', {
   state: () => ({
     responses: null,
+    userData: {
+      tempat: [],
+    },
     isSearching: false,
     isLoading: false,
   }),
@@ -24,6 +27,20 @@ export const useDashboardStore = defineStore('dashboard', {
       try {
         const response = await axiosIns.get(`/api/dashboard?${this.dateQuery}`)
         this.responses = response.data
+      } catch (error) {
+        alert(error.message)
+      } finally {
+        this.isLoading = false
+      }
+      return false
+    },
+    async getUserData(page = '') {
+      this.isLoading = true
+      try {
+        const response = await axiosIns.get(
+          `/api/dashboard/user-data?${this.dateQuery}`
+        )
+        this.userData = response.data
       } catch (error) {
         alert(error.message)
       } finally {

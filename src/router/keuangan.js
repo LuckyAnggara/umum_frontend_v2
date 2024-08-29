@@ -1,12 +1,16 @@
-import { createRouter, createWebHashHistory, createWebHistory } from 'vue-router'
+import {
+  createRouter,
+  createWebHashHistory,
+  createWebHistory,
+} from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
 
 const keuangan = [
   {
     meta: {
-      title: 'Perencanaan Perjadin Baru',
+      title: 'Perencanaan Perjadin',
       requiresAuth: false,
-      layout: 'layout-user',
+      layout: 'layout-auth',
     },
     path: '/keuangan/perjadin/new',
     name: 'perjadin-new',

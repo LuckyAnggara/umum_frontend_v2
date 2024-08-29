@@ -1,21 +1,30 @@
 <template>
   <section v-if="peminjamanBmnStore.singleResponses == null">
-    <span class="flex"><ArrowPathIcon class="mx-auto w-6 h-6 animate-spin" /></span>
+    <span class="flex"
+      ><ArrowPathIcon class="mx-auto w-6 h-6 animate-spin"
+    /></span>
   </section>
   <section v-else>
     <div class="max-w-md mx-auto px-6 py-8 md:max-w-lg">
       <div class="flex items-center">
-        <button @click="toDashboard()" class="bg-transparent relative hover:-translate-x-1 duration-300 rounded-lg p-1.5 items-center">
+        <button
+          @click="toDashboard()"
+          class="bg-transparent relative hover:-translate-x-1 duration-300 rounded-lg p-1.5 items-center"
+        >
           <ArrowLeftIcon class="h-5" />
         </button>
         <h2 class="ml-2 font-semibold text-gray-800 text-xl">Permintaan bmn</h2>
       </div>
 
       <div class="flex items-center">
-        <h2 class="ml-2 font-semibold text-gray-800 text-xl">Nomor Tiket : {{ peminjamanBmnStore.singleResponses.tiket }}</h2>
+        <h2 class="ml-2 font-semibold text-gray-800 text-xl">
+          Nomor Tiket : {{ peminjamanBmnStore.singleResponses.tiket }}
+        </h2>
       </div>
 
-      <div class="mt-4 bg-white rounded-lg overflow-hidden border border-gray-400">
+      <div
+        class="mt-4 bg-white rounded-lg overflow-hidden border border-gray-400"
+      >
         <div class="px-4 py-2 border-b border-gray-200 flex flex-row">
           <h2 class="font-semibold text-gray-800">Status</h2>
           <span
@@ -33,17 +42,31 @@
             class="ml-4 bg-orange-100 text-orange-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-orange-900 dark:text-orange-300"
             >{{ peminjamanBmnStore.singleResponses.status }}</span
           >
-          <span v-else class="bg-red-100 ml-4 text-red-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300">REJECTED</span>
+          <span
+            v-else
+            class="bg-red-100 ml-4 text-red-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300"
+            >REJECTED</span
+          >
         </div>
       </div>
 
-      <div class="mt-4 bg-white rounded-lg overflow-hidden border border-gray-400">
+      <div
+        class="mt-4 bg-white rounded-lg overflow-hidden border border-gray-400"
+      >
         <div class="px-4 py-2 border-b border-gray-200">
           <h2 class="font-semibold text-gray-800">Daftar BMN</h2>
         </div>
         <div class="flex flex-col divide-y divide-gray-200">
-          <div v-for="(item, index) in peminjamanBmnStore.singleResponses?.detail" class="flex items-center py-4 px-6" :key="item.id">
-            <img class="w-24 h-24 object-cover rounded" :src="showImage(item.bmn)" alt="Product Image" />
+          <div
+            v-for="(item, index) in peminjamanBmnStore.singleResponses?.detail"
+            class="flex items-center py-4 px-6"
+            :key="item.id"
+          >
+            <img
+              class="w-24 h-24 object-cover rounded"
+              :src="showImage(item.bmn)"
+              alt="Product Image"
+            />
             <div class="ml-5">
               <h3 class="text-gray-900 font-semibold">
                 {{ item.bmn.nama }}
@@ -58,18 +81,28 @@
         </div>
       </div>
 
-      <form autocomplete="off" class="mt-4 bg-white rounded-lg overflow-hidden border border-gray-400" @submit.prevent="confirm()">
+      <form
+        autocomplete="off"
+        class="mt-4 bg-white rounded-lg overflow-hidden border border-gray-400"
+        @submit.prevent="confirm()"
+      >
         <div class="px-4 py-2 border-b border-gray-200">
           <h2 class="font-semibold text-gray-800">Detail Pemohon</h2>
         </div>
         <div class="flex flex-col divide-y divide-gray-200">
           <div class="p-4 flex flex-col space-y-2">
-            <div class="flex flex-row space-x-2 text-sm font-medium text-gray-900 dark:text-white">
+            <div
+              class="flex flex-row space-x-2 text-sm font-medium text-gray-900 dark:text-white"
+            >
               <label class="">Tanggal</label>
               <span>{{ peminjamanBmnStore.singleResponses.created_at }}</span>
             </div>
             <div>
-              <label for="nip" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">NIP</label>
+              <label
+                for="nip"
+                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                >NIP</label
+              >
 
               <input
                 readonly
@@ -82,7 +115,11 @@
               />
             </div>
             <div>
-              <label for="nama" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nama</label>
+              <label
+                for="nama"
+                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                >Nama</label
+              >
               <input
                 readonly
                 v-model="peminjamanBmnStore.singleResponses.nama"
@@ -93,7 +130,11 @@
               />
             </div>
             <div>
-              <label for="unit" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Unit</label>
+              <label
+                for="unit"
+                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                >Unit</label
+              >
               <input
                 readonly
                 v-model="peminjamanBmnStore.singleResponses.unit"
@@ -104,7 +145,11 @@
               />
             </div>
             <div v-if="peminjamanBmnStore.singleResponses.catatan">
-              <label for="catatan" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Catatan</label>
+              <label
+                for="catatan"
+                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                >Catatan</label
+              >
               <textarea
                 readonly
                 v-model="peminjamanBmnStore.singleResponses.catatan"
@@ -120,7 +165,11 @@
 
       <div>
         <TransitionRoot appear :show="showModal" as="template">
-          <Dialog as="div" @close="showModal = !showModal" class="relative z-50">
+          <Dialog
+            as="div"
+            @close="showModal = !showModal"
+            class="relative z-50"
+          >
             <TransitionChild
               as="template"
               enter="duration-300 ease-out"
@@ -134,7 +183,9 @@
             </TransitionChild>
 
             <div class="fixed inset-0 overflow-y-auto">
-              <div class="flex min-h-full items-center justify-center p-4 text-center">
+              <div
+                class="flex min-h-full items-center justify-center p-4 text-center"
+              >
                 <TransitionChild
                   as="template"
                   enter="duration-300 ease-out"
@@ -147,9 +198,17 @@
                   <DialogPanel
                     class="w-full max-w-md transsingleResponses overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all"
                   >
-                    <DialogTitle as="h3" class="text-lg font-medium leading-6 text-gray-900"> Proses Permintaan </DialogTitle>
+                    <DialogTitle
+                      as="h3"
+                      class="text-lg font-medium leading-6 text-gray-900"
+                    >
+                      Proses Permintaan
+                    </DialogTitle>
                     <div class="mt-2">
-                      <p class="text-sm text-gray-500">Permintaan bmn akan di proses ke Admin pada Bagian Umum Inspektorat Jenderal</p>
+                      <p class="text-sm text-gray-500">
+                        Permintaan bmn akan di proses ke Admin pada Bagian Umum
+                        Inspektorat Jenderal
+                      </p>
                     </div>
 
                     <div class="mt-4 flex space-x-4">
@@ -159,8 +218,12 @@
                         class="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                         @click="submit"
                       >
-                        <span v-if="!peminjamanBmnStore.isStoreLoading"> Proses </span>
-                        <span class="flex" v-else><ArrowPathIcon class="mx-auto w-6 h-6 animate-spin" /></span>
+                        <span v-if="!peminjamanBmnStore.isStoreLoading">
+                          Proses
+                        </span>
+                        <span class="flex" v-else
+                          ><ArrowPathIcon class="mx-auto w-6 h-6 animate-spin"
+                        /></span>
                       </button>
 
                       <button
@@ -184,8 +247,18 @@
 </template>
 
 <script setup>
-import { TransitionRoot, TransitionChild, Dialog, DialogPanel, DialogTitle } from '@headlessui/vue'
-import { ArrowLeftIcon, ArrowPathIcon, TrashIcon } from '@heroicons/vue/24/outline'
+import {
+  TransitionRoot,
+  TransitionChild,
+  Dialog,
+  DialogPanel,
+  DialogTitle,
+} from '@headlessui/vue'
+import {
+  ArrowLeftIcon,
+  ArrowPathIcon,
+  TrashIcon,
+} from '@heroicons/vue/24/outline'
 import { useDebounceFn } from '@vueuse/core'
 import { usePeminjamanBmn } from '@/stores/peminjamanBmn'
 import { useRoute, useRouter } from 'vue-router'
@@ -200,7 +273,7 @@ const route = useRoute()
 const router = useRouter()
 
 function toDashboard() {
-  router.push({ name: 'dashboard-user' })
+  router.push({ name: 'user-dashboard' })
 }
 
 function confirm() {

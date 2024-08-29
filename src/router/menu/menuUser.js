@@ -1,10 +1,18 @@
-import { RectangleGroupIcon, SwatchIcon, ArchiveBoxIcon, HomeModernIcon, RectangleStackIcon, DocumentTextIcon, UserIcon } from '@heroicons/vue/24/solid'
+import {
+  RectangleGroupIcon,
+  SwatchIcon,
+  ArchiveBoxIcon,
+  HomeModernIcon,
+  RectangleStackIcon,
+  DocumentTextIcon,
+  UserIcon,
+} from '@heroicons/vue/24/solid'
 
 export const menuUser = [
   {
     name: 'Dashboard',
     icon: RectangleGroupIcon,
-    to: 'dashboard-user',
+    to: 'user-dashboard',
   },
   {
     name: 'Daftar',

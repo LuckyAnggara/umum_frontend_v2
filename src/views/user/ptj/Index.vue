@@ -215,7 +215,7 @@ const file = ref([])
 
 const router = useRouter()
 function toDashboard() {
-  router.push({ name: 'dashboard-user' })
+  router.push({ name: 'user-dashboard' })
 }
 
 function fileChange(event) {

@@ -1,11 +1,17 @@
 <template>
   <div class="max-w-md mx-auto md:max-w-lg p-4">
     <div class="py-4 flex flex-row items-center justify-between">
-      <button @click="toDashboard()" class="bg-transparent relative hover:-translate-x-1 duration-300 rounded-lg p-1.5 items-center">
+      <button
+        @click="toDashboard()"
+        class="bg-transparent relative hover:-translate-x-1 duration-300 rounded-lg p-1.5 items-center"
+      >
         <ArrowLeftIcon class="h-5" />
       </button>
       <h5 class="items-center font-semibold uppercase py-2">Daftar BMN</h5>
-      <button @click="toCart()" class="bg-transparent relative hover:-translate-y-1 duration-300 rounded-lg p-1.5 items-center">
+      <button
+        @click="toCart()"
+        class="bg-transparent relative hover:-translate-y-1 duration-300 rounded-lg p-1.5 items-center"
+      >
         <ShoppingBagIcon class="h-8" />
         <span class="sr-only">Notifications</span>
         <div
@@ -19,8 +25,16 @@
     <div class="flex items-center w-full my-4" autocomplete="off">
       <label for="simple-search" class="sr-only">Search</label>
       <div class="relative w-full">
-        <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-          <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+        <div
+          class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none"
+        >
+          <svg
+            aria-hidden="true"
+            class="w-5 h-5 text-gray-500 dark:text-gray-400"
+            fill="currentColor"
+            viewbox="0 0 20 20"
+            xmlns="http://www.w3.org/2000/svg"
+          >
             <path
               fill-rule="evenodd"
               d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
@@ -49,9 +63,15 @@
             class="p-6 cursor-pointer bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700"
           >
             <div class="mb-4">
-              <img class="w-full h-36 object-cover rounded" :src="showImage(item)" alt="Product Image" />
+              <img
+                class="w-full h-36 object-cover rounded"
+                :src="showImage(item)"
+                alt="Product Image"
+              />
               <a>
-                <h5 class="text-xl font-semibold mt-2 tracking-tight text-gray-900 dark:text-white">
+                <h5
+                  class="text-xl font-semibold mt-2 tracking-tight text-gray-900 dark:text-white"
+                >
                   {{ item.nama }}
                 </h5>
               </a>
@@ -66,9 +86,17 @@
                 >Previous</a
               >
             </li>
-            <li @click="choosePage(num)" v-for="num in displayedPages" :key="num">
+            <li
+              @click="choosePage(num)"
+              v-for="num in displayedPages"
+              :key="num"
+            >
               <a
-                :class="num == bmnStore.currentPage ? 'text-blue-600 bg-blue-50' : 'text-gray-500'"
+                :class="
+                  num == bmnStore.currentPage
+                    ? 'text-blue-600 bg-blue-50'
+                    : 'text-gray-500'
+                "
                 class="cursor-pointer flex items-center justify-center px-3 h-8 leading-tight bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
                 >{{ num }}</a
               >
@@ -98,8 +126,19 @@
 </template>
 
 <script setup>
-import { TransitionRoot, TransitionChild, Dialog, DialogPanel, DialogTitle } from '@headlessui/vue'
-import { ArrowLeftIcon, ArrowPathIcon, ShoppingBagIcon, TrashIcon } from '@heroicons/vue/24/outline'
+import {
+  TransitionRoot,
+  TransitionChild,
+  Dialog,
+  DialogPanel,
+  DialogTitle,
+} from '@headlessui/vue'
+import {
+  ArrowLeftIcon,
+  ArrowPathIcon,
+  ShoppingBagIcon,
+  TrashIcon,
+} from '@heroicons/vue/24/outline'
 import { useDebounceFn } from '@vueuse/core'
 import { usePeminjamanBmn } from '@/stores/peminjamanBmn'
 import { useBmnStore } from '@/stores/bmn'
@@ -121,7 +160,7 @@ function toCart() {
 }
 
 function toDashboard() {
-  router.push({ name: 'dashboard-user' })
+  router.push({ name: 'user-dashboard' })
 }
 
 function showImage(item) {

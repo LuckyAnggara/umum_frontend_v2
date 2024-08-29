@@ -1,16 +1,6 @@
 const user = [
   {
     meta: {
-      title: 'Dashboard',
-      requiresAuth: false,
-      layout: 'layout-guest',
-    },
-    path: '/',
-    name: 'dashboard-user',
-    component: () => import('@/views/user/DashboardAlt.vue'),
-  },
-  {
-    meta: {
       title: 'Daftar Permintaan',
       requiresAuth: false,
       layout: 'layout-guest',
@@ -38,28 +28,6 @@ const user = [
     path: '/user',
     name: 'login-user',
     component: () => import('@/views/login/UserLogin.vue'),
-  },
-  {
-    meta: {
-      title: 'Dashboard',
-      requiresAuth: true,
-      layout: 'layout-user',
-    },
-    path: '/user/dashboard',
-    name: 'user-dashboard',
-    component: () => {
-      return import('@/views/user/dashboard/Ptj.vue')
-    },
-  },
-  {
-    meta: {
-      title: 'Dashboard',
-      requiresAuth: true,
-      layout: 'layout-auth',
-    },
-    path: '/admin/dashboard',
-    name: 'admin-dashboard',
-    component: () => import('@/views/dashboard/User.vue'),
   },
 ]
 

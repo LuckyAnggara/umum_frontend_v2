@@ -1,4 +1,9 @@
-import { createMemoryHistory, createRouter, createWebHashHistory, createWebHistory } from 'vue-router'
+import {
+  createMemoryHistory,
+  createRouter,
+  createWebHashHistory,
+  createWebHistory,
+} from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
 import bmn from './bmn'
 import ptj from './ptj'
@@ -7,6 +12,7 @@ import tempat from './tempat'
 import agenda from './agenda'
 import arsip from './arsip'
 import keuangan from './keuangan'
+import dasboard from './dashboard'
 
 const routes = [
   {
@@ -129,6 +135,7 @@ const routes = [
   ...agenda,
   ...arsip,
   ...keuangan,
+  ...dasboard,
 ]
 
 const router = createRouter({
