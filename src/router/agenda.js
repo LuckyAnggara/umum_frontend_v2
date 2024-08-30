@@ -2,7 +2,7 @@ const agenda = [
   {
     meta: {
       title: 'Booking Ruangan',
-      requiresAuth: false,
+      requiresAuth: true,
       layout: 'layout-guest',
     },
     path: '/user/agenda/booking',
@@ -12,17 +12,17 @@ const agenda = [
   {
     meta: {
       title: 'Jadwal Booking',
-      requiresAuth: false,
+      requiresAuth: true,
       layout: 'layout-guest',
     },
     path: '/user/agenda/calendar',
     name: 'calendar-agenda',
-    component: () => import('@/views/user/agenda/Calendar2.vue'),
+    component: () => import('@/views/user/agenda/Calendar.vue'),
   },
   {
     meta: {
       title: 'Daftar Agenda Pimpinan',
-      requiresAuth: false,
+      requiresAuth: true,
       layout: 'layout-auth',
     },
     path: '/agenda/list',

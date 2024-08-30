@@ -2,7 +2,7 @@ const arsip = [
   {
     meta: {
       title: 'Tambah Data Arsip',
-      requiresAuth: false,
+      requiresAuth: true,
       layout: 'layout-auth',
     },
     path: '/arsip/tambah',
@@ -12,7 +12,7 @@ const arsip = [
   {
     meta: {
       title: 'Daftar Arsip',
-      requiresAuth: false,
+      requiresAuth: true,
       layout: 'layout-auth',
     },
     path: '/arsip/list',
@@ -22,7 +22,7 @@ const arsip = [
   {
     meta: {
       title: 'Detail Arsip',
-      requiresAuth: false,
+      requiresAuth: true,
       layout: 'layout-auth',
     },
     path: '/arsip/detail/:id',

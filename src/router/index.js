@@ -146,39 +146,49 @@ const router = createRouter({
   },
 })
 
+// router.beforeEach(async (to, from, next) => {
+//   const authStore = useAuthStore()
+//   const isAuth = await authStore.getAuthUser()
+//   const authUser = authStore.userData
+//   const reqAuth = to.matched.some((record) => record.meta.requiresAuth)
+//   const loginQuery = { path: '/' }
+//   let dashboardQuery = { path: '/user/dashboard' }
+//   if (reqAuth && authUser) {
+//     if (to.fullPath == loginQuery) {
+//     }
+//     if (!isAuth) {
+//       next(loginQuery)
+//     } else {
+//       next()
+//     }
+//   } else {
+//     if (to.fullPath == '/admin') {
+//       if (isAuth) {
+//         next(dashboardQuery)
+//       } else {
+//         next()
+//       }
+//     } else {
+//       next()
+//     }
+//   }
+// })
+
 router.beforeEach(async (to, from, next) => {
   const authStore = useAuthStore()
   const isAuth = await authStore.getAuthUser()
-
   const authUser = authStore.userData
-
   const reqAuth = to.matched.some((record) => record.meta.requiresAuth)
-  const loginQuery = { path: '/admin' }
-  let dashboardQuery = null
-  if (authStore.user?.role == 'ADMIN') {
-    dashboardQuery = { path: '/admin/dashboard' }
-  } else if (authStore.user?.role == 'USER') {
-    dashboardQuery = { path: '/user/dashboard' }
-  }
-
-  if (reqAuth && !authUser) {
-    if (to.fullPath == loginQuery) {
-    }
-    if (!isAuth) {
+  const loginQuery = { path: '/' }
+  const dashboardQuery = { path: '/user/dashboard' }
+  if (reqAuth) {
+    if (!authUser) {
       next(loginQuery)
     } else {
       next()
     }
   } else {
-    if (to.fullPath == '/admin') {
-      if (isAuth) {
-        next(dashboardQuery)
-      } else {
-        next()
-      }
-    } else {
-      next()
-    }
+    next()
   }
 })
 

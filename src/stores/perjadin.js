@@ -231,6 +231,26 @@ export const usePerjadinStore = defineStore('perjadinStore', {
         representatif: [],
       }
     },
+    validateForm() {
+      const { nip, nama, jabatan, unit, pangkat, tanggal_awal, tanggal_akhir } =
+        this.newPegawai
+      return (
+        nip !== null &&
+        nama !== null &&
+        jabatan !== null &&
+        unit !== null &&
+        pangkat !== null &&
+        tanggal_awal !== null &&
+        tanggal_akhir !== null
+      )
+    },
+    tambahPegawai() {
+      if (this.validateForm) {
+        this.form.detail.push(this.newPegawai)
+        return true
+      }
+      return false
+    },
     async searchSimpeg() {
       this.isSearching = true
       try {
@@ -249,6 +269,21 @@ export const usePerjadinStore = defineStore('perjadinStore', {
         } else {
           alert('aaa')
         }
+      } catch (error) {
+        alert(error.message)
+      } finally {
+        this.isSearching = false
+      }
+      return false
+    },
+    async searchLapkin() {
+      this.isSearching = true
+      try {
+        const response = await axiosIns.get(
+          `/api/get-pegawai?nip=${this.newPegawai.nip}`
+        )
+        const data = response.data.data
+        this.setDataPegawaiLapkin(data)
       } catch (error) {
         alert(error.message)
       } finally {

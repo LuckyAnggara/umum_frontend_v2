@@ -34,7 +34,7 @@
           />
         </div>
       </form>
-      <template v-if="authStore.userData.role == 'ADMIN'">
+      <template v-if="authStore.userData?.role == 'ADMIN'">
         <ul class="space-y-2">
           <li v-for="(menu, index) in listMenu" :key="index">
             <template v-if="!menu.child">
@@ -106,7 +106,7 @@
           </li>
         </ul>
       </template>
-      <template v-else-if="authStore.userData.role == 'USER'">
+      <template v-else-if="authStore.userData?.role == 'USER'">
         <ul class="space-y-2">
           <li v-for="(menu, index) in listMenuUser" :key="index">
             <template v-if="!menu.child">
@@ -194,9 +194,9 @@ import { computed } from 'vue'
 const authStore = useAuthStore()
 
 const listMenu = computed(() => {
-  if (authStore.user.role == 'ADMIN') {
+  if (authStore.user?.role == 'ADMIN') {
     return menuAdmin
-  } else if (authStore.user.role == 'USER') {
+  } else if (authStore.user?.role == 'USER') {
     return menuUser
   }
 })

@@ -2,11 +2,19 @@
   <section class="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5">
     <div class="mx-auto max-w-screen-2xl px-4 lg:px-12">
       <!-- Start coding here -->
-      <div class="bg-white dark:bg-gray-800 relative shadow-md sm:rounded-lg overflow-visible">
-        <div class="flex flex-col w-2/3 md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 p-4">
+      <div
+        class="bg-white dark:bg-gray-800 relative shadow-md sm:rounded-lg overflow-visible"
+      >
+        <div
+          class="flex flex-col w-2/3 md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 p-4"
+        >
           <div class="w-full flex space-x-3">
             <div class="flex items-center">
-              <label for="years" class="block text-sm font-medium text-gray-900 dark:text-white mr-2">Show</label>
+              <label
+                for="years"
+                class="block text-sm font-medium text-gray-900 dark:text-white mr-2"
+                >Show</label
+              >
               <select
                 @change="peminjamanBmnStore.getData()"
                 v-model="peminjamanBmnStore.filter.currentLimit"
@@ -14,7 +22,11 @@
               >
                 <option
                   :value="limit.value"
-                  :selected="peminjamanBmnStore.filter.currentLimit == limit.value ? true : false"
+                  :selected="
+                    peminjamanBmnStore.filter.currentLimit == limit.value
+                      ? true
+                      : false
+                  "
                   v-for="(limit, index) in mainStore.limitOptions"
                   :key="index"
                 >
@@ -23,7 +35,11 @@
               </select>
             </div>
             <div class="flex items-center">
-              <label for="years" class="block text-sm font-medium text-gray-900 dark:text-white mr-2">Status</label>
+              <label
+                for="years"
+                class="block text-sm font-medium text-gray-900 dark:text-white mr-2"
+                >Status</label
+              >
               <select
                 @change="peminjamanBmnStore.getData()"
                 v-model="peminjamanBmnStore.filter.status"
@@ -31,7 +47,11 @@
               >
                 <option
                   :value="limit.value"
-                  :selected="peminjamanBmnStore.filter.currentLimit == limit.value ? true : false"
+                  :selected="
+                    peminjamanBmnStore.filter.currentLimit == limit.value
+                      ? true
+                      : false
+                  "
                   v-for="(limit, index) in mainStore.statusOptions"
                   :key="index"
                 >
@@ -42,7 +62,9 @@
             <div class="flex items-center w-full" autocomplete="off">
               <label for="simple-search" class="sr-only">Search</label>
               <div class="relative w-full">
-                <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                <div
+                  class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none"
+                >
                   <svg
                     aria-hidden="true"
                     class="w-5 h-5 text-gray-500 dark:text-gray-400"
@@ -69,25 +91,39 @@
             </div>
           </div>
         </div>
-        <div class="overflow-y-visible w-full scrollbar-thin scrollbar-track-gray-500 scrollbar-thumb-gray-700">
-          <table class="lg:w-full min-w-full text-sm text-left text-gray-500 dark:text-gray-400">
-            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+        <div
+          class="overflow-y-visible w-full scrollbar-thin scrollbar-track-gray-500 scrollbar-thumb-gray-700"
+        >
+          <table
+            class="lg:w-full min-w-full text-sm text-left text-gray-500 dark:text-gray-400"
+          >
+            <thead
+              class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400"
+            >
               <tr>
                 <th scope="col" class="px-4 py-3">#</th>
                 <th scope="col" class="px-4 py-3">Tiket</th>
                 <th scope="col" class="px-4 py-3">Penerima Layanan</th>
                 <th scope="col" class="px-4 py-3">Status</th>
+                <th scope="col" class="px-4 py-3">Status Pengembalian</th>
                 <th scope="col" class="px-4 py-3">Tanggal Pengembalian</th>
                 <th scope="col" class="px-4 py-3"></th>
               </tr>
             </thead>
             <tbody>
               <tr v-if="peminjamanBmnStore.isLoading">
-                <td colspan="9" class="text-center">
-                  <span class=""><ArrowPathIcon class="w-6 h-6 animate-spin mx-auto" /></span>
+                <td colspan="6" class="text-center">
+                  <span class=""
+                    ><ArrowPathIcon class="w-6 h-6 animate-spin mx-auto"
+                  /></span>
                 </td>
               </tr>
-              <tr v-else-if="!peminjamanBmnStore.isLoading && peminjamanBmnStore.items.length < 1">
+              <tr
+                v-else-if="
+                  !peminjamanBmnStore.isLoading &&
+                  peminjamanBmnStore.items.length < 1
+                "
+              >
                 <td colspan="9" class="text-center">No Data</td>
               </tr>
               <tr
@@ -101,7 +137,8 @@
                 </td>
                 <th class="px-4 py-1">
                   <div class="flex flex-col">
-                    <span>{{ item.tiket }}</span> <span class="font-normal">{{ item.created_at }}</span>
+                    <span>{{ item.tiket }}</span>
+                    <span class="font-normal">{{ item.created_at }}</span>
                   </div>
                 </th>
 
@@ -123,6 +160,11 @@
                     >{{ item.status.toUpperCase() }}</span
                   >
                   <span
+                    v-else-if="item.status == 'APPROVE'"
+                    class="bg-yellow-100 text-yellow-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-yellow-900 dark:text-yellow-300"
+                    >{{ item.status }}</span
+                  >
+                  <span
                     v-else-if="item.status == 'BELUM KEMBALI'"
                     class="bg-yellow-100 text-yellow-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-yellow-900 dark:text-yellow-300"
                     >{{ item.status }}</span
@@ -132,16 +174,31 @@
                     class="bg-blue-100 text-blue-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300"
                     >{{ item.status.toUpperCase() }}</span
                   >
-                  <span v-else class="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300">{{
-                    item.status.toUpperCase()
-                  }}</span>
+                  <span
+                    v-else
+                    class="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300"
+                    >{{ item.status.toUpperCase() }}</span
+                  >
+                </td>
+                <td class="px-4 py-1">
+                  <span
+                    class="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300"
+                    >{{ item.status_pengembalian.toUpperCase() }}</span
+                  >
                 </td>
 
                 <td class="px-4 py-1">
                   <div class="flex flex-col w-fit">
-                    <span class="font-semibold"> {{ item.tanggal_kembali }}</span>
+                    <span class="font-semibold">
+                      {{ item.tanggal_kembali }}</span
+                    >
                     <span
-                      v-if="moment(item.tanggal_kembali).diff(moment.now(), 'days') < 0"
+                      v-if="
+                        moment(item.tanggal_kembali).diff(
+                          moment.now(),
+                          'days'
+                        ) < 0
+                      "
                       class="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300"
                       >JATUH TEMPO</span
                     >
@@ -152,8 +209,13 @@
                   <div>
                     <Menu as="div" class="relative inline-block text-left">
                       <div>
-                        <MenuButton class="hover:scale-125 ease-in-out duration-300 flex w-full rounded-md font-medium text-black dark:text-white">
-                          <EllipsisVerticalIcon class="h-5 w-5 text-black dark:text-white" aria-hidden="true" />
+                        <MenuButton
+                          class="hover:scale-125 ease-in-out duration-300 flex w-full rounded-md font-medium text-black dark:text-white"
+                        >
+                          <EllipsisVerticalIcon
+                            class="h-5 w-5 text-black dark:text-white"
+                            aria-hidden="true"
+                          />
                         </MenuButton>
                       </div>
 
@@ -169,15 +231,24 @@
                           class="z-50 py-1 absolute right-0 mt-2 w-40 origin-top-right divide-y divide-gray-100 rounded-md bg-white dark:bg-gray-800 dark:text-gray-100 shadow-lg ring-1 ring-black dark:ring-gray-700 ring-opacity-5 focus:outline-none"
                         >
                           <div class="px-2 py-1">
-                            <MenuItem v-for="menu in itemMenu" v-slot="{ active }" :key="menu.label">
+                            <MenuItem
+                              v-for="menu in itemMenu"
+                              v-slot="{ active }"
+                              :key="menu.label"
+                            >
                               <button
                                 @click="menu.function(item)"
                                 :class="[
-                                  active ? 'bg-blue-500 text-white' : 'text-gray-900 dark:text-white',
+                                  active
+                                    ? 'bg-blue-500 text-white'
+                                    : 'text-gray-900 dark:text-white',
                                   'group flex w-full items-center rounded-md px-2 py-2 text-sm',
                                 ]"
                               >
-                                <component :is="menu.icon" class="w-5 h-5 mr-3" />
+                                <component
+                                  :is="menu.icon"
+                                  class="w-5 h-5 mr-3"
+                                />
                                 {{ menu.label }}
                               </button>
                             </MenuItem>
@@ -191,17 +262,26 @@
             </tbody>
           </table>
         </div>
-        <nav class="flex flex-col md:flex-row justify-between items-start md:items-center space-y-3 md:space-y-0 p-4" aria-label="Table navigation">
+        <nav
+          class="flex flex-col md:flex-row justify-between items-start md:items-center space-y-3 md:space-y-0 p-4"
+          aria-label="Table navigation"
+        >
           <span class="text-sm font-normal text-gray-500 dark:text-gray-400">
             Showing
-            <span class="font-semibold text-gray-900 dark:text-white">{{ peminjamanBmnStore.from }} - {{ peminjamanBmnStore.to }}</span>
+            <span class="font-semibold text-gray-900 dark:text-white"
+              >{{ peminjamanBmnStore.from }} - {{ peminjamanBmnStore.to }}</span
+            >
             of
-            <span class="font-semibold text-gray-900 dark:text-white">{{ peminjamanBmnStore.total }}</span>
+            <span class="font-semibold text-gray-900 dark:text-white">{{
+              peminjamanBmnStore.total
+            }}</span>
           </span>
           <ul class="inline-flex items-stretch -space-x-px">
             <li>
               <a
-                @click="peminjamanBmnStore.currentPage == 1 ? '' : previousPage()"
+                @click="
+                  peminjamanBmnStore.currentPage == 1 ? '' : previousPage()
+                "
                 :disabled="peminjamanBmnStore.currentPage == 1 ? true : false"
                 :class="
                   peminjamanBmnStore.currentPage == 1
@@ -215,7 +295,11 @@
 
             <li>
               <a
-                @click="peminjamanBmnStore.lastPage == peminjamanBmnStore.currentPage ? '' : nextPage()"
+                @click="
+                  peminjamanBmnStore.lastPage == peminjamanBmnStore.currentPage
+                    ? ''
+                    : nextPage()
+                "
                 :class="
                   peminjamanBmnStore.lastPage == peminjamanBmnStore.currentPage
                     ? 'cursor-not-allowed'
@@ -231,9 +315,17 @@
     </div>
 
     <DetailModal :show="detailDialog" @close="detailDialog = false" />
-    <DeleteDialog :show="deleteDialog" @submit="deleteData" @close="deleteDialog = !deleteDialog" />
+    <DeleteDialog
+      :show="deleteDialog"
+      @submit="deleteData"
+      @close="deleteDialog = !deleteDialog"
+    />
 
-    <ModalPengembalianDialog :show="pengembalianDialog" @submit="pengembalian" @close="pengembalianDialog = !pengembalianDialog">
+    <ModalPengembalianDialog
+      :show="pengembalianDialog"
+      @submit="pengembalian"
+      @close="pengembalianDialog = !pengembalianDialog"
+    >
       <template #title>
         <h1>Konfirmasi</h1>
       </template>
@@ -253,11 +345,16 @@
       <template #content>
         <div class="flex flex-col justify-center items-center space-y-4 mt-6">
           <QRCodeVue3 :value="tindakLanjutUrl" />
-          <span class="text-sm text-gray-600">Scan QRCode pada saat Serah Terima BMN</span>
+          <span class="text-sm text-gray-600"
+            >Scan QRCode pada saat Serah Terima BMN</span
+          >
         </div>
       </template>
     </QRDialog>
-    <QRBalikDialog :show="qrBalikDialog" @close="qrBalikDialog = !qrBalikDialog">
+    <QRBalikDialog
+      :show="qrBalikDialog"
+      @close="qrBalikDialog = !qrBalikDialog"
+    >
       <template #title>
         <h1>Scan This QR Code</h1>
       </template>
@@ -265,7 +362,9 @@
       <template #content>
         <div class="flex flex-col justify-center items-center space-y-4 mt-6">
           <QRCodeVue3 :value="balikUrl" />
-          <span class="text-sm text-gray-600">Scan QRCode pada saat Pengembalian BMN</span>
+          <span class="text-sm text-gray-600"
+            >Scan QRCode pada saat Pengembalian BMN</span
+          >
         </div>
       </template>
     </QRBalikDialog>
@@ -281,7 +380,13 @@ import { useMainStore } from '@/stores/main'
 import QRDialog from '@/components/Dialog.vue'
 import QRBalikDialog from '@/components/Dialog.vue'
 import { computed, defineAsyncComponent, onMounted, ref } from 'vue'
-import { EllipsisVerticalIcon, DocumentTextIcon, ArrowPathIcon, QrCodeIcon, TrashIcon } from '@heroicons/vue/24/outline'
+import {
+  EllipsisVerticalIcon,
+  DocumentTextIcon,
+  ArrowPathIcon,
+  QrCodeIcon,
+  TrashIcon,
+} from '@heroicons/vue/24/outline'
 import { useRouter } from 'vue-router'
 import { toast } from 'vue3-toastify'
 
@@ -333,8 +438,15 @@ function detail(item) {
 }
 
 function qrBawaToShow(item) {
-  tiket.value = item.tiket
-  qrBawaDialog.value = true
+  if (item.status == 'DONE') {
+    toast.error('BMN sudah diserah terima kan', {
+      autoClose: 1500,
+      position: toast.POSITION.BOTTOM_RIGHT,
+    })
+  } else {
+    tiket.value = item.tiket
+    qrBawaDialog.value = true
+  }
 }
 function qrBalikToShow(item) {
   // tiket.value = item.tiket
@@ -398,7 +510,7 @@ async function pengembalian() {
     isLoading: true,
   })
 
-  const success = await peminjamanBmnStore.updateDone(pengembalianId.value)
+  const success = await peminjamanBmnStore.updateDone()
   if (success) {
     toast.update(id, {
       render: 'Berhasil !!',

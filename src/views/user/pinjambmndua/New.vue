@@ -1,5 +1,7 @@
 <template>
-  <div class="max-w-md mx-auto md:max-w-lg p-4">
+  <div
+    class="sm:mx-auto sm:w-full lg:w-1/3 md:w-1/2 overflow-y-auto space-y-3 p-5 border-8 rounded-3xl bg-white shadow-2xl z-10"
+  >
     <div class="py-4 flex flex-row items-center justify-between">
       <button
         @click="toDashboard()"

@@ -30,7 +30,7 @@
             required
           />
           <button
-            @click="cariPegawai"
+            @click="perjadinStore.searchLapkin()"
             type="button"
             class="absolute top-0 end-0 p-2.5 text-sm font-medium h-full text-white bg-blue-700 rounded-e-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
           >
@@ -174,59 +174,59 @@ const perjadinStore = usePerjadinStore()
 const mainStore = useMainStore()
 const cariPegawaiLoading = ref(false)
 
-async function cariPegawai() {
-  perjadinStore.isSearching = true
-  const id = toast.loading('Cari data...', {
-    position: toast.POSITION.BOTTOM_CENTER,
-    type: 'info',
-    isLoading: true,
-  })
-  try {
-    const response = await fetch(
-      `https://lapkin.bbmakmur.com/api/employee-show/${perjadinStore.newPegawai.nip}`
-    )
-      .then((response) => {
-        response.json().then((data) => {
-          if (data.success == true) {
-            toast.update(id, {
-              render: 'Berhasil',
-              position: toast.POSITION.BOTTOM_CENTER,
-              type: 'success',
-              autoClose: 1000,
-              closeOnClick: true,
-              closeButton: true,
-              isLoading: false,
-            })
-            perjadinStore.setDataPegawaiLapkin(data.data)
-          } else {
-            toast.update(id, {
-              render: 'tidak dapat ditemukan',
-              position: toast.POSITION.BOTTOM_CENTER,
-              type: 'error',
-              autoClose: 1000,
-              closeOnClick: true,
-              closeButton: true,
-              isLoading: false,
-            })
-          }
-        })
-      })
-      .catch((err) => {
-        console.error(err)
-        toast.update(id, {
-          render: 'terjadi kesalahan',
-          position: toast.POSITION.BOTTOM_CENTER,
-          type: 'error',
-          autoClose: 1000,
-          closeOnClick: true,
-          closeButton: true,
-          isLoading: false,
-        })
-      })
-  } catch (error) {
-    console.error(error)
-  } finally {
-    perjadinStore.isSearching = false
-  }
-}
+// async function cariPegawai() {
+//   perjadinStore.isSearching = true
+//   const id = toast.loading('Cari data...', {
+//     position: toast.POSITION.BOTTOM_CENTER,
+//     type: 'info',
+//     isLoading: true,
+//   })
+//   try {
+//     const response = await fetch(
+//       `https://lapkin.bbmakmur.com/api/employee-show/${perjadinStore.newPegawai.nip}`
+//     )
+//       .then((response) => {
+//         response.json().then((data) => {
+//           if (data.success == true) {
+//             toast.update(id, {
+//               render: 'Berhasil',
+//               position: toast.POSITION.BOTTOM_CENTER,
+//               type: 'success',
+//               autoClose: 1000,
+//               closeOnClick: true,
+//               closeButton: true,
+//               isLoading: false,
+//             })
+//             perjadinStore.setDataPegawaiLapkin(data.data)
+//           } else {
+//             toast.update(id, {
+//               render: 'tidak dapat ditemukan',
+//               position: toast.POSITION.BOTTOM_CENTER,
+//               type: 'error',
+//               autoClose: 1000,
+//               closeOnClick: true,
+//               closeButton: true,
+//               isLoading: false,
+//             })
+//           }
+//         })
+//       })
+//       .catch((err) => {
+//         console.error(err)
+//         toast.update(id, {
+//           render: 'terjadi kesalahan',
+//           position: toast.POSITION.BOTTOM_CENTER,
+//           type: 'error',
+//           autoClose: 1000,
+//           closeOnClick: true,
+//           closeButton: true,
+//           isLoading: false,
+//         })
+//       })
+//   } catch (error) {
+//     console.error(error)
+//   } finally {
+//     perjadinStore.isSearching = false
+//   }
+// }
 </script>

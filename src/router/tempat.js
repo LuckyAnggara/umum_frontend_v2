@@ -12,7 +12,7 @@ const tempat = [
   {
     meta: {
       title: 'Booking Ruangan',
-      requiresAuth: false,
+      requiresAuth: true,
       layout: 'layout-guest',
     },
     path: '/user/tempat/booking',
@@ -22,7 +22,7 @@ const tempat = [
   {
     meta: {
       title: 'Jadwal Booking',
-      requiresAuth: false,
+      requiresAuth: true,
       layout: 'layout-guest',
     },
     path: '/user/tempat/calendar',

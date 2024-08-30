@@ -164,7 +164,10 @@ export const usePeminjamanBmn = defineStore('peminjamanBmn', {
         detail: this.singleResponses,
       }
       try {
-        const response = await axiosIns.patch(`/api/peminjaman-bmn/${this.singleResponses.id}`, form)
+        const response = await axiosIns.patch(
+          `/api/peminjaman-bmn/${this.singleResponses.id}`,
+          form
+        )
         if (response.status == 200) {
           this.setCurrentData(response.data.data)
           return true
@@ -177,12 +180,15 @@ export const usePeminjamanBmn = defineStore('peminjamanBmn', {
         this.isUpdateLoading = false
       }
     },
-    async updateDone(id) {
+    async updateDone() {
       this.isUpdateLoading = true
       try {
         // const response = await axiosIns.put(`/api/peminjaman-bmn/done/${this.singleResponses.id}`, this.doneForm) versi lama
         //  versi detail peminjaman bmn
-        const response = await axiosIns.put(`/api/peminjaman-bmn/done/${id}`, this.doneForm)
+        const response = await axiosIns.put(
+          `/api/peminjaman-bmn/done/${this.singleResponses.id}`,
+          this.doneForm
+        )
         if (response.status == 200) {
           this.setCurrentData(response.data.data)
           return true
@@ -198,7 +204,9 @@ export const usePeminjamanBmn = defineStore('peminjamanBmn', {
     async updateUndo() {
       this.isUpdateLoading = true
       try {
-        const response = await axiosIns.put(`/api/peminjaman-bmn/undo/${this.singleResponses.id}`)
+        const response = await axiosIns.put(
+          `/api/peminjaman-bmn/undo/${this.singleResponses.id}`
+        )
         if (response.status == 200) {
           this.setCurrentData(response.data.data)
           return true

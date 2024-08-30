@@ -5,7 +5,9 @@
     /></span>
   </section>
   <section v-else>
-    <div class="max-w-md mx-auto px-6 py-8 md:max-w-lg">
+    <div
+      class="sm:mx-auto sm:w-full lg:w-1/3 md:w-1/2 overflow-y-auto space-y-3 p-5 border-8 rounded-3xl bg-white shadow-2xl z-10"
+    >
       <div class="flex items-center justify-between">
         <div class="flex items-center my-1">
           <span class="mr-2 rounded-full bg-white">

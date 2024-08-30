@@ -12,7 +12,7 @@ const user = [
   {
     meta: {
       title: 'Cari',
-      requiresAuth: false,
+      requiresAuth: true,
       layout: 'layout-guest',
     },
     path: '/user/ptj/',

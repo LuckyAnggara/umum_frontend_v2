@@ -31,7 +31,11 @@
         <Detail v-if="currentStep == 1" @openModal="openModal" />
       </div>
     </div>
-    <NewModal :show="newModal" @close="newModal = false" />
+    <NewModal
+      :show="newModal"
+      @close="newModal = false"
+      @submit="tambahPegawai()"
+    />
   </div>
 </template>
 
@@ -49,10 +53,13 @@ import {
 import { toast } from 'vue3-toastify'
 import Perencanaan from './component/Perencanaan.vue'
 import Detail from './component/Detail.vue'
+import { usePerjadinStore } from '@/stores/perjadin'
 
 const NewModal = defineAsyncComponent(() =>
   import('./dialog/ModalNewDetailPegawai.vue')
 )
+
+const perjadinStore = usePerjadinStore
 
 const newModal = ref(false)
 const currentStep = ref(1)
@@ -71,5 +78,36 @@ const itemMenu = [
 
 function openModal() {
   newModal.value = true
+}
+function tambahPegawai() {
+  const id = toast.loading('Proses tambah data...', {
+    position: toast.POSITION.BOTTOM_CENTER,
+    type: 'info',
+    isLoading: true,
+  })
+
+  if (perjadinStore.tambahPegawai == true) {
+    toast.update(id, {
+      render: 'Pegawai berhasil ditambahkan',
+      position: toast.POSITION.BOTTOM_CENTER,
+      type: 'success',
+      autoClose: 1000,
+      closeOnClick: true,
+      closeButton: true,
+      isLoading: false,
+    })
+    newModal.value = false
+    perjadinStore.resetForm()
+  } else {
+    toast.update(id, {
+      render: 'Data tidak lengkap',
+      position: toast.POSITION.BOTTOM_CENTER,
+      type: 'error',
+      autoClose: 1000,
+      closeOnClick: true,
+      closeButton: true,
+      isLoading: false,
+    })
+  }
 }
 </script>

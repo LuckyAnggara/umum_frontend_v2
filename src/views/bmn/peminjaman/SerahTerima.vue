@@ -1,6 +1,8 @@
 <template>
   <div>
-    <div class="max-w-md mx-auto px-6 py-8 md:max-w-lg">
+    <div
+      class="sm:mx-auto sm:w-full lg:w-1/3 md:w-1/2 overflow-y-auto space-y-3 p-5 border-8 rounded-3xl bg-white shadow-2xl z-10"
+    >
       <div class="flex items-center">
         <h2 class="ml-2 font-semibold text-gray-800 text-xl">
           Serah Terima Peminjaman BMN
@@ -60,61 +62,6 @@
               class="bg-gray-200 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             />
           </div>
-          <div>
-            <label
-              for="nip"
-              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-              >Gambar</label
-            >
-            <div class="flex justify-center">
-              <img
-                class="w-60 h-fit object-cover rounded"
-                :src="showImage(peminjamanBmnStore.singleResponses.bmn.image)"
-                alt="Product Image"
-              />
-            </div>
-          </div>
-
-          <div>
-            <label
-              for="nip"
-              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-              >NUP</label
-            >
-            <input
-              readonly
-              v-model="peminjamanBmnStore.singleResponses.bmn.nup"
-              type="text"
-              class="bg-gray-200 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            />
-          </div>
-          <div>
-            <label
-              for="nip"
-              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-              >Nama BMN</label
-            >
-            <input
-              readonly
-              v-model="peminjamanBmnStore.singleResponses.bmn.nama"
-              type="text"
-              class="bg-gray-200 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            />
-          </div>
-
-          <div>
-            <label
-              for="nip"
-              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-              >Jenis Layanan</label
-            >
-            <input
-              readonly
-              v-model="peminjamanBmnStore.singleResponses.jenis_layanan"
-              type="text"
-              class="bg-gray-200 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            />
-          </div>
 
           <div>
             <label
@@ -123,7 +70,7 @@
               >Tanggal Pengembalian</label
             >
             <input
-              v-model="peminjamanBmnStore.singleResponses.tanggal_pengembalian"
+              v-model="peminjamanBmnStore.singleResponses.tanggal_kembali"
               type="text"
               id="unit"
               class="bg-gray-200 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -155,7 +102,7 @@
             >
             <input
               readonly
-              v-model="peminjamanBmnStore.singleResponses.nama_peminta"
+              v-model="peminjamanBmnStore.singleResponses.nama"
               type="text"
               id="nama"
               class="bg-gray-200 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -189,6 +136,36 @@
               class="bg-gray-200 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               readonly
             />
+          </div>
+
+          <div
+            class="my-8 bg-white rounded-lg overflow-hidden border border-gray-400"
+          >
+            <div class="px-4 py-2 border-b border-gray-200">
+              <h2 class="font-semibold text-gray-800">Daftar BMN</h2>
+            </div>
+            <div class="flex flex-col divide-y divide-gray-200">
+              <div
+                v-for="(item, index) in peminjamanBmnStore.singleResponses
+                  ?.detail"
+                class="flex items-center py-4 px-6"
+                :key="index"
+              >
+                <img
+                  class="w-24 h-24 object-cover rounded"
+                  :src="showImage(item.bmn?.image)"
+                  alt="Product Image"
+                />
+                <div class="ml-5">
+                  <h3 class="text-gray-900 font-semibold">
+                    {{ item.bmn?.nama }}
+                  </h3>
+                  <div class="flex text-gray-500 w-full">
+                    <p w-full>{{ item.bmn?.keterangan }}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
 
           <div class="py-2 border-b border-gray-200">

@@ -9,7 +9,7 @@ export const useRateStore = defineStore('rate', {
     responses: null,
     popShow: false,
     form: {
-      value: null,
+      value: 3,
       saran: null,
     },
     filter: {

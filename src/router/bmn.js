@@ -1,11 +1,15 @@
-import { createRouter, createWebHashHistory, createWebHistory } from 'vue-router'
+import {
+  createRouter,
+  createWebHashHistory,
+  createWebHistory,
+} from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
 
 const bmn = [
   {
     meta: {
       title: 'Cari',
-      requiresAuth: false,
+      requiresAuth: true,
       layout: 'layout-guest',
     },
     path: '/user/bmn/service',
@@ -15,7 +19,7 @@ const bmn = [
   {
     meta: {
       title: 'Cari',
-      requiresAuth: false,
+      requiresAuth: true,
       layout: 'layout-guest',
     },
     path: '/user/bmn/service',
@@ -25,7 +29,7 @@ const bmn = [
   {
     meta: {
       title: 'Daftar Barang Milik Negara',
-      requiresAuth: false,
+      requiresAuth: true,
       layout: 'layout-auth',
     },
     path: '/bmn/list',
@@ -55,7 +59,7 @@ const bmn = [
   {
     meta: {
       title: 'Permintaan Layanan BMN',
-      requiresAuth: false,
+      requiresAuth: true,
       layout: 'layout-guest',
     },
     path: '/bmn/permintaan/:tiket/penyelesaian',
@@ -65,7 +69,7 @@ const bmn = [
   {
     meta: {
       title: 'Permintaan Layanan BMN',
-      requiresAuth: false,
+      requiresAuth: true,
       layout: 'layout-guest',
     },
     path: '/bmn/permintaan/:tiket/pengembalian',
@@ -75,7 +79,7 @@ const bmn = [
   {
     meta: {
       title: 'Permintaan Layanan BMN',
-      requiresAuth: false,
+      requiresAuth: true,
       layout: 'layout-guest',
     },
     path: '/user/bmn/permintaan/:tiket/output',
@@ -85,7 +89,7 @@ const bmn = [
   {
     meta: {
       title: 'Permintaan Layanan BMN',
-      requiresAuth: false,
+      requiresAuth: true,
       layout: 'layout-guest',
     },
     path: '/user/bmn/permintaan/:id/detail',
@@ -95,7 +99,7 @@ const bmn = [
   {
     meta: {
       title: 'Peminjaman BMN',
-      requiresAuth: false,
+      requiresAuth: true,
       layout: 'layout-guest',
     },
     path: '/user/bmn/peminjaman',
@@ -115,7 +119,7 @@ const bmn = [
   {
     meta: {
       title: 'Peminjaman BMN',
-      requiresAuth: false,
+      requiresAuth: true,
       layout: 'layout-guest',
     },
     path: '/user/bmn/peminjaman/:tiket/output',
@@ -125,7 +129,7 @@ const bmn = [
   {
     meta: {
       title: 'Detail Peminjaman BMN',
-      requiresAuth: false,
+      requiresAuth: true,
       layout: 'layout-guest',
     },
     path: '/user/bmn/peminjaman/:tiket/detail',
@@ -155,7 +159,7 @@ const bmn = [
   {
     meta: {
       title: 'Pengembalian BMN',
-      requiresAuth: false,
+      requiresAuth: true,
       layout: 'layout-guest',
     },
     path: '/bmn/peminjaman/:tiket/pengembalian',
@@ -166,7 +170,7 @@ const bmn = [
   {
     meta: {
       title: 'Permintaan Peminjaman BMN',
-      requiresAuth: false,
+      requiresAuth: true,
       layout: 'layout-guest',
     },
     path: '/user/bmn/peminjaman',
@@ -176,7 +180,7 @@ const bmn = [
   {
     meta: {
       title: 'Permintaan Peminjaman BMN',
-      requiresAuth: false,
+      requiresAuth: true,
       layout: 'layout-guest',
     },
     path: '/user/bmn/peminjaman/cart',

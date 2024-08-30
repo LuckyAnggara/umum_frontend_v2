@@ -19,7 +19,6 @@ const app = createApp(App)
 app.use(pinia)
 app.use(router)
 app.use(VueSweetAlert)
-
 app.use(Vue3Toasity, {
   theme: 'dark',
   type: 'default',
