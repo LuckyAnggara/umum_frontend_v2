@@ -42,7 +42,7 @@
         <div>
           <h4 class="font-semibold">Kegiatan Berlangsung</h4>
           <span class="text-gray-700 text-sm font-normal">
-            24 Agustus 2024</span
+            {{ $moment().format('DD MMMM YYYY') }}</span
           >
           <div
             v-if="dashboardStore.userData.tempat.length > 0"
