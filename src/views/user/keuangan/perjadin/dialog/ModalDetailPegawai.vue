@@ -34,7 +34,8 @@
                 class="flex justify-start items-center pb-4 mb-4 rounded-t border-b sm:mb-5 dark:border-gray-600"
               >
                 <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
-                  Tambah Data
+                  <span v-if="!isEdit">Tambah Data</span>
+                  <span v-else>Update Data</span>
                 </h3>
                 <button
                   @click="emit('close')"
@@ -87,9 +88,10 @@
                     <Umum v-if="currentStep == 0" />
                     <Hotel v-else-if="currentStep == 1" />
                     <UangHarian v-else-if="currentStep == 2" />
-                    <Pesawat v-else-if="currentStep == 3" />
-                    <Darat v-else-if="currentStep == 4" />
-                    <Representatif v-else-if="currentStep == 5" />
+                    <Transport v-else-if="currentStep == 3" />
+                    <!-- <Pesawat v-else-if="currentStep == 4" />
+                    <Darat v-else-if="currentStep == 5" /> -->
+                    <Representatif v-else-if="currentStep == 4" />
                   </div>
                 </div>
               </div>
@@ -110,8 +112,8 @@
 
                   <button
                     @click="++currentStep"
-                    :disabled="currentStep == 5"
-                    :class="currentStep == 5 ? 'cursor-not-allowed' : ''"
+                    :disabled="currentStep == 4"
+                    :class="currentStep == 4 ? 'cursor-not-allowed' : ''"
                     type="button"
                     class="w-24 text-yellow-400 hover:text-white border border-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:outline-none focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-yellow-300 dark:text-yellow-300 dark:hover:text-white dark:hover:bg-yellow-400 dark:focus:ring-yellow-900"
                   >
@@ -122,14 +124,23 @@
                   class="flex items-center space-x-1 mt-4 text-center justify-end"
                 >
                   <button
-                    @click="perjadinStore.resetForm()"
+                    v-if="isEdit == false"
+                    @click="perjadinStore.resetFormPegawai()"
                     type="button"
                     class="w-24 text-green-700 hover:text-white border border-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-green-500 dark:text-green-500 dark:hover:text-white dark:hover:bg-green-600 dark:focus:ring-green-800"
                   >
                     Reset
                   </button>
                   <button
-                    @click="emit('submit')"
+                    v-else
+                    @click="destroy()"
+                    type="button"
+                    class="w-24 text-red-700 hover:text-white border border-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-800"
+                  >
+                    Hapus
+                  </button>
+                  <button
+                    @click="submit()"
                     type="button"
                     class="w-24 text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500 dark:focus:ring-blue-800"
                   >
@@ -156,25 +167,25 @@ import {
 } from '@headlessui/vue'
 
 import { ArrowRightIcon } from '@heroicons/vue/24/outline'
-import Umum from './component/Umum.vue'
-import Hotel from './component/Hotel.vue'
-import UangHarian from './component/UangHarian.vue'
-import Pesawat from './component/Pesawat.vue'
-import Darat from './component/Darat.vue'
-import Representatif from './component/Representatif.vue'
+import Umum from './component/detail/Umum.vue'
+import Hotel from './component/detail/Hotel.vue'
+import UangHarian from './component/detail/UangHarian.vue'
+import Transport from './component/detail/Transport.vue'
+
+import Representatif from './component/detail/Representatif.vue'
 
 import { usePerjadinStore } from '@/stores/perjadin'
 const perjadinStore = usePerjadinStore()
 
-const emit = defineEmits(['close', 'submit', 'fileChange'])
+const emit = defineEmits(['close', 'submit', 'update', 'destroy'])
 const props = defineProps({
   show: {
     type: Boolean,
     default: false,
   },
-  title: {
-    type: String,
-    default: 'Confirmation ?',
+  isEdit: {
+    type: Boolean,
+    default: false,
   },
 })
 const currentStep = ref(0)
@@ -182,8 +193,21 @@ const steps = ref([
   'Umum',
   'Hotel',
   'Uang Harian',
-  'Pesawat',
-  'Darat',
+  'Transportasi',
+  // 'Pesawat',
+  // 'Darat',
   'Representatif',
 ])
+
+function submit() {
+  if (props.isEdit == true) {
+    emit('update')
+  } else {
+    emit('submit')
+  }
+}
+
+function destroy() {
+  emit('destroy')
+}
 </script>

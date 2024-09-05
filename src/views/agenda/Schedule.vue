@@ -77,14 +77,23 @@
         >
           Tambah Kegiatan
         </button> -->
+        <div class="flex flex-col space-y-4">
+          <button
+            @click="toLaporan()"
+            type="button"
+            class="h-fit flex items-center justify-center text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-md text-sm px-4 py-2 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800"
+          >
+            Laporan
+          </button>
 
-        <button
-          @click="toLaporan()"
-          type="button"
-          class="h-fit flex items-center justify-center text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-md text-sm px-4 py-2 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800"
-        >
-          Laporan
-        </button>
+          <button
+            @click="toTextSingkat()"
+            type="button"
+            class="h-fit flex items-center justify-center text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-md text-sm px-4 py-2 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800"
+          >
+            Text Singkat
+          </button>
+        </div>
       </div>
       <div class="w-full mx-auto">
         <FullCalendar :options="calendarOptions">
@@ -120,6 +129,7 @@
       </template>
       <template #content>
         <span class="text-gray-500">Berikan pesan kepada pemilik kegiatan</span>
+
         <textarea
           v-model="agendaStore.pesanDelete"
           type="text"
@@ -179,6 +189,80 @@
         </div>
       </template>
     </ReportDialog>
+
+    <TextDialog
+      :overflowVisible="true"
+      :show="textDialog"
+      @submit="generateText"
+      @close="textDialog = !textDialog"
+      :canSubmit="true"
+    >
+      <template #title>
+        <h1>Laporan Singkat</h1>
+      </template>
+
+      <template #content>
+        <div class="flex flex-col space-y-4 mt-6">
+          <div class="text-left">
+            <label
+              for="unit"
+              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              >Tanggal Awal</label
+            >
+            <VueDatePicker
+              v-model="agendaStore.filter.report.start"
+              class=""
+              required
+              :format="'dd MMMM yyyy'"
+              auto-apply
+              date-picker
+              locale="id"
+            ></VueDatePicker>
+          </div>
+
+          <div class="text-left">
+            <label
+              for="unit"
+              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              >Tanggal Akhir</label
+            >
+            <VueDatePicker
+              v-model="agendaStore.filter.report.end"
+              class=""
+              required
+              :format="'dd MMMM yyyy'"
+              auto-apply
+              date-picker
+              locale="id"
+            ></VueDatePicker>
+          </div>
+        </div>
+        <div
+          class="flex flex-col space-y-4 mt-6"
+          v-if="agendaStore.formattedAgenda"
+        >
+          <label
+            for="message"
+            class="block text-sm font-medium text-gray-900 dark:text-white"
+            >Laporan</label
+          >
+          <textarea
+            id="message"
+            rows="8"
+            :value="agendaStore.formattedAgenda"
+            class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          ></textarea>
+
+          <button
+            @click="copyText()"
+            type="button"
+            class="mt-4 h-fit flex items-center justify-center text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-md text-sm px-4 py-2 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800"
+          >
+            Copy to Clipboard
+          </button>
+        </div>
+      </template>
+    </TextDialog>
   </section>
 </template>
 
@@ -198,8 +282,11 @@ import { computed, defineAsyncComponent, onMounted, ref } from 'vue'
 import { ArrowPathIcon } from '@heroicons/vue/24/outline'
 import VueDatePicker from '@vuepic/vue-datepicker'
 import '@vuepic/vue-datepicker/dist/main.css'
+import { useClipboard } from '@vueuse/core'
 
 import ReportDialog from '@/components/Dialog.vue'
+import TextDialog from '@/components/Dialog.vue'
+import { reactive } from 'vue'
 
 const DetailModal = defineAsyncComponent(() => import('./ModalDetail.vue'))
 const BookingModal = defineAsyncComponent(() => import('./ModalBookingDua.vue'))
@@ -207,14 +294,15 @@ const BookingModal = defineAsyncComponent(() => import('./ModalBookingDua.vue'))
 const agendaStore = useAgendaStore()
 const mainStore = useMainStore()
 
+const source = computed(() => {
+  return agendaStore.formattedAgenda
+})
+const { copy } = useClipboard({ source })
 const detailDialog = ref(false)
 const bookingDialog = ref(false)
 const confirmDialog = ref(false)
 const reportDialog = ref(false)
-
-function newKegiatan() {
-  bookingDialog.value = true
-}
+const textDialog = ref(false)
 
 function deleteConfirm() {
   detailDialog.value = false
@@ -285,9 +373,24 @@ function handleDateClick(arg) {
 function toLaporan() {
   reportDialog.value = true
 }
+function toTextSingkat() {
+  textDialog.value = true
+}
 
 function reportSubmit() {
   agendaStore.getReport()
+}
+
+function generateText() {
+  agendaStore.getTextReport()
+}
+
+function copyText() {
+  toast.success('Copied!', {
+    autoClose: 1000,
+    position: toast.POSITION.BOTTOM_CENTER,
+  })
+  copy(source.value)
 }
 
 onMounted(() => {

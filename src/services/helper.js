@@ -1,13 +1,15 @@
 // export const storageUrl = 'http://192.168.46.163:8000/'
 // export const storageUrl = 'http://192.168.10.127:8000'
 // export const storageUrl = 'https://de.bbmakmur.com/public'
-export const storageUrl = 'https://seru.itjenkumham.id/backend/storage'
-// export const storageUrl = 'http://127.0.0.1:8000/storage'
+// export const storageUrl = 'https://seru.itjenkumham.id/backend/storage'
+export const storageUrl = 'http://127.0.0.1:8000/storage'
 
 // export const storageUrl = 'http://192.168.16.128:8000/'
 
 export const rupiah = new Intl.NumberFormat('id-ID', {
   style: 'currency',
+  minimumFractionDigits: 0, // Ini akan menghilangkan ,00
+  maximumFractionDigits: 0,
   currency: 'IDR',
 })
 

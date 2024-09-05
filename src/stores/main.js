@@ -2,7 +2,7 @@ import { defineStore } from 'pinia'
 
 export const useMainStore = defineStore('main', {
   state: () => ({
-    tahunOptions: [2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026],
+    tahunOptions: [2023, 2024, 2025, 2026, 2027, 2028],
     bulanOptions: [
       {
         id: '01',
@@ -155,10 +155,9 @@ export const useMainStore = defineStore('main', {
       'Inspektorat Wilayah VI',
       'Bagian Program dan Pelaporan',
       'Bagian Umum',
-      'Kelompok SDM',
+      'Kelompok Sumber Daya Manusia',
       'Kelompok Keuangan',
-      'Kelompok Sistem Informasi Pengawasan',
-      'Kelompok Humas',
+      'Kelompok Humas dan Sistem Informasi Pengawasan',
     ],
     peranOptions: [
       '-',

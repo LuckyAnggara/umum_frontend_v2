@@ -95,16 +95,31 @@ export const menuAdmin = [
   },
 
   {
-    name: 'Pertanggung Jawaban',
+    name: 'Keuangan',
     icon: SwatchIcon,
     child: [
       {
-        name: 'Daftar',
-        to: 'list-ptj',
+        name: 'Belanja Perjalanan Dinas',
+        to: 'perjadin-list',
+      },
+      {
+        name: 'Belanja Perjalanan non Dinas',
+        to: 'permintaan-admin',
       },
     ],
-    // to: 'persediaan',
   },
+
+  // {
+  //   name: 'Pertanggung Jawaban',
+  //   icon: SwatchIcon,
+  //   child: [
+  //     {
+  //       name: 'Daftar',
+  //       to: 'list-ptj',
+  //     },
+  //   ],
+  //   // to: 'persediaan',
+  // },
 
   {
     name: '-',

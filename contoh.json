@@ -1,0 +1,189 @@
+[
+  { "tanggal": "24 August 2024", "detail": [] },
+  {
+    "tanggal": "25 August 2024",
+    "detail": [
+      {
+        "pimpinan": 1,
+        "kegiatan": [
+          {
+            "id": 1,
+            "kegiatan": "RDP",
+            "jam_mulai": "16:00:00",
+            "jam_akhir": "16:00:00",
+            "tempat": "DPR",
+            "status": "BELUM SELESAI",
+            "title": "RDP",
+            "start": "2024-08-25 16:00:00",
+            "end": "2024-08-25 16:00:00",
+            "duration": "02:00",
+            "tipe": "AGENDA"
+          }
+        ]
+      }
+    ]
+  },
+  { "tanggal": "26 August 2024", "detail": [] },
+  { "tanggal": "27 August 2024", "detail": [] },
+  { "tanggal": "28 August 2024", "detail": [] },
+  {
+    "tanggal": "29 August 2024",
+    "detail": [
+      {
+        "pimpinan": 2,
+        "kegiatan": [
+          {
+            "id": 4,
+            "kegiatan": "asdasdasd",
+            "jam_mulai": "08:00:00",
+            "jam_akhir": "16:00:00",
+            "tempat": "asdad",
+            "status": "BELUM SELESAI",
+            "title": "asdasdasd",
+            "start": "2024-08-29 08:00:00",
+            "end": "2024-08-29 16:00:00",
+            "duration": "02:00",
+            "tipe": "AGENDA"
+          },
+          {
+            "id": 5,
+            "kegiatan": "sadasdasd",
+            "jam_mulai": "08:00:00",
+            "jam_akhir": "16:00:00",
+            "tempat": "asdasd",
+            "status": "BELUM SELESAI",
+            "title": "sadasdasd",
+            "start": "2024-08-29 08:00:00",
+            "end": "2024-08-29 16:00:00",
+            "duration": "02:00",
+            "tipe": "AGENDA"
+          },
+          {
+            "id": 6,
+            "kegiatan": "asdasdasdasdasdasdasd",
+            "jam_mulai": "08:00:00",
+            "jam_akhir": "16:00:00",
+            "tempat": "asdasd",
+            "status": "BELUM SELESAI",
+            "title": "asdasdasdasdasdasdasd",
+            "start": "2024-08-29 08:00:00",
+            "end": "2024-08-29 16:00:00",
+            "duration": "02:00",
+            "tipe": "AGENDA"
+          },
+          {
+            "id": 7,
+            "kegiatan": "asdasdasdasd",
+            "jam_mulai": "08:00:00",
+            "jam_akhir": "16:00:00",
+            "tempat": "asdasd",
+            "status": "BELUM SELESAI",
+            "title": "asdasdasdasd",
+            "start": "2024-08-29 08:00:00",
+            "end": "2024-08-29 16:00:00",
+            "duration": "02:00",
+            "tipe": "AGENDA"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "tanggal": "30 August 2024",
+    "detail": [
+      {
+        "pimpinan": 1,
+        "kegiatan": [
+          {
+            "id": 2,
+            "kegiatan": "asdasdasdasd",
+            "jam_mulai": "08:00:00",
+            "jam_akhir": "16:00:00",
+            "tempat": "asdas",
+            "status": "BELUM SELESAI",
+            "title": "asdasdasdasd",
+            "start": "2024-08-30 08:00:00",
+            "end": "2024-08-30 16:00:00",
+            "duration": "02:00",
+            "tipe": "AGENDA"
+          },
+          {
+            "id": 12,
+            "kegiatan": "bbbbbbbbbbbb",
+            "jam_mulai": "08:00:00",
+            "jam_akhir": "16:00:00",
+            "tempat": "bbbbbbbbbbbb",
+            "status": "BELUM SELESAI",
+            "title": "bbbbbbbbbbbb",
+            "start": "2024-08-30 08:00:00",
+            "end": "2024-08-30 16:00:00",
+            "duration": "02:00",
+            "tipe": "AGENDA"
+          },
+          {
+            "id": 13,
+            "kegiatan": "cccccccccccc",
+            "jam_mulai": "08:00:00",
+            "jam_akhir": "16:00:00",
+            "tempat": "ccccccccccccc",
+            "status": "BELUM SELESAI",
+            "title": "cccccccccccc",
+            "start": "2024-08-30 08:00:00",
+            "end": "2024-08-30 16:00:00",
+            "duration": "02:00",
+            "tipe": "AGENDA"
+          }
+        ]
+      },
+      {
+        "pimpinan": 2,
+        "kegiatan": [
+          {
+            "id": 8,
+            "kegiatan": "aaaaaaaa",
+            "jam_mulai": "08:00:00",
+            "jam_akhir": "16:00:00",
+            "tempat": "asdasd",
+            "status": "BELUM SELESAI",
+            "title": "aaaaaaaa",
+            "start": "2024-08-30 08:00:00",
+            "end": "2024-08-30 16:00:00",
+            "duration": "02:00",
+            "tipe": "AGENDA"
+          },
+          {
+            "id": 9,
+            "kegiatan": "asssssssssssd",
+            "jam_mulai": "08:00:00",
+            "jam_akhir": "16:00:00",
+            "tempat": "aaaaaaaaaaaa",
+            "status": "BELUM SELESAI",
+            "title": "asssssssssssd",
+            "start": "2024-08-30 08:00:00",
+            "end": "2024-08-30 16:00:00",
+            "duration": "02:00",
+            "tipe": "AGENDA"
+          }
+        ]
+      },
+      {
+        "pimpinan": 7,
+        "kegiatan": [
+          {
+            "id": 14,
+            "kegiatan": "kaku",
+            "jam_mulai": "08:00:00",
+            "jam_akhir": "16:00:00",
+            "tempat": "asd",
+            "status": "BELUM SELESAI",
+            "title": "kaku",
+            "start": "2024-08-30 08:00:00",
+            "end": "2024-08-30 16:00:00",
+            "duration": "02:00",
+            "tipe": "AGENDA"
+          }
+        ]
+      }
+    ]
+  }
+]

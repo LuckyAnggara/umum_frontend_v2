@@ -37,6 +37,9 @@ export const useAuthStore = defineStore('auth', {
     },
   }),
   getters: {
+    role(state) {
+      return state.user.role ?? ''
+    },
     items(state) {
       return state.responses?.data ?? []
     },

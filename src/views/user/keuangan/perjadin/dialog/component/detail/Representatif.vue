@@ -1,18 +1,32 @@
 <template>
   <div class="text-left w-full">
-    <h2 class="text-2xl mb-4">Pesawat</h2>
+    <h2 class="text-2xl mb-4">Representatif</h2>
 
     <div class="flex flex-col space-y-2">
+      <div>
+        <label
+          for="name"
+          class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+          >Keterangan</label
+        >
+        <input
+          placeholder="Isi keterangan disini untuk penjelas"
+          v-model="perjadinStore.newRepresentatif.keterangan"
+          required
+          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+        />
+      </div>
+
       <div class="grid grid-cols-2 gap-4">
         <div class="text-left">
           <label
             for="name"
             class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-            >Keterangan
+            >Hari
           </label>
           <input
-            placeholder="Isi keterangan disini"
-            v-model="perjadinStore.newPesawat.keterangan"
+            type="number"
+            v-model="perjadinStore.newRepresentatif.hari"
             required
             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
           />
@@ -25,7 +39,7 @@
           >
           <input
             type="number"
-            v-model="perjadinStore.newPesawat.biaya"
+            v-model="perjadinStore.newRepresentatif.biaya"
             required
             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
           />
@@ -34,7 +48,7 @@
 
       <div class="flex items-center space-x-4 my-4">
         <button
-          @click="perjadinStore.tambahPesawat"
+          @click="perjadinStore.tambahRep"
           type="submit"
           class="bg-blue-100 hover:bg-blue-200 inline-flex justify-center rounded-md border border-transparent px-4 py-2 text-sm font-medium text-blue-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
         >
@@ -54,27 +68,29 @@
             <tr>
               <th scope="col" class="px-4 py-3">#</th>
               <th scope="col" class="px-4 py-3">Keterangan</th>
+              <th scope="col" class="px-4 py-3">Hari</th>
               <th scope="col" class="px-4 py-3">Total Biaya</th>
               <th scope="col" class="px-4 py-3">Action</th>
             </tr>
           </thead>
           <tbody>
-            <tr v-if="perjadinStore.newPegawai.pesawat < 1">
-              <td colspan="3" class="text-center">Tidak ada data</td>
+            <tr v-if="perjadinStore.newPegawai.representatif < 1">
+              <td colspan="4" class="text-center">Tidak ada data</td>
             </tr>
             <tr
               v-else
-              v-for="(item, index) in perjadinStore.newPegawai.pesawat"
+              v-for="(item, index) in perjadinStore.newPegawai.representatif"
               :key="index"
               class="odd:bg-white odd:dark:bg-gray-900 odd:dark:border-gray-700 even:bg-gray-50 even:dark:bg-gray-800 even:dark:border-gray-700 border-b"
             >
               <td class="px-4 py-1">{{ index + 1 }}</td>
               <td class="px-4 py-1">{{ item.keterangan }}</td>
+              <td class="px-4 py-1">{{ item.hari }}</td>
               <td class="px-4 py-1">
                 {{ IDRCurrency.format(item.biaya) }}
               </td>
               <td class="px-4 py-1">
-                <div @click="perjadinStore.deletePesawat(index)">
+                <div @click="perjadinStore.deleteRep(index)">
                   <TrashIcon class="h-5 cursor-pointer hover:text-blue-500" />
                 </div>
               </td>
@@ -87,11 +103,23 @@
           <label
             for="name"
             class="block mb-2 text-sm font-bold text-gray-900 dark:text-white"
-            >Total Biaya
+            >Hari
           </label>
           <input
             readonly
-            :value="IDRCurrency.format(perjadinStore.getTotalPesawat)"
+            :value="perjadinStore.getTotalRepresentatif.hari"
+            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+          />
+        </div>
+        <div class="text-left w-64 mt-4">
+          <label
+            for="name"
+            class="block mb-2 text-sm font-bold text-gray-900 dark:text-white"
+            >Total
+          </label>
+          <input
+            readonly
+            :value="rupiah.format(perjadinStore.getTotalRepresentatif.biaya)"
             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
           />
         </div>
@@ -102,6 +130,7 @@
 
 <script setup>
 import { IDRCurrency } from '@/utilities/formatter'
+import { rupiah } from '@/services/helper'
 import { ref } from 'vue'
 
 import { usePerjadinStore } from '@/stores/perjadin'

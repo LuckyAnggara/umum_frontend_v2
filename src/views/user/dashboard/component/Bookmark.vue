@@ -7,7 +7,8 @@
         <ul class="flex flex-col p-4 w-full">
           <li
             class="border-gray-50 flex flex-row mb-2"
-            v-for="data in userStore.mergedData"
+            v-for="(data, index) in userStore.mergedData"
+            :key="index"
           >
             <template v-if="data.tipe == 'PERSEDIAAN'">
               <div

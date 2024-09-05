@@ -49,7 +49,8 @@
             class="grid m-0 grid-cols-2 gap-4 overflow-y-scroll overflow-x-auto justify-center items-start w-full max-h-96 min-h-96 rounded-md"
           >
             <div
-              v-for="tempat in dashboardStore.userData.tempat"
+              v-for="(tempat, index) in dashboardStore.userData.tempat"
+              :key="index"
               class="relative flex flex-col justify-between bg-white bg-cover text-gray-800 overflow-hidden cursor-pointer w-full object-cover object-center rounded-lg shadow-md h-64 my-2"
               :style="backgroundImage(tempat.ruangan)"
             >
@@ -81,7 +82,7 @@
                     <div class="flex items-center mr-auto"></div>
                     <div class="flex items-center font-medium text-white">
                       <span class="text-gray-300 text-sm font-normal">
-                        24 Agustus 2024</span
+                        {{ $moment().format('DD MMMM YYYY') }}</span
                       >
                     </div>
                   </div>
@@ -132,6 +133,7 @@
         <UserLogin />
       </section>
     </section>
+
     <Footer @menu="changeMenu" v-model="activeMenu"></Footer>
   </div>
 
@@ -208,6 +210,8 @@
       </div>
     </Dialog>
   </TransitionRoot>
+
+  <PopRate :show="rateStore.popShow" />
 </template>
 <style>
 ::-webkit-scrollbar {
@@ -233,7 +237,7 @@ import {
   DialogTitle,
 } from '@headlessui/vue'
 import { computed, ReactiveEffect } from 'vue'
-import { MapPinIcon } from '@heroicons/vue/24/solid'
+import { MapPinIcon, StarIcon } from '@heroicons/vue/24/solid'
 import Footer from './dashboard/component/Footer.vue'
 import UserLogin from './dashboard/component/Login.vue'
 import Profile from './dashboard/component/Profile.vue'
@@ -265,6 +269,7 @@ import { useDashboardStore } from '@/stores/dashboard'
 const userStore = useUserStore()
 const authStore = useAuthStore()
 const mainStore = useMainStore()
+const rateStore = useRateStore()
 const dashboardStore = useDashboardStore()
 
 const router = useRouter()

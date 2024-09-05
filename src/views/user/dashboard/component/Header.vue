@@ -9,13 +9,13 @@
       class="p-2 flex flex-grow relative justify-between z-10 items-center mx-auto h-18"
     >
       <img :src="imageUrl" class="h-6" />
-      <div class="flex-initial">
+      <div class="flex-initial flex-row flex justify-center items-center">
         <div class="flex justify-end items-center relative">
           <div class="inline relative">
             <Menu as="div" class="relative inline-block text-left">
-              <div>
-                <MenuButton class="block flex-grow-0 flex-shrink-0">
-                  <UserCircleIcon class="h-12 w-12 cursor-pointer" />
+              <div class="">
+                <MenuButton class="block flex-grow-0 flex-shrink-0 b">
+                  <UserCircleIcon class="h-12 w-12 cursor-pointer my-auto" />
                 </MenuButton>
               </div>
 
@@ -77,7 +77,7 @@
 
 <script setup>
 import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
-import { UserCircleIcon } from '@heroicons/vue/24/solid'
+import { StarIcon, UserCircleIcon } from '@heroicons/vue/24/solid'
 import imageUrl from '@/assets/logo_seru.png'
 import { toast } from 'vue3-toastify'
 import { useAuthStore } from '@/stores/auth'

@@ -15,15 +15,28 @@ export const menuUser = [
     to: 'user-dashboard',
   },
   {
-    name: 'Daftar',
+    name: '-',
+  },
+  {
+    name: 'Belanja Perjadin',
+    icon: RectangleStackIcon,
+    to: 'perjadin-list',
+
+    // to: 'persediaan',
+  },
+  {
+    name: 'Belanja Non Perjadin',
     icon: RectangleStackIcon,
     to: 'list-bmn',
 
     // to: 'persediaan',
   },
   {
-    name: 'Perjadin Baru',
+    name: 'Baru',
     icon: ArchiveBoxIcon,
     to: 'perjadin-new',
+  },
+  {
+    name: '-',
   },
 ]

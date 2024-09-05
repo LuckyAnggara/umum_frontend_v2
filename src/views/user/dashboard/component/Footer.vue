@@ -10,13 +10,6 @@
       <SquaresPlusIcon class="w-8 h-8" />
     </button>
     <template v-if="authStore.user">
-      <!-- <button
-        @click="changeMenu(1)"
-        :class="activeMenu == 1 ? 'text-white' : 'hover:text-blue-400'"
-        class="flex flex-col items-center transition ease-in duration-200"
-      >
-        <MagnifyingGlassIcon class="h-8 w-8" />
-      </button> -->
       <button
         @click="changeMenu(2)"
         :class="activeMenu == 2 ? 'text-white' : 'hover:text-blue-400'"
@@ -33,11 +26,21 @@
     >
       <UserCircleIcon class="h-8 w-8" />
     </button>
+
+    <button
+      v-if="authStore.user"
+      @click="popRate()"
+      :class="activeMenu == 3 ? 'text-white' : 'hover:text-blue-400'"
+      class="flex flex-col items-center transition ease-in duration-200"
+    >
+      <StarIcon class="h-8 w-8" />
+    </button>
   </div>
 </template>
 
 <script setup>
 import {
+  StarIcon,
   BookmarkIcon,
   SquaresPlusIcon,
   UserCircleIcon,
@@ -47,6 +50,7 @@ import {
 
 import { useAuthStore } from '@/stores/auth'
 import { useUserStore } from '@/stores/user'
+import { useRateStore } from '@/stores/rate'
 import { ref } from 'vue'
 
 const activeMenu = defineModel()
@@ -59,4 +63,11 @@ function changeMenu(index) {
 
 const authStore = useAuthStore()
 const userStore = useUserStore()
+const rateStore = useRateStore()
+
+function popRate() {
+  rateStore.$patch((state) => {
+    state.popShow = true
+  })
+}
 </script>

@@ -18,6 +18,7 @@
     "@fullcalendar/vue3": "^6.1.10",
     "@headlessui/vue": "^1.7.17",
     "@heroicons/vue": "^2.1.1",
+    "@tato30/vue-pdf": "^1.11.0",
     "@vuepic/vue-datepicker": "^7.4.1",
     "@vueuse/core": "^10.7.1",
     "axios": "^1.6.4",
@@ -37,6 +38,7 @@
     "vue-drawing-canvas": "^1.0.14",
     "vue-filepond": "^7.0.4",
     "vue-router": "^4.2.5",
+    "vue-select": "^4.0.0-beta.6",
     "vue-sweetalert2": "^5.0.2",
     "vue-toastification": "^2.0.0-rc.5",
     "vue3-toastify": "^0.2.1"

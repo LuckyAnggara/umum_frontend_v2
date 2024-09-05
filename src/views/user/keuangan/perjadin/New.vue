@@ -27,14 +27,55 @@
         </ol>
         <!-- Modal content -->
 
-        <Perencanaan v-if="currentStep == 0" v-model="currentStep" />
-        <Detail v-if="currentStep == 1" @openModal="openModal" />
+        <Perencanaan v-if="currentStep == 0" />
+        <Detail
+          v-if="currentStep == 1"
+          @openModal="openModal"
+          @deletePegawai="deletePegawai()"
+        />
+        <Lampiran v-if="currentStep == 2" />
+
+        <div class="flex flex-row justify-between">
+          <div class="flex items-center space-x-1 mt-4 text-center justify-end">
+            <button
+              @click="currentStep--"
+              :disabled="currentStep == 0"
+              :class="currentStep == 0 ? 'cursor-not-allowed' : ''"
+              type="button"
+              class="w-24 text-red-700 hover:text-white border border-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900"
+            >
+              Back
+            </button>
+
+            <button
+              @click="++currentStep"
+              :disabled="currentStep == 2"
+              :class="currentStep == 2 ? 'cursor-not-allowed' : ''"
+              type="button"
+              class="w-24 text-yellow-400 hover:text-white border border-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:outline-none focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-yellow-300 dark:text-yellow-300 dark:hover:text-white dark:hover:bg-yellow-400 dark:focus:ring-yellow-900"
+            >
+              Next
+            </button>
+          </div>
+          <div class="flex items-center space-x-1 mt-4 text-center justify-end">
+            <button
+              @click="submit()"
+              type="button"
+              class="w-24 text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500 dark:focus:ring-blue-800"
+            >
+              Submit
+            </button>
+          </div>
+        </div>
       </div>
     </div>
-    <NewModal
-      :show="newModal"
-      @close="newModal = false"
+    <PegawaiModal
+      :isEdit="isEdit"
+      :show="pegawaiModal"
+      @destroy="deletePegawai()"
+      @close="pegawaiModal = false"
       @submit="tambahPegawai()"
+      @update="updatePegawai()"
     />
   </div>
 </template>
@@ -43,6 +84,7 @@
 import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
 import { useBmnStore } from '@/stores/bmn'
 import { useMainStore } from '@/stores/main'
+import { useMakStore } from '@/stores/mak'
 import { defineAsyncComponent, onMounted, ref } from 'vue'
 import {
   DocumentTextIcon,
@@ -53,42 +95,37 @@ import {
 import { toast } from 'vue3-toastify'
 import Perencanaan from './component/Perencanaan.vue'
 import Detail from './component/Detail.vue'
+import Lampiran from './component/Lampiran.vue'
 import { usePerjadinStore } from '@/stores/perjadin'
+import { useRouter } from 'vue-router'
 
-const NewModal = defineAsyncComponent(() =>
-  import('./dialog/ModalNewDetailPegawai.vue')
+const PegawaiModal = defineAsyncComponent(() =>
+  import('./dialog/ModalDetailPegawai.vue')
 )
 
-const perjadinStore = usePerjadinStore
+const perjadinStore = usePerjadinStore()
+const makStore = useMainStore()
+const isEdit = ref(false)
+const pegawaiModal = ref(false)
+const currentStep = ref(0)
+const steps = ref(['Perencanaan', 'Detail', 'Lampiran'])
+const router = useRouter()
 
-const newModal = ref(false)
-const currentStep = ref(1)
-const steps = ref(['Perencanaan', 'Detail'])
-
-const itemMenu = [
-  {
-    label: 'Detail',
-    icon: DocumentTextIcon,
-  },
-  {
-    label: 'Hapus',
-    icon: TrashIcon,
-  },
-]
-
-function openModal() {
-  newModal.value = true
+function openModal(value) {
+  isEdit.value = value
+  pegawaiModal.value = true
 }
-function tambahPegawai() {
+
+async function tambahPegawai() {
   const id = toast.loading('Proses tambah data...', {
     position: toast.POSITION.BOTTOM_CENTER,
     type: 'info',
     isLoading: true,
   })
-
-  if (perjadinStore.tambahPegawai == true) {
+  const result = await perjadinStore.tambahPegawai()
+  if (result.status) {
     toast.update(id, {
-      render: 'Pegawai berhasil ditambahkan',
+      render: result.message,
       position: toast.POSITION.BOTTOM_CENTER,
       type: 'success',
       autoClose: 1000,
@@ -96,11 +133,11 @@ function tambahPegawai() {
       closeButton: true,
       isLoading: false,
     })
-    newModal.value = false
-    perjadinStore.resetForm()
+    pegawaiModal.value = false
+    perjadinStore.resetFormPegawai()
   } else {
     toast.update(id, {
-      render: 'Data tidak lengkap',
+      render: result.message,
       position: toast.POSITION.BOTTOM_CENTER,
       type: 'error',
       autoClose: 1000,
@@ -110,4 +147,85 @@ function tambahPegawai() {
     })
   }
 }
+
+async function updatePegawai() {
+  const id = toast.loading('Memperbaharui data...', {
+    position: toast.POSITION.BOTTOM_CENTER,
+    type: 'info',
+    isLoading: true,
+  })
+  const result = await perjadinStore.updatePegawai()
+  if (result.status) {
+    toast.update(id, {
+      render: result.message,
+      position: toast.POSITION.BOTTOM_CENTER,
+      type: 'success',
+      autoClose: 1000,
+      closeOnClick: true,
+      closeButton: true,
+      isLoading: false,
+    })
+    pegawaiModal.value = false
+    perjadinStore.resetFormPegawai()
+  } else {
+    toast.update(id, {
+      render: result.message,
+      position: toast.POSITION.BOTTOM_CENTER,
+      type: 'error',
+      autoClose: 1000,
+      closeOnClick: true,
+      closeButton: true,
+      isLoading: false,
+    })
+  }
+}
+
+async function deletePegawai() {
+  const result = perjadinStore.deletePegawai()
+  toast.success(result.message, {
+    position: toast.POSITION.BOTTOM_CENTER,
+    autoClose: 1000,
+    closeOnClick: true,
+    closeButton: true,
+  })
+  pegawaiModal.value = false
+  perjadinStore.resetFormPegawai()
+}
+
+async function submit() {
+  const id = toast.loading('Perencanaan perjalanan dinas sedang di proses...', {
+    position: toast.POSITION.BOTTOM_CENTER,
+    type: 'info',
+    isLoading: true,
+  })
+
+  const success = await perjadinStore.store()
+  if (success.status) {
+    toast.update(id, {
+      render: 'Berhasil !!',
+      position: toast.POSITION.BOTTOM_CENTER,
+      type: 'success',
+      autoClose: 1000,
+      closeOnClick: true,
+      closeButton: true,
+      isLoading: false,
+    })
+    perjadinStore.resetFormMain()
+    router.push({ name: 'perjadin-list' })
+  } else {
+    toast.update(id, {
+      render: 'Terjadi kesalahan',
+      position: toast.POSITION.BOTTOM_CENTER,
+      type: 'error',
+      autoClose: 1000,
+      closeOnClick: true,
+      closeButton: true,
+      isLoading: false,
+    })
+  }
+  toast.done(id)
+}
+onMounted(() => {
+  makStore.$reset()
+})
 </script>

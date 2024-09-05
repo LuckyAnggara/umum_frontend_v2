@@ -4,10 +4,12 @@ import { axiosIns } from '@/services/axios'
 import { useToast } from 'vue-toastification'
 import moment from 'moment'
 import { getLastDayOfMonth } from '@/services/helper'
+import { useMainStore } from './main'
 
 export const useAgendaStore = defineStore('agenda', {
   state: () => ({
     responses: null,
+    textReportResponse: null,
     singleResponse: null,
     isSearching: false,
     isUpdateLoading: false,
@@ -39,6 +41,36 @@ export const useAgendaStore = defineStore('agenda', {
   getters: {
     items(state) {
       return state.responses?.data ?? []
+    },
+    formattedAgenda: (state) => {
+      const mainStore = useMainStore()
+      if (state.textReportResponse == null) return ''
+      else
+        return state.textReportResponse
+          .map((entry) => {
+            const tanggal = entry.tanggal
+            const details = entry.detail
+              .map((detail) => {
+                const pim = mainStore.pimpinanOptions.find(
+                  (x) => x.id == detail.pimpinan
+                )
+                const pimpinan = `${pim.label}`
+                if (detail.kegiatan.length === 0) {
+                  return `${pimpinan}\nTidak ada Kegiatan`
+                } else {
+                  const kegiatanList = detail.kegiatan
+                    .map((kegiatan) => {
+                      return `- ${kegiatan.kegiatan} di ${kegiatan.tempat} dari ${kegiatan.jam_mulai} s/d ${kegiatan.jam_akhir}`
+                    })
+                    .join('\n')
+                  return `${pimpinan}\n${kegiatanList}`
+                }
+              })
+              .join('\n\n')
+
+            return `Tanggal ${tanggal}\n${details}`
+          })
+          .join('\n\n')
     },
     dataCalendar(state) {
       return state.items.map((event) => ({
@@ -160,7 +192,6 @@ export const useAgendaStore = defineStore('agenda', {
         this.isDestroyLoading = false
       }
     },
-
     setDataPegawai(item) {
       this.form.nama = item.name
       this.form.unit = item.unit?.name
@@ -179,6 +210,38 @@ export const useAgendaStore = defineStore('agenda', {
       this.singleResponse = this.items.find((x) => {
         return x.id == id
       })
+    },
+    async getReport() {
+      this.isLoadingDownload = true
+      try {
+        const response = await axiosIns.get(
+          `/api/report/agenda?start=${moment(this.filter.report.start).format(
+            'YYYY-MM-DD'
+          )}&end=${moment(this.filter.report.end).format('YYYY-MM-DD')}`
+        )
+        let responseHtml = response.data
+        var myWindow = window.open('response')
+        myWindow.document.write(responseHtml)
+      } catch (error) {
+        console.info(error)
+      }
+      this.isLoadingDownload = false
+    },
+    async getTextReport() {
+      this.isLoading = true
+      try {
+        const response = await axiosIns.get(
+          `/api/report/text-agenda?start=${moment(
+            this.filter.report.start
+          ).format('YYYY-MM-DD')}&end=${moment(this.filter.report.end).format(
+            'YYYY-MM-DD'
+          )}`
+        )
+        this.textReportResponse = response.data
+      } catch (error) {
+        console.info(error)
+      }
+      this.isLoading = false
     },
   },
 })
