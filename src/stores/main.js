@@ -145,6 +145,25 @@ export const useMainStore = defineStore('main', {
         label: 'INSPEKTUR WILAYAH VI',
       },
     ],
+    bendaharaOptions: [
+      {
+        id: '1',
+        nama: 'Emmania Novada Sudarno',
+        nip: '199011202015032004',
+      },
+    ],
+    ppkOptions: [
+      {
+        id: '1',
+        nama: 'Baneriama',
+        nip: '197306231994032001',
+      },
+      {
+        id: '2',
+        nama: 'Lusi Handayani',
+        nip: '198601112009122008',
+      },
+    ],
     unitOptions: [
       'Inspektur Jenderal',
       'Inspektorat Wilayah I',

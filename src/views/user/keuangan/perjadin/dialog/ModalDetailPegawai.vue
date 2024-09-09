@@ -191,7 +191,7 @@ const props = defineProps({
 const currentStep = ref(0)
 const steps = ref([
   'Umum',
-  'Hotel',
+  'Penginapan',
   'Uang Harian',
   'Transportasi',
   // 'Pesawat',

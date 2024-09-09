@@ -4,7 +4,7 @@
       class="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5 dark:border-gray-600 flex-row"
     >
       <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
-        Detail
+        Realisasi
       </h3>
       <span
         v-if="perjadinStore.isDetail"
@@ -28,6 +28,7 @@
               <th scope="col" class="px-4 py-3">Pegawai</th>
               <th scope="col" class="px-4 py-3">Total Anggaran Biaya</th>
               <th scope="col" class="px-4 py-3">Total Realisasi</th>
+              <th scope="col" class="px-4 py-3">Lebih / Kurang Bayar</th>
               <th scope="col" class="px-4 py-3">Status</th>
 
               <th scope="col" class="px-4 py-3"></th>
@@ -67,7 +68,17 @@
               </td>
               <td class="px-4 py-1">
                 <span>{{
-                  rupiah.format(perjadinStore.totalDetailBiaya(item.nip))
+                  rupiah.format(
+                    perjadinStore.totalDetailBiayaRealisasi(item.nip)
+                  )
+                }}</span>
+              </td>
+              <td class="px-4 py-1">
+                <span>{{
+                  rupiah.format(
+                    perjadinStore.totalDetailBiaya(item.nip) -
+                      perjadinStore.totalDetailBiayaRealisasi(item.nip)
+                  )
                 }}</span>
               </td>
               <td class="px-4 py-1">
@@ -140,8 +151,12 @@
       </div>
     </div>
 
-    <DialogDocument :show="documentDialog" />
+    <DialogDocument
+      @close="documentDialog = !documentDialog"
+      :show="documentDialog"
+    />
     <DialogRealisasi
+      @submit="submitRealisasi()"
       @close="realisasiDialog = !realisasiDialog"
       :show="realisasiDialog"
     />
@@ -161,6 +176,7 @@ import {
   BanknotesIcon,
 } from '@heroicons/vue/24/outline'
 import { usePerjadinStore } from '@/stores/perjadin'
+import { usePerjadinDetailStore } from '@/stores/perjadinDetail'
 import { onMounted, ref } from 'vue'
 import { rupiah } from '@/services/helper'
 import { toast } from 'vue3-toastify'
@@ -183,16 +199,17 @@ const documentDialog = ref(false)
 const realisasiDialog = ref(false)
 const makStore = useMakStore()
 const perjadinStore = usePerjadinStore()
+const perjadinDetailStore = usePerjadinDetailStore()
 const itemMenu = [
-  {
-    function: onRealisasi,
-    label: 'Realisasi',
-    icon: BanknotesIcon,
-  },
   {
     function: onDocument,
     label: 'Document',
     icon: DocumentTextIcon,
+  },
+  {
+    function: onRealisasi,
+    label: 'Realisasi',
+    icon: BanknotesIcon,
   },
 ]
 
@@ -204,6 +221,48 @@ function onRealisasi(item) {
   perjadinStore.$patch((state) => {
     state.singleDetail = item
   })
+  perjadinDetailStore.$patch((state) => {
+    state.singleResponse = item
+  })
   realisasiDialog.value = true
+}
+
+async function submitRealisasi() {
+  const id = toast.loading('Realisasi sedang di Proses...', {
+    position: toast.POSITION.BOTTOM_CENTER,
+    type: 'info',
+    isLoading: true,
+  })
+
+  const success = await perjadinDetailStore.update()
+  const index = perjadinStore.singleResponse.detail.findIndex(
+    (d) => d.id == perjadinDetailStore.singleResponse.id
+  )
+  if (success.status) {
+    toast.update(id, {
+      render: 'Berhasil !!',
+      position: toast.POSITION.BOTTOM_CENTER,
+      type: 'success',
+      autoClose: 1000,
+      closeOnClick: true,
+      closeButton: true,
+      isLoading: false,
+    })
+    perjadinStore.$patch((state) => {
+      state.singleResponse.detail[index] = success.data
+    })
+    realisasiDialog.value = false
+  } else {
+    toast.update(id, {
+      render: 'Terjadi kesalahan',
+      position: toast.POSITION.BOTTOM_CENTER,
+      type: 'error',
+      autoClose: 1000,
+      closeOnClick: true,
+      closeButton: true,
+      isLoading: false,
+    })
+  }
+  toast.done(id)
 }
 </script>

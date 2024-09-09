@@ -66,8 +66,10 @@
 
               <button
                 @click="++currentStep"
-                :disabled="currentStep == steps.length"
-                :class="currentStep == steps.length ? 'cursor-not-allowed' : ''"
+                :disabled="currentStep == steps.length - 1"
+                :class="
+                  currentStep == steps.length - 1 ? 'cursor-not-allowed' : ''
+                "
                 type="button"
                 class="w-24 text-yellow-400 hover:text-white border border-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:outline-none focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-yellow-300 dark:text-yellow-300 dark:hover:text-white dark:hover:bg-yellow-400 dark:focus:ring-yellow-900"
               >
@@ -116,9 +118,9 @@
               <button
                 @click="openVerifikasi()"
                 type="button"
-                class="w-24 text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500 dark:focus:ring-blue-800"
+                class="w-48 text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500 dark:focus:ring-blue-800"
               >
-                Verifikasi
+                Terbitkan Kuitansi
               </button>
             </div>
           </div>
@@ -159,7 +161,7 @@
         :canSubmit="true"
       >
         <template #title>
-          <h1>Verifikasi</h1>
+          <h1>Terbitkan Kuitansi</h1>
         </template>
 
         <template #content>
@@ -167,8 +169,65 @@
             <div class="text-left font-medium text-xl">
               Pastikan seluruh dokumen sudah lengkap!
             </div>
-            <small>Nomor SPPD akan diterbikan!</small>
-
+            <small>Kuitansi dan Nomor SPPD akan diterbikan!</small>
+            <div class="flex flex-col space-y-2">
+              <div class="text-left">
+                <label
+                  for="years"
+                  class="block text-sm font-medium text-gray-900 dark:text-white mr-2"
+                  >Bendahara Pengeluaran*</label
+                >
+                <v-select
+                  :label="'nama'"
+                  :options="mainStore.bendaharaOptions"
+                  v-model="perjadinStore.updateData.bendahara"
+                >
+                  <template #search="{ attributes, events }">
+                    <input
+                      class="vs__search"
+                      :required="!perjadinStore.updateData.bendahara"
+                      v-bind="attributes"
+                      v-on="events"
+                    />
+                  </template>
+                  <template #no-options> Tidak ada data .. </template>
+                  <template #option="option">
+                    <div class="flex flex-col">
+                      <span>{{ option.nama }}</span>
+                      <span>{{ option.nip }}</span>
+                    </div>
+                  </template>
+                </v-select>
+              </div>
+              <div class="text-left">
+                <label
+                  for="years"
+                  class="block text-sm font-medium text-gray-900 dark:text-white mr-2"
+                  >Pejabat Pembuat Komitmen*</label
+                >
+                <v-select
+                  :label="'nama'"
+                  :options="mainStore.ppkOptions"
+                  v-model="perjadinStore.updateData.ppk"
+                >
+                  <template #search="{ attributes, events }">
+                    <input
+                      class="vs__search"
+                      :required="!perjadinStore.updateData.ppk"
+                      v-bind="attributes"
+                      v-on="events"
+                    />
+                  </template>
+                  <template #no-options> Tidak ada data .. </template>
+                  <template #option="option">
+                    <div class="flex flex-col">
+                      <span>{{ option.nama }}</span>
+                      <span>{{ option.nip }}</span>
+                    </div>
+                  </template>
+                </v-select>
+              </div>
+            </div>
             <div>
               <label
                 for="message"
@@ -195,6 +254,7 @@ import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
 import { useMainStore } from '@/stores/main'
 import { defineAsyncComponent, onMounted, ref } from 'vue'
 import {
+  ArrowDownTrayIcon,
   DocumentTextIcon,
   TrashIcon,
   CheckCircleIcon,
@@ -202,11 +262,7 @@ import {
 } from '@heroicons/vue/24/outline'
 
 import { toast } from 'vue3-toastify'
-import Perencanaan from './component/Perencanaan.vue'
-import Detail from './component/Detail.vue'
-import Lampiran from './component/Lampiran.vue'
-import Realisasi from './component/Realisasi.vue'
-import Dialog from '@/components/Dialog.vue'
+
 import { usePerjadinStore } from '@/stores/perjadin'
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
@@ -215,21 +271,32 @@ import { useAuthStore } from '@/stores/auth'
 const PegawaiModal = defineAsyncComponent(() =>
   import('./dialog/ModalDetailPegawai.vue')
 )
+const Perencanaan = defineAsyncComponent(() =>
+  import('./component/Perencanaan.vue')
+)
+const Detail = defineAsyncComponent(() => import('./component/Detail.vue'))
+const Realisasi = defineAsyncComponent(() =>
+  import('./component/Realisasi.vue')
+)
+const Dialog = defineAsyncComponent(() => import('@/components/Dialog.vue'))
+const Lampiran = defineAsyncComponent(() => import('./component/Lampiran.vue'))
 
+const mainStore = useMainStore()
 const authStore = useAuthStore()
 const route = useRoute()
 const perjadinStore = usePerjadinStore()
 const isEdit = ref(false)
 const isEditAll = ref(false)
 const pegawaiModal = ref(false)
-const currentStep = ref(3)
+const currentStep = ref(0)
 
 const steps = computed(() => {
   return [
     'Perencanaan',
     'Detail',
     'Lampiran',
-    ...(perjadinStore.singleResponse.status == 'PERTANGGUNG JAWABAN'
+    ...(perjadinStore.singleResponse.status == 'PERTANGGUNG JAWABAN' &&
+    authStore.role == 'USER'
       ? ['Realisasi']
       : []),
   ]
@@ -360,6 +427,20 @@ async function update() {
 }
 
 async function updateStatusData() {
+  if (
+    perjadinStore.updateData.ppk == null ||
+    perjadinStore.updateData.ppk == '' ||
+    perjadinStore.updateData.bendahara == '' ||
+    perjadinStore.updateData.bendahara == ''
+  ) {
+    toast('Data belum lengkap...', {
+      position: toast.POSITION.BOTTOM_CENTER,
+      autoClose: 1000,
+      type: 'error',
+    })
+    return
+  }
+
   verifikasiDialog.value = false
   perjadinStore.$patch((state) => {
     state.updateData.status = 'PERTANGGUNG JAWABAN'
@@ -369,10 +450,10 @@ async function updateStatusData() {
     type: 'info',
     isLoading: true,
   })
-  const success = await perjadinStore.updateStatus(
+  const result = await perjadinStore.updateStatus(
     perjadinStore.singleResponse.id
   )
-  if (success) {
+  if (result.status) {
     toast.update(id, {
       render: 'Berhasil !!',
       position: toast.POSITION.BOTTOM_CENTER,
@@ -384,7 +465,7 @@ async function updateStatusData() {
     })
     toast.done(id)
     perjadinStore.$patch((state) => {
-      state.singleResponse = response.data.data
+      state.singleResponse = result.data
     })
   } else {
     toast.update(id, {

@@ -27,7 +27,7 @@
             leave-to="opacity-0 scale-95"
           >
             <div
-              class="relative p-4 bg-white w-2/4 rounded-lg shadow dark:bg-gray-800 sm:p-5 min-h-[75vh]"
+              class="relative p-4 bg-white w-3/4 rounded-lg shadow dark:bg-gray-800 sm:p-5 min-h-[75vh]"
             >
               <!-- Modal header -->
               <div
@@ -46,7 +46,7 @@
                         @click="currentStep = index"
                         :class="
                           currentStep == index
-                            ? 'w-full p-4 text-blue-700 bg-blue-100 border border-blue-300 rounded-lg dark:bg-gray-800 dark:border-blue-800 dark:text-blue-400'
+                            ? 'cursor-not-allowed w-full p-4 text-blue-700 bg-blue-100 border border-blue-300 rounded-lg dark:bg-gray-800 dark:border-blue-800 dark:text-blue-400'
                             : 'cursor-pointer w-full p-4 text-gray-900 bg-gray-100 border border-gray-300 rounded-lg dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400'
                         "
                         role="alert"
@@ -64,8 +64,12 @@
                   </ol>
 
                   <div class="w-4/5 flex flex-col justify-between">
-                    <Kuintansi v-if="currentStep == 0" />
-                    <UangHarian v-if="currentStep == 1" />
+                    <Umum v-if="currentStep == 0" />
+                    <UangHarian v-else-if="currentStep == 1" />
+                    <Hotel v-else-if="currentStep == 2" />
+                    <Transport v-else-if="currentStep == 3" />
+                    <Representatif v-else-if="currentStep == 4" />
+                    <Lampiran v-show="currentStep == 5" />
                   </div>
                 </div>
               </div>
@@ -105,7 +109,7 @@
                     Close
                   </button>
                   <button
-                    @click="submit()"
+                    @click="emit('submit')"
                     type="button"
                     class="w-24 text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500 dark:focus:ring-blue-800"
                   >
@@ -122,7 +126,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, defineAsyncComponent } from 'vue'
 import {
   TransitionRoot,
   TransitionChild,
@@ -131,11 +135,26 @@ import {
   DialogTitle,
 } from '@headlessui/vue'
 
+import Lampiran from './component/realisasi/Lampiran.vue'
+
 import { ArrowRightIcon } from '@heroicons/vue/24/outline'
 import { usePerjadinStore } from '@/stores/perjadin'
-import Kuintansi from './component/realisasi/Kuintansi.vue'
-import UangHarian from './component/realisasi/UangHarian.vue'
 
+const UangHarian = defineAsyncComponent(() =>
+  import('./component/realisasi/UangHarian.vue')
+)
+const Umum = defineAsyncComponent(() =>
+  import('./component/realisasi/Umum.vue')
+)
+const Hotel = defineAsyncComponent(() =>
+  import('./component/realisasi/Hotel.vue')
+)
+const Transport = defineAsyncComponent(() =>
+  import('./component/realisasi/Transport.vue')
+)
+const Representatif = defineAsyncComponent(() =>
+  import('./component/realisasi/Representatif.vue')
+)
 const perjadinStore = usePerjadinStore()
 
 const emit = defineEmits(['close'])
@@ -148,10 +167,11 @@ const props = defineProps({
 
 const currentStep = ref(0)
 const steps = ref([
-  'Kuitansi',
+  'Umum',
   'Uang Harian',
-  'Hotel',
+  'Penginapan',
   'Transport',
   'Representatif',
+  'Lampiran',
 ])
 </script>

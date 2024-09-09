@@ -31,11 +31,14 @@
             >
               <!-- Modal header -->
               <div
-                class="flex justify-start items-center pb-4 mb-4 rounded-t border-b sm:mb-5 dark:border-gray-600"
+                class="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5 dark:border-gray-600"
               >
                 <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
                   <span>Dokumen Perjalanan Dinas</span>
                 </h3>
+                <button @click="emit('close')">
+                  <XMarkIcon class="h-5 w-5" />
+                </button>
               </div>
               <!-- Modal body -->
             </div>
@@ -56,7 +59,7 @@ import {
   DialogTitle,
 } from '@headlessui/vue'
 
-import { ArrowRightIcon } from '@heroicons/vue/24/outline'
+import { ArrowRightIcon, XMarkIcon } from '@heroicons/vue/24/outline'
 import { usePerjadinStore } from '@/stores/perjadin'
 
 const perjadinStore = usePerjadinStore()

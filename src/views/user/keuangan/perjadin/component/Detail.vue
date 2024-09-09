@@ -15,56 +15,7 @@
     </div>
     <!-- Modal body -->
     <div class="mb-4 flex flex-col space-y-3">
-      <div class="w-full">
-        <label
-          for="name"
-          class="block text-sm font-medium text-gray-900 dark:text-white"
-          >Mata Anggaran Kegiatan</label
-        >
-        <div v-if="!perjadinStore.isDetail">
-          <v-select
-            :loading="makStore.isLoading"
-            @open="onOpenSelect"
-            :filterable="false"
-            @search="searchMak"
-            :options="makStore.items"
-            v-model="perjadinStore.form.mak"
-          >
-            <template #no-options> Tidak ada data .. </template>
-            <template #option="option">
-              <div class="d-center">
-                {{ option.kode_mak }} - {{ option.keterangan }}
-              </div>
-            </template>
-            <template #selected-option="option">
-              <div>{{ option.kode_mak }} - {{ option.keterangan }}</div>
-            </template>
-          </v-select>
-        </div>
-
-        <div v-else>
-          <v-select
-            :disabled="!isEdit"
-            :loading="makStore.isLoading"
-            @open="onOpenSelect"
-            :filterable="false"
-            @search="searchMak"
-            :options="makStore.items"
-            v-model="perjadinStore.singleResponse.mak"
-          >
-            <template #no-options> Tidak ada data .. </template>
-            <template #option="option">
-              <div class="d-center">
-                {{ option.kode_mak }} - {{ option.keterangan }}
-              </div>
-            </template>
-            <template #selected-option="option">
-              <div>{{ option.kode_mak }} - {{ option.keterangan }}</div>
-            </template>
-          </v-select>
-        </div>
-      </div>
-      <div class="grid gap-4 sm:grid-cols-2" v-if="perjadinStore.form.mak">
+      <!-- <div class="grid gap-4 sm:grid-cols-2" v-if="perjadinStore.form.mak">
         <div class="text-left">
           <label
             for="unit"
@@ -94,44 +45,8 @@
             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
           />
         </div>
-      </div>
-      <div
-        class="grid gap-4 sm:grid-cols-2"
-        v-if="perjadinStore.singleResponse.mak"
-      >
-        <div class="text-left">
-          <label
-            for="unit"
-            class="block text-sm font-medium text-gray-900 dark:text-white"
-            >Anggaran</label
-          >
-          <input
-            readonly
-            :value="
-              IDRCurrency.format(perjadinStore.singleResponse.mak.anggaran)
-            "
-            type="text"
-            name="price"
-            id="price"
-            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-          />
-        </div>
-        <div class="text-left">
-          <label
-            for="price"
-            class="block text-sm font-medium text-gray-900 dark:text-white"
-            >Sisa Anggaran</label
-          >
-          <input
-            required
-            v-model="perjadinStore.form.nama_kegiatan"
-            type="text"
-            name="price"
-            id="price"
-            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-          />
-        </div>
-      </div>
+      </div> -->
+
       <div
         v-if="perjadinStore.isDetail == false || isEdit == true"
         class="flex items-center space-x-4"
@@ -146,7 +61,7 @@
       </div>
 
       <div
-        class="w-full scrollbar-thin scrollbar-track-gray-500 scrollbar-thumb-gray-700 z-10 overflow-auto min-h-96"
+        class="w-full scrollbar-thin scrollbar-track-gray-500 scrollbar-thumb-gray-700 z-10 overflow-auto min-h-64"
       >
         <table
           class="lg:w-full min-w-full text-sm text-left text-gray-500 dark:text-gray-400 z-50"
@@ -606,6 +521,107 @@
             </tbody>
           </template>
         </table>
+      </div>
+
+      <div class="w-full">
+        <label
+          for="name"
+          class="block text-sm font-medium text-gray-900 dark:text-white"
+          >Mata Anggaran Kegiatan</label
+        >
+        <div v-if="!perjadinStore.isDetail">
+          <v-select
+            :loading="makStore.isLoading"
+            @open="onOpenSelect"
+            :filterable="false"
+            @search="searchMak"
+            :options="makStore.items"
+            v-model="perjadinStore.form.mak"
+          >
+            <template #no-options> Tidak ada data .. </template>
+            <template #option="option">
+              <div class="d-center">
+                {{ option.kode_mak }} - {{ option.keterangan }}
+              </div>
+            </template>
+            <template #selected-option="option">
+              <div>{{ option.kode_mak }} - {{ option.keterangan }}</div>
+            </template>
+          </v-select>
+        </div>
+
+        <div v-else>
+          <v-select
+            :disabled="!isEdit"
+            :loading="makStore.isLoading"
+            @open="onOpenSelect"
+            :filterable="false"
+            @search="searchMak"
+            :options="makStore.items"
+            v-model="perjadinStore.singleResponse.mak"
+          >
+            <template #no-options> Tidak ada data .. </template>
+            <template #option="option">
+              <div class="d-center">
+                {{ option.kode_mak }} - {{ option.keterangan }}
+              </div>
+            </template>
+            <template #selected-option="option">
+              <div>{{ option.kode_mak }} - {{ option.keterangan }}</div>
+            </template>
+          </v-select>
+        </div>
+      </div>
+      <div>
+        <dl
+          class="text-md max-w-md text-gray-900 divide-y divide-gray-200 dark:text-white dark:divide-gray-700"
+        >
+          <div class="flex flex-col">
+            <dt class="mb-1 text-gray-500 dark:text-gray-400">Anggaran</dt>
+            <dd class="font-semibold">
+              {{
+                IDRCurrency.format(perjadinStore.singleResponse.mak.anggaran)
+              }}
+            </dd>
+          </div>
+          <div class="flex flex-col">
+            <dt class="mb-1 text-gray-500 dark:text-gray-400">Sisa Anggaran</dt>
+            <dd class="font-semibold">
+              {{
+                IDRCurrency.format(perjadinStore.singleResponse.mak.anggaran)
+              }}
+            </dd>
+          </div>
+
+          <div class="flex flex-col">
+            <dt class="mb-1 text-gray-500 dark:text-gray-400">
+              Anggaran yang belum di realisasikan
+            </dt>
+            <dd class="font-semibold">
+              {{
+                IDRCurrency.format(perjadinStore.singleResponse.mak.anggaran)
+              }}
+            </dd>
+          </div>
+          <div class="flex flex-col">
+            <dt class="mb-1 text-gray-500 dark:text-gray-400">
+              Anggaran Kegiatan Ini
+            </dt>
+            <dd class="font-semibold">
+              {{ IDRCurrency.format(perjadinStore.getTotalAnggaranDetail) }}
+            </dd>
+          </div>
+          <div class="flex flex-col">
+            <dt class="mb-1 text-gray-500 dark:text-gray-400">
+              Estimasi Sisa Anggaran
+            </dt>
+            <dd class="font-semibold">
+              {{
+                IDRCurrency.format(perjadinStore.singleResponse.mak.anggaran)
+              }}
+            </dd>
+          </div>
+        </dl>
       </div>
     </div>
   </div>

@@ -66,6 +66,8 @@ export const usePerjadinStore = defineStore('perjadinStore', {
     updateData: {
       status: '',
       catatan: '',
+      ppk: '',
+      bendahara: '',
     },
     deleteLampiran: [],
     updateIndex: 0,
@@ -156,8 +158,54 @@ export const usePerjadinStore = defineStore('perjadinStore', {
       const totalRepresentatif = sumBiayaHari(pegawai.representatif || [])
       return totalHotel + totalUangHarian + totalTransport + totalRepresentatif
     },
+    totalDetailBiayaRealisasi: (state) => (nip) => {
+      const pegawai = state.singleResponse.detail.find((p) => p.nip === nip)
+      if (!pegawai) return 0
+
+      const sumBiayaHari = (items) =>
+        items.reduce(
+          (total, item) => total + item.realisasi_hari * item.realisasi_biaya,
+          0
+        )
+      const sumBiaya = (items) =>
+        items.reduce((total, item) => total + item.realisasi_biaya, 0)
+
+      const totalHotel = sumBiayaHari(pegawai.hotel || [])
+      const totalUangHarian = sumBiayaHari(pegawai.uang_harian || [])
+      const totalTransport = sumBiaya(pegawai.transport || [])
+      const totalRepresentatif = sumBiayaHari(pegawai.representatif || [])
+      return totalHotel + totalUangHarian + totalTransport + totalRepresentatif
+    },
     getTotalAnggaran(state) {
       return state.form.detail.reduce((total, pegawai) => {
+        const totalHotel = pegawai.hotel.reduce(
+          (sum, item) => sum + item.hari * item.biaya,
+          0
+        )
+        const totalUangHarian = pegawai.uang_harian.reduce(
+          (sum, item) => sum + item.hari * item.biaya,
+          0
+        )
+        const totalTransport = pegawai.transport.reduce(
+          (sum, item) => sum + item.biaya,
+          0
+        )
+        const totalRepresentatif = pegawai.representatif.reduce(
+          (sum, item) => sum + (item.hari || 1) * item.biaya,
+          0
+        )
+
+        return (
+          total +
+          totalHotel +
+          totalUangHarian +
+          totalTransport +
+          totalRepresentatif
+        )
+      }, 0)
+    },
+    getTotalAnggaranDetail(state) {
+      return state.singleResponse.detail.reduce((total, pegawai) => {
         const totalHotel = pegawai.hotel.reduce(
           (sum, item) => sum + item.hari * item.biaya,
           0
@@ -188,9 +236,12 @@ export const usePerjadinStore = defineStore('perjadinStore', {
       let uh = 0
       let hotel = 0
       let transport = 0
+      let representatif = 0
       let uh_real = 0
       let hotel_real = 0
       let transport_real = 0
+      let representatif_real = 0
+
       if (state.singleDetail.uang_harian.length > 0) {
         uh = state.singleDetail.uang_harian.reduce((accumulator, x) => {
           return accumulator + x?.hari * x?.biaya
@@ -203,17 +254,31 @@ export const usePerjadinStore = defineStore('perjadinStore', {
         hotel = state.singleDetail.hotel.reduce((accumulator, x) => {
           return accumulator + x?.hari * x?.biaya
         }, 0)
-        hotel_real = state.singleDetail.uang_harian.reduce((accumulator, x) => {
+        hotel_real = state.singleDetail.hotel.reduce((accumulator, x) => {
           return accumulator + x?.realisasi_hari * x?.realisasi_biaya
         }, 0)
       }
       if (state.singleDetail.transport.length > 0) {
         transport = state.singleDetail.transport.reduce((accumulator, x) => {
-          return accumulator + x?.hari * x?.biaya
+          return accumulator + x?.biaya
         }, 0)
         transport_real = state.singleDetail.transport.reduce(
           (accumulator, x) => {
-            return accumulator + x?.realisasi_hari * x?.realisasi_biaya
+            return accumulator + x.realisasi_biaya
+          },
+          0
+        )
+      }
+      if (state.singleDetail.representatif.length > 0) {
+        representatif = state.singleDetail.transport.reduce(
+          (accumulator, x) => {
+            return accumulator + x?.biaya
+          },
+          0
+        )
+        representatif_real = state.singleDetail.representatif.reduce(
+          (accumulator, x) => {
+            return accumulator + x.realisasi_biaya
           },
           0
         )
@@ -226,6 +291,8 @@ export const usePerjadinStore = defineStore('perjadinStore', {
         uh_real: uh_real,
         hotel_real: hotel_real,
         transport_real: transport_real,
+        representatif: representatif,
+        representatif_real: representatif_real,
       }
     },
     validateForm(state) {

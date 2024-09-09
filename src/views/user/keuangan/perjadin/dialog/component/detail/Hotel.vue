@@ -1,6 +1,6 @@
 <template>
   <div class="text-left w-full">
-    <h2 class="text-2xl mb-4">Hotel</h2>
+    <h2 class="text-2xl mb-4">Penginapan</h2>
 
     <div class="flex flex-col space-y-2">
       <div>

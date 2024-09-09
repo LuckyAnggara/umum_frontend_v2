@@ -5,7 +5,9 @@ import moment from 'moment'
 
 export const usePerjadinDetailStore = defineStore('perjadinDetailStore', {
   state: () => ({
-    isLoading: null,
+    isUpdateLoading: false,
+    deleteLampiran: [],
+    isLoading: false,
     responses: null,
     singleResponse: null,
     originalSingleResponse: null,
@@ -43,6 +45,68 @@ export const usePerjadinDetailStore = defineStore('perjadinDetailStore', {
         this.isLoading = false
       }
       return false
+    },
+    // async update(item) {
+    //   this.isUpdateLoading = true
+    //   try {
+    //     const response = await axiosIns.put(
+    //       `/api/keuangan/perjadin-detail/${item.id}`,
+    //       item
+    //     )
+    //     if (response.status == 200) {
+    //       return {
+    //         status: true,
+    //         data: response.data.data,
+    //       }
+    //     } else {
+    //       return {
+    //         status: false,
+    //         data: null,
+    //       }
+    //     }
+    //   } catch (error) {
+    //     alert(error)
+    //   } finally {
+    //     this.isUpdateLoading = false
+    //   }
+    // },
+    async update() {
+      let formData = new FormData()
+      formData.append('_method', 'put')
+      if (this.singleResponse?.newLampiran) {
+        this.singleResponse?.newLampiran.forEach((element, index) => {
+          formData.append(`file[${index}]`, element)
+        })
+        formData.append(
+          'jumlah_lampiran',
+          this.singleResponse?.newLampiran.length
+        )
+      }
+      formData.append('umum', JSON.stringify(this.singleResponse))
+      this.isUpdateLoading = true
+
+      try {
+        const response = await axiosIns.post(
+          `/api/keuangan/perjadin-detail/${this.singleResponse.id}`,
+          formData
+        )
+        if (response.status == 200) {
+          this.singleResponse = response.data.data
+          return {
+            status: true,
+            data: response.data.data,
+          }
+        } else {
+          return {
+            status: false,
+            data: null,
+          }
+        }
+      } catch (error) {
+        alert(error)
+      } finally {
+        this.isUpdateLoading = false
+      }
     },
   },
 })
