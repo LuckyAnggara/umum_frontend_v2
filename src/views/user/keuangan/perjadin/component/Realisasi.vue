@@ -185,6 +185,9 @@ import { useDebounceFn } from '@vueuse/core'
 
 import DialogDocument from '../dialog/DialogDocument.vue'
 import DialogRealisasi from '../dialog/DialogRealisasi.vue'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
 
 const emit = defineEmits(['openModal', 'deletePegawai'])
 
@@ -224,7 +227,9 @@ function onRealisasi(item) {
   perjadinDetailStore.$patch((state) => {
     state.singleResponse = item
   })
-  realisasiDialog.value = true
+  // realisasiDialog.value = true
+
+  router.push({ name: 'perjadin-sppd-realisasi', params: { id: item.id } })
 }
 
 async function submitRealisasi() {

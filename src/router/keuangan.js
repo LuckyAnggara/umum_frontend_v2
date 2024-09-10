@@ -1,4 +1,8 @@
-import { createRouter, createWebHashHistory, createWebHistory } from 'vue-router'
+import {
+  createRouter,
+  createWebHashHistory,
+  createWebHistory,
+} from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
 
 const keuangan = [
@@ -18,9 +22,19 @@ const keuangan = [
       requiresAuth: true,
       layout: 'layout-auth',
     },
-    path: '/keuangan/perjadin/detail/:id',
+    path: '/keuangan/perjadin/:id/detail',
     name: 'perjadin-detail',
     component: () => import('@/views/user/keuangan/perjadin/Detail.vue'),
+  },
+  {
+    meta: {
+      title: 'Realisasi Perjalanan Dinas',
+      requiresAuth: true,
+      layout: 'layout-auth',
+    },
+    path: '/keuangan/perjadin/sppd/:id/realisasi',
+    name: 'perjadin-sppd-realisasi',
+    component: () => import('@/views/user/keuangan/perjadin/Realisasi.vue'),
   },
   {
     meta: {
@@ -58,19 +72,29 @@ const keuangan = [
       requiresAuth: true,
       layout: 'layout-full',
     },
-    path: '/keuangan/perjadin/ptj/kuitansi/:id',
+    path: '/keuangan/perjadin/ptj/:id/kuitansi',
     name: 'perjadin-ptj-kuitansi',
     component: () => import('@/views/user/keuangan/template/Kuitansi.vue'),
   },
   {
     meta: {
-      title: 'Kuitansi',
+      title: 'Surat Perjalanan Dinas',
       requiresAuth: true,
       layout: 'layout-full',
     },
-    path: '/keuangan/perjadin/ptj/spd/:id',
+    path: '/keuangan/perjadin/ptj/:id/spd',
     name: 'perjadin-ptj-spd',
     component: () => import('@/views/user/keuangan/template/Spd.vue'),
+  },
+  {
+    meta: {
+      title: 'Dop',
+      requiresAuth: true,
+      layout: 'layout-full',
+    },
+    path: '/keuangan/perjadin/ptj/:id/dop',
+    name: 'perjadin-ptj-dop',
+    component: () => import('@/views/user/keuangan/template/Dop.vue'),
   },
 ]
 

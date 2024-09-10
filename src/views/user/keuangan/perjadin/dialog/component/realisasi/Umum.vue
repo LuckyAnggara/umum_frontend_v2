@@ -9,9 +9,12 @@
             type="submit"
             class="w-32 flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-xs font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
           >
-            <span>Kuitansi</span><ArrowTopRightOnSquareIcon class="h-4 w-4 ml-2" />
+            <span>Kuitansi</span
+            ><ArrowTopRightOnSquareIcon class="h-4 w-4 ml-2" />
           </button>
-          <small>Cetak kuitansi sebanyak 3 lembar, ttd dan upload kembali</small>
+          <small
+            >Cetak kuitansi sebanyak 3 lembar, ttd dan upload kembali</small
+          >
         </div>
         <div>
           <button
@@ -35,7 +38,12 @@ import { IDRCurrency } from '@/utilities/formatter'
 import { useMainStore } from '@/stores/main'
 import { usePerjadinStore } from '@/stores/perjadin'
 import { usePerjadinDetailStore } from '@/stores/perjadinDetail'
-import { ArrowTopRightOnSquareIcon, ArrowDownTrayIcon, ArrowPathIcon, MagnifyingGlassIcon } from '@heroicons/vue/24/outline'
+import {
+  ArrowTopRightOnSquareIcon,
+  ArrowDownTrayIcon,
+  ArrowPathIcon,
+  MagnifyingGlassIcon,
+} from '@heroicons/vue/24/outline'
 import { toast } from 'vue3-toastify'
 import { rupiah } from '@/services/helper'
 import { useRouter } from 'vue-router'
@@ -48,7 +56,7 @@ const mainStore = useMainStore()
 async function toKuitansi() {
   let resolvedRoute = router.resolve({
     name: 'perjadin-ptj-kuitansi',
-    params: { id: perjadinStore.singleDetail.id },
+    params: { id: perjadinDetailStore.singleResponse.id },
   })
   window.open(resolvedRoute.href, '_blank')
 }
@@ -56,7 +64,7 @@ async function toKuitansi() {
 async function toSPD() {
   let resolvedRoute = router.resolve({
     name: 'perjadin-ptj-spd',
-    params: { id: perjadinStore.singleDetail.id },
+    params: { id: perjadinDetailStore.singleResponse.id },
   })
   window.open(resolvedRoute.href, '_blank')
 }

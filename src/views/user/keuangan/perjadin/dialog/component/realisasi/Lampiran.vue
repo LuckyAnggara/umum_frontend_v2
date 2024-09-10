@@ -1,6 +1,6 @@
 <template>
   <div class="text-left w-full">
-    <h2 class="text-2xl mb-4">Lampiran</h2>
+    <h2 class="text-2xl mb-4">Lampiran {{ title }}</h2>
 
     <div class="flex flex-col space-y-8">
       <div class="text-left">
@@ -42,6 +42,13 @@ import { usePerjadinStore } from '@/stores/perjadin'
 import { TrashIcon } from '@heroicons/vue/24/outline'
 
 const perjadinStore = usePerjadinStore()
+
+const props = defineProps({
+  title: {
+    type: String,
+    default: '',
+  },
+})
 
 function fileChange(event) {
   let b = []
