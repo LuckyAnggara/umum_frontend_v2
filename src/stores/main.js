@@ -178,12 +178,32 @@ export const useMainStore = defineStore('main', {
       'Kelompok Keuangan',
       'Kelompok Humas dan Sistem Informasi Pengawasan',
     ],
-    peranOptions: [
-      '-',
-      'ANGGOTA',
-      'KETUA TIM',
-      'PENGENDALI TEKNIS',
-      'PENGENDALI MUTU',
+    peranOptions: ['-', 'ANGGOTA', 'KETUA TIM', 'PENGENDALI TEKNIS', 'PENGENDALI MUTU'],
+    tingkatPerjadinOptions: [
+      {
+        value: 'A',
+        label: 'Tingkat A untuk Pejabat Negara (Ketua/Wakil Ketua dan Anggota Lembaga Tinggi Negara, Menteri dan setingkat Menteri)',
+      },
+      {
+        value: 'B',
+        label: 'Tingkat B untuk Pejabat Negara Lainnya dan Pejabat Eselon I',
+      },
+      {
+        value: 'C',
+        label: 'Tingkat C untuk Pejabat Eselon II',
+      },
+      {
+        value: 'D',
+        label: 'Tingkat D untuk Pejabat Eselon III/ Golongan IV',
+      },
+      {
+        value: 'E',
+        label: 'Tingkat E untuk Pejabat Eselon IV/Golongan III',
+      },
+      {
+        value: 'F',
+        label: 'Tingkat F untuk PNS Golongan II dan Golongan I.',
+      },
     ],
     form: {
       nip: '1',

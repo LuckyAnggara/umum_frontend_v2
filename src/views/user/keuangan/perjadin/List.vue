@@ -3,19 +3,11 @@
     <!-- Start coding here -->
 
     <!-- Start coding here -->
-    <div
-      class="bg-white dark:bg-gray-800 relative shadow-md sm:rounded-lg overflow-visible"
-    >
-      <div
-        class="flex flex-col md:flex-row items-center space-y-3 md:space-y-0 md:space-x-4 p-4 w-full"
-      >
+    <div class="bg-white dark:bg-gray-800 relative shadow-md sm:rounded-lg overflow-visible">
+      <div class="flex flex-col md:flex-row items-center space-y-3 md:space-y-0 md:space-x-4 p-4 w-full">
         <div class="w-full flex flex-row space-x-3 items-center">
           <div class="flex items-center">
-            <label
-              for="years"
-              class="block text-sm font-medium text-gray-900 dark:text-white mr-2"
-              >Show</label
-            >
+            <label for="years" class="block text-sm font-medium text-gray-900 dark:text-white mr-2">Show</label>
             <select
               @change="perjadinStore.getData()"
               v-model="perjadinStore.filter.currentLimit"
@@ -23,11 +15,7 @@
             >
               <option
                 :value="limit.value"
-                :selected="
-                  perjadinStore.filter.currentLimit == limit.value
-                    ? true
-                    : false
-                "
+                :selected="perjadinStore.filter.currentLimit == limit.value ? true : false"
                 v-for="(limit, index) in mainStore.limitOptions"
                 :key="index"
               >
@@ -39,12 +27,8 @@
           <div class="flex items-center w-1/3" autocomplete="off">
             <label for="simple-search" class="sr-only">Search</label>
             <div class="relative w-full">
-              <div
-                class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none"
-              >
-                <MagnifyingGlassIcon
-                  class="w-5 h-5 text-gray-500 dark:text-gray-400"
-                />
+              <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                <MagnifyingGlassIcon class="w-5 h-5 text-gray-500 dark:text-gray-400" />
               </div>
               <input
                 @keyup.enter="perjadinStore.getData()"
@@ -58,11 +42,7 @@
           </div>
 
           <div class="flex items-center">
-            <label
-              for="years"
-              class="block text-sm font-medium text-gray-900 dark:text-white mr-2"
-              >Status</label
-            >
+            <label for="years" class="block text-sm font-medium text-gray-900 dark:text-white mr-2">Status</label>
             <select
               @change="perjadinStore.getData()"
               v-model="perjadinStore.filter.currentStatus"
@@ -90,46 +70,26 @@
           </div>
         </div>
       </div>
-      <div
-        class="overflow-y-visible w-full scrollbar-thin scrollbar-track-gray-500 scrollbar-thumb-gray-700"
-      >
-        <table
-          class="lg:w-full min-w-full text-sm text-left text-gray-500 dark:text-gray-400"
-        >
-          <thead
-            class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400"
-          >
+      <div class="overflow-y-visible w-full scrollbar-thin scrollbar-track-gray-500 scrollbar-thumb-gray-700">
+        <table class="lg:w-full min-w-full text-sm text-left text-gray-500 dark:text-gray-400">
+          <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
               <th scope="col" class="px-4 py-3">#</th>
-              <th scope="col" class="px-4 py-3">
-                No Surat Tugas / Surat Perintah
-              </th>
+              <th scope="col" class="px-4 py-3">No Surat Tugas / Surat Perintah</th>
               <th scope="col" class="px-4 py-3">Nama Kegiatan</th>
               <th scope="col" class="px-4 py-3">Tanggal Kegiatan</th>
               <th scope="col" class="px-4 py-3">Status</th>
-              <th
-                scope="col"
-                class="px-4 py-3"
-                v-if="authStore.role == 'ADMIN'"
-              >
-                Pembuat
-              </th>
+              <th scope="col" class="px-4 py-3" v-if="authStore.role == 'ADMIN'">Pembuat</th>
               <th scope="col" class="px-4 py-3"></th>
             </tr>
           </thead>
           <tbody>
             <tr v-if="perjadinStore.isLoading">
               <td colspan="5" class="text-center">
-                <span class=""
-                  ><ArrowPathIcon class="w-6 h-6 animate-spin mx-auto"
-                /></span>
+                <span class=""><ArrowPathIcon class="w-6 h-6 animate-spin mx-auto" /></span>
               </td>
             </tr>
-            <tr
-              v-else-if="
-                !perjadinStore.isLoading && perjadinStore.items.length < 1
-              "
-            >
+            <tr v-else-if="!perjadinStore.isLoading && perjadinStore.items.length < 1">
               <td colspan="5" class="text-center">No Data</td>
             </tr>
             <tr
@@ -197,21 +157,9 @@
                 <div>
                   <Menu as="div" class="relative inline-block text-left">
                     <div>
-                      <MenuButton
-                        class="hover:scale-125 ease-in-out duration-300 flex w-full rounded-md font-medium text-black dark:text-white"
-                      >
-                        <ArrowPathIcon
-                          v-if="
-                            perjadinStore.isDestroyLoading &&
-                            deleteId == item.id
-                          "
-                          class="h-5 w-5 animate-spin"
-                        />
-                        <EllipsisVerticalIcon
-                          v-else
-                          class="h-5 w-5 text-black dark:text-white"
-                          aria-hidden="true"
-                        />
+                      <MenuButton class="hover:scale-125 ease-in-out duration-300 flex w-full rounded-md font-medium text-black dark:text-white">
+                        <ArrowPathIcon v-if="perjadinStore.isDestroyLoading && deleteId == item.id" class="h-5 w-5 animate-spin" />
+                        <EllipsisVerticalIcon v-else class="h-5 w-5 text-black dark:text-white" aria-hidden="true" />
                       </MenuButton>
                     </div>
 
@@ -227,17 +175,11 @@
                         class="z-50 py-1 absolute right-0 mt-2 w-40 origin-top-right divide-y divide-gray-100 rounded-md bg-white dark:bg-gray-800 dark:text-gray-100 shadow-lg ring-1 ring-black dark:ring-gray-700 ring-opacity-5 focus:outline-none"
                       >
                         <div class="px-2 py-1">
-                          <MenuItem
-                            v-for="menu in itemMenu"
-                            v-slot="{ active }"
-                            :key="menu.label"
-                          >
+                          <MenuItem v-for="menu in itemMenu" v-slot="{ active }" :key="menu.label">
                             <button
                               @click="menu.function(item)"
                               :class="[
-                                active
-                                  ? 'bg-blue-500 text-white'
-                                  : 'text-gray-900 dark:text-white',
+                                active ? 'bg-blue-500 text-white' : 'text-gray-900 dark:text-white',
                                 'group flex w-full items-center rounded-md px-2 py-2 text-sm',
                               ]"
                             >
@@ -255,19 +197,12 @@
           </tbody>
         </table>
       </div>
-      <nav
-        class="flex flex-col md:flex-row justify-between items-start md:items-center space-y-3 md:space-y-0 p-4"
-        aria-label="Table navigation"
-      >
+      <nav class="flex flex-col md:flex-row justify-between items-start md:items-center space-y-3 md:space-y-0 p-4" aria-label="Table navigation">
         <span class="text-sm font-normal text-gray-500 dark:text-gray-400">
           Showing
-          <span class="font-semibold text-gray-900 dark:text-white"
-            >{{ perjadinStore.from }} - {{ perjadinStore.to }}</span
-          >
+          <span class="font-semibold text-gray-900 dark:text-white">{{ perjadinStore.from }} - {{ perjadinStore.to }}</span>
           of
-          <span class="font-semibold text-gray-900 dark:text-white">{{
-            perjadinStore.total
-          }}</span>
+          <span class="font-semibold text-gray-900 dark:text-white">{{ perjadinStore.total }}</span>
         </span>
         <ul class="inline-flex items-stretch -space-x-px">
           <li>
@@ -286,11 +221,7 @@
 
           <li>
             <a
-              @click="
-                perjadinStore.lastPage == perjadinStore.currentPage
-                  ? ''
-                  : nextPage()
-              "
+              @click="perjadinStore.lastPage == perjadinStore.currentPage ? '' : nextPage()"
               :class="
                 perjadinStore.lastPage == perjadinStore.currentPage
                   ? 'cursor-not-allowed'
@@ -305,25 +236,11 @@
     </div>
   </div>
 
-  <DeleteDialog
-    :show="confirmDialog"
-    @submit="deleteData"
-    @close="confirmDialog = !confirmDialog"
-  />
+  <DeleteDialog :show="confirmDialog" @submit="deleteData" @close="confirmDialog = !confirmDialog" />
 
-  <DeleteDialog
-    :show="confirmDialog"
-    @submit="deleteData"
-    @close="confirmDialog = !confirmDialog"
-  />
+  <DeleteDialog :show="confirmDialog" @submit="deleteData" @close="confirmDialog = !confirmDialog" />
 
-  <Dialog
-    :overflowVisible="true"
-    :show="sendDialog"
-    @submit="updateStatusData"
-    @close="sendDialog = !sendDialog"
-    :canSubmit="true"
-  >
+  <Dialog :overflowVisible="true" :show="sendDialog" @submit="updateStatusData" @close="sendDialog = !sendDialog" :canSubmit="true">
     <template #title>
       <h1>Kirim Berkas</h1>
     </template>
@@ -331,11 +248,7 @@
     <template #content>
       <div class="flex w-full flex-col space-y-4">
         <div class="text-left">
-          <label
-            for="years"
-            class="block text-sm font-medium text-gray-900 dark:text-white mr-2"
-            >Tujuan</label
-          >
+          <label for="years" class="block text-sm font-medium text-gray-900 dark:text-white mr-2">Tujuan</label>
           <select
             v-model="perjadinStore.updateData.status"
             class="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block px-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -345,11 +258,7 @@
           </select>
         </div>
         <div>
-          <label
-            for="price"
-            class="block text-sm font-medium text-gray-900 dark:text-white"
-            >Catatan</label
-          >
+          <label for="price" class="block text-sm font-medium text-gray-900 dark:text-white">Catatan</label>
           <textarea
             placeholder="Isi catatan disini"
             v-model="perjadinStore.updateData.catatan"
@@ -376,14 +285,7 @@ import VueDatePicker from '@vuepic/vue-datepicker'
 import '@vuepic/vue-datepicker/dist/main.css'
 
 import { defineAsyncComponent, onMounted, ref } from 'vue'
-import {
-  EllipsisVerticalIcon,
-  DocumentTextIcon,
-  ArrowPathIcon,
-  TrashIcon,
-  MagnifyingGlassIcon,
-  PaperAirplaneIcon,
-} from '@heroicons/vue/24/outline'
+import { EllipsisVerticalIcon, DocumentTextIcon, ArrowPathIcon, TrashIcon, MagnifyingGlassIcon, PaperAirplaneIcon } from '@heroicons/vue/24/outline'
 import { toast } from 'vue3-toastify'
 import { useRouter } from 'vue-router'
 import { computed } from 'vue'
@@ -500,10 +402,7 @@ async function deleteData() {
 }
 
 async function updateStatusData() {
-  if (
-    perjadinStore.updateData.status == '' ||
-    perjadinStore.updateData.status == null
-  ) {
+  if (perjadinStore.updateData.status == '' || perjadinStore.updateData.status == null) {
     toast('Data belum lengkap', {
       position: toast.POSITION.BOTTOM_CENTER,
       type: 'error',
@@ -530,9 +429,10 @@ async function updateStatusData() {
         closeButton: true,
         isLoading: false,
       })
-      const index = perjadinStore.items.findIndex((p) => p.id == id)
+      const index = perjadinStore.items.findIndex((p) => p.id == success.data.id)
+      console.info(index)
       perjadinStore.$patch((state) => {
-        state.responses.data[index] = response.data.data
+        state.responses.data[index] = success.data
       })
       toast.done(id)
     } else {

@@ -1,8 +1,4 @@
-import {
-  createRouter,
-  createWebHashHistory,
-  createWebHistory,
-} from 'vue-router'
+import { createRouter, createWebHashHistory, createWebHistory } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
 
 const keuangan = [
@@ -36,6 +32,16 @@ const keuangan = [
     name: 'perjadin-list',
     component: () => import('@/views/user/keuangan/perjadin/List.vue'),
   },
+  // {
+  //   meta: {
+  //     title: 'Kuitansi',
+  //     requiresAuth: false,
+  //     layout: 'layout-full',
+  //   },
+  //   path: '/keuangan/template',
+  //   name: 'perjadin-template',
+  //   component: () => import('@/views/user/keuangan/Template.vue'),
+  // },
   {
     meta: {
       title: 'Kuitansi',
@@ -55,6 +61,16 @@ const keuangan = [
     path: '/keuangan/perjadin/ptj/kuitansi/:id',
     name: 'perjadin-ptj-kuitansi',
     component: () => import('@/views/user/keuangan/template/Kuitansi.vue'),
+  },
+  {
+    meta: {
+      title: 'Kuitansi',
+      requiresAuth: true,
+      layout: 'layout-full',
+    },
+    path: '/keuangan/perjadin/ptj/spd/:id',
+    name: 'perjadin-ptj-spd',
+    component: () => import('@/views/user/keuangan/template/Spd.vue'),
   },
 ]
 

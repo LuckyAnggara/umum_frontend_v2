@@ -2,15 +2,27 @@
   <div class="text-left w-full">
     <h2 class="text-2xl mb-4">Umum</h2>
     <div class="flex flex-col space-y-2">
-      <div class="w-fit mt-4">
-        <button
-          @click="toKuitansi()"
-          type="submit"
-          class="flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-xs font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-        >
-          <span>Kuitansi</span
-          ><ArrowTopRightOnSquareIcon class="h-4 w-4 ml-2" />
-        </button>
+      <div class="w-fit mt-4 flex flex-col space-y-5">
+        <div>
+          <button
+            @click="toKuitansi()"
+            type="submit"
+            class="w-32 flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-xs font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+          >
+            <span>Kuitansi</span><ArrowTopRightOnSquareIcon class="h-4 w-4 ml-2" />
+          </button>
+          <small>Cetak kuitansi sebanyak 3 lembar, ttd dan upload kembali</small>
+        </div>
+        <div>
+          <button
+            @click="toSPD()"
+            type="submit"
+            class="w-32 flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-xs font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+          >
+            <span>SPD</span><ArrowTopRightOnSquareIcon class="h-4 w-4 ml-2" />
+          </button>
+          <small>Cetak Surat Perjalanan Dinas (SPD)</small>
+        </div>
       </div>
     </div>
   </div>
@@ -23,12 +35,7 @@ import { IDRCurrency } from '@/utilities/formatter'
 import { useMainStore } from '@/stores/main'
 import { usePerjadinStore } from '@/stores/perjadin'
 import { usePerjadinDetailStore } from '@/stores/perjadinDetail'
-import {
-  ArrowTopRightOnSquareIcon,
-  ArrowDownTrayIcon,
-  ArrowPathIcon,
-  MagnifyingGlassIcon,
-} from '@heroicons/vue/24/outline'
+import { ArrowTopRightOnSquareIcon, ArrowDownTrayIcon, ArrowPathIcon, MagnifyingGlassIcon } from '@heroicons/vue/24/outline'
 import { toast } from 'vue3-toastify'
 import { rupiah } from '@/services/helper'
 import { useRouter } from 'vue-router'
@@ -41,6 +48,14 @@ const mainStore = useMainStore()
 async function toKuitansi() {
   let resolvedRoute = router.resolve({
     name: 'perjadin-ptj-kuitansi',
+    params: { id: perjadinStore.singleDetail.id },
+  })
+  window.open(resolvedRoute.href, '_blank')
+}
+
+async function toSPD() {
+  let resolvedRoute = router.resolve({
+    name: 'perjadin-ptj-spd',
     params: { id: perjadinStore.singleDetail.id },
   })
   window.open(resolvedRoute.href, '_blank')
