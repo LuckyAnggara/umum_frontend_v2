@@ -296,12 +296,12 @@ const menus = [
     desc: 'Layanan Barang Milik Negara',
     icon: 'bmnIcon',
   },
-  {
-    label: 'Keuangan',
-    to: 'keuangan-dashboard',
-    desc: 'Layanan Keuangan',
-    icon: 'keuanganIcon',
-  },
+  // {
+  //   label: 'Keuangan',
+  //   to: 'keuangan-dashboard',
+  //   desc: 'Layanan Keuangan',
+  //   icon: 'keuanganIcon',
+  // },
   {
     label: 'Ruangan',
     to: 'booking-tempat',
