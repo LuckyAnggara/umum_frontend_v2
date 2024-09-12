@@ -83,14 +83,14 @@
               </td>
               <td class="px-4 py-1">
                 <span
-                  v-if="item.status == 'BELUM LENGKAP'"
-                  class="bg-red-100 text-red-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300"
+                  v-if="item.status == 'UNVERIFIED'"
+                  class="bg-red-100 text-red-800 text-md font-medium me-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300"
                 >
                   {{ item.status }}</span
                 >
                 <span
-                  v-if="item.status == 'LENGKAP'"
-                  class="bg-green-100 text-green-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300"
+                  v-if="item.status == 'VERIFIED'"
+                  class="bg-green-100 text-green-800 text-md font-medium me-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300"
                 >
                   {{ item.status }}
                 </span>
@@ -174,6 +174,7 @@ import {
   XCircleIcon,
   XMarkIcon,
   BanknotesIcon,
+  ArrowTopRightOnSquareIcon,
 } from '@heroicons/vue/24/outline'
 import { usePerjadinStore } from '@/stores/perjadin'
 import { usePerjadinDetailStore } from '@/stores/perjadinDetail'
@@ -205,14 +206,19 @@ const perjadinStore = usePerjadinStore()
 const perjadinDetailStore = usePerjadinDetailStore()
 const itemMenu = [
   {
-    function: onDocument,
-    label: 'Document',
-    icon: DocumentTextIcon,
-  },
-  {
     function: onRealisasi,
     label: 'Realisasi',
     icon: BanknotesIcon,
+  },
+  {
+    function: toKuitansi,
+    label: 'Kuitansi',
+    icon: ArrowTopRightOnSquareIcon,
+  },
+  {
+    function: toSPD,
+    label: 'SPD',
+    icon: ArrowTopRightOnSquareIcon,
   },
 ]
 
@@ -230,6 +236,22 @@ function onRealisasi(item) {
   // realisasiDialog.value = true
 
   router.push({ name: 'perjadin-sppd-realisasi', params: { id: item.id } })
+}
+
+async function toKuitansi() {
+  let resolvedRoute = router.resolve({
+    name: 'perjadin-ptj-kuitansi',
+    params: { id: perjadinDetailStore.singleResponse.id },
+  })
+  window.open(resolvedRoute.href, '_blank')
+}
+
+async function toSPD() {
+  let resolvedRoute = router.resolve({
+    name: 'perjadin-ptj-spd',
+    params: { id: perjadinDetailStore.singleResponse.id },
+  })
+  window.open(resolvedRoute.href, '_blank')
 }
 
 async function submitRealisasi() {

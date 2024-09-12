@@ -20,7 +20,7 @@
             >
               <Breadcumb />
               <span
-                class="bg-yellow-100 text-yellow-800 text-md font-medium me-2 px-2.5 py-0.5 rounded dark:bg-yellow-900 dark:text-yellow-300"
+                class="bg-red-100 text-red-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300"
                 >{{ perjadinDetailStore.singleResponse.status }}</span
               >
             </div>
@@ -51,15 +51,12 @@
                 </ol>
 
                 <div class="w-4/5 flex flex-col justify-between">
-                  <Umum v-if="currentStep == 0" />
-                  <UangHarian v-else-if="currentStep == 1" />
-                  <Hotel v-else-if="currentStep == 2" />
-                  <Transport v-else-if="currentStep == 3" />
-                  <Representatif v-else-if="currentStep == 4" />
-                  <!-- <Lampiran
-                    v-if="!currentStep == 0"
-                    :title="steps[currentStep]"
-                  /> -->
+                  <Umum v-show="currentStep == 0" />
+                  <UangHarian v-show="currentStep == 1" />
+                  <Hotel v-show="currentStep == 2" />
+                  <Transport v-show="currentStep == 3" />
+                  <Representatif v-show="currentStep == 4" />
+                  <Catatan v-show="currentStep == 5" />
                 </div>
               </div>
             </div>
@@ -144,7 +141,7 @@ import {
   DialogTitle,
 } from '@headlessui/vue'
 
-import Lampiran from './dialog/component/realisasi/Lampiran.vue'
+import Catatan from './dialog/component/realisasi/Catatan.vue'
 import { toast } from 'vue3-toastify'
 import { ArrowPathIcon, ArrowRightIcon } from '@heroicons/vue/24/outline'
 import { usePerjadinStore } from '@/stores/perjadin'
@@ -184,7 +181,7 @@ const steps = ref([
   'Penginapan',
   'Transport',
   'Representatif',
-  'Lampiran',
+  'Catatan',
 ])
 
 function confirmSubmit() {

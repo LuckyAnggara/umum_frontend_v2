@@ -135,7 +135,7 @@ import {
   DialogTitle,
 } from '@headlessui/vue'
 
-import Lampiran from './component/realisasi/Lampiran.vue'
+import Lampiran from './component/realisasi/Catatan.vue'
 
 import { ArrowRightIcon } from '@heroicons/vue/24/outline'
 import { usePerjadinStore } from '@/stores/perjadin'

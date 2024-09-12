@@ -295,6 +295,29 @@ export const usePerjadinStore = defineStore('perjadinStore', {
         representatif_real: representatif_real,
       }
     },
+    isFormFill(state) {
+      if (
+        state.form.tahun_anggaran == null ||
+        state.form.tahun_anggaran == '' ||
+        state.form.no_st == null ||
+        state.form.no_st == '' ||
+        state.form.tanggal_st == null ||
+        state.form.tanggal_st == '' ||
+        state.form.tanggal_awal == null ||
+        state.form.tanggal_awal == '' ||
+        state.form.tanggal_akhir == null ||
+        state.form.tanggal_akhir == '' ||
+        state.form.nama_kegiatan == null ||
+        state.form.nama_kegiatan == '' ||
+        state.form.mak == null ||
+        state.form.mak == '' ||
+        state.form.detail.length == 0
+      ) {
+        return false
+      } else {
+        return true
+      }
+    },
     validateForm(state) {
       if (
         state.newPegawai.nip == null ||
@@ -660,6 +683,12 @@ export const usePerjadinStore = defineStore('perjadinStore', {
       }
     },
     async store() {
+      if (!this.isFormFill) {
+        return {
+          status: true,
+          data: 'Data belum lengkap',
+        }
+      }
       let formData = new FormData()
       this.form.total_anggaran = this.getTotalAnggaran
       if (this.form.lampiran) {

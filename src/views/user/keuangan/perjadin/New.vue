@@ -214,7 +214,7 @@ async function submit() {
     router.push({ name: 'perjadin-list' })
   } else {
     toast.update(id, {
-      render: 'Terjadi kesalahan',
+      render: success.message,
       position: toast.POSITION.BOTTOM_CENTER,
       type: 'error',
       autoClose: 1000,
