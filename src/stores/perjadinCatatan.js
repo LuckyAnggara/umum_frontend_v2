@@ -16,14 +16,17 @@ export const usePerjadinCatatanStore = defineStore('perjadinCatatanStore', {
       perjadin_detail_id: null,
     },
   }),
-  getters: {},
+  getters: {
+    sortedData(state) {
+      // Sorting berdasarkan id atau created_at
+      return state.responses.sort((a, b) => b.id - a.id)
+    },
+  },
   actions: {
     async show(id) {
       this.isLoading = true
       try {
-        const response = await axiosIns.get(
-          `/api/keuangan/perjadin-detail/catatan/${id}`
-        )
+        const response = await axiosIns.get(`/api/keuangan/perjadin-detail/catatan/${id}`)
         this.responses = response.data.data
       } catch (error) {
         alert(error.message)
@@ -35,12 +38,10 @@ export const usePerjadinCatatanStore = defineStore('perjadinCatatanStore', {
     async store() {
       this.isStoreLoading = true
       try {
-        const response = await axiosIns.post(
-          `/api/keuangan/perjadin-detail/catatan/`,
-          this.form
-        )
+        const response = await axiosIns.post(`/api/keuangan/perjadin-detail/catatan/`, this.form)
         if (response.status == 200) {
           this.responses.push(response.data.data)
+          this.form.catatan = null
           return {
             status: true,
             data: response.data.data,
@@ -65,19 +66,13 @@ export const usePerjadinCatatanStore = defineStore('perjadinCatatanStore', {
         this.singleResponse?.newLampiran.forEach((element, index) => {
           formData.append(`file[${index}]`, element)
         })
-        formData.append(
-          'jumlah_lampiran',
-          this.singleResponse?.newLampiran.length
-        )
+        formData.append('jumlah_lampiran', this.singleResponse?.newLampiran.length)
       }
       formData.append('umum', JSON.stringify(this.singleResponse))
       this.isUpdateLoading = true
 
       try {
-        const response = await axiosIns.post(
-          `/api/keuangan/perjadin-detail/${this.singleResponse.id}`,
-          formData
-        )
+        const response = await axiosIns.post(`/api/keuangan/perjadin-detail/${this.singleResponse.id}`, formData)
         if (response.status == 200) {
           this.singleResponse = response.data.data
           return {
@@ -98,9 +93,7 @@ export const usePerjadinCatatanStore = defineStore('perjadinCatatanStore', {
     },
 
     destroyLampiran(item) {
-      const index = this.singleResponse.lampiran.findIndex(
-        (x) => x.id == item.id
-      )
+      const index = this.singleResponse.lampiran.findIndex((x) => x.id == item.id)
       this.deleteLampiran.push(item)
       this.singleResponse.lampiran.splice(index, 1)
       return { status: true, message: 'Data berhasil dihapus!' }

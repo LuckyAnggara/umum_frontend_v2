@@ -1,28 +1,17 @@
 <template>
   <div class="mx-auto w-full px-4">
     <section v-if="perjadinDetailStore.singleResponse == null">
-      <span class="flex"
-        ><ArrowPathIcon class="mx-auto w-6 h-6 animate-spin"
-      /></span>
+      <span class="flex"><ArrowPathIcon class="mx-auto w-6 h-6 animate-spin" /></span>
     </section>
     <template v-else>
-      <div
-        class="bg-white dark:bg-gray-800 relative shadow-md sm:rounded-lg overflow-visible"
-      >
-        <div
-          class="justify-center items-center w-full md:inset-0 h-modal md:h-full"
-        >
-          <div
-            class="relative p-4 w-full h-full md:h-auto flex flex-col space-y-4"
-          >
-            <div
-              class="flex flex-row justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5 dark:border-gray-600"
-            >
+      <div class="bg-white dark:bg-gray-800 relative shadow-md sm:rounded-lg overflow-visible">
+        <div class="justify-center items-center w-full md:inset-0 h-modal md:h-full">
+          <div class="relative p-4 w-full h-full md:h-auto flex flex-col space-y-4">
+            <div class="flex flex-row justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5 dark:border-gray-600">
               <Breadcumb />
-              <span
-                class="bg-red-100 text-red-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300"
-                >{{ perjadinDetailStore.singleResponse.status }}</span
-              >
+              <span class="bg-red-100 text-red-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300">{{
+                perjadinDetailStore.singleResponse.status
+              }}</span>
             </div>
             <!-- Modal body -->
             <div class="flex flex-col min-h-[75vh]">
@@ -41,10 +30,7 @@
                       <div class="flex items-center justify-between">
                         <span class="sr-only">{{ step }}</span>
                         <h3 class="font-medium">{{ step }}</h3>
-                        <ArrowRightIcon
-                          v-if="currentStep == index"
-                          class="w-4 h-4"
-                        />
+                        <ArrowRightIcon v-if="currentStep == index" class="w-4 h-4" />
                       </div>
                     </div>
                   </li>
@@ -62,9 +48,7 @@
             </div>
 
             <div class="flex flex-row justify-between">
-              <div
-                class="flex items-center space-x-1 mt-4 text-center justify-end"
-              >
+              <div class="flex items-center space-x-1 mt-4 text-center justify-end">
                 <button
                   @click="currentStep--"
                   :disabled="currentStep == 0"
@@ -85,9 +69,7 @@
                   Next
                 </button>
               </div>
-              <div
-                class="flex items-center space-x-1 mt-4 text-center justify-end"
-              >
+              <div class="flex items-center space-x-1 mt-4 text-center justify-end">
                 <button
                   @click="perjadinDetailStore.reset()"
                   type="button"
@@ -108,22 +90,14 @@
           </div>
         </div>
       </div>
-      <ConfirmationDialog
-        :overflowVisible="true"
-        :show="confirmDialog"
-        @submit="submit()"
-        @close="confirmDialog = !confirmDialog"
-        :canSubmit="true"
-      >
+      <ConfirmationDialog :overflowVisible="true" :show="confirmDialog" @submit="submit()" @close="confirmDialog = !confirmDialog" :canSubmit="true">
         <template #title>
           <h1>Confirmation</h1>
         </template>
 
         <template #content>
           <span class="text-justify w-full text-gray-700"
-            >Apa anda yakin pertanggung jawaban
-            {{ perjadinDetailStore.singleResponse.nama }} selesai di
-            Input?</span
+            >Apa anda yakin pertanggung jawaban {{ perjadinDetailStore.singleResponse.nama }} selesai di Input?</span
           >
         </template>
       </ConfirmationDialog>
@@ -133,15 +107,14 @@
 
 <script setup>
 import { ref, defineAsyncComponent, onMounted } from 'vue'
-import {
-  TransitionRoot,
-  TransitionChild,
-  Dialog,
-  DialogPanel,
-  DialogTitle,
-} from '@headlessui/vue'
+import { TransitionRoot, TransitionChild, Dialog, DialogPanel, DialogTitle } from '@headlessui/vue'
 
 import Catatan from './dialog/component/realisasi/Catatan.vue'
+import UangHarian from './dialog/component/realisasi/UangHarian.vue'
+import Umum from './dialog/component/realisasi/Umum.vue'
+import Hotel from './dialog/component/realisasi/Hotel.vue'
+import Transport from './dialog/component/realisasi/Transport.vue'
+import Representatif from './dialog/component/realisasi/Representatif.vue'
 import { toast } from 'vue3-toastify'
 import { ArrowPathIcon, ArrowRightIcon } from '@heroicons/vue/24/outline'
 import { usePerjadinStore } from '@/stores/perjadin'
@@ -153,36 +126,13 @@ import ConfirmationDialog from '@/components/Dialog.vue'
 
 const route = useRoute()
 
-const UangHarian = defineAsyncComponent(() =>
-  import('./dialog/component/realisasi/UangHarian.vue')
-)
-const Umum = defineAsyncComponent(() =>
-  import('./dialog/component/realisasi/Umum.vue')
-)
-const Hotel = defineAsyncComponent(() =>
-  import('./dialog/component/realisasi/Hotel.vue')
-)
-const Transport = defineAsyncComponent(() =>
-  import('./dialog/component/realisasi/Transport.vue')
-)
-const Representatif = defineAsyncComponent(() =>
-  import('./dialog/component/realisasi/Representatif.vue')
-)
-
 const perjadinDetailStore = usePerjadinDetailStore()
 const confirmDialog = ref(false)
 
 const emit = defineEmits(['close'])
 
 const currentStep = ref(0)
-const steps = ref([
-  'Umum',
-  'Uang Harian',
-  'Penginapan',
-  'Transport',
-  'Representatif',
-  'Catatan',
-])
+const steps = ref(['Umum', 'Uang Harian', 'Penginapan', 'Transport', 'Representatif', 'Catatan'])
 
 function confirmSubmit() {
   confirmDialog.value = true
