@@ -12,6 +12,7 @@ export const usePerjadinDetailStore = defineStore('perjadinDetailStore', {
       transport: [],
       hotel: [],
       rep: [],
+      lainnya: [],
     },
     deleteLampiran: [],
     isLoading: false,
@@ -34,6 +35,24 @@ export const usePerjadinDetailStore = defineStore('perjadinDetailStore', {
       const totalRepresentatif = sumBiayaHari(pegawai.representatif || [])
       return totalHotel + totalUangHarian + totalTransport + totalRepresentatif
     },
+    totalDetailRealisasiBiaya(state) {
+      const pegawai = state.singleResponse
+      if (!pegawai) return 0
+      const sumBiayaHari = (items) =>
+        items.reduce(
+          (total, item) => total + item.realisasi_hari * item.realisasi_biaya,
+          0
+        )
+      const sumBiaya = (items) =>
+        items.reduce((total, item) => total + item.realisasi_biaya, 0)
+
+      const totalHotel = sumBiayaHari(pegawai.hotel || [])
+      const totalUangHarian = sumBiayaHari(pegawai.uang_harian || [])
+      const totalTransport = sumBiaya(pegawai.transport || [])
+      const totalRepresentatif = sumBiayaHari(pegawai.representatif || [])
+      return totalHotel + totalUangHarian + totalTransport + totalRepresentatif
+    },
+
     getTotal(state) {
       let uh = 0
       let hotel = 0
@@ -116,6 +135,40 @@ export const usePerjadinDetailStore = defineStore('perjadinDetailStore', {
       }
       return false
     },
+    async downloadSptjm() {
+      this.isLoading = true
+      try {
+        const response = await axiosIns.get(
+          `/api/download-sptjm/${this.singleResponse.id}`,
+          {
+            responseType: 'blob', // Tambahkan responseType di sini
+          }
+        )
+
+        // Membuat URL blob dan link untuk mendownload file
+        const url = window.URL.createObjectURL(new Blob([response.data]))
+        const link = document.createElement('a')
+        link.href = url
+
+        // Opsional: Tentukan nama file download (misalnya 'file.pdf')
+        link.setAttribute(
+          'download',
+          `sptjm_${this.singleResponse.no_sppd}.docx`
+        )
+
+        // Tambahkan link ke body dan klik untuk memicu download
+        document.body.appendChild(link)
+        link.click()
+
+        // Hapus link setelah download selesai
+        document.body.removeChild(link)
+      } catch (error) {
+        alert(error.message)
+      } finally {
+        this.isLoading = false
+      }
+      return false
+    },
     tambahUH() {
       this.singleResponse.uang_harian.push({
         keterangan: null,
@@ -124,6 +177,7 @@ export const usePerjadinDetailStore = defineStore('perjadinDetailStore', {
         realisasi_biaya: 0,
         realisasi_hari: 0,
         notes: null,
+        bukti: false,
       })
     },
     tambahHotel() {
@@ -134,6 +188,7 @@ export const usePerjadinDetailStore = defineStore('perjadinDetailStore', {
         realisasi_biaya: 0,
         realisasi_hari: 0,
         notes: null,
+        bukti: false,
       })
     },
     tambahRep() {
@@ -144,6 +199,7 @@ export const usePerjadinDetailStore = defineStore('perjadinDetailStore', {
         realisasi_biaya: 0,
         realisasi_hari: 0,
         notes: null,
+        bukti: false,
       })
     },
     tambahTransport() {
@@ -153,6 +209,7 @@ export const usePerjadinDetailStore = defineStore('perjadinDetailStore', {
         biaya: 0,
         realisasi_biaya: 0,
         notes: null,
+        bukti: false,
       })
     },
     deleteUH(index) {
@@ -171,6 +228,7 @@ export const usePerjadinDetailStore = defineStore('perjadinDetailStore', {
       this.singleResponse = JSON.parse(
         JSON.stringify(this.originalSingleResponse)
       )
+      this.lampiranReset()
     },
     async store() {
       let formData = new FormData()
@@ -195,6 +253,17 @@ export const usePerjadinDetailStore = defineStore('perjadinDetailStore', {
         formData.append(`file_rep[${index}]`, element)
       })
       formData.append('jumlah_lampiran_rep', this.lampiran.rep.length)
+      this.lampiran.lainnya.forEach((element, index) => {
+        formData.append(`file_lainnya[${index}]`, element)
+      })
+      formData.append('jumlah_lampiran_lainnya', this.lampiran.lainnya.length)
+
+      if (this.deleteLampiran.length > 0) {
+        this.deleteLampiran.forEach((element, index) => {
+          formData.append(`file_delete[${index}]`, element.id)
+        })
+        formData.append('jumlah_lampiran_delete', this.deleteLampiran.length)
+      }
 
       //FETCHING DATA UMUM
       formData.append('umum', JSON.stringify(this.singleResponse))
@@ -210,6 +279,11 @@ export const usePerjadinDetailStore = defineStore('perjadinDetailStore', {
           }
         )
         if (response.status == 200) {
+          this.singleResponse = JSON.parse(JSON.stringify(response.data.data))
+          this.originalSingleResponse = JSON.parse(
+            JSON.stringify(response.data.data)
+          )
+          this.lampiranReset()
           return {
             status: true,
             data: response.data.data,
@@ -273,6 +347,17 @@ export const usePerjadinDetailStore = defineStore('perjadinDetailStore', {
       this.deleteLampiran.push(item)
       this.singleResponse.lampiran.splice(index, 1)
       return { status: true, message: 'Data berhasil dihapus!' }
+    },
+
+    lampiranReset() {
+      this.deleteLampiran = []
+      this.lampiran = {
+        uh: [],
+        transport: [],
+        hotel: [],
+        rep: [],
+        lainnya: [],
+      }
     },
   },
 })

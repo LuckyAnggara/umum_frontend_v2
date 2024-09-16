@@ -13,10 +13,14 @@ import moment from 'moment'
 import vSelect from 'vue-select'
 import 'vue-select/dist/vue-select.css'
 
+import VueExcelEditor from 'vue3-excel-editor'
+
 moment.locale('id')
 
 const pinia = createPinia()
 const app = createApp(App)
+
+app.use(VueExcelEditor)
 
 app.use(pinia)
 app.use(router)

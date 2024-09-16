@@ -96,6 +96,36 @@ const keuangan = [
     name: 'perjadin-ptj-dop',
     component: () => import('@/views/user/keuangan/template/Dop.vue'),
   },
+  {
+    meta: {
+      title: 'Rincian Biaya Perjalanan Dinas',
+      requiresAuth: true,
+      layout: 'layout-full',
+    },
+    path: '/keuangan/perjadin/ptj/:id/rpd',
+    name: 'perjadin-ptj-rpd',
+    component: () => import('@/views/user/keuangan/template/Rpd.vue'),
+  },
+  {
+    meta: {
+      title: 'Daftar Pengeluaran Rill',
+      requiresAuth: true,
+      layout: 'layout-full',
+    },
+    path: '/keuangan/perjadin/ptj/:id/rill',
+    name: 'perjadin-ptj-rill',
+    component: () => import('@/views/user/keuangan/template/Riil.vue'),
+  },
+  {
+    meta: {
+      title: 'Rincian Anggaran Biaya',
+      requiresAuth: true,
+      layout: 'layout-full',
+    },
+    path: '/keuangan/perjadin/ptj/:id/rab',
+    name: 'perjadin-ptj-rab',
+    component: () => import('@/views/user/keuangan/template/Rab.vue'),
+  },
 ]
 
 export default keuangan

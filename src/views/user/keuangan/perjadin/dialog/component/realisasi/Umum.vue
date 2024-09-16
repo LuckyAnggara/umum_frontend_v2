@@ -1,30 +1,93 @@
 <template>
   <div class="text-left w-full">
     <h2 class="text-2xl mb-4">Umum</h2>
-    <div class="flex flex-col space-y-2">
-      <div class="w-fit mt-4 flex flex-col space-y-5">
-        <div>
-          <button
-            @click="toKuitansi()"
-            type="submit"
-            class="w-32 flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-xs font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-          >
-            <span>Kuitansi</span
-            ><ArrowTopRightOnSquareIcon class="h-4 w-4 ml-2" />
-          </button>
-          <small
-            >Cetak kuitansi sebanyak 3 lembar, ttd dan upload kembali</small
-          >
+
+    <div class="flex flex-col space-y-2 text-lg">
+      <div>
+        <label
+          for="name"
+          class="block mb-2 font-bold text-gray-900 dark:text-white"
+          >Nomor Induk Pegawai</label
+        >
+        <div class="relative w-full">
+          <span>{{ perjadinDetailStore.singleResponse.nip }}</span>
         </div>
-        <div>
-          <button
-            @click="toSPD()"
-            type="submit"
-            class="w-32 flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-xs font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+      </div>
+      <div class="text-left">
+        <label
+          for="name"
+          class="block mb-2 font-bold text-gray-900 dark:text-white"
+          >Nama</label
+        >
+        <span>{{ perjadinDetailStore.singleResponse.nama }}</span>
+      </div>
+      <div class="text-left">
+        <label
+          for="name"
+          class="block mb-2 font-bold text-gray-900 dark:text-white"
+          >Jabatan</label
+        >
+        <span>{{ perjadinDetailStore.singleResponse.jabatan }}</span>
+      </div>
+      <div class="text-left">
+        <label
+          for="name"
+          class="block mb-2 font-bold text-gray-900 dark:text-white"
+          >Unit</label
+        >
+        <span>{{ perjadinDetailStore.singleResponse.unit }}</span>
+      </div>
+      <div class="text-left">
+        <label
+          for="name"
+          class="block mb-2 font-bold text-gray-900 dark:text-white"
+          >Golongan/Pangkat</label
+        >
+        <span>{{ perjadinDetailStore.singleResponse.pangkat }}</span>
+      </div>
+
+      <div class="text-left">
+        <label
+          for="name"
+          class="block mb-2 font-bold text-gray-900 dark:text-white"
+          >Peran</label
+        >
+        <span>{{ perjadinDetailStore.singleResponse.peran }}</span>
+      </div>
+
+      <div class="flex flex-row justify-between space-x-4">
+        <div class="text-left w-2/5">
+          <label
+            class="block mb-2 font-bold text-gray-900 dark:text-white"
+            for="unit"
+            >Tanggal Keberangkatan</label
           >
-            <span>SPD</span><ArrowTopRightOnSquareIcon class="h-4 w-4 ml-2" />
-          </button>
-          <small>Cetak Surat Perjalanan Dinas (SPD)</small>
+          <span>{{
+            $moment(perjadinDetailStore.singleResponse.tanggal_awal).format(
+              'DD MMMM YYYY'
+            )
+          }}</span>
+        </div>
+        <div class="text-left w-2/5">
+          <label
+            for="unit"
+            class="block mb-2 font-bold text-gray-900 dark:text-white"
+            >Tanggal Kepulangan</label
+          >
+          <span>{{
+            $moment(perjadinDetailStore.singleResponse.tanggal_akhir).format(
+              'DD MMMM YYYY'
+            )
+          }}</span>
+        </div>
+
+        <div class="text-left w-1/5">
+          <label
+            for="name"
+            class="block mb-2 font-bold text-gray-900 dark:text-white"
+            >Jumlah Hari</label
+          >
+          <span>{{ perjadinDetailStore.singleResponse.jumlah_hari }} hari</span>
         </div>
       </div>
     </div>

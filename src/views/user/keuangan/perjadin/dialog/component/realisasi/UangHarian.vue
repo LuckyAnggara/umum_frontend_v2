@@ -1,7 +1,7 @@
 <template>
   <div class="text-left w-full">
     <h2 class="text-2xl mb-4">Uang Harian</h2>
-    <div class="flex items-center space-x-4 my-4">
+    <div v-show="!disabledForm" class="flex items-center space-x-4 my-4">
       <button
         @click="perjadinDetailStore.tambahUH"
         type="submit"
@@ -33,6 +33,7 @@
             <tr v-if="perjadinDetailStore.singleResponse.uang_harian < 1">
               <td colspan="5" class="text-center">Tidak ada data</td>
             </tr>
+
             <tr
               v-else
               v-for="(item, index) in perjadinDetailStore.singleResponse
@@ -43,10 +44,12 @@
               <td class="px-4 py-1">{{ index + 1 }}</td>
               <td class="px-4 py-1">
                 <input
+                  :readonly="disabledForm"
                   v-model="item.keterangan"
                   class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                 />
               </td>
+
               <td class="px-4 py-1">
                 <div class="flex flex-col">
                   <span class="font-bold">Hari</span>
@@ -62,6 +65,7 @@
                   <div class="text-left">
                     <span class="font-bold">Hari</span>
                     <input
+                      :readonly="disabledForm"
                       type="number"
                       v-model="item.realisasi_hari"
                       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
@@ -70,6 +74,7 @@
                   <div class="text-left">
                     <span class="font-bold">Biaya (IDR)</span>
                     <input
+                      :readonly="disabledForm"
                       type="number"
                       v-model="item.realisasi_biaya"
                       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
@@ -77,15 +82,35 @@
                   </div>
                 </div>
               </td>
-              <td>
-                <input
-                  type="Text"
-                  v-model="item.notes"
-                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                />
+              <td class="px-4 py-1">
+                <div class="flex flex-col space-y-4">
+                  <div class="flex items-center">
+                    <input
+                      :readonly="disabledForm"
+                      id="link-checkbox"
+                      type="checkbox"
+                      v-model="item.bukti"
+                      class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                    />
+                    <label
+                      for="link-checkbox"
+                      :class="item.bukti ? '' : 'line-through'"
+                      class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                      >Ada Bukti
+                    </label>
+                  </div>
+
+                  <input
+                    :readonly="disabledForm"
+                    type="Text"
+                    v-model="item.notes"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                  />
+                </div>
               </td>
               <td class="py-1">
                 <div
+                  v-show="!disabledForm"
                   @click="perjadinDetailStore.deleteUH(index)"
                   class="text-right flex flex-row justify-center"
                 >
@@ -102,6 +127,15 @@
             </td>
             <td class="px-4 py-1 font-bold">
               {{ IDRCurrency.format(perjadinDetailStore.getTotal.uh_real) }}
+            </td>
+            <td class="px-4 py-1 font-bold">
+              Lebih / Kurang :
+              {{
+                IDRCurrency.format(
+                  perjadinDetailStore.getTotal.uh -
+                    perjadinDetailStore.getTotal.uh_real
+                )
+              }}
             </td>
           </tfoot>
         </table>
@@ -130,7 +164,7 @@
                   (x) => x.type == 'UH'
                 )"
                 :key="index"
-                class="text-base w-full py-2 rounded-t-lg dark:border-gray-600 text-blue-600 flex flex-row space-x-2 items-center"
+                class="text-base w-full rounded-t-lg dark:border-gray-600 text-blue-600 flex flex-row space-x-2 items-center"
               >
                 <a
                   :href="`${storageUrl + '/' + item.lampiran}`"
@@ -149,7 +183,7 @@
           </small>
         </div>
       </div>
-      <div class="flex flex-col space-y-8 w-1/2">
+      <div class="flex flex-col space-y-8 w-1/2" v-if="!disabledForm">
         <div class="text-left">
           <label
             for="name"
@@ -186,6 +220,13 @@ const authStore = useAuthStore()
 const perjadinStore = usePerjadinStore()
 const perjadinDetailStore = usePerjadinDetailStore()
 
+const props = defineProps({
+  disabledForm: {
+    type: Boolean,
+    default: false,
+  },
+})
+
 function fileChange(event) {
   let b = []
   event.forEach((element, index) => {
@@ -195,5 +236,9 @@ function fileChange(event) {
   perjadinDetailStore.$patch((state) => {
     state.lampiran.uh = b
   })
+}
+
+function clear(event) {
+  event.removeFiles()
 }
 </script>

@@ -17,6 +17,7 @@
             <option value="DARAT">DARAT</option>
             <option value="LAUT">LAUT</option>
             <option value="UDARA">UDARA</option>
+            <option value="TAKSI">TAKSI</option>
             <option value="LAINNYA">LAINNYA</option>
           </select>
         </div>

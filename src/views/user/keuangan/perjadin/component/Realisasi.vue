@@ -1,7 +1,11 @@
 <template>
   <div class="relative p-4 bg-white rounded-lg shadow dark:bg-gray-800 sm:p-5">
-    <div class="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5 dark:border-gray-600 flex-row">
-      <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Realisasi</h3>
+    <div
+      class="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5 dark:border-gray-600 flex-row"
+    >
+      <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
+        Realisasi
+      </h3>
       <span
         v-if="perjadinStore.isDetail"
         class="bg-yellow-100 text-yellow-800 text-md font-medium me-2 px-2.5 py-0.5 rounded dark:bg-yellow-900 dark:text-yellow-300"
@@ -9,9 +13,15 @@
       >
     </div>
     <div class="mb-4 flex flex-col space-y-3">
-      <div class="w-full scrollbar-thin scrollbar-track-gray-500 scrollbar-thumb-gray-700 z-10 overflow-auto min-h-96">
-        <table class="lg:w-full min-w-full text-sm text-left text-gray-500 dark:text-gray-400 z-50">
-          <thead class="text-xs text-gray-700 uppercase bg-gray-200 dark:bg-gray-700 dark:text-gray-400">
+      <div
+        class="w-full scrollbar-thin scrollbar-track-gray-500 scrollbar-thumb-gray-700 z-10 overflow-auto min-h-96"
+      >
+        <table
+          class="lg:w-full min-w-full text-sm text-left text-gray-500 dark:text-gray-400 z-50"
+        >
+          <thead
+            class="text-xs text-gray-700 uppercase bg-gray-200 dark:bg-gray-700 dark:text-gray-400"
+          >
             <tr>
               <th scope="col" class="px-4 py-3">#</th>
               <th scope="col" class="px-4 py-3">No SPPD</th>
@@ -46,17 +56,30 @@
                   <span class="font-bold">{{ item.nama }}</span>
                   <span class="text-xs">{{ item.nip }}</span>
                   <span class="text-xs">{{ item.pangkat.toUpperCase() }}</span>
-                  <span class="text-xs truncate">{{ item.jabatan.toUpperCase() }}</span>
+                  <span class="text-xs truncate">{{
+                    item.jabatan.toUpperCase()
+                  }}</span>
                 </div>
               </td>
               <td class="px-4 py-1">
-                <span>{{ rupiah.format(perjadinStore.totalDetailBiaya(item.nip)) }}</span>
+                <span>{{
+                  rupiah.format(perjadinStore.totalDetailBiaya(item.nip))
+                }}</span>
               </td>
               <td class="px-4 py-1">
-                <span>{{ rupiah.format(perjadinStore.totalDetailBiayaRealisasi(item.nip)) }}</span>
+                <span>{{
+                  rupiah.format(
+                    perjadinStore.totalDetailBiayaRealisasi(item.nip)
+                  )
+                }}</span>
               </td>
               <td class="px-4 py-1">
-                <span>{{ rupiah.format(perjadinStore.totalDetailBiaya(item.nip) - perjadinStore.totalDetailBiayaRealisasi(item.nip)) }}</span>
+                <span>{{
+                  rupiah.format(
+                    perjadinStore.totalDetailBiaya(item.nip) -
+                      perjadinStore.totalDetailBiayaRealisasi(item.nip)
+                  )
+                }}</span>
               </td>
               <td class="px-4 py-1">
                 <span
@@ -76,8 +99,13 @@
                 <div class="z-50">
                   <Menu as="div" class="relative inline-block text-left">
                     <div>
-                      <MenuButton class="hover:scale-125 ease-in-out duration-300 flex w-full rounded-md font-medium text-black dark:text-white">
-                        <EllipsisVerticalIcon class="h-5 w-5 text-black dark:text-white" aria-hidden="true" />
+                      <MenuButton
+                        class="hover:scale-125 ease-in-out duration-300 flex w-full rounded-md font-medium text-black dark:text-white"
+                      >
+                        <EllipsisVerticalIcon
+                          class="h-5 w-5 text-black dark:text-white"
+                          aria-hidden="true"
+                        />
                       </MenuButton>
                     </div>
 
@@ -93,11 +121,17 @@
                         class="z-50 py-1 absolute right-0 mt-2 w-40 origin-top-right divide-y divide-gray-100 rounded-md bg-white dark:bg-gray-800 dark:text-gray-100 shadow-lg ring-1 ring-black dark:ring-gray-700 ring-opacity-5 focus:outline-none"
                       >
                         <div class="px-2 py-1">
-                          <MenuItem v-for="menu in itemMenu" v-slot="{ active }" :key="menu.label">
+                          <MenuItem
+                            v-for="menu in itemMenu"
+                            v-slot="{ active }"
+                            :key="menu.label"
+                          >
                             <button
                               @click="menu.function(item)"
                               :class="[
-                                active ? 'bg-blue-500 text-white' : 'text-gray-900 dark:text-white',
+                                active
+                                  ? 'bg-blue-500 text-white'
+                                  : 'text-gray-900 dark:text-white',
                                 'group flex w-full items-center rounded-md px-2 py-2 text-sm',
                               ]"
                             >
@@ -117,8 +151,15 @@
       </div>
     </div>
 
-    <DialogDocument @close="documentDialog = !documentDialog" :show="documentDialog" />
-    <DialogRealisasi @submit="submitRealisasi()" @close="realisasiDialog = !realisasiDialog" :show="realisasiDialog" />
+    <DialogDocument
+      @close="documentDialog = !documentDialog"
+      :show="documentDialog"
+    />
+    <DialogRealisasi
+      @submit="submitRealisasi()"
+      @close="realisasiDialog = !realisasiDialog"
+      :show="realisasiDialog"
+    />
   </div>
 </template>
 
@@ -137,6 +178,7 @@ import {
 } from '@heroicons/vue/24/outline'
 import { usePerjadinStore } from '@/stores/perjadin'
 import { usePerjadinDetailStore } from '@/stores/perjadinDetail'
+import { useAuthStore } from '@/stores/auth'
 import { onMounted, ref } from 'vue'
 import { rupiah } from '@/services/helper'
 import { toast } from 'vue3-toastify'
@@ -146,6 +188,7 @@ import { useDebounceFn } from '@vueuse/core'
 import DialogDocument from '../dialog/DialogDocument.vue'
 import DialogRealisasi from '../dialog/DialogRealisasi.vue'
 import { useRouter } from 'vue-router'
+import { computed } from 'vue'
 
 const router = useRouter()
 
@@ -162,24 +205,31 @@ const documentDialog = ref(false)
 const realisasiDialog = ref(false)
 const makStore = useMakStore()
 const perjadinStore = usePerjadinStore()
+const authStore = useAuthStore()
 const perjadinDetailStore = usePerjadinDetailStore()
-const itemMenu = [
-  {
-    function: onRealisasi,
-    label: 'Realisasi',
-    icon: BanknotesIcon,
-  },
-  {
-    function: toKuitansi,
-    label: 'Kuitansi',
-    icon: ArrowTopRightOnSquareIcon,
-  },
-  {
-    function: toSPD,
-    label: 'SPD',
-    icon: ArrowTopRightOnSquareIcon,
-  },
-]
+const itemMenu = computed(() => {
+  return [
+    {
+      function: onRealisasi,
+      label: 'Realisasi',
+      icon: BanknotesIcon,
+    },
+    ...(authStore.role === 'USER'
+      ? [
+          {
+            function: toKuitansi,
+            label: 'Kuitansi',
+            icon: ArrowTopRightOnSquareIcon,
+          },
+          {
+            function: toSPD,
+            label: 'SPD',
+            icon: ArrowTopRightOnSquareIcon,
+          },
+        ]
+      : []),
+  ]
+})
 
 function onDocument() {
   documentDialog.value = true
@@ -222,7 +272,9 @@ async function submitRealisasi() {
   })
 
   const success = await perjadinDetailStore.update()
-  const index = perjadinStore.singleResponse.detail.findIndex((d) => d.id == perjadinDetailStore.singleResponse.id)
+  const index = perjadinStore.singleResponse.detail.findIndex(
+    (d) => d.id == perjadinDetailStore.singleResponse.id
+  )
   if (success.status) {
     toast.update(id, {
       render: 'Berhasil !!',

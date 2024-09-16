@@ -37,7 +37,7 @@ const FilePond = vueFilePond(
 )
 const input = ref(null)
 
-const emit = defineEmits(['fileChange', 'filesChange'])
+const emit = defineEmits(['fileChange', 'filesChange', 'clear'])
 const props = defineProps({
   multiple: {
     type: Boolean,
@@ -60,5 +60,9 @@ function fileChange() {
   } else {
     emit('fileChange', files[0].file)
   }
+}
+
+function removeAll() {
+  input.value.removeFiles()
 }
 </script>
