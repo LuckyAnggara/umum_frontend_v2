@@ -1,7 +1,10 @@
 import { defineStore } from 'pinia'
+import { axiosIns } from '@/services/axios'
 
 export const useMainStore = defineStore('main', {
   state: () => ({
+    isLoading: false,
+    provinsiOptions: [],
     tahunOptions: [2023, 2024, 2025, 2026, 2027, 2028],
     bulanOptions: [
       {
@@ -211,4 +214,18 @@ export const useMainStore = defineStore('main', {
     },
     isLoading: false,
   }),
+  actions: {
+    async getProvinsi(page = '') {
+      this.isLoading = true
+      try {
+        const response = await axiosIns.get(`/api/provinsi`)
+        this.provinsiOptions = response.data.data
+      } catch (error) {
+        alert(error.message)
+      } finally {
+        this.isLoading = false
+      }
+      return false
+    },
+  },
 })

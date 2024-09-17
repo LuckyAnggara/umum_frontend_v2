@@ -2,9 +2,9 @@
   <div class="text-left w-full">
     <h2 class="text-2xl mb-4">Umum</h2>
     <small class="text-gray-500">Gunakan fitur pencarian pegawai, jika data tidak ditemukan, lakukan penginputan <span class="font-medium">Manual</span></small>
-    <div v-if="perjadinStore.validNip" class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
+    <!-- <div v-if="perjadinStore.validNip" class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
       <span class="font-bold">Alert!</span> Pegawai dengan NIP ini sudah ada
-    </div>
+    </div> -->
 
     <div class="flex flex-col space-y-2">
       <div>
