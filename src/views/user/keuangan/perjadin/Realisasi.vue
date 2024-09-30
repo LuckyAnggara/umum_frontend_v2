@@ -20,7 +20,13 @@
             >
               <Breadcumb />
               <span
+                v-if="perjadinDetailStore.singleResponse.status == 'UNVERIFIED'"
                 class="bg-red-100 text-red-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300"
+                >{{ perjadinDetailStore.singleResponse.status }}</span
+              >
+              <span
+                v-else
+                class="bg-green-100 text-green-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300"
                 >{{ perjadinDetailStore.singleResponse.status }}</span
               >
             </div>
@@ -191,19 +197,23 @@
         >
           <button
             v-if="perjadinDetailStore.singleResponse.status == 'UNVERIFIED'"
-            @click="verifiedSubmit()"
+            @click="verifiedSubmit(true)"
             type="button"
-            class="w-24 text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500 dark:focus:ring-blue-800"
+            class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
           >
             Verified
           </button>
+
           <button
-            v-else
-            @click="verifiedSubmit()"
+            @click="verifiedSubmit(false)"
+            v-else-if="
+              perjadinDetailStore.singleResponse.status == 'VERIFIED' &&
+              perjadinDetailStore.singleResponse.master.status !== 'SELESAI'
+            "
             type="button"
-            class="w-24 text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500 dark:focus:ring-blue-800"
+            class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
           >
-            Verified
+            Unverified
           </button>
         </div>
       </div>
@@ -230,7 +240,7 @@
       <ConfirmationDialog
         :overflowVisible="true"
         :show="verifiedDialog"
-        @submit="submit()"
+        @submit="submitVerfied()"
         @close="verifiedDialog = !verifiedDialog"
         :canSubmit="true"
       >
@@ -239,8 +249,14 @@
         </template>
 
         <template #content>
-          <span class="text-justify w-full text-gray-700"
+          <span
+            v-if="perjadinDetailStore.updateData.status == 'VERIFIED'"
+            class="text-justify w-full text-gray-700"
             >Apa anda yakin data pertanggung jawaban ini sudah lengkap?
+          </span>
+          <span v-else class="text-justify w-full text-gray-700"
+            >Apa anda yakin data pertanggung jawaban ini akan dibatalkan
+            Verifikasinya?
           </span>
         </template>
       </ConfirmationDialog>
@@ -307,7 +323,24 @@ function confirmSubmit() {
   confirmDialog.value = true
 }
 
-function verifiedSubmit() {
+function verifiedSubmit(x) {
+  if (x == true) {
+    perjadinDetailStore.$patch((state) => {
+      state.updateData.status = 'VERIFIED'
+      state.updateData.catatan =
+        'SPPD NO ' +
+        perjadinDetailStore.singleResponse.no_sppd +
+        ' Telah di Verifikasi'
+    })
+  } else {
+    perjadinDetailStore.$patch((state) => {
+      state.updateData.status = 'UNVERIFIED'
+      state.updateData.catatan =
+        'SPPD NO ' +
+        perjadinDetailStore.singleResponse.no_sppd +
+        ' Telah di batalkan Verifikasinya'
+    })
+  }
   verifiedDialog.value = true
 }
 

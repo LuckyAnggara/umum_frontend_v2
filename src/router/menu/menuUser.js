@@ -18,6 +18,11 @@ export const menuUser = [
     name: '-',
   },
   {
+    name: 'Anggaran',
+    icon: RectangleStackIcon,
+    to: 'mak-list',
+  },
+  {
     name: 'Belanja Perjadin',
     icon: RectangleStackIcon,
     to: 'perjadin-list',

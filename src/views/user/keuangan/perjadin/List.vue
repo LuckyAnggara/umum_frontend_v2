@@ -57,6 +57,35 @@
             </div>
           </div>
 
+          <div
+            class="flex items-center"
+            v-show="authStore.user.role == 'ADMIN'"
+          >
+            <label
+              for="years"
+              class="block text-sm font-medium text-gray-900 dark:text-white mr-2"
+              >Unit</label
+            >
+            <select
+              @change="perjadinStore.getData()"
+              v-model="perjadinStore.filter.currentUnit"
+              class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block px-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            >
+              <option value="0">SEMUA</option>
+              <option value="2">INSPEKTORAT WILAYAH I</option>
+              <option value="3">INSPEKTORAT WILAYAH II</option>
+              <option value="4">INSPEKTORAT WILAYAH III</option>
+              <option value="5">INSPEKTORAT WILAYAH IV</option>
+              <option value="6">INSPEKTORAT WILAYAH V</option>
+              <option value="7">INSPEKTORAT WILAYAH VI</option>
+              <option value="8">BAGIAN PROGRAM DAN PELAPORAN</option>
+              <option value="9">BAGIAN UMUM</option>
+              <option value="10">KELOMPOK SDM</option>
+              <option value="11">KELOMPOK KEUANGAN</option>
+              <option value="12">KELOMPOK HSIP</option>
+            </select>
+          </div>
+
           <div class="flex items-center">
             <label
               for="years"
@@ -106,6 +135,7 @@
               </th>
               <th scope="col" class="px-4 py-3">Nama Kegiatan</th>
               <th scope="col" class="px-4 py-3">Tanggal Kegiatan</th>
+              <th scope="col" class="px-4 py-3">Anggaran</th>
               <th scope="col" class="px-4 py-3">Status</th>
               <th
                 scope="col"
@@ -151,7 +181,6 @@
                   <span class="font-bold">{{ item.nama_kegiatan }}</span>
                   <span class="text-xs">{{ item.tempat_kegiatan }}</span>
                 </div>
-                {{ item.nama_kegiatan }}
               </td>
               <td class="px-4 py-1">
                 <div class="flex flex-col">
@@ -159,6 +188,24 @@
                   <span class="text-xs">{{ item.tanggal_awal }}</span>
                   <span class="font-bold">Tanggal Akhir</span>
                   <span class="text-xs">{{ item.tanggal_akhir }}</span>
+                </div>
+              </td>
+              <td class="px-4 py-1">
+                <div class="flex flex-col">
+                  <span class="font-bold">Total Anggaran</span>
+                  <span class="text-xs">{{
+                    IDRCurrency.format(item.total_anggaran)
+                  }}</span>
+                  <span class="font-bold">Realisasi Anggaran</span>
+                  <span class="text-xs">{{
+                    IDRCurrency.format(item.total_realisasi)
+                  }}</span>
+                  <span class="font-bold">Kurang / Lebih Pembayaran</span>
+                  <span class="text-xs text-red-500">{{
+                    IDRCurrency.format(
+                      item.total_anggaran - item.total_realisasi
+                    )
+                  }}</span>
                 </div>
               </td>
               <td class="px-4 py-1">
@@ -190,7 +237,7 @@
               <td class="px-4 py-1" v-if="authStore.role == 'ADMIN'">
                 <div class="flex flex-col">
                   <span class="font-bold">{{ item.user.name }}</span>
-                  <span class="text-xs">{{ item.user.unit.nama }}</span>
+                  <span class="text-xs">{{ item.unit.nama }}</span>
                 </div>
               </td>
               <td class="px-4 py-1">
@@ -311,11 +358,11 @@
     @close="confirmDialog = !confirmDialog"
   />
 
-  <DeleteDialog
+  <!-- <DeleteDialog
     :show="confirmDialog"
     @submit="deleteData"
     @close="confirmDialog = !confirmDialog"
-  />
+  /> -->
 
   <Dialog
     :overflowVisible="true"
@@ -340,7 +387,6 @@
             v-model="perjadinStore.updateData.status"
             class="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block px-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           >
-            <option value="">-</option>
             <option value="VERIFIKASI">KEUANGAN</option>
           </select>
         </div>
@@ -367,7 +413,7 @@
 import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
 import DeleteDialog from '@/components/DeleteDialog.vue'
 import Dialog from '@/components/Dialog.vue'
-
+import { IDRCurrency } from '@/utilities/formatter'
 import { usePerjadinStore } from '@/stores/perjadin'
 import { useMainStore } from '@/stores/main'
 import { useAuthStore } from '@/stores/auth'
@@ -440,11 +486,23 @@ function onDelete(item) {
   if (item.status == 'PERENCANAAN') {
     deleteId.value = item.id
     confirmDialog.value = true
-  } else {
-    toast(`Tidak bisa menghapus berkas, status berkas ${item.status}`, {
-      position: toast.POSITION.TOP_CENTER,
+  } else if (authStore.user.role == 'ADMIN') {
+    deleteId.value = item.id
+    confirmDialog.value = true
+  } else if (item.status == 'SELESAI' && authStore.user.role == 'USER') {
+    toast(`Status berkas telah SELESAI, hubungi admin untuk menghapus`, {
+      position: toast.POSITION.BOTTOM_CENTER,
       type: 'error',
-      autoClose: 3000,
+      autoClose: 5000,
+      closeOnClick: true,
+      closeButton: true,
+      isLoading: false,
+    })
+  } else {
+    toast(`Tidak dapat menghapus berkas, proses masih berjalan`, {
+      position: toast.POSITION.BOTTOM_CENTER,
+      type: 'error',
+      autoClose: 5000,
       closeOnClick: true,
       closeButton: true,
       isLoading: false,
@@ -460,6 +518,7 @@ function onDetail(item) {
 }
 
 function onNew() {
+  perjadinStore.resetFormMain()
   perjadinStore.$patch((state) => {
     state.isDetail = false
   })
@@ -544,7 +603,6 @@ async function updateStatusData() {
       const index = perjadinStore.items.findIndex(
         (p) => p.id == success.data.id
       )
-      console.info(index)
       perjadinStore.$patch((state) => {
         state.responses.data[index] = success.data
       })

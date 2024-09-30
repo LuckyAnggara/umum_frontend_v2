@@ -7,11 +7,28 @@
       <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
         Lampiran
       </h3>
-      <span
-        v-if="perjadinStore.isDetail"
-        class="bg-yellow-100 text-yellow-800 text-md font-medium me-2 px-2.5 py-0.5 rounded dark:bg-yellow-900 dark:text-yellow-300"
-        >{{ perjadinStore.singleResponse.status }}</span
-      >
+      <div v-if="perjadinStore.isDetail">
+        <span
+          v-if="perjadinStore.singleResponse.status == 'PERENCANAAN'"
+          class="bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-blue-400 border border-blue-400"
+          >{{ perjadinStore.singleResponse.status }}</span
+        >
+        <span
+          v-if="perjadinStore.singleResponse.status == 'VERIFIKASI'"
+          class="bg-yellow-100 text-yellow-800 text-md font-medium me-2 px-2.5 py-0.5 rounded dark:bg-yellow-900 dark:text-yellow-300"
+          >{{ perjadinStore.singleResponse.status }}</span
+        >
+        <span
+          v-if="perjadinStore.singleResponse.status == 'PERTANGGUNG JAWABAN'"
+          class="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-red-400 border border-red-400"
+          >{{ perjadinStore.singleResponse.status }}</span
+        >
+        <span
+          v-if="perjadinStore.singleResponse.status == 'SELESAI'"
+          class="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-green-400 border border-green-400"
+          >{{ perjadinStore.singleResponse.status }}</span
+        >
+      </div>
     </div>
     <!-- Modal body -->
 

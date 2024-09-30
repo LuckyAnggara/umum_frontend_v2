@@ -81,7 +81,7 @@
                 <div class="flex flex-col space-y-4">
                   <div class="flex items-center">
                     <input
-                      :readonly="disabledForm"
+                      :disabled="disabledForm"
                       id="link-checkbox"
                       type="checkbox"
                       v-model="item.bukti"

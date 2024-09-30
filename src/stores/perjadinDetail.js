@@ -14,6 +14,10 @@ export const usePerjadinDetailStore = defineStore('perjadinDetailStore', {
       rep: [],
       lainnya: [],
     },
+    updateData: {
+      status: '',
+      catatan: '',
+    },
     deleteLampiran: [],
     isLoading: false,
     responses: null,
@@ -339,7 +343,34 @@ export const usePerjadinDetailStore = defineStore('perjadinDetailStore', {
         this.isUpdateLoading = false
       }
     },
-
+    async updateStatus() {
+      this.isUpdateLoading = true
+      try {
+        const response = await axiosIns.put(
+          `/api/keuangan/perjadin-detail/update-status/${this.singleResponse.id}`,
+          this.updateData
+        )
+        if (response.status == 200) {
+          this.singleResponse = JSON.parse(JSON.stringify(response.data.data))
+          this.originalSingleResponse = JSON.parse(
+            JSON.stringify(response.data.data)
+          )
+          return {
+            status: true,
+            data: response.data.data,
+          }
+        } else {
+          return {
+            status: false,
+            data: null,
+          }
+        }
+      } catch (error) {
+        alert(error)
+      } finally {
+        this.isUpdateLoading = false
+      }
+    },
     destroyLampiran(item) {
       const index = this.singleResponse.lampiran.findIndex(
         (x) => x.id == item.id

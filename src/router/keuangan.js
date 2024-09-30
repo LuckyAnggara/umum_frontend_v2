@@ -126,6 +126,26 @@ const keuangan = [
     name: 'perjadin-ptj-rab',
     component: () => import('@/views/user/keuangan/template/Rab.vue'),
   },
+  {
+    meta: {
+      title: 'Mata Anggaran Kegiatan',
+      requiresAuth: true,
+      layout: 'layout-auth',
+    },
+    path: '/keuangan/mak/list',
+    name: 'mak-list',
+    component: () => import('@/views/user/keuangan/mak/List.vue'),
+  },
+  {
+    meta: {
+      title: 'Detail Anggaran Kegiatan',
+      requiresAuth: true,
+      layout: 'layout-auth',
+    },
+    path: '/keuangan/mak/:id/detail',
+    name: 'mak-detail',
+    component: () => import('@/views/user/keuangan/mak/Detail.vue'),
+  },
 ]
 
 export default keuangan

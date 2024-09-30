@@ -6,11 +6,28 @@
       <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
         Realisasi
       </h3>
-      <span
-        v-if="perjadinStore.isDetail"
-        class="bg-yellow-100 text-yellow-800 text-md font-medium me-2 px-2.5 py-0.5 rounded dark:bg-yellow-900 dark:text-yellow-300"
-        >{{ perjadinStore.singleResponse.status }}</span
-      >
+      <div v-if="perjadinStore.isDetail">
+        <span
+          v-if="perjadinStore.singleResponse.status == 'PERENCANAAN'"
+          class="bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-blue-400 border border-blue-400"
+          >{{ perjadinStore.singleResponse.status }}</span
+        >
+        <span
+          v-if="perjadinStore.singleResponse.status == 'VERIFIKASI'"
+          class="bg-yellow-100 text-yellow-800 text-md font-medium me-2 px-2.5 py-0.5 rounded dark:bg-yellow-900 dark:text-yellow-300"
+          >{{ perjadinStore.singleResponse.status }}</span
+        >
+        <span
+          v-if="perjadinStore.singleResponse.status == 'PERTANGGUNG JAWABAN'"
+          class="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-red-400 border border-red-400"
+          >{{ perjadinStore.singleResponse.status }}</span
+        >
+        <span
+          v-if="perjadinStore.singleResponse.status == 'SELESAI'"
+          class="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-green-400 border border-green-400"
+          >{{ perjadinStore.singleResponse.status }}</span
+        >
+      </div>
     </div>
     <div class="mb-4 flex flex-col space-y-3">
       <div
@@ -30,7 +47,6 @@
               <th scope="col" class="px-4 py-3">Total Realisasi</th>
               <th scope="col" class="px-4 py-3">Lebih / Kurang Bayar</th>
               <th scope="col" class="px-4 py-3">Status</th>
-
               <th scope="col" class="px-4 py-3"></th>
             </tr>
           </thead>
@@ -74,7 +90,7 @@
                 }}</span>
               </td>
               <td class="px-4 py-1">
-                <span>{{
+                <span class="text-red-500 font-semibold">{{
                   rupiah.format(
                     perjadinStore.totalDetailBiaya(item.nip) -
                       perjadinStore.totalDetailBiayaRealisasi(item.nip)
@@ -147,6 +163,23 @@
               </td>
             </tr>
           </tbody>
+          <tfoot>
+            <td class="px-4 py-1 font-bold" colspan="3">Total</td>
+            <td class="px-4 py-1 font-bold">
+              {{ IDRCurrency.format(perjadinStore.getTotalAnggaranDetail) }}
+            </td>
+            <td class="px-4 py-1 font-bold">
+              {{ IDRCurrency.format(perjadinStore.getTotalAnggaranRealisasi) }}
+            </td>
+            <td class="px-4 py-1 font-bold text-red-500">
+              {{
+                IDRCurrency.format(
+                  perjadinStore.getTotalAnggaranDetail -
+                    perjadinStore.getTotalAnggaranRealisasi
+                )
+              }}
+            </td>
+          </tfoot>
         </table>
       </div>
     </div>
@@ -181,6 +214,7 @@ import { usePerjadinDetailStore } from '@/stores/perjadinDetail'
 import { useAuthStore } from '@/stores/auth'
 import { onMounted, ref } from 'vue'
 import { rupiah } from '@/services/helper'
+import { IDRCurrency } from '@/utilities/formatter'
 import { toast } from 'vue3-toastify'
 import { useMakStore } from '@/stores/mak'
 import { useDebounceFn } from '@vueuse/core'

@@ -2,7 +2,7 @@
   <div class="text-left w-full">
     <h2 class="text-2xl mb-4">Umum</h2>
 
-    <div class="flex flex-col space-y-2 text-lg">
+    <div class="flex flex-col space-y-2">
       <div>
         <label
           for="name"
@@ -87,7 +87,15 @@
             class="block mb-2 font-bold text-gray-900 dark:text-white"
             >Jumlah Hari</label
           >
-          <span>{{ perjadinDetailStore.singleResponse.jumlah_hari }} hari</span>
+          <span>
+            {{
+              $moment(perjadinDetailStore.singleResponse.tanggal_akhir).diff(
+                $moment(perjadinDetailStore.singleResponse.tanggal_awal),
+                'days'
+              ) + 1
+            }}
+            hari</span
+          >
         </div>
       </div>
     </div>
