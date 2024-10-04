@@ -20,11 +20,7 @@ export const useMakStore = defineStore('mak', {
   }),
   getters: {
     capaianRealisasi(state) {
-      return (
-        ((state.totalSudahRealisasi + state.totalBelumRealisasi) /
-          state.totalAnggaran) *
-        100
-      ).toFixed(2)
+      return ((state.totalSudahRealisasi / state.totalAnggaran) * 100).toFixed(2)
     },
     sudahRealisasiPerMak: (state) => (id) => {
       // Find the parent item (mak_id) with the given id
@@ -72,9 +68,7 @@ export const useMakStore = defineStore('mak', {
       // Use reduce to accumulate the total_realisasi from the detail array of each record
       return state.items.reduce((total, item) => {
         // Sum total_realisasi from detail array for each item
-        const detailRealisasi = item.detail
-          .filter((i) => i.status_realisasi == 'BELUM')
-          .reduce((sum, detail) => sum + detail.total_anggaran, 0)
+        const detailRealisasi = item.detail.filter((i) => i.status_realisasi == 'BELUM').reduce((sum, detail) => sum + detail.total_anggaran, 0)
         return total + detailRealisasi
       }, 0)
     },
@@ -82,9 +76,7 @@ export const useMakStore = defineStore('mak', {
       // Use reduce to accumulate the total_realisasi from the detail array of each record
       return state.items.reduce((total, item) => {
         // Sum total_realisasi from detail array for each item
-        const detailRealisasi = item.detail
-          .filter((i) => i.status_realisasi == 'SUDAH')
-          .reduce((sum, detail) => sum + detail.total_realisasi, 0)
+        const detailRealisasi = item.detail.filter((i) => i.status_realisasi == 'SUDAH').reduce((sum, detail) => sum + detail.total_realisasi, 0)
         return total + detailRealisasi
       }, 0)
     },
@@ -152,9 +144,7 @@ export const useMakStore = defineStore('mak', {
       try {
         const response = await axiosIns.get(`/api/keuangan/mak/${id}`)
         this.singleResponse = JSON.parse(JSON.stringify(response.data.data))
-        this.originalSingleResponse = JSON.parse(
-          JSON.stringify(response.data.data)
-        )
+        this.originalSingleResponse = JSON.parse(JSON.stringify(response.data.data))
       } catch (error) {
         alert(error.message)
       } finally {
@@ -164,13 +154,9 @@ export const useMakStore = defineStore('mak', {
     },
     filterSingleResponse() {
       if (this.filter.currentStatus == '') {
-        this.singleResponse = JSON.parse(
-          JSON.stringify(this.originalSingleResponse)
-        )
+        this.singleResponse = JSON.parse(JSON.stringify(this.originalSingleResponse))
       } else {
-        this.singleResponse.detail = this.originalSingleResponse.detail.filter(
-          (x) => x.status_realisasi == this.filter.currentStatus
-        )
+        this.singleResponse.detail = this.originalSingleResponse.detail.filter((x) => x.status_realisasi == this.filter.currentStatus)
       }
     },
   },

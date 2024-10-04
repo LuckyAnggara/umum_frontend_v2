@@ -1,12 +1,8 @@
 <template>
   <div class="relative p-4 bg-white rounded-lg shadow dark:bg-gray-800 sm:p-5">
     <!-- Modal header -->
-    <div
-      class="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5 dark:border-gray-600 flex-row"
-    >
-      <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
-        Lampiran
-      </h3>
+    <div class="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5 dark:border-gray-600 flex-row">
+      <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Lampiran</h3>
       <div v-if="perjadinStore.isDetail">
         <span
           v-if="perjadinStore.singleResponse.status == 'PERENCANAAN'"
@@ -34,26 +30,17 @@
 
     <div class="mb-4 flex flex-col space-y-3">
       <div class="text-left" v-if="perjadinStore.isDetail">
-        <label
-          for="name"
-          class="block text-sm font-medium text-gray-900 dark:text-white"
-          >Lampiran</label
-        >
+        <label for="name" class="block text-sm font-medium text-gray-900 dark:text-white">Lampiran</label>
 
         <small class="text-gray-600">
-          <span v-if="perjadinStore.singleResponse.lampiran.length < 1"
-            >Tidak ada lampiran</span
-          >
+          <span v-if="perjadinStore.singleResponse.lampiran.length < 1">Tidak ada lampiran</span>
           <ol class="ps-5 mt-2 space-y-1 list-decimal list-inside" v-else>
             <li
               :key="index"
               v-for="(item, index) in perjadinStore.singleResponse.lampiran"
-              class="text-base w-full py-2 rounded-t-lg dark:border-gray-600 text-blue-600 flex flex-row space-x-2 items-center"
+              class="text-base w-full rounded-t-lg dark:border-gray-600 text-blue-600 flex flex-row space-x-2 items-center"
             >
-              <a
-                :href="`${storageUrl + '/' + item.lampiran}`"
-                :download="item.file_name"
-              >
+              <a :href="`${storageUrl + '/' + item.lampiran}`" :download="item.file_name">
                 <span class="text-gray-500">{{ index + 1 }}.</span>
                 {{ item.file_name }}
               </a>
@@ -65,17 +52,20 @@
             </li>
           </ol>
         </small>
+        <div class="mt-5">
+          <button
+            v-if="perjadinStore.singleResponse.status == 'PERTANGGUNG JAWABAN'"
+            @click="openUpload()"
+            type="button"
+            class="w-24 text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500 dark:focus:ring-blue-800"
+          >
+            Tambah
+          </button>
+        </div>
       </div>
 
-      <div
-        class="text-left"
-        v-if="perjadinStore.isDetail == false || isEdit == true"
-      >
-        <label
-          for="name"
-          class="block text-sm font-medium text-gray-900 dark:text-white"
-          >Upload Lampiran</label
-        >
+      <div class="text-left" v-if="perjadinStore.isDetail == false || isEdit == true">
+        <label for="name" class="block text-sm font-medium text-gray-900 dark:text-white">Upload Lampiran</label>
 
         <small class="text-gray-600">
           <ol class="ps-5 mt-2 space-y-1 list-decimal list-inside">
@@ -93,14 +83,46 @@
         />
       </div>
     </div>
+
+    <Dialog
+      :overflowVisible="true"
+      :show="uploadLampiranDialog"
+      @submit="updateLampiran()"
+      @close="uploadLampiranDialog = !uploadLampiranDialog"
+      :canSubmit="true"
+    >
+      <template #title>
+        <h1>Tambah Lampiran</h1>
+      </template>
+
+      <template #content>
+        <div class="flex flex-col space-y-4 mt-6">
+          <div class="text-left">
+            <label for="name" class="block text-sm font-medium text-gray-900 dark:text-white">Upload Lampiran Tambahan</label>
+
+            <FilePond
+              :label="'Drop lampiran disini ...'"
+              :multiple="true"
+              @fileChange="fileChange"
+              class="mt-4"
+              :type="'application/pdf, application/msword,application/vnd.openxmlformats,application/vnd.ms-excel,officedocument.spreadsheetml.sheet, image/jpeg, image/png'"
+            />
+          </div>
+        </div>
+      </template>
+    </Dialog>
   </div>
 </template>
 
 <script setup>
+import { toast } from 'vue3-toastify'
 import FilePond from '@/components/FilePond.vue'
 import { usePerjadinStore } from '@/stores/perjadin'
 import { storageUrl } from '@/services/helper'
 import { TrashIcon } from '@heroicons/vue/24/outline'
+import { defineAsyncComponent, ref } from 'vue'
+
+const Dialog = defineAsyncComponent(() => import('@/components/Dialog.vue'))
 
 const props = defineProps({
   isEdit: {
@@ -110,7 +132,44 @@ const props = defineProps({
 })
 
 const perjadinStore = usePerjadinStore()
+const uploadLampiranDialog = ref(false)
 
+function openUpload() {
+  uploadLampiranDialog.value = true
+}
+
+async function updateLampiran() {
+  uploadLampiranDialog.value = false
+  const id = toast.loading('Perencanaan perjalanan dinas sedang di perbaharui...', {
+    position: toast.POSITION.BOTTOM_CENTER,
+    type: 'info',
+    isLoading: true,
+  })
+
+  const success = await perjadinStore.updateLampiran()
+  if (success.status) {
+    toast.update(id, {
+      render: 'Lampiran berhasil di tambah !!',
+      position: toast.POSITION.BOTTOM_CENTER,
+      type: 'success',
+      autoClose: 1000,
+      closeOnClick: true,
+      closeButton: true,
+      isLoading: false,
+    })
+  } else {
+    toast.update(id, {
+      render: 'Terjadi kesalahan',
+      position: toast.POSITION.BOTTOM_CENTER,
+      type: 'error',
+      autoClose: 1000,
+      closeOnClick: true,
+      closeButton: true,
+      isLoading: false,
+    })
+  }
+  toast.done(id)
+}
 // FUNGSI LAMPIRAN UPLOAD
 function fileChange(event) {
   let b = []

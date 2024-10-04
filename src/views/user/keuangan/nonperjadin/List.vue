@@ -97,7 +97,7 @@
           <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
               <th scope="col" class="px-4 py-3">#</th>
-              <th scope="col" class="px-4 py-3">No Surat Tugas / Surat Perintah</th>
+              <th scope="col" class="px-4 py-3">No Transaksi</th>
               <th scope="col" class="px-4 py-3">Nama Kegiatan</th>
               <th scope="col" class="px-4 py-3">Tanggal Kegiatan</th>
               <th scope="col" class="px-4 py-3">Anggaran</th>
@@ -413,7 +413,7 @@ function onNew() {
   perjadinStore.$patch((state) => {
     state.isDetail = false
   })
-  router.push({ name: 'perjadin-new' })
+  router.push({ name: 'non-perjadin-new' })
 }
 
 function nextPage() {

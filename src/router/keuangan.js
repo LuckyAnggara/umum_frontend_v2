@@ -1,8 +1,4 @@
-import {
-  createRouter,
-  createWebHashHistory,
-  createWebHistory,
-} from 'vue-router'
+import { createRouter, createWebHashHistory, createWebHistory } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
 
 const keuangan = [
@@ -145,6 +141,26 @@ const keuangan = [
     path: '/keuangan/mak/:id/detail',
     name: 'mak-detail',
     component: () => import('@/views/user/keuangan/mak/Detail.vue'),
+  },
+  {
+    meta: {
+      title: 'Daftar Belanja Non Perjalanan Dinas',
+      requiresAuth: false,
+      layout: 'layout-auth',
+    },
+    path: '/keuangan/nonperjadin/list',
+    name: 'non-perjadin-list',
+    component: () => import('@/views/user/keuangan/nonperjadin/List.vue'),
+  },
+  {
+    meta: {
+      title: 'Belanja Non Perjalanan Dinas',
+      requiresAuth: false,
+      layout: 'layout-auth',
+    },
+    path: '/keuangan/nonperjadin/new',
+    name: 'non-perjadin-new',
+    component: () => import('@/views/user/keuangan/nonperjadin/New.vue'),
   },
 ]
 

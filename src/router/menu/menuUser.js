@@ -1,12 +1,4 @@
-import {
-  RectangleGroupIcon,
-  SwatchIcon,
-  ArchiveBoxIcon,
-  HomeModernIcon,
-  RectangleStackIcon,
-  DocumentTextIcon,
-  UserIcon,
-} from '@heroicons/vue/24/solid'
+import { RectangleGroupIcon, SwatchIcon, ArchiveBoxIcon, HomeModernIcon, RectangleStackIcon, DocumentTextIcon, UserIcon } from '@heroicons/vue/24/solid'
 
 export const menuUser = [
   {
@@ -32,7 +24,7 @@ export const menuUser = [
   {
     name: 'Belanja Non Perjadin',
     icon: RectangleStackIcon,
-    to: 'list-bmn',
+    to: 'non-perjadin-list',
 
     // to: 'persediaan',
   },

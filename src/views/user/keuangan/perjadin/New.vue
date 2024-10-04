@@ -20,7 +20,7 @@
         <!-- Modal content -->
 
         <Perencanaan v-if="currentStep == 0" />
-        <Detail v-if="currentStep == 1" @openModal="openModal" @deletePegawai="deletePegawai()" />
+        <Detail v-if="currentStep == 1" @openModal="openModal(false, x)" @deletePegawai="deletePegawai()" />
         <Lampiran v-if="currentStep == 2" />
 
         <div class="flex flex-row justify-between">
@@ -95,6 +95,7 @@ const router = useRouter()
 
 function openModal(value) {
   isEdit.value = value
+
   pegawaiModal.value = true
 }
 

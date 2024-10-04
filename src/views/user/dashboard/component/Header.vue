@@ -5,9 +5,7 @@
       background-image: url('https://images.unsplash.com/photo-1622180203374-9524a54b734d?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;ixlib=rb-1.2.1&amp;auto=format&amp;fit=crop&amp;w=1950&amp;q=80');
     "
   >
-    <nav
-      class="p-2 flex flex-grow relative justify-between z-10 items-center mx-auto h-18"
-    >
+    <nav class="p-2 flex flex-grow relative justify-between z-10 items-center mx-auto h-18">
       <img :src="imageUrl" class="h-6" />
       <div class="flex-initial flex-row flex justify-center items-center">
         <div class="flex justify-end items-center relative">
@@ -31,17 +29,11 @@
                   class="z-50 py-1 absolute right-0 mt-2 w-18 origin-top-right divide-y divide-gray-100 rounded-md bg-white opacity-75 dark:bg-gray-800 dark:text-gray-100 shadow-lg ring-1 ring-black dark:ring-gray-700 ring-opacity-5 focus:outline-none"
                 >
                   <div class="px-2 py-1">
-                    <MenuItem
-                      v-for="menu in profileMenu"
-                      v-slot="{ active }"
-                      :key="menu.label"
-                    >
+                    <MenuItem v-for="menu in profileMenu" v-slot="{ active }" :key="menu.label">
                       <button
                         @click="menu.function()"
                         :class="[
-                          active
-                            ? 'bg-blue-500 text-white'
-                            : 'text-gray-900 dark:text-white',
+                          active ? 'bg-blue-500 text-white' : 'text-gray-900 dark:text-white',
                           'group flex w-full items-center rounded-md px-2 py-2 text-sm',
                         ]"
                       >
@@ -61,12 +53,7 @@
       </div>
     </nav>
     <div class="mt-3 px-3 rounded-lg flex flex-col w-full">
-      <h3
-        v-if="authStore.user"
-        class="text-sm flex items-center text-gray-100 font-normal"
-      >
-        Selamat Datang
-      </h3>
+      <h3 v-if="authStore.user" class="text-sm flex items-center text-gray-100 font-normal">Selamat Datang</h3>
       <h4 class="text-white text-xl font-semibold leading-tight truncate">
         <span v-if="authStore.user">{{ authStore.user.name }}</span
         ><span v-else>Belum Login</span>
@@ -81,21 +68,24 @@ import { StarIcon, UserCircleIcon } from '@heroicons/vue/24/solid'
 import imageUrl from '@/assets/logo_seru.png'
 import { toast } from 'vue3-toastify'
 import { useAuthStore } from '@/stores/auth'
+import { computed } from 'vue'
 
 const activeMenu = defineModel()
 const authStore = useAuthStore()
 
-const profileMenu = [
-  authStore.user !== null
-    ? {
-        function: onLogout,
-        label: 'Logout',
-      }
-    : {
-        function: onLogin,
-        label: 'Login',
-      },
-]
+const profileMenu = computed(() => {
+  return [
+    authStore.user !== null
+      ? {
+          function: onLogout,
+          label: 'Logout',
+        }
+      : {
+          function: onLogin,
+          label: 'Login',
+        },
+  ]
+})
 
 function onLogin() {
   activeMenu.value = 3
