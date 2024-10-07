@@ -162,6 +162,26 @@ const keuangan = [
     name: 'non-perjadin-new',
     component: () => import('@/views/user/keuangan/nonperjadin/New.vue'),
   },
+  {
+    meta: {
+      title: 'Daftar Belanja Non Perjalanan Dinas',
+      requiresAuth: false,
+      layout: 'layout-auth',
+    },
+    path: '/keuangan/nonperjadin/list',
+    name: 'non-perjadin-list',
+    component: () => import('@/views/user/keuangan/nonperjadin/List.vue'),
+  },
+  {
+    meta: {
+      title: 'Belanja Non Perjalanan Dinas',
+      requiresAuth: false,
+      layout: 'layout-auth',
+    },
+    path: '/keuangan/nonperjadin/:id/detail',
+    name: 'non-perjadin-detail',
+    component: () => import('@/views/user/keuangan/nonperjadin/Detail.vue'),
+  },
 ]
 
 export default keuangan

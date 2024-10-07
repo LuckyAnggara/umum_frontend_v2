@@ -19,10 +19,15 @@ export const useNonPerjadinStore = defineStore('nonPerjadinStore', {
     form: {
       tahun_anggaran: moment().format('YYYY'),
       uraian: null,
-      jumlah_pembayaran: 0,
+      total_anggaran: 0,
       mak: {
         anggaran: 0,
       },
+      nip_penerima: null,
+      penerima: null,
+      bendahara: null,
+      ppk: null,
+      catatan: null,
       lampiran: [],
     },
     deleteLampiran: [],
@@ -33,10 +38,37 @@ export const useNonPerjadinStore = defineStore('nonPerjadinStore', {
       date: [],
       currentLimit: 25,
       searchQuery: '',
+      tanggalTransaksi: null,
       page: '',
     },
   }),
   getters: {
+    isFormFill(state) {
+      if (
+        state.form.tahun_anggaran == null ||
+        state.form.tahun_anggaran == '' ||
+        state.form.tanggal_transaksi == '' ||
+        state.form.tanggal_transaksi == '' ||
+        state.form.uraian == null ||
+        state.form.uraian == '' ||
+        state.form.total_anggaran == null ||
+        state.form.total_anggaran == '' ||
+        state.form.nip_penerima == null ||
+        state.form.nip_penerima == '' ||
+        state.form.penerima == null ||
+        state.form.penerima == '' ||
+        state.form.bendahara == null ||
+        state.form.bendahara == '' ||
+        state.form.ppk == '' ||
+        state.form.ppk == '' ||
+        state.form.mak == null ||
+        state.form.mak == ''
+      ) {
+        return false
+      } else {
+        return true
+      }
+    },
     items(state) {
       return state.responses?.data ?? []
     },
@@ -73,6 +105,12 @@ export const useNonPerjadinStore = defineStore('nonPerjadinStore', {
       }
       return '&start-date=' + state.filter.date[0] + '&end-date=' + state.filter.date[1]
     },
+    tanggalTransaksiQuery(state) {
+      if (state.filter.tanggalTransaksi == null) {
+        return ''
+      }
+      return '&date=' + state.filter.tanggalTransaksi
+    },
     searchQuery(state) {
       if (state.filter.searchQuery == '' || state.filter.searchQuery == null) {
         return ''
@@ -103,7 +141,7 @@ export const useNonPerjadinStore = defineStore('nonPerjadinStore', {
       this.isLoading = true
       try {
         const response = await axiosIns.get(
-          `/api/keuangan/perjadin?limit=${this.filter.currentLimit}${this.pageQuery}${this.searchQuery}${this.dateQuery}${this.statusQuery}${this.unitQuery}`
+          `/api/keuangan/non-perjadin?limit=${this.filter.currentLimit}${this.pageQuery}${this.searchQuery}${this.dateQuery}${this.statusQuery}${this.tanggalTransaksiQuery}${this.unitQuery}`
         )
         this.responses = response.data.data
       } catch (error) {
@@ -117,10 +155,14 @@ export const useNonPerjadinStore = defineStore('nonPerjadinStore', {
       this.form = {
         tahun_anggaran: moment().format('YYYY'),
         uraian: null,
-        jumlah_pembayaran: 0,
+        total_anggaran: 0,
         mak: {
           anggaran: 0,
         },
+        nip_penerima: null,
+        penerima: null,
+        bendahara: null,
+        ppk: null,
         lampiran: [],
       }
     },
@@ -129,7 +171,6 @@ export const useNonPerjadinStore = defineStore('nonPerjadinStore', {
       this.singleResponse.lampiran.splice(index, 1)
       return { status: true, message: 'Data berhasil dihapus!' }
     },
-
     async searchLapkin() {
       this.isSearching = true
       try {
@@ -151,15 +192,16 @@ export const useNonPerjadinStore = defineStore('nonPerjadinStore', {
         this.form.penerima = item.name
       }
     },
+
     async store() {
-      if (!this.isFormFill) {
+      if (this.isFormFill == false) {
         return {
-          status: true,
-          data: 'Data belum lengkap',
+          status: false,
+          data: null,
+          message: 'Data belum lengkap',
         }
       }
       let formData = new FormData()
-      this.form.total_anggaran = this.getTotalAnggaran
       if (this.form.lampiran) {
         this.form.lampiran.forEach((element, index) => {
           formData.append(`file[${index}]`, element)
@@ -169,7 +211,7 @@ export const useNonPerjadinStore = defineStore('nonPerjadinStore', {
       formData.append('umum', JSON.stringify(this.form))
       this.isStoreLoading = true
       try {
-        const response = await axiosIns.post(`/api/keuangan/perjadin`, formData, {
+        const response = await axiosIns.post(`/api/keuangan/non-perjadin`, formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
           },
@@ -194,7 +236,7 @@ export const useNonPerjadinStore = defineStore('nonPerjadinStore', {
     async show(id) {
       this.isLoading = true
       try {
-        const response = await axiosIns.get(`/api/keuangan/perjadin/${id}`)
+        const response = await axiosIns.get(`/api/keuangan/non-perjadin/${id}`)
         this.singleResponse = JSON.parse(JSON.stringify(response.data.data))
         this.originalSingleResponse = JSON.parse(JSON.stringify(response.data.data))
       } catch (error) {

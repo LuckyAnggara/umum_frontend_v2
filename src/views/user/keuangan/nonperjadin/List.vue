@@ -9,13 +9,13 @@
           <div class="flex items-center">
             <label for="years" class="block text-sm font-medium text-gray-900 dark:text-white mr-2">Show</label>
             <select
-              @change="perjadinStore.getData()"
-              v-model="perjadinStore.filter.currentLimit"
+              @change="nonPerjadinStore.getData()"
+              v-model="nonPerjadinStore.filter.currentLimit"
               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block px-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             >
               <option
                 :value="limit.value"
-                :selected="perjadinStore.filter.currentLimit == limit.value ? true : false"
+                :selected="nonPerjadinStore.filter.currentLimit == limit.value ? true : false"
                 v-for="(limit, index) in mainStore.limitOptions"
                 :key="index"
               >
@@ -31,8 +31,8 @@
                 <MagnifyingGlassIcon class="w-5 h-5 text-gray-500 dark:text-gray-400" />
               </div>
               <input
-                @keyup.enter="perjadinStore.getData()"
-                v-model="perjadinStore.filter.searchQuery"
+                @keyup.enter="nonPerjadinStore.getData()"
+                v-model="nonPerjadinStore.filter.searchQuery"
                 type="text"
                 id="simple-search"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -44,8 +44,8 @@
           <div class="flex items-center" v-show="authStore.user.role == 'ADMIN'">
             <label for="years" class="block text-sm font-medium text-gray-900 dark:text-white mr-2">Unit</label>
             <select
-              @change="perjadinStore.getData()"
-              v-model="perjadinStore.filter.currentUnit"
+              @change="nonPerjadinStore.getData()"
+              v-model="nonPerjadinStore.filter.currentUnit"
               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block px-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             >
               <option value="0">SEMUA</option>
@@ -62,18 +62,32 @@
               <option value="12">KELOMPOK HSIP</option>
             </select>
           </div>
+          <div class="text-left">
+            <VueDatePicker
+              v-model="nonPerjadinStore.filter.tanggalTransaksi"
+              required
+              @closed="nonPerjadinStore.getData()"
+              :format="'dd MMMM yyyy'"
+              auto-apply
+              :is-24="false"
+              date-picker
+              :enable-time-picker="false"
+              model-type="yyyy-MM-dd"
+              locale="id"
+              placeholder="Tanggal Transaksi"
+            ></VueDatePicker>
+          </div>
 
           <div class="flex items-center">
             <label for="years" class="block text-sm font-medium text-gray-900 dark:text-white mr-2">Status</label>
             <select
-              @change="perjadinStore.getData()"
-              v-model="perjadinStore.filter.currentStatus"
+              @change="nonPerjadinStore.getData()"
+              v-model="nonPerjadinStore.filter.currentStatus"
               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block px-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             >
               <option value="">SEMUA</option>
-              <option value="PERENCANAAN">PERENCANAAN</option>
+              <option value="PENGAJUAN">PENGAJUAN</option>
               <option value="VERIFIKASI">VERIFIKASI</option>
-              <option value="PERTANGGUNG JAWABAN">PERTANGGUNG JAWABAN</option>
               <option value="SELESAI">SELESAI</option>
             </select>
           </div>
@@ -98,64 +112,54 @@
             <tr>
               <th scope="col" class="px-4 py-3">#</th>
               <th scope="col" class="px-4 py-3">No Transaksi</th>
-              <th scope="col" class="px-4 py-3">Nama Kegiatan</th>
-              <th scope="col" class="px-4 py-3">Tanggal Kegiatan</th>
-              <th scope="col" class="px-4 py-3">Anggaran</th>
+              <th scope="col" class="px-4 py-3">Uraian</th>
+              <th scope="col" class="px-4 py-3">Jumlah Pembayaran</th>
+              <th scope="col" class="px-4 py-3">Tanggal</th>
               <th scope="col" class="px-4 py-3">Status</th>
               <th scope="col" class="px-4 py-3" v-if="authStore.role == 'ADMIN'">Pembuat</th>
               <th scope="col" class="px-4 py-3"></th>
             </tr>
           </thead>
           <tbody>
-            <tr v-if="perjadinStore.isLoading">
+            <tr v-if="nonPerjadinStore.isLoading">
               <td colspan="5" class="text-center">
                 <span class=""><ArrowPathIcon class="w-6 h-6 animate-spin mx-auto" /></span>
               </td>
             </tr>
-            <tr v-else-if="!perjadinStore.isLoading && perjadinStore.items.length < 1">
+            <tr v-else-if="!nonPerjadinStore.isLoading && nonPerjadinStore.items.length < 1">
               <td colspan="5" class="text-center">No Data</td>
             </tr>
             <tr
               v-else
-              v-for="(item, index) in perjadinStore.items"
+              v-for="(item, index) in nonPerjadinStore.items"
               :key="index"
               class="odd:bg-white odd:dark:bg-gray-900 odd:dark:border-gray-700 even:bg-gray-50 even:dark:bg-gray-800 even:dark:border-gray-700 border-b"
             >
-              <!-- <td class="px-4 py-1 text-center">{{ perjadinStore.from + index }}</td> -->
-              <td class="px-4 py-1">{{ perjadinStore.from + index }}</td>
+              <!-- <td class="px-4 py-1 text-center">{{ nonPerjadinStore.from + index }}</td> -->
+              <td class="px-4 py-1">{{ nonPerjadinStore.from + index }}</td>
               <td class="px-4 py-1">
                 <div class="flex flex-col">
-                  <span class="font-bold">{{ item.no_st }}</span>
-                  <span class="text-xs">{{ item.tanggal_st }}</span>
+                  <span class="font-bold">{{ item.nomor_transaksi }}</span>
+                  <span class="text-xs">{{ item.tanggal_transaksi }}</span>
                 </div>
               </td>
               <td class="px-4 py-1">
-                <div class="flex flex-col">
-                  <span class="font-bold">{{ item.nama_kegiatan }}</span>
-                  <span class="text-xs">{{ item.tempat_kegiatan }}</span>
-                </div>
+                <span class="font-bold">{{ item.uraian }}</span>
+              </td>
+              <td class="px-4 py-1">
+                <span class="font-bold">{{ IDRCurrency.format(item.total_anggaran) }}</span>
               </td>
               <td class="px-4 py-1">
                 <div class="flex flex-col">
-                  <span class="font-bold">Tanggal Awal</span>
-                  <span class="text-xs">{{ item.tanggal_awal }}</span>
-                  <span class="font-bold">Tanggal Akhir</span>
-                  <span class="text-xs">{{ item.tanggal_akhir }}</span>
-                </div>
-              </td>
-              <td class="px-4 py-1">
-                <div class="flex flex-col">
-                  <span class="font-bold">Total Anggaran</span>
-                  <span class="text-xs">{{ IDRCurrency.format(item.total_anggaran) }}</span>
-                  <span class="font-bold">Realisasi Anggaran</span>
-                  <span class="text-xs">{{ IDRCurrency.format(item.total_realisasi) }}</span>
-                  <span class="font-bold">Kurang / Lebih Pembayaran</span>
-                  <span class="text-xs text-red-500">{{ IDRCurrency.format(item.total_anggaran - item.total_realisasi) }}</span>
+                  <span class="font-bold">Tanggal Pengajuan</span>
+                  <span class="">{{ item.created_at }}</span>
+                  <span class="font-bold" v-if="item.tanggal_verifikasi">Tanggal Verifikasi</span>
+                  <span class="text-xs">{{ item.tanggal_verifikasi }}</span>
                 </div>
               </td>
               <td class="px-4 py-1">
                 <span
-                  v-if="item.status == 'PERENCANAAN'"
+                  v-if="item.status == 'PENGAJUAN'"
                   class="bg-blue-100 text-blue-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300"
                 >
                   {{ item.status }}</span
@@ -163,12 +167,6 @@
                 <span
                   v-if="item.status == 'VERIFIKASI'"
                   class="bg-yellow-100 text-yellow-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-yellow-900 dark:text-yellow-300"
-                >
-                  {{ item.status }}</span
-                >
-                <span
-                  v-if="item.status == 'PERTANGGUNG JAWABAN'"
-                  class="bg-red-100 text-red-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300"
                 >
                   {{ item.status }}</span
                 >
@@ -190,7 +188,7 @@
                   <Menu as="div" class="relative inline-block text-left">
                     <div>
                       <MenuButton class="hover:scale-125 ease-in-out duration-300 flex w-full rounded-md font-medium text-black dark:text-white">
-                        <ArrowPathIcon v-if="perjadinStore.isDestroyLoading && deleteId == item.id" class="h-5 w-5 animate-spin" />
+                        <ArrowPathIcon v-if="nonPerjadinStore.isDestroyLoading && deleteId == item.id" class="h-5 w-5 animate-spin" />
                         <EllipsisVerticalIcon v-else class="h-5 w-5 text-black dark:text-white" aria-hidden="true" />
                       </MenuButton>
                     </div>
@@ -232,17 +230,17 @@
       <nav class="flex flex-col md:flex-row justify-between items-start md:items-center space-y-3 md:space-y-0 p-4" aria-label="Table navigation">
         <span class="text-sm font-normal text-gray-500 dark:text-gray-400">
           Showing
-          <span class="font-semibold text-gray-900 dark:text-white">{{ perjadinStore.from }} - {{ perjadinStore.to }}</span>
+          <span class="font-semibold text-gray-900 dark:text-white">{{ nonPerjadinStore.from }} - {{ nonPerjadinStore.to }}</span>
           of
-          <span class="font-semibold text-gray-900 dark:text-white">{{ perjadinStore.total }}</span>
+          <span class="font-semibold text-gray-900 dark:text-white">{{ nonPerjadinStore.total }}</span>
         </span>
         <ul class="inline-flex items-stretch -space-x-px">
           <li>
             <a
-              @click="perjadinStore.currentPage == 1 ? '' : previousPage()"
-              :disabled="perjadinStore.currentPage == 1 ? true : false"
+              @click="nonPerjadinStore.currentPage == 1 ? '' : previousPage()"
+              :disabled="nonPerjadinStore.currentPage == 1 ? true : false"
               :class="
-                perjadinStore.currentPage == 1
+                nonPerjadinStore.currentPage == 1
                   ? 'cursor-not-allowed'
                   : 'cursor-pointer dark:hover:bg-blue-700 dark:hover:text-white hover:bg-blue-100 hover:text-gray-700'
               "
@@ -253,9 +251,9 @@
 
           <li>
             <a
-              @click="perjadinStore.lastPage == perjadinStore.currentPage ? '' : nextPage()"
+              @click="nonPerjadinStore.lastPage == nonPerjadinStore.currentPage ? '' : nextPage()"
               :class="
-                perjadinStore.lastPage == perjadinStore.currentPage
+                nonPerjadinStore.lastPage == nonPerjadinStore.currentPage
                   ? 'cursor-not-allowed'
                   : 'cursor-pointer dark:hover:bg-blue-700 dark:hover:text-white hover:bg-blue-100 hover:text-gray-700'
               "
@@ -286,7 +284,7 @@
         <div class="text-left">
           <label for="years" class="block text-sm font-medium text-gray-900 dark:text-white mr-2">Tujuan</label>
           <select
-            v-model="perjadinStore.updateData.status"
+            v-model="nonPerjadinStore.updateData.status"
             class="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block px-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           >
             <option value="VERIFIKASI">KEUANGAN</option>
@@ -296,7 +294,7 @@
           <label for="price" class="block text-sm font-medium text-gray-900 dark:text-white">Catatan</label>
           <textarea
             placeholder="Isi catatan disini"
-            v-model="perjadinStore.updateData.catatan"
+            v-model="nonPerjadinStore.updateData.catatan"
             id="message"
             rows="2"
             class="block w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -312,7 +310,7 @@ import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
 import DeleteDialog from '@/components/DeleteDialog.vue'
 import Dialog from '@/components/Dialog.vue'
 import { IDRCurrency } from '@/utilities/formatter'
-import { usePerjadinStore } from '@/stores/perjadin'
+import { useNonPerjadinStore } from '@/stores/nonPerjadin'
 import { useMainStore } from '@/stores/main'
 import { useAuthStore } from '@/stores/auth'
 
@@ -325,7 +323,7 @@ import { toast } from 'vue3-toastify'
 import { useRouter } from 'vue-router'
 import { computed } from 'vue'
 
-const perjadinStore = usePerjadinStore()
+const nonPerjadinStore = useNonPerjadinStore()
 const mainStore = useMainStore()
 const authStore = useAuthStore()
 const confirmDialog = ref(false)
@@ -402,28 +400,28 @@ function onDelete(item) {
 }
 
 function onDetail(item) {
-  perjadinStore.$patch((state) => {
+  nonPerjadinStore.$patch((state) => {
     state.isDetail = true
   })
-  router.push({ name: 'perjadin-detail', params: { id: item.id } })
+  router.push({ name: 'non-perjadin-detail', params: { id: item.id } })
 }
 
 function onNew() {
-  perjadinStore.resetFormMain()
-  perjadinStore.$patch((state) => {
+  nonPerjadinStore.resetFormMain()
+  nonPerjadinStore.$patch((state) => {
     state.isDetail = false
   })
   router.push({ name: 'non-perjadin-new' })
 }
 
 function nextPage() {
-  perjadinStore.filter.page = perjadinStore.currentPage + 1
-  perjadinStore.getData()
+  nonPerjadinStore.filter.page = nonPerjadinStore.currentPage + 1
+  nonPerjadinStore.getData()
 }
 
 function previousPage() {
-  perjadinStore.filter.page = perjadinStore.currentPage - 1
-  perjadinStore.getData()
+  nonPerjadinStore.filter.page = nonPerjadinStore.currentPage - 1
+  nonPerjadinStore.getData()
 }
 
 async function deleteData() {
@@ -434,7 +432,7 @@ async function deleteData() {
     isLoading: true,
   })
 
-  const success = await perjadinStore.destroy(deleteId.value)
+  const success = await nonPerjadinStore.destroy(deleteId.value)
   if (success) {
     toast.update(id, {
       render: 'Berhasil !!',
@@ -460,7 +458,7 @@ async function deleteData() {
 }
 
 async function updateStatusData() {
-  if (perjadinStore.updateData.status == '' || perjadinStore.updateData.status == null) {
+  if (nonPerjadinStore.updateData.status == '' || nonPerjadinStore.updateData.status == null) {
     toast('Data belum lengkap', {
       position: toast.POSITION.BOTTOM_CENTER,
       type: 'error',
@@ -476,7 +474,7 @@ async function updateStatusData() {
       type: 'info',
       isLoading: true,
     })
-    const success = await perjadinStore.updateStatus(deleteId.value)
+    const success = await nonPerjadinStore.updateStatus(deleteId.value)
     if (success.status) {
       toast.update(id, {
         render: 'Berhasil !!',
@@ -487,8 +485,8 @@ async function updateStatusData() {
         closeButton: true,
         isLoading: false,
       })
-      const index = perjadinStore.items.findIndex((p) => p.id == success.data.id)
-      perjadinStore.$patch((state) => {
+      const index = nonPerjadinStore.items.findIndex((p) => p.id == success.data.id)
+      nonPerjadinStore.$patch((state) => {
         state.responses.data[index] = success.data
       })
       toast.done(id)
@@ -507,6 +505,6 @@ async function updateStatusData() {
 }
 
 onMounted(() => {
-  perjadinStore.getData()
+  nonPerjadinStore.getData()
 })
 </script>

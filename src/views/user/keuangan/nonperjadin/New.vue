@@ -4,32 +4,6 @@
 
     <div class="justify-center items-center w-full md:inset-0 h-modal md:h-full">
       <div class="relative p-4 w-full h-full md:h-auto flex flex-col space-y-4 bg-white">
-        <!-- Modal content -->
-        <div class="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5 dark:border-gray-600 flex-row">
-          <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Umum</h3>
-          <!-- <div v-if="nonPerjadinStore.isDetail">
-            <span
-              v-if="nonPerjadinStore.singleResponse.status == 'PERENCANAAN'"
-              class="bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-blue-400 border border-blue-400"
-              >{{ nonPerjadinStore.singleResponse.status }}</span
-            >
-            <span
-              v-if="nonPerjadinStore.singleResponse.status == 'VERIFIKASI'"
-              class="bg-blue-100 text-blue-800 text-md font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300"
-              >{{ nonPerjadinStore.singleResponse.status }}</span
-            >
-            <span
-              v-if="nonPerjadinStore.singleResponse.status == 'PERTANGGUNG JAWABAN'"
-              class="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-red-400 border border-red-400"
-              >{{ nonPerjadinStore.singleResponse.status }}</span
-            >
-            <span
-              v-if="nonPerjadinStore.singleResponse.status == 'SELESAI'"
-              class="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-green-400 border border-green-400"
-              >{{ nonPerjadinStore.singleResponse.status }}</span
-            >
-          </div> -->
-        </div>
         <!-- Modal body -->
         <div>
           <div class="mb-4 flex flex-col space-y-3">
@@ -48,12 +22,20 @@
 
             <div class="text-left">
               <label class="block text-sm font-medium text-gray-900 dark:text-white">Tanggal Transaksi</label>
-              <VueDatePicker v-model="nonPerjadinStore.form.tanggal_st" required :format="'dd MMMM yyyy'" auto-apply date-picker locale="id"></VueDatePicker>
+              <VueDatePicker
+                v-model="nonPerjadinStore.form.tanggal_transaksi"
+                required
+                :format="'dd MMMM yyyy'"
+                auto-apply
+                date-picker
+                locale="id"
+              ></VueDatePicker>
             </div>
 
             <div>
               <label class="block text-sm font-medium text-gray-900 dark:text-white">Uraian / Peruntukan</label>
               <textarea
+                v-model="nonPerjadinStore.form.uraian"
                 required
                 id="message"
                 rows="3"
@@ -108,7 +90,7 @@
                 <label class="block text-sm font-medium text-gray-900 dark:text-white">Jumlah Pembayaran (IDR)</label>
                 <input
                   required
-                  v-model="nonPerjadinStore.form.jumlah_pembayaran"
+                  v-model="nonPerjadinStore.form.total_anggaran"
                   type="text"
                   name="name"
                   id="name"
@@ -116,7 +98,19 @@
                 />
               </div>
             </div>
-
+            <div
+              v-if="nonPerjadinStore.form.total_anggaran > sisaAnggaran"
+              class="flex items-center p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
+              role="alert"
+            >
+              <svg class="flex-shrink-0 inline w-4 h-4 me-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                <path
+                  d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"
+                />
+              </svg>
+              <span class="sr-only">Info</span>
+              <div><span class="font-medium">Alert!</span> sisa anggaran tidak memenuhi pengajuan transaksi</div>
+            </div>
             <div class="flex flex-row space-x-4">
               <div class="text-left w-full">
                 <label for="years" class="block text-sm font-medium text-gray-900 dark:text-white mr-2">Bendahara Pengeluaran*</label>
@@ -221,7 +215,7 @@
 
       <div class="flex items-center space-x-1 mt-4 text-center justify-end">
         <button
-          @click="submit()"
+          @click="submitDialog = true"
           type="button"
           class="w-24 text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500 dark:focus:ring-blue-800"
         >
@@ -279,6 +273,28 @@
         </div>
       </template>
     </Dialog>
+
+    <Dialog :overflowVisible="true" :show="submitDialog" @close="submitDialog = !submitDialog" :canSubmit="true" @submit="submit()">
+      <template #title>
+        <h1>Proses Pengajuan ?</h1>
+      </template>
+
+      <template #content>
+        <div class="flex flex-col space-y-4 mt-3">
+          <div class="text-left font-medium text-lg">Pastikan data sudah sesuai!</div>
+          <div>
+            <label for="message" class="block text-sm font-medium text-gray-900 dark:text-white">Catatan</label>
+            <textarea
+              placeholder="Isi catatan disini untuk Admin"
+              v-model="nonPerjadinStore.form.catatan"
+              id="message"
+              rows="2"
+              class="block w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            ></textarea>
+          </div>
+        </div>
+      </template>
+    </Dialog>
   </div>
 </template>
 
@@ -302,6 +318,7 @@ const makStore = useMakStore()
 const router = useRouter()
 const mainStore = useMainStore()
 const makDetailDialog = ref(false)
+const submitDialog = ref(false)
 const Dialog = defineAsyncComponent(() => import('@/components/Dialog.vue'))
 
 const searchMak = useDebounceFn((search) => {
@@ -324,7 +341,8 @@ function onOpenSelect() {
 }
 
 async function submit() {
-  const id = toast.loading('Perencanaan perjalanan dinas sedang di proses...', {
+  submitDialog.value = !submitDialog.value
+  const id = toast.loading('Transaksi belanjan non perjalanan dinas sedang di proses...', {
     position: toast.POSITION.BOTTOM_CENTER,
     type: 'info',
     isLoading: true,
@@ -336,19 +354,18 @@ async function submit() {
       render: 'Berhasil !!',
       position: toast.POSITION.BOTTOM_CENTER,
       type: 'success',
-      autoClose: 1000,
+      autoClose: 2000,
       closeOnClick: true,
       closeButton: true,
       isLoading: false,
     })
     nonPerjadinStore.resetFormMain()
-    router.push({ name: 'perjadin-list' })
   } else {
     toast.update(id, {
       render: success.message,
       position: toast.POSITION.BOTTOM_CENTER,
       type: 'error',
-      autoClose: 1000,
+      autoClose: 2000,
       closeOnClick: true,
       closeButton: true,
       isLoading: false,
@@ -394,12 +411,14 @@ const totalSingleBelumRealisasi = computed(() => {
 })
 
 const sisaAnggaran = computed(() => {
-  return nonPerjadinStore.form.mak?.anggaran - (totalSingleBelumRealisasi.value + totalSingleSudahRealisasi.value)
+  return nonPerjadinStore.form.mak.anggaran - (totalSingleBelumRealisasi.value + totalSingleSudahRealisasi.value)
 })
 
 const estimasiSisaAnggaran = computed(() => {
   return sisaAnggaran.value - nonPerjadinStore.form.jumlah_pembayaran
 })
 
-onMounted(() => {})
+onMounted(() => {
+  nonPerjadinStore.resetFormMain()
+})
 </script>
