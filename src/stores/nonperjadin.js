@@ -13,7 +13,6 @@ export const useNonPerjadinStore = defineStore('nonPerjadinStore', {
     isUpdateLoading: false,
     isLoading: false,
     isStoreLoading: false,
-    isUpdateLoading: false,
     isDestroyLoading: false,
     isDetail: false,
     form: {
@@ -29,6 +28,10 @@ export const useNonPerjadinStore = defineStore('nonPerjadinStore', {
       ppk: null,
       catatan: null,
       lampiran: [],
+    },
+    updateData: {
+      status: '',
+      catatan: '',
     },
     deleteLampiran: [],
     updateIndex: 0,
@@ -192,7 +195,6 @@ export const useNonPerjadinStore = defineStore('nonPerjadinStore', {
         this.form.penerima = item.name
       }
     },
-
     async store() {
       if (this.isFormFill == false) {
         return {
@@ -288,11 +290,31 @@ export const useNonPerjadinStore = defineStore('nonPerjadinStore', {
         this.isUpdateLoading = false
       }
     },
-
+    async updateStatus(id) {
+      this.isUpdateLoading = true
+      try {
+        const response = await axiosIns.put(`/api/keuangan/non-perjadin/update-status/${id}`, this.updateData)
+        if (response.status == 200) {
+          return {
+            status: true,
+            data: response.data.data,
+          }
+        } else {
+          return {
+            status: false,
+            data: null,
+          }
+        }
+      } catch (error) {
+        alert(error)
+      } finally {
+        this.isUpdateLoading = false
+      }
+    },
     async destroy(id) {
       this.isDestroyLoading = true
       try {
-        const response = await axiosIns.delete(`/api/keuangan/perjadin/${id}`)
+        const response = await axiosIns.delete(`/api/keuangan/non-perjadin/${id}`)
         if (response.status == 200) {
           const index = this.items.findIndex((item) => item.id === id)
           this.responses.data.splice(index, 1)
