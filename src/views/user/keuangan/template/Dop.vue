@@ -22,90 +22,90 @@
         <span class="text-gray-500">Getting Data ...</span>
       </div>
     </template> -->
-      <!-- Print Button -->
-      <div class="no-print mb-6 mx-auto max-w-3xl flex flex-col">
-        <button onclick="window.print()" class="w-fit text-right bg-blue-500 text-white px-4 py-2 rounded shadow hover:bg-blue-700">Print</button>
-      </div>
+    <!-- Print Button -->
+    <div class="no-print mb-6 mx-auto max-w-3xl flex flex-col">
+      <button onclick="window.print()" class="w-fit text-right bg-blue-500 text-white px-4 py-2 rounded shadow hover:bg-blue-700">Print</button>
+    </div>
 
-      <div id="print-container">
-        <div class="print-area mx-auto bg-white p-8 max-w-3xl">
-          <div class="flex flex-row justify-between">
-            <div class="mb-8 text-left flex flex-col">
-              <p class="text-md font-bold uppercase">Inspektorat Jenderal</p>
-              <p class="text-md font-semibold">Kementerian Hukum dan HAM</p>
+    <div id="print-container">
+      <div class="print-area mx-auto bg-white p-8 max-w-3xl">
+        <div class="flex flex-row justify-between">
+          <div class="mb-8 text-left flex flex-col">
+            <p class="text-md font-bold uppercase">Inspektorat Jenderal</p>
+            <p class="text-md font-semibold">Kementerian Hukum dan HAM</p>
+          </div>
+          <div class="w-72 flex-col text-xs">
+            <div class="mb-1 flex">
+              <p class="w-5/12 font-semibold">Lembar Ke</p>
+              <p class="w-1/12">:</p>
+              <p class="w-6/12">-</p>
             </div>
-            <div class="w-72 flex-col text-xs">
-              <div class="mb-1 flex">
-                <p class="w-5/12 font-semibold">Lembar Ke</p>
-                <p class="w-1/12">:</p>
-                <p class="w-6/12">-</p>
-              </div>
-              <div class="mb-1 flex">
-                <p class="w-5/12 font-semibold">Kode No.</p>
-                <p class="w-1/12">:</p>
-                <p class="w-6/12"></p>
-              </div>
-              <div class="mb-1 flex">
-                <p class="w-5/12 font-semibold">Nomor</p>
-                <p class="w-1/12">:</p>
-                <!-- <p class="w-6/12">ITJ.1-KU.03.02-{{ perjadinDetailStore.singleResponse.no_sppd }}</p> -->
-              </div>
+            <div class="mb-1 flex">
+              <p class="w-5/12 font-semibold">Kode No.</p>
+              <p class="w-1/12">:</p>
+              <p class="w-6/12"></p>
+            </div>
+            <div class="mb-1 flex">
+              <p class="w-5/12 font-semibold">Nomor</p>
+              <p class="w-1/12">:</p>
+              <!-- <p class="w-6/12">ITJ.1-KU.03.02-{{ perjadinDetailStore.singleResponse.no_sppd }}</p> -->
             </div>
           </div>
+        </div>
 
-          <h3 class="mb-3 mt-2 text-center text-xl font-bold underline">SURAT PERJALANAN DINAS (SPD)</h3>
-   <div class="border border-black p-4">
-        <table class="w-full border-collapse border border-black text-sm">
+        <h3 class="mb-3 mt-2 text-center text-xl font-bold underline">SURAT PERJALANAN DINAS (SPD)</h3>
+        <div class="border border-black p-4">
+          <table class="w-full border-collapse border border-black text-sm">
             <tr>
-                <td class="border border-black p-2" rowspan="2">I</td>
-                <td class="border border-black p-2" colspan="2">Berangkat dari</td>
-                <td class="border border-black p-2" colspan="2">Ke</td>
-                <td class="border border-black p-2">Pada Tanggal</td>
-                <td class="border border-black p-2" colspan="2">Kepala</td>
+              <td class="border border-black p-2" rowspan="2">I</td>
+              <td class="border border-black p-2" colspan="2">Berangkat dari</td>
+              <td class="border border-black p-2" colspan="2">Ke</td>
+              <td class="border border-black p-2">Pada Tanggal</td>
+              <td class="border border-black p-2" colspan="2">Kepala</td>
             </tr>
             <tr>
-                <td class="border border-black p-2" colspan="2">Tempat Kedudukan</td>
-                <td class="border border-black p-2" colspan="2">...</td>
-                <td class="border border-black p-2">...</td>
-                <td class="border border-black p-2" colspan="2">...</td>
+              <td class="border border-black p-2" colspan="2">Tempat Kedudukan</td>
+              <td class="border border-black p-2" colspan="2">...</td>
+              <td class="border border-black p-2">...</td>
+              <td class="border border-black p-2" colspan="2">...</td>
             </tr>
             <tr>
-                <td class="border border-black p-2">II</td>
-                <td class="border border-black p-2" colspan="2">Tiba di</td>
-                <td class="border border-black p-2">...</td>
-                <td class="border border-black p-2" colspan="2">Pada Tanggal</td>
-                <td class="border border-black p-2">Kepala</td>
+              <td class="border border-black p-2">II</td>
+              <td class="border border-black p-2" colspan="2">Tiba di</td>
+              <td class="border border-black p-2">...</td>
+              <td class="border border-black p-2" colspan="2">Pada Tanggal</td>
+              <td class="border border-black p-2">Kepala</td>
             </tr>
             <tr>
-                <td class="border border-black p-2">III</td>
-                <td class="border border-black p-2" colspan="2">Tiba di</td>
-                <td class="border border-black p-2" colspan="2">...</td>
-                <td class="border border-black p-2">Pada Tanggal</td>
-                <td class="border border-black p-2">Kepala</td>
+              <td class="border border-black p-2">III</td>
+              <td class="border border-black p-2" colspan="2">Tiba di</td>
+              <td class="border border-black p-2" colspan="2">...</td>
+              <td class="border border-black p-2">Pada Tanggal</td>
+              <td class="border border-black p-2">Kepala</td>
             </tr>
             <!-- Repeat similar rows for IV, V, VI -->
             <tr>
-                <td class="border border-black p-2">VI</td>
-                <td class="border border-black p-2" colspan="2">Tiba di (Tempat Kedudukan)</td>
-                <td class="border border-black p-2">Pada Tanggal</td>
-                <td class="border border-black p-2" colspan="2">...</td>
-                <td class="border border-black p-2">Kepala</td>
+              <td class="border border-black p-2">VI</td>
+              <td class="border border-black p-2" colspan="2">Tiba di (Tempat Kedudukan)</td>
+              <td class="border border-black p-2">Pada Tanggal</td>
+              <td class="border border-black p-2" colspan="2">...</td>
+              <td class="border border-black p-2">Kepala</td>
             </tr>
             <tr>
-                <td colspan="6" class="border border-black p-2">
-                    <strong>VII. Catatan Lain-Lain</strong>
-                </td>
+              <td colspan="6" class="border border-black p-2">
+                <strong>VII. Catatan Lain-Lain</strong>
+              </td>
             </tr>
             <tr>
-                <td colspan="6" class="border border-black p-2">
-                    <strong>VIII. PERHATIAN:</strong><br>
-                    PPK yang menerbitkan SPD, pegawai yang melakukan perjalanan dinas...
-                </td>
+              <td colspan="6" class="border border-black p-2">
+                <strong>VIII. PERHATIAN:</strong><br />
+                PPK yang menerbitkan SPD, pegawai yang melakukan perjalanan dinas...
+              </td>
             </tr>
-        </table>
-    </div>
-          <small class="text-gray-700">Coret yang tidak perlu</small>
-<!-- 
+          </table>
+        </div>
+        <small class="text-gray-700">Coret yang tidak perlu</small>
+        <!-- 
           <div class="mb-3 p-2 text-left text-xs">
             <div class="flex justify-end text-start">
               <div class="flex flex-col justify-between">
@@ -120,8 +120,8 @@
               </div>
             </div>
           </div> -->
-        </div>
       </div>
+    </div>
   </div>
 </template>
 <script setup>
@@ -170,7 +170,7 @@ function printThreeCopies() {
 }
 </script>
 
-<style>
+<style scoped>
 @media print {
   @page {
     size: A4;

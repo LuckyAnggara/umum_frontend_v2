@@ -47,29 +47,56 @@ export const useNonPerjadinStore = defineStore('nonPerjadinStore', {
   }),
   getters: {
     isFormFill(state) {
-      if (
-        state.form.tahun_anggaran == null ||
-        state.form.tahun_anggaran == '' ||
-        state.form.tanggal_transaksi == '' ||
-        state.form.tanggal_transaksi == '' ||
-        state.form.uraian == null ||
-        state.form.uraian == '' ||
-        state.form.total_anggaran == null ||
-        state.form.total_anggaran == '' ||
-        state.form.nip_penerima == null ||
-        state.form.nip_penerima == '' ||
-        state.form.penerima == null ||
-        state.form.penerima == '' ||
-        state.form.bendahara == null ||
-        state.form.bendahara == '' ||
-        state.form.ppk == '' ||
-        state.form.ppk == '' ||
-        state.form.mak == null ||
-        state.form.mak == ''
-      ) {
-        return false
+      if (state.isDetail == false) {
+        if (
+          state.form.tahun_anggaran == null ||
+          state.form.tahun_anggaran == '' ||
+          state.form.tanggal_transaksi == '' ||
+          state.form.tanggal_transaksi == '' ||
+          state.form.uraian == null ||
+          state.form.uraian == '' ||
+          state.form.total_anggaran == null ||
+          state.form.total_anggaran == '' ||
+          state.form.nip_penerima == null ||
+          state.form.nip_penerima == '' ||
+          state.form.penerima == null ||
+          state.form.penerima == '' ||
+          state.form.bendahara == null ||
+          state.form.bendahara == '' ||
+          state.form.ppk == '' ||
+          state.form.ppk == '' ||
+          state.form.mak == null ||
+          state.form.mak == ''
+        ) {
+          return false
+        } else {
+          return true
+        }
       } else {
-        return true
+        if (
+          state.singleResponse.tahun_anggaran == null ||
+          state.singleResponse.tahun_anggaran == '' ||
+          state.singleResponse.tanggal_transaksi == '' ||
+          state.singleResponse.tanggal_transaksi == '' ||
+          state.singleResponse.uraian == null ||
+          state.singleResponse.uraian == '' ||
+          state.singleResponse.total_anggaran == null ||
+          state.singleResponse.total_anggaran == '' ||
+          state.singleResponse.nip_penerima == null ||
+          state.singleResponse.nip_penerima == '' ||
+          state.singleResponse.penerima == null ||
+          state.singleResponse.penerima == '' ||
+          state.singleResponse.bendahara == null ||
+          state.singleResponse.bendahara == '' ||
+          state.singleResponse.ppk == '' ||
+          state.singleResponse.ppk == '' ||
+          state.singleResponse.mak == null ||
+          state.singleResponse.mak == ''
+        ) {
+          return false
+        } else {
+          return true
+        }
       }
     },
     items(state) {
@@ -176,8 +203,14 @@ export const useNonPerjadinStore = defineStore('nonPerjadinStore', {
     },
     async searchLapkin() {
       this.isSearching = true
+      let nip = null
+      if (this.isDetail == false) {
+        nip = this.form.nip_penerima
+      } else {
+        nip = this.singleResponse.nip_penerima
+      }
       try {
-        const response = await axiosIns.get(`/api/get-pegawai?nip=${this.form.nip_penerima}`)
+        const response = await axiosIns.get(`/api/get-pegawai?nip=${nip}`)
         const data = response.data.data
 
         this.setPenerima(data)
@@ -190,9 +223,17 @@ export const useNonPerjadinStore = defineStore('nonPerjadinStore', {
     },
     setPenerima(item) {
       if (item.dari_lapkin) {
-        this.form.penerima = item.name
+        if (this.isDetail == false) {
+          this.form.penerima = item.name
+        } else {
+          this.singleResponse.penerima = item.name
+        }
       } else {
-        this.form.penerima = item.name
+        if (this.isDetail == false) {
+          this.form.penerima = item.name
+        } else {
+          this.singleResponse.penerima = item.name
+        }
       }
     },
     async store() {
@@ -249,8 +290,14 @@ export const useNonPerjadinStore = defineStore('nonPerjadinStore', {
       return false
     },
     async update() {
+      if (this.isFormFill == false) {
+        return {
+          status: false,
+          data: null,
+          message: 'Data belum lengkap',
+        }
+      }
       let formData = new FormData()
-      this.singleResponse.total_anggaran = this.getTotalAnggaran
       formData.append('_method', 'put')
       if (this.singleResponse?.newLampiran) {
         this.singleResponse?.newLampiran.forEach((element, index) => {
@@ -266,11 +313,10 @@ export const useNonPerjadinStore = defineStore('nonPerjadinStore', {
         formData.append('jumlah_lampiran_delete', this.deleteLampiran.length)
       }
       formData.append('umum', JSON.stringify(this.singleResponse))
-      formData.append('editDetail', JSON.stringify(this.editDetail))
       this.isUpdateLoading = true
 
       try {
-        const response = await axiosIns.post(`/api/keuangan/perjadin/${this.singleResponse.id}`, formData)
+        const response = await axiosIns.post(`/api/keuangan/non-perjadin/${this.singleResponse.id}`, formData)
         if (response.status == 200) {
           this.singleResponse = response.data.data
           this.deleteLampiran = []
@@ -290,10 +336,10 @@ export const useNonPerjadinStore = defineStore('nonPerjadinStore', {
         this.isUpdateLoading = false
       }
     },
-    async updateStatus(id) {
+    async updateStatus() {
       this.isUpdateLoading = true
       try {
-        const response = await axiosIns.put(`/api/keuangan/non-perjadin/update-status/${id}`, this.updateData)
+        const response = await axiosIns.put(`/api/keuangan/non-perjadin/update-status/${this.singleResponse.id}`, this.updateData)
         if (response.status == 200) {
           return {
             status: true,

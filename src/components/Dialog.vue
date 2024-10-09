@@ -25,8 +25,8 @@
             leave-to="opacity-0 scale-95"
           >
             <DialogPanel
-              :class="[overflowVisible == true ? 'overflow-visible' : 'overflow-hidden']"
-              class="w-full max-w-md transform rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all"
+              :class="[overflowVisible == true ? 'overflow-visible' : 'overflow-hidden', size]"
+              class="w-full transform rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all"
             >
               <DialogTitle as="h3" class="text-lg font-medium leading-6 text-gray-900">
                 <slot name="title"></slot>
@@ -68,6 +68,10 @@ const props = defineProps({
   show: {
     type: Boolean,
     default: false,
+  },
+  size: {
+    type: String,
+    default: 'max-w-md',
   },
   overflowVisible: {
     type: Boolean,

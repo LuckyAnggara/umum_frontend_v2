@@ -18,7 +18,7 @@
               >
               <span
                 v-if="nonPerjadinStore.singleResponse.status == 'VERIFIKASI'"
-                class="bg-blue-100 text-blue-800 text-md font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300"
+                class="bg-yellow-100 text-yellow-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-yellow-900 dark:text-yellow-300"
                 >{{ nonPerjadinStore.singleResponse.status }}</span
               >
 
@@ -44,6 +44,19 @@
                     {{ item }}
                   </option>
                 </select>
+              </div>
+
+              <div class="w-full">
+                <label class="block text-sm font-medium text-gray-900 dark:text-white">Nomor Transaksi</label>
+                <input
+                  readonly
+                  required
+                  v-model="nonPerjadinStore.singleResponse.nomor_transaksi"
+                  type="text"
+                  name="name"
+                  id="name"
+                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                />
               </div>
 
               <div class="text-left">
@@ -119,7 +132,6 @@
                   <label class="block text-sm font-medium text-gray-900 dark:text-white">Jumlah Pembayaran (IDR)</label>
                   <input
                     v-if="isEditAll"
-                    readonly
                     required
                     v-model="nonPerjadinStore.singleResponse.total_anggaran"
                     type="text"
@@ -129,7 +141,7 @@
                   />
                   <input
                     v-else
-                    required
+                    readonly
                     :value="IDRCurrency.format(nonPerjadinStore.singleResponse.total_anggaran)"
                     type="text"
                     name="name"
@@ -188,6 +200,7 @@
                 <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Penerima</label>
                 <div class="relative w-full">
                   <input
+                    :readonly="!isEditAll"
                     v-model="nonPerjadinStore.singleResponse.nip_penerima"
                     type="text"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
@@ -196,6 +209,7 @@
                   />
 
                   <button
+                    v-if="isEditAll"
                     @click="nonPerjadinStore.searchLapkin()"
                     type="button"
                     class="absolute top-0 end-0 p-2.5 text-sm font-medium h-full text-white bg-blue-700 rounded-e-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
@@ -219,6 +233,7 @@
                   <span class="sr-only">Info</span>
                   <div class="ms-3 text-sm font-medium">{{ nonPerjadinStore.singleResponse.penerima }}</div>
                   <button
+                    v-if="isEditAll"
                     @click="penerimaReset()"
                     type="button"
                     class="ms-auto -mx-1.5 -my-1.5 bg-green-50 text-green-500 rounded-lg focus:ring-2 focus:ring-green-400 p-1.5 hover:bg-green-200 inline-flex items-center justify-center h-8 w-8 dark:bg-gray-800 dark:text-green-400 dark:hover:bg-gray-700"
@@ -233,8 +248,30 @@
                 </div>
               </div>
 
-              <div class="text-left">
-                <label class="block text-sm font-medium text-gray-900 dark:text-white">Upload Lampiran</label>
+              <div class="text-left" v-if="isEditAll">
+                <label for="name" class="block text-sm font-medium text-gray-900 dark:text-white">Lampiran</label>
+
+                <small class="text-gray-600">
+                  <span v-if="nonPerjadinStore.singleResponse.lampiran.length < 1">Tidak ada lampiran</span>
+                  <ol class="ps-5 mt-2 space-y-1 list-decimal list-inside" v-else>
+                    <li
+                      :key="index"
+                      v-for="(item, index) in nonPerjadinStore.singleResponse.lampiran"
+                      class="text-base w-full rounded-t-lg dark:border-gray-600 text-blue-600 flex flex-row space-x-2 items-center"
+                    >
+                      <a :href="`${storageUrl + '/' + item.lampiran}`" :download="item.file_name">
+                        <span class="text-gray-500">{{ index + 1 }}.</span>
+                        {{ item.file_name }}
+                      </a>
+                      <TrashIcon
+                        @click="nonPerjadinStore.destroyLampiran(index, item)"
+                        class="cursor-pointer h-5 w-5 hover:-translate-y-1 duration-300 ease-in-out text-red-500"
+                      />
+                    </li>
+                  </ol>
+                </small>
+
+                <label class="block text-sm font-medium text-gray-900 dark:text-white">Upload Lampiran Tambahan</label>
 
                 <small class="text-gray-600">
                   <ol class="ps-5 mt-2 space-y-1 list-decimal list-inside">
@@ -249,12 +286,45 @@
                   :type="'application/pdf, application/msword,application/vnd.openxmlformats,application/vnd.ms-excel,officedocument.spreadsheetml.sheet, image/jpeg, image/png'"
                 />
               </div>
+
+              <div class="text-left" v-else>
+                <label for="name" class="block text-sm font-medium text-gray-900 dark:text-white">Lampiran</label>
+
+                <small class="text-gray-600">
+                  <span v-if="nonPerjadinStore.singleResponse.lampiran.length < 1">Tidak ada lampiran</span>
+                  <ol class="ps-5 mt-2 space-y-1 list-decimal list-inside" v-else>
+                    <li
+                      :key="index"
+                      v-for="(item, index) in nonPerjadinStore.singleResponse.lampiran"
+                      class="text-base w-full rounded-t-lg dark:border-gray-600 text-blue-600 flex flex-row space-x-2 items-center"
+                    >
+                      <a :href="`${storageUrl + '/' + item.lampiran}`" :download="item.file_name">
+                        <span class="text-gray-500">{{ index + 1 }}.</span>
+                        {{ item.file_name }}
+                      </a>
+                    </li>
+                  </ol>
+                </small>
+              </div>
             </div>
           </div>
         </div>
 
+        <div class="flex items-center space-x-1 mt-4 text-center justify-start" v-if="authStore.user.role == 'USER'">
+          <button
+            @click="toSpb()"
+            type="button"
+            class="w-32 text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500 dark:focus:ring-blue-800"
+          >
+            Cetak SPB
+          </button>
+        </div>
+
         <div class="flex items-center space-x-1 mt-4 text-center justify-end">
-          <div v-if="nonPerjadinStore.singleResponse.status == 'PENGAJUAN'" class="flex items-center space-x-1 mt-4 text-center justify-end">
+          <div
+            v-if="nonPerjadinStore.singleResponse.status == 'PENGAJUAN' && authStore.user.role == 'USER'"
+            class="flex items-center space-x-1 mt-4 text-center justify-end"
+          >
             <button
               v-if="isEditAll"
               @click="openConfirm()"
@@ -276,7 +346,7 @@
               <button
                 @click="onSend()"
                 type="button"
-                class="flex flex-row w-24 text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500 dark:focus:ring-blue-800"
+                class="flex flex-row w-fit text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500 dark:focus:ring-blue-800"
               >
                 <span>
                   <PaperAirplaneIcon class="h-5 w-5 mr-2" />
@@ -287,7 +357,7 @@
               <button
                 @click="isEditAll = true"
                 type="button"
-                class="flex flex-row w-24 text-green-700 hover:text-white border border-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2 dark:border-green-500 dark:text-green-500 dark:hover:text-white dark:hover:bg-green-500 dark:focus:ring-green-800"
+                class="flex flex-row w-fit text-green-700 hover:text-white border border-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2 dark:border-green-500 dark:text-green-500 dark:hover:text-white dark:hover:bg-green-500 dark:focus:ring-green-800"
               >
                 <span>
                   <PencilSquareIcon class="h-5 w-5 mr-2" />
@@ -298,7 +368,7 @@
               <button
                 @click="onDelete()"
                 type="button"
-                class="flex flex-row w-24 text-red-700 hover:text-white border border-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2 dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-500 dark:focus:ring-red-800"
+                class="flex flex-row w-fit text-red-700 hover:text-white border border-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2 dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-500 dark:focus:ring-red-800"
               >
                 <span>
                   <TrashIcon class="h-5 w-5 mr-2" />
@@ -306,6 +376,41 @@
                 Hapus
               </button>
             </div>
+          </div>
+
+          <div v-else-if="authStore.user.role == 'ADMIN'" class="flex flex-row space-x-2">
+            <button
+              v-if="nonPerjadinStore.singleResponse.status == 'VERIFIKASI'"
+              @click="openSelesai()"
+              type="button"
+              class="flex flex-row w-fit text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500 dark:focus:ring-blue-800"
+            >
+              <span>
+                <CheckCircleIcon class="h-5 w-5 mr-2" />
+              </span>
+              Submit
+            </button>
+
+            <!-- <button
+              type="button"
+              class="flex flex-row w-fit text-green-700 hover:text-white border border-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2 dark:border-green-500 dark:text-green-500 dark:hover:text-white dark:hover:bg-green-500 dark:focus:ring-green-800"
+            >
+              <span>
+                <PencilSquareIcon class="h-5 w-5 mr-2" />
+              </span>
+              Reject
+            </button> -->
+
+            <button
+              @click="onDelete()"
+              type="button"
+              class="flex flex-row w-fit text-red-700 hover:text-white border border-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2 dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-500 dark:focus:ring-red-800"
+            >
+              <span>
+                <TrashIcon class="h-5 w-5 mr-2" />
+              </span>
+              Hapus
+            </button>
           </div>
         </div>
       </div>
@@ -390,12 +495,40 @@
         </div>
       </template>
     </Dialog>
+
+    <Dialog :overflowVisible="true" :show="selesaiDialog" @submit="onSelesai()" @close="selesaiDialog = !selesaiDialog" :canSubmit="true">
+      <template #title>
+        <h1>Confirmation</h1>
+      </template>
+
+      <template #content>
+        <div class="flex flex-col space-y-4 mt-3">
+          <div class="text-left font-medium text-xl">Apa anda ??</div>
+          <small class="text-gray-700">Status Berkas akan di ubah menjadi SELESAI!, Anggaran akan terealisasi!</small>
+        </div>
+      </template>
+    </Dialog>
+
+    <Dialog :overflowVisible="true" :show="confirmDialog" @submit="update()" @close="confirmDialog = !confirmDialog" :canSubmit="true">
+      <template #title>
+        <h1>Konfirmasi</h1>
+      </template>
+
+      <template #content>
+        <div class="flex flex-col space-y-4 mt-6">
+          <div class="text-left">Apa anda yakin akan mengubah data ?</div>
+        </div>
+      </template>
+    </Dialog>
+
+    <DeleteDialog :show="deleteDialog" @submit="deleteData" @close="deleteDialog = !deleteDialog" />
   </div>
 </template>
 
 <script setup>
 import { useMainStore } from '@/stores/main'
 import { useMakStore } from '@/stores/mak'
+import { useAuthStore } from '@/stores/auth'
 import { defineAsyncComponent, onMounted, ref } from 'vue'
 import {
   DocumentTextIcon,
@@ -408,21 +541,26 @@ import {
 } from '@heroicons/vue/24/outline'
 import VueDatePicker from '@vuepic/vue-datepicker'
 import '@vuepic/vue-datepicker/dist/main.css'
+import { storageUrl } from '@/services/helper'
 import { IDRCurrency } from '@/utilities/formatter'
 import { toast } from 'vue3-toastify'
 import FilePond from '@/components/FilePond.vue'
 import { useNonPerjadinStore } from '@/stores/nonPerjadin'
 import { useRouter, useRoute } from 'vue-router'
+import DeleteDialog from '@/components/DeleteDialog.vue'
 import { useDebounceFn } from '@vueuse/core'
 import { computed } from 'vue'
 
 const nonPerjadinStore = useNonPerjadinStore()
 const makStore = useMakStore()
 const router = useRouter()
+const authStore = useAuthStore()
 const mainStore = useMainStore()
 const makDetailDialog = ref(false)
-const submitDialog = ref(false)
 const sendDialog = ref(false)
+const deleteDialog = ref(false)
+const selesaiDialog = ref(false)
+const confirmDialog = ref(false)
 const deleteId = ref(0)
 const Dialog = defineAsyncComponent(() => import('@/components/Dialog.vue'))
 const route = useRoute()
@@ -451,6 +589,35 @@ function cancelEditAll() {
   nonPerjadinStore.cancelEdit()
   isEditAll.value = !isEditAll.value
 }
+
+function onDelete() {
+  if (nonPerjadinStore.singleResponse.status == 'PENGAJUAN') {
+    deleteId.value = nonPerjadinStore.singleResponse.id
+    deleteDialog.value = true
+  } else if (authStore.user.role == 'ADMIN') {
+    deleteId.value = nonPerjadinStore.singleResponse.id
+    deleteDialog.value = true
+  } else if (nonPerjadinStore.singleResponse.status == 'SELESAI' && authStore.user.role == 'USER') {
+    toast(`Status berkas telah SELESAI, hubungi admin untuk menghapus`, {
+      position: toast.POSITION.BOTTOM_CENTER,
+      type: 'error',
+      autoClose: 5000,
+      closeOnClick: true,
+      closeButton: true,
+      isLoading: false,
+    })
+  } else {
+    toast(`Tidak dapat menghapus berkas, proses masih berjalan`, {
+      position: toast.POSITION.BOTTOM_CENTER,
+      type: 'error',
+      autoClose: 5000,
+      closeOnClick: true,
+      closeButton: true,
+      isLoading: false,
+    })
+  }
+}
+
 function onSend() {
   if (nonPerjadinStore.singleResponse.status == 'PENGAJUAN') {
     deleteId.value = nonPerjadinStore.singleResponse.id
@@ -467,29 +634,77 @@ function onSend() {
   }
 }
 
-async function submit() {
-  submitDialog.value = !submitDialog.value
-  const id = toast.loading('Transaksi belanjan non perjalanan dinas sedang di proses...', {
+async function deleteData() {
+  const id = toast.loading('Hapus data...', {
     position: toast.POSITION.BOTTOM_CENTER,
     type: 'info',
     isLoading: true,
   })
 
-  const success = await nonPerjadinStore.store()
-  if (success.status) {
+  const success = await nonPerjadinStore.destroy(deleteId.value)
+  if (success) {
     toast.update(id, {
       render: 'Berhasil !!',
       position: toast.POSITION.BOTTOM_CENTER,
       type: 'success',
-      autoClose: 2000,
+      autoClose: 1000,
       closeOnClick: true,
       closeButton: true,
       isLoading: false,
     })
-    nonPerjadinStore.resetFormMain()
+    toast.done(id)
+    deleteDialog.value = false
+    router.push({
+      name: 'non-perjadin-list',
+    })
   } else {
     toast.update(id, {
-      render: success.message,
+      render: 'Terjadi kesalahan',
+      position: toast.POSITION.BOTTOM_CENTER,
+      type: 'error',
+      autoClose: 1000,
+      closeOnClick: true,
+      closeButton: true,
+      isLoading: false,
+    })
+  }
+}
+
+function openSelesai() {
+  selesaiDialog.value = true
+}
+function openConfirm() {
+  confirmDialog.value = true
+}
+
+async function onSelesai() {
+  nonPerjadinStore.$patch((state) => {
+    state.updateData.status = 'SELESAI'
+    state.updateData.catatan = 'Transaksi selesai'
+  })
+
+  selesaiDialog.value = false
+  const toastId = toast.loading('Data sedang dikirim...', {
+    position: toast.POSITION.BOTTOM_CENTER,
+    type: 'info',
+    isLoading: true,
+  })
+  const success = await nonPerjadinStore.updateStatus()
+  if (success.status) {
+    toast.update(toastId, {
+      render: 'Transaksi telah selesai !!',
+      position: toast.POSITION.BOTTOM_CENTER,
+      type: 'success',
+      autoClose: 3000,
+      closeOnClick: true,
+      closeButton: true,
+      isLoading: false,
+    })
+    toast.done(toastId)
+    await nonPerjadinStore.show(id.value)
+  } else {
+    toast.update(toastId, {
+      render: 'Terjadi kesalahan',
       position: toast.POSITION.BOTTOM_CENTER,
       type: 'error',
       autoClose: 2000,
@@ -498,7 +713,15 @@ async function submit() {
       isLoading: false,
     })
   }
-  toast.done(id)
+}
+
+async function toSpb() {
+  let resolvedRoute = router.resolve({
+    name: 'non-perjadin-spb',
+    params: { id: nonPerjadinStore.singleResponse.id },
+  })
+
+  window.open(resolvedRoute.href, '_blank')
 }
 
 async function sendData() {
@@ -530,7 +753,7 @@ async function sendData() {
         isLoading: false,
       })
       toast.done(toastId)
-      await perjadinStore.show(id.value)
+      await nonPerjadinStore.show(id.value)
     } else {
       toast.update(toastId, {
         render: 'Terjadi kesalahan',
@@ -543,6 +766,41 @@ async function sendData() {
       })
     }
   }
+}
+
+async function update() {
+  confirmDialog.value = false
+  const id = toast.loading('Pengusulan belanja non perjalan dinas sedang di perbaharui...', {
+    position: toast.POSITION.BOTTOM_CENTER,
+    type: 'info',
+    isLoading: true,
+  })
+
+  const success = await nonPerjadinStore.update()
+  if (success.status) {
+    toast.update(id, {
+      render: 'Data berhasil di perbaharui !!',
+      position: toast.POSITION.BOTTOM_CENTER,
+      type: 'success',
+      autoClose: 1000,
+      closeOnClick: true,
+      closeButton: true,
+      isLoading: false,
+    })
+    nonPerjadinStore.resetFormMain()
+    isEditAll.value = false
+  } else {
+    toast.update(id, {
+      render: success.message,
+      position: toast.POSITION.BOTTOM_CENTER,
+      type: 'error',
+      autoClose: 1000,
+      closeOnClick: true,
+      closeButton: true,
+      isLoading: false,
+    })
+  }
+  toast.done(id)
 }
 
 function fileChange(event) {
@@ -570,15 +828,23 @@ function penerimaReset() {
 
 const totalSingleSudahRealisasi = computed(() => {
   // Use reduce to accumulate the total_realisasi from the detail array of each record
-  return nonPerjadinStore.singleResponse.mak?.detail?.reduce((total, item) => {
-    return total + item.total_realisasi
-  }, 0)
+  return nonPerjadinStore.singleResponse.mak?.detail
+    ?.filter((x) => {
+      return x.kegiatan_id !== nonPerjadinStore.singleResponse.id
+    })
+    .reduce((total, item) => {
+      return total + item.total_realisasi
+    }, 0)
 })
 const totalSingleBelumRealisasi = computed(() => {
   // Use reduce to accumulate the total_realisasi from the detail array of each record
-  return nonPerjadinStore.singleResponse.mak?.detail?.reduce((total, item) => {
-    return total + item.total_anggaran
-  }, 0)
+  return nonPerjadinStore.singleResponse.mak?.detail
+    ?.filter((x) => {
+      return x.kegiatan_id !== nonPerjadinStore.singleResponse.id
+    })
+    .reduce((total, item) => {
+      return total + item.total_anggaran
+    }, 0)
 })
 
 const sisaAnggaran = computed(() => {

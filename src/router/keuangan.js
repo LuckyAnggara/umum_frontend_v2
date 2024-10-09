@@ -145,7 +145,7 @@ const keuangan = [
   {
     meta: {
       title: 'Daftar Belanja Non Perjalanan Dinas',
-      requiresAuth: false,
+      requiresAuth: true,
       layout: 'layout-auth',
     },
     path: '/keuangan/nonperjadin/list',
@@ -155,7 +155,7 @@ const keuangan = [
   {
     meta: {
       title: 'Belanja Non Perjalanan Dinas',
-      requiresAuth: false,
+      requiresAuth: true,
       layout: 'layout-auth',
     },
     path: '/keuangan/nonperjadin/new',
@@ -165,7 +165,7 @@ const keuangan = [
   {
     meta: {
       title: 'Daftar Belanja Non Perjalanan Dinas',
-      requiresAuth: false,
+      requiresAuth: true,
       layout: 'layout-auth',
     },
     path: '/keuangan/nonperjadin/list',
@@ -175,12 +175,22 @@ const keuangan = [
   {
     meta: {
       title: 'Belanja Non Perjalanan Dinas',
-      requiresAuth: false,
+      requiresAuth: true,
       layout: 'layout-auth',
     },
     path: '/keuangan/nonperjadin/:id/detail',
     name: 'non-perjadin-detail',
     component: () => import('@/views/user/keuangan/nonperjadin/Detail.vue'),
+  },
+  {
+    meta: {
+      title: 'Belanja Non Perjalanan Dinas',
+      requiresAuth: true,
+      layout: 'layout-full',
+    },
+    path: '/keuangan/nonperjadin/:id/spb',
+    name: 'non-perjadin-spb',
+    component: () => import('@/views/user/keuangan/template/Spb.vue'),
   },
 ]
 

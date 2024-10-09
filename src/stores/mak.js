@@ -7,7 +7,9 @@ import { useRound } from '@vueuse/math'
 export const useMakStore = defineStore('mak', {
   state: () => ({
     isLoading: false,
+    isDetailLoading: false,
     responses: null,
+    responseNominatif: null,
     singleResponse: null,
     originalSingleResponse: null,
     filter: {
@@ -64,6 +66,28 @@ export const useMakStore = defineStore('mak', {
         return total + item.anggaran
       }, 0)
     },
+    totalSisaPaguNominatif(state) {
+      let total = 0
+      return state.itemNominatif.forEach((e) => {
+        let penggunaan = 0
+        if (e.detail) {
+          penggunaan = e.detail.reduce((sum, item) => sum + item.jumlah, 0)
+        }
+        return total + penggunaan
+      })
+    },
+    totalPaguNominatif(state) {
+      return state.itemNominatif.reduce((total, item) => {
+        return total + item.jumlah
+      }, 0)
+    },
+    totalSisaDana: (state) => (id) => {
+      const item = state.itemNominatif.find((p) => p.id === id)
+      if (!item) return 0
+
+      const penggunaan = item.detail.reduce((total, item) => total + item.jumlah, 0)
+      return item.jumlah - penggunaan
+    },
     totalBelumRealisasi(state) {
       // Use reduce to accumulate the total_realisasi from the detail array of each record
       return state.items.reduce((total, item) => {
@@ -92,7 +116,9 @@ export const useMakStore = defineStore('mak', {
         return total + item.total_realisasi
       }, 0)
     },
-
+    itemNominatif(state) {
+      return state.responseNominatif?.data ?? []
+    },
     items(state) {
       return state.responses?.data ?? []
     },
@@ -107,6 +133,9 @@ export const useMakStore = defineStore('mak', {
     },
     from(state) {
       return state.responses?.from
+    },
+    total(state) {
+      return state.responses?.total
     },
     to(state) {
       return state.responses?.to
@@ -136,6 +165,18 @@ export const useMakStore = defineStore('mak', {
         alert(error.message)
       } finally {
         this.isLoading = false
+      }
+      return false
+    },
+    async getDataNominatif(id) {
+      this.isDetailLoading = true
+      try {
+        const response = await axiosIns.get(`/api/keuangan/mak-nominatif?mak_id=${id}`)
+        this.responseNominatif = response.data
+      } catch (error) {
+        alert(error.message)
+      } finally {
+        this.isDetailLoading = false
       }
       return false
     },

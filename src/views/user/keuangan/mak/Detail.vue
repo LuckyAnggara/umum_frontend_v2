@@ -306,6 +306,7 @@ function onDetail(item) {
     })
     router.push({ name: 'perjadin-detail', params: { id: item.kegiatan_id } })
   } else if (item.type == 'NON PERJADIN') {
+    router.push({ name: 'non-perjadin-detail', params: { id: item.kegiatan_id } })
   }
 }
 

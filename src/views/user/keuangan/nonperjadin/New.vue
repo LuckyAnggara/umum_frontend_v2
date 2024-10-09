@@ -282,7 +282,7 @@
       <template #content>
         <div class="flex flex-col space-y-4 mt-3">
           <div class="text-left font-medium text-lg">Pastikan data sudah sesuai!</div>
-          <div>
+          <!-- <div>
             <label for="message" class="block text-sm font-medium text-gray-900 dark:text-white">Catatan</label>
             <textarea
               placeholder="Isi catatan disini untuk Admin"
@@ -291,7 +291,7 @@
               rows="2"
               class="block w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             ></textarea>
-          </div>
+          </div> -->
         </div>
       </template>
     </Dialog>
@@ -359,7 +359,11 @@ async function submit() {
       closeButton: true,
       isLoading: false,
     })
+
     nonPerjadinStore.resetFormMain()
+    router.push({
+      name: 'non-perjadin-list',
+    })
   } else {
     toast.update(id, {
       render: success.message,

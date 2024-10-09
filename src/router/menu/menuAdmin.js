@@ -108,7 +108,7 @@ export const menuAdmin = [
       },
       {
         name: 'Belanja Perjalanan non Dinas',
-        to: 'permintaan-admin',
+        to: 'non-perjadin-list',
       },
     ],
   },
