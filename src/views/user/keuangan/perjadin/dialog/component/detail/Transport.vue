@@ -1,8 +1,58 @@
 <template>
   <div class="text-left w-full">
-    <h2 class="text-2xl mb-4">Transportasi</h2>
+    <h2 class="text-2xl mb-4">Transport</h2>
 
     <div class="flex flex-col space-y-2">
+      <div>
+        <label
+          for="name"
+          class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+          >Detail MAK</label
+        >
+
+        <select
+          v-model="perjadinStore.newPegawai.nominatif_transport"
+          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block px-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 w-full"
+        >
+          <option
+            :value="item"
+            v-for="(item, index) in nominatif"
+            :key="index"
+            :disabled="item.type == 'header'"
+          >
+            <span v-if="item.type == 'header'" class="font-semibold">
+              > {{ item.uraian }}
+            </span>
+            <span v-else-if="item.type == 'detail'">
+              - {{ item.uraian }} ----- [
+              {{ IDRCurrency.format(item.jumlah) }}]</span
+            >
+          </option>
+        </select>
+      </div>
+
+      <div>
+        <label
+          for="name"
+          class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+          >Sisa Dana</label
+        >
+        <input
+          readonly
+          :value="
+            IDRCurrency.format(
+              perjadinStore.totalSisaPaguNominatif(
+                perjadinStore.newPegawai.nominatif_transport
+              )
+            )
+          "
+          required
+          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+        />
+      </div>
+
+      <hr />
+
       <div class="grid grid-cols-2 gap-4">
         <div class="text-left">
           <label
@@ -17,7 +67,6 @@
             <option value="DARAT">DARAT</option>
             <option value="LAUT">LAUT</option>
             <option value="UDARA">UDARA</option>
-            <option value="TAKSI">TAKSI</option>
             <option value="LAINNYA">LAINNYA</option>
           </select>
         </div>
@@ -61,13 +110,13 @@
       </div>
 
       <div
-        class="w-full scrollbar-thin scrollbar-track-gray-500 scrollbar-thumb-gray-700 h-48 overflow-y-auto"
+        class="w-full scrollbar-thin scrollbar-track-gray-500 scrollbar-thumb-gray-700 h-48 overflow-y-auto border-2"
       >
         <table
           class="lg:w-full min-w-full text-sm text-left text-gray-500 dark:text-gray-400"
         >
           <thead
-            class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400"
+            class="text-xs text-gray-700 uppercase bg-gray-200 dark:bg-gray-700 dark:text-gray-400"
           >
             <tr>
               <th scope="col" class="px-4 py-3">#</th>
@@ -126,4 +175,13 @@ import { usePerjadinStore } from '@/stores/perjadin'
 import { TrashIcon } from '@heroicons/vue/24/outline'
 
 const perjadinStore = usePerjadinStore()
+
+import { computed } from 'vue'
+
+const nominatif = computed(() => {
+  if (perjadinStore.isDetail) {
+    return perjadinStore.singleResponse.mak.nominatif
+  }
+  return perjadinStore.form.mak.nominatif
+})
 </script>

@@ -2,31 +2,52 @@
   <div class="mx-auto w-full px-4">
     <!-- Start coding here -->
     <section v-if="perjadinStore.singleResponse == null">
-      <span class="flex"><ArrowPathIcon class="mx-auto w-6 h-6 animate-spin" /></span>
+      <span class="flex"
+        ><ArrowPathIcon class="mx-auto w-6 h-6 animate-spin"
+      /></span>
     </section>
     <template v-else>
-      <div class="justify-center items-center w-full md:inset-0 h-modal md:h-full">
-        <div class="relative p-4 w-full h-full md:h-auto flex flex-col space-y-4">
-          <ol class="flex items-center w-full text-sm font-medium text-center text-gray-500 dark:text-gray-400 sm:text-base">
+      <div
+        class="justify-center items-center w-full md:inset-0 h-modal md:h-full"
+      >
+        <div
+          class="relative p-4 w-full h-full md:h-auto flex flex-col space-y-4"
+        >
+          <ol
+            class="flex items-center w-full text-sm font-medium text-center text-gray-500 dark:text-gray-400 sm:text-base"
+          >
             <li
               @click="currentStep = index"
               v-for="(step, index) in steps"
               :key="index"
-              :class="currentStep == index ? 'text-blue-600 dark:text-blue-500' : ''"
+              :class="
+                currentStep == index ? 'text-blue-600 dark:text-blue-500' : ''
+              "
               class="cursor-pointer flex md:w-full items-center sm:after:content-[''] after:w-full after:h-1 after:border-b after:border-gray-200 after:border-1 after:hidden sm:after:inline-block after:mx-6 xl:after:mx-10 dark:after:border-gray-700"
             >
-              <span class="flex items-center after:content-['/'] sm:after:hidden after:mx-2 after:text-gray-200 dark:after:text-gray-500">
+              <span
+                class="flex items-center after:content-['/'] sm:after:hidden after:mx-2 after:text-gray-200 dark:after:text-gray-500"
+              >
                 <CheckCircleIcon class="w-3.5 h-3.5 sm:w-4 sm:h-4 me-2.5" />
                 {{ step }} <span class="hidden sm:inline-flex sm:ms-2"></span>
               </span>
             </li>
           </ol>
           <!-- Modal content -->
-          <span v-if="isEditAll" class="bg-green-100 text-green-800 text-sm font-medium me-2 px-2.5 py-2.5 rounded dark:bg-green-900 dark:text-green-300">
+          <span
+            v-if="isEditAll"
+            class="bg-green-100 text-green-800 text-sm font-medium me-2 px-2.5 py-2.5 rounded dark:bg-green-900 dark:text-green-300"
+          >
             EDIT MODE</span
           >
           <Perencanaan v-if="currentStep == 0" :isEdit="isEditAll" />
-          <Detail :isEdit="isEditAll" v-if="currentStep == 1" @openModal="openModal" @deletePegawai="deletePegawai()" @openRabModal="openRabModal" />
+          <Detail
+            :isEdit="isEditAll"
+            v-if="currentStep == 1"
+            @openModal="openModal"
+            @deletePegawai="deletePegawai()"
+            @openRabModal="openRabModal"
+          />
           <Lampiran v-if="currentStep == 2" :isEdit="isEditAll" />
           <Realisasi v-if="currentStep == 3" />
 
@@ -56,7 +77,9 @@
               <button
                 @click="++currentStep"
                 :disabled="currentStep == steps.length - 1"
-                :class="currentStep == steps.length - 1 ? 'cursor-not-allowed' : ''"
+                :class="
+                  currentStep == steps.length - 1 ? 'cursor-not-allowed' : ''
+                "
                 type="button"
                 class="w-24 text-yellow-400 hover:text-white border border-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:outline-none focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-yellow-300 dark:text-yellow-300 dark:hover:text-white dark:hover:bg-yellow-400 dark:focus:ring-yellow-900"
               >
@@ -64,7 +87,10 @@
               </button>
             </div>
             <div
-              v-if="authStore.role == 'USER' && perjadinStore.singleResponse.status == 'PERENCANAAN'"
+              v-if="
+                authStore.role == 'USER' &&
+                perjadinStore.singleResponse.status == 'PERENCANAAN'
+              "
               class="flex items-center space-x-1 mt-4 text-center justify-end"
             >
               <button
@@ -120,7 +146,7 @@
                 <button
                   @click="onDelete()"
                   type="button"
-                  class="flex flex-row w-24 text-red-700 hover:text-white border border-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2 dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-500 dark:focus:ring-red-800"
+                  class="flex flex-row w-fit text-red-700 hover:text-white border border-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2 dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-500 dark:focus:ring-red-800"
                 >
                   <span>
                     <TrashIcon class="h-5 w-5 mr-2" />
@@ -131,7 +157,10 @@
             </div>
 
             <div
-              v-else-if="authStore.role == 'ADMIN' && perjadinStore.singleResponse.status == 'VERIFIKASI'"
+              v-else-if="
+                authStore.role == 'ADMIN' &&
+                perjadinStore.singleResponse.status == 'VERIFIKASI'
+              "
               class="flex items-center space-x-1 mt-4 text-center justify-end"
             >
               <button
@@ -143,7 +172,11 @@
               </button>
             </div>
             <div
-              v-else-if="authStore.role == 'ADMIN' && perjadinStore.singleResponse.status == 'PERTANGGUNG JAWABAN' && perjadinStore.allRealisasiVerified"
+              v-else-if="
+                authStore.role == 'ADMIN' &&
+                perjadinStore.singleResponse.status == 'PERTANGGUNG JAWABAN' &&
+                perjadinStore.allRealisasiVerified
+              "
               class="flex items-center space-x-1 mt-4 text-center justify-end"
             >
               <button
@@ -168,7 +201,13 @@
         @update="updatePegawai()"
       />
 
-      <Dialog :overflowVisible="true" :show="confirmDialog" @submit="update()" @close="confirmDialog = !confirmDialog" :canSubmit="true">
+      <Dialog
+        :overflowVisible="true"
+        :show="confirmDialog"
+        @submit="update()"
+        @close="confirmDialog = !confirmDialog"
+        :canSubmit="true"
+      >
         <template #title>
           <h1>Konfirmasi</h1>
         </template>
@@ -193,17 +232,32 @@
 
         <template #content>
           <div class="flex flex-col space-y-4 mt-3">
-            <div class="text-left font-medium text-xl">Pastikan seluruh dokumen sudah lengkap!</div>
+            <div class="text-left font-medium text-xl">
+              Pastikan seluruh dokumen sudah lengkap!
+            </div>
             <small class="text-gray-700"
               >Kuitansi dan Nomor SPPD akan diterbikan! <br />
               Asumsi anggaran menggunakan LS!</small
             >
             <div class="flex flex-col space-y-2">
               <div class="text-left">
-                <label for="years" class="block text-sm font-medium text-gray-900 dark:text-white mr-2">Bendahara Pengeluaran*</label>
-                <v-select :label="'nama'" :options="mainStore.bendaharaOptions" v-model="perjadinStore.updateData.bendahara">
+                <label
+                  for="years"
+                  class="block text-sm font-medium text-gray-900 dark:text-white mr-2"
+                  >Bendahara Pengeluaran*</label
+                >
+                <v-select
+                  :label="'nama'"
+                  :options="mainStore.bendaharaOptions"
+                  v-model="perjadinStore.updateData.bendahara"
+                >
                   <template #search="{ attributes, events }">
-                    <input class="vs__search" :required="!perjadinStore.updateData.bendahara" v-bind="attributes" v-on="events" />
+                    <input
+                      class="vs__search"
+                      :required="!perjadinStore.updateData.bendahara"
+                      v-bind="attributes"
+                      v-on="events"
+                    />
                   </template>
                   <template #no-options> Tidak ada data .. </template>
                   <template #option="option">
@@ -215,10 +269,23 @@
                 </v-select>
               </div>
               <div class="text-left">
-                <label for="years" class="block text-sm font-medium text-gray-900 dark:text-white mr-2">Pejabat Pembuat Komitmen*</label>
-                <v-select :label="'nama'" :options="mainStore.ppkOptions" v-model="perjadinStore.updateData.ppk">
+                <label
+                  for="years"
+                  class="block text-sm font-medium text-gray-900 dark:text-white mr-2"
+                  >Pejabat Pembuat Komitmen*</label
+                >
+                <v-select
+                  :label="'nama'"
+                  :options="mainStore.ppkOptions"
+                  v-model="perjadinStore.updateData.ppk"
+                >
                   <template #search="{ attributes, events }">
-                    <input class="vs__search" :required="!perjadinStore.updateData.ppk" v-bind="attributes" v-on="events" />
+                    <input
+                      class="vs__search"
+                      :required="!perjadinStore.updateData.ppk"
+                      v-bind="attributes"
+                      v-on="events"
+                    />
                   </template>
                   <template #no-options> Tidak ada data .. </template>
                   <template #option="option">
@@ -231,7 +298,11 @@
               </div>
             </div>
             <div>
-              <label for="message" class="block text-sm font-medium text-gray-900 dark:text-white">Catatan</label>
+              <label
+                for="message"
+                class="block text-sm font-medium text-gray-900 dark:text-white"
+                >Catatan</label
+              >
               <textarea
                 placeholder="Isi catatan disini"
                 v-model="perjadinStore.updateData.catatan"
@@ -257,15 +328,30 @@
 
         <template #content>
           <div class="flex flex-col space-y-4 mt-3">
-            <div class="text-left font-medium text-xl">Apa anda yakin seluruh pegawai telah melakukan pertanggung jawaban ??</div>
-            <small class="text-gray-700">Status Berkas akan di ubah menjadi SELESAI!</small>
+            <div class="text-left font-medium text-xl">
+              Apa anda yakin seluruh pegawai telah melakukan pertanggung jawaban
+              ??
+            </div>
+            <small class="text-gray-700"
+              >Status Berkas akan di ubah menjadi SELESAI!</small
+            >
           </div>
         </template>
       </Dialog>
 
-      <DeleteDialog :show="deleteDialog" @submit="deleteData" @close="deleteDialog = !deleteDialog" />
+      <DeleteDialog
+        :show="deleteDialog"
+        @submit="deleteData"
+        @close="deleteDialog = !deleteDialog"
+      />
 
-      <Dialog :overflowVisible="true" :show="sendDialog" @submit="sendData" @close="sendDialog = !sendDialog" :canSubmit="true">
+      <Dialog
+        :overflowVisible="true"
+        :show="sendDialog"
+        @submit="sendData"
+        @close="sendDialog = !sendDialog"
+        :canSubmit="true"
+      >
         <template #title>
           <h1>Kirim Berkas</h1>
           <small>Berkas akan di kirim untuk dilakukan Verifikasi</small>
@@ -274,7 +360,11 @@
         <template #content>
           <div class="flex w-full flex-col space-y-4">
             <div class="text-left">
-              <label for="years" class="block text-sm font-medium text-gray-900 dark:text-white mr-2">Tujuan</label>
+              <label
+                for="years"
+                class="block text-sm font-medium text-gray-900 dark:text-white mr-2"
+                >Tujuan</label
+              >
               <select
                 v-model="perjadinStore.updateData.status"
                 class="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block px-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -283,7 +373,11 @@
               </select>
             </div>
             <div>
-              <label for="price" class="block text-sm font-medium text-gray-900 dark:text-white">Catatan</label>
+              <label
+                for="price"
+                class="block text-sm font-medium text-gray-900 dark:text-white"
+                >Catatan</label
+              >
               <textarea
                 placeholder="Isi catatan disini"
                 v-model="perjadinStore.updateData.catatan"
@@ -296,18 +390,32 @@
         </template>
       </Dialog>
 
-      <Dialog :overflowVisible="true" :show="rabDialog" @submit="updateStatusData({ status: 'rab' })" @close="rabDialog = !rabDialog" :canSubmit="true">
+      <Dialog
+        :overflowVisible="true"
+        :show="rabDialog"
+        @submit="updateStatusData({ status: 'rab' })"
+        @close="rabDialog = !rabDialog"
+        :canSubmit="true"
+      >
         <template #title>
           <h1>Rencana Anggaran Biaya</h1>
         </template>
 
         <template #content>
           <div class="flex flex-col space-y-2 mt-3">
-            <div class="text-left font-medium text-xl">Pastikan detail RAB sudah lengkap!</div>
-            <small class="text-gray-700">RAB akan di buat, tolong isikan penandatangan</small>
+            <div class="text-left font-medium text-xl">
+              Pastikan detail RAB sudah lengkap!
+            </div>
+            <small class="text-gray-700"
+              >RAB akan di buat, tolong isikan penandatangan</small
+            >
             <div class="flex flex-col space-y-2">
               <div>
-                <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Koordinator Keuangan</label>
+                <label
+                  for="name"
+                  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  >Koordinator Keuangan</label
+                >
                 <div class="relative w-full">
                   <input
                     v-model="perjadinStore.singleResponse.nip_kapokja"
@@ -322,7 +430,10 @@
                     type="button"
                     class="absolute top-0 end-0 p-2.5 text-sm font-medium h-full text-white bg-blue-700 rounded-e-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                   >
-                    <MagnifyingGlassIcon class="w-4 h-4" v-if="!perjadinStore.isSearching" />
+                    <MagnifyingGlassIcon
+                      class="w-4 h-4"
+                      v-if="!perjadinStore.isSearching"
+                    />
                     <ArrowPathIcon class="w-4 h-4 animate-spin" v-else />
                   </button>
                 </div>
@@ -333,13 +444,21 @@
                   class="mt-2 flex items-center p-4 mb-4 text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400"
                   role="alert"
                 >
-                  <svg class="flex-shrink-0 w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                  <svg
+                    class="flex-shrink-0 w-4 h-4"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                  >
                     <path
                       d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"
                     />
                   </svg>
                   <span class="sr-only">Info</span>
-                  <div class="ms-3 text-sm font-medium">{{ perjadinStore.singleResponse.kapokja }}</div>
+                  <div class="ms-3 text-sm font-medium">
+                    {{ perjadinStore.singleResponse.kapokja }}
+                  </div>
                   <button
                     @click="kapokjaReset()"
                     type="button"
@@ -348,14 +467,30 @@
                     aria-label="Close"
                   >
                     <span class="sr-only">Close</span>
-                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
-                      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                    <svg
+                      class="w-3 h-3"
+                      aria-hidden="true"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 14 14"
+                    >
+                      <path
+                        stroke="currentColor"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+                      />
                     </svg>
                   </button>
                 </div>
               </div>
               <div>
-                <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Pengusul*</label>
+                <label
+                  for="name"
+                  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  >Pengusul*</label
+                >
                 <div class="relative w-full">
                   <input
                     v-model="perjadinStore.singleResponse.nip_pengusul"
@@ -369,7 +504,10 @@
                     type="button"
                     class="absolute top-0 end-0 p-2.5 text-sm font-medium h-full text-white bg-blue-700 rounded-e-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                   >
-                    <MagnifyingGlassIcon class="w-4 h-4" v-if="!perjadinStore.isSearching" />
+                    <MagnifyingGlassIcon
+                      class="w-4 h-4"
+                      v-if="!perjadinStore.isSearching"
+                    />
                     <ArrowPathIcon class="w-4 h-4 animate-spin" v-else />
                   </button>
                 </div>
@@ -380,13 +518,21 @@
                   class="mt-2 flex items-center p-4 mb-4 text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400"
                   role="alert"
                 >
-                  <svg class="flex-shrink-0 w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                  <svg
+                    class="flex-shrink-0 w-4 h-4"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                  >
                     <path
                       d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"
                     />
                   </svg>
                   <span class="sr-only">Info</span>
-                  <div class="ms-3 text-sm font-medium">{{ perjadinStore.singleResponse.pengusul }}</div>
+                  <div class="ms-3 text-sm font-medium">
+                    {{ perjadinStore.singleResponse.pengusul }}
+                  </div>
                   <button
                     @click="pengusulReset()"
                     type="button"
@@ -395,14 +541,30 @@
                     aria-label="Close"
                   >
                     <span class="sr-only">Close</span>
-                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
-                      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                    <svg
+                      class="w-3 h-3"
+                      aria-hidden="true"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 14 14"
+                    >
+                      <path
+                        stroke="currentColor"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+                      />
                     </svg>
                   </button>
                 </div>
               </div>
               <div class="text-left">
-                <label for="unit" class="block text-sm font-medium text-gray-900 dark:text-white">Tanggal RAB</label>
+                <label
+                  for="unit"
+                  class="block text-sm font-medium text-gray-900 dark:text-white"
+                  >Tanggal RAB</label
+                >
                 <VueDatePicker
                   v-model="perjadinStore.singleResponse.tanggal_rab"
                   required
@@ -419,7 +581,8 @@
                 type="submit"
                 class="w-32 flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-xs font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
               >
-                <span>Lihat RAB</span><ArrowTopRightOnSquareIcon class="h-4 w-4 ml-2" />
+                <span>Lihat RAB</span
+                ><ArrowTopRightOnSquareIcon class="h-4 w-4 ml-2" />
               </button>
             </div>
           </div>
@@ -458,10 +621,16 @@ import { useRouter } from 'vue-router'
 import DeleteDialog from '@/components/DeleteDialog.vue'
 const router = useRouter()
 
-const PegawaiModal = defineAsyncComponent(() => import('./dialog/ModalDetailPegawai.vue'))
-const Perencanaan = defineAsyncComponent(() => import('./component/Perencanaan.vue'))
+const PegawaiModal = defineAsyncComponent(() =>
+  import('./dialog/ModalDetailPegawai.vue')
+)
+const Perencanaan = defineAsyncComponent(() =>
+  import('./component/Perencanaan.vue')
+)
 const Detail = defineAsyncComponent(() => import('./component/Detail.vue'))
-const Realisasi = defineAsyncComponent(() => import('./component/Realisasi.vue'))
+const Realisasi = defineAsyncComponent(() =>
+  import('./component/Realisasi.vue')
+)
 const Dialog = defineAsyncComponent(() => import('@/components/Dialog.vue'))
 const Lampiran = defineAsyncComponent(() => import('./component/Lampiran.vue'))
 const Log = defineAsyncComponent(() => import('./component/Log.vue'))
@@ -481,7 +650,10 @@ const steps = computed(() => {
     'Perencanaan',
     'Detail',
     'Lampiran',
-    ...(perjadinStore.singleResponse.status == 'PERTANGGUNG JAWABAN' || perjadinStore.singleResponse.status == 'SELESAI' ? ['Realisasi'] : []),
+    ...(perjadinStore.singleResponse.status == 'PERTANGGUNG JAWABAN' ||
+    perjadinStore.singleResponse.status == 'SELESAI'
+      ? ['Realisasi']
+      : []),
   ]
 })
 
@@ -585,11 +757,14 @@ async function deletePegawai() {
 
 async function update() {
   confirmDialog.value = false
-  const id = toast.loading('Perencanaan perjalanan dinas sedang di perbaharui...', {
-    position: toast.POSITION.BOTTOM_CENTER,
-    type: 'info',
-    isLoading: true,
-  })
+  const id = toast.loading(
+    'Perencanaan perjalanan dinas sedang di perbaharui...',
+    {
+      position: toast.POSITION.BOTTOM_CENTER,
+      type: 'info',
+      isLoading: true,
+    }
+  )
 
   const success = await perjadinStore.update()
   if (success.status) {
@@ -676,7 +851,9 @@ async function updateStatusData({ status = 'ptj' }) {
     type: 'info',
     isLoading: true,
   })
-  const result = await perjadinStore.updateStatus(perjadinStore.singleResponse.id)
+  const result = await perjadinStore.updateStatus(
+    perjadinStore.singleResponse.id
+  )
   if (result.status) {
     toast.update(id, {
       render: 'Berhasil !!',
@@ -728,14 +905,17 @@ function onSend() {
     deleteId.value = perjadinStore.singleResponse.id
     sendDialog.value = true
   } else {
-    toast(`Tidak bisa mengirim berkas, status berkas ${perjadinStore.singleResponse.status}`, {
-      position: toast.POSITION.TOP_CENTER,
-      type: 'error',
-      autoClose: 3000,
-      closeOnClick: true,
-      closeButton: true,
-      isLoading: false,
-    })
+    toast(
+      `Tidak bisa mengirim berkas, status berkas ${perjadinStore.singleResponse.status}`,
+      {
+        position: toast.POSITION.TOP_CENTER,
+        type: 'error',
+        autoClose: 3000,
+        closeOnClick: true,
+        closeButton: true,
+        isLoading: false,
+      }
+    )
   }
 }
 
@@ -746,7 +926,10 @@ function onDelete() {
   } else if (authStore.user.role == 'ADMIN') {
     deleteId.value = perjadinStore.singleResponse.id
     deleteDialog.value = true
-  } else if (perjadinStore.singleResponse.status == 'SELESAI' && authStore.user.role == 'USER') {
+  } else if (
+    perjadinStore.singleResponse.status == 'SELESAI' &&
+    authStore.user.role == 'USER'
+  ) {
     toast(`Status berkas telah SELESAI, hubungi admin untuk menghapus`, {
       position: toast.POSITION.BOTTOM_CENTER,
       type: 'error',
@@ -768,7 +951,10 @@ function onDelete() {
 }
 
 async function sendData() {
-  if (perjadinStore.updateData.status == '' || perjadinStore.updateData.status == null) {
+  if (
+    perjadinStore.updateData.status == '' ||
+    perjadinStore.updateData.status == null
+  ) {
     toast('Data belum lengkap', {
       position: toast.POSITION.BOTTOM_CENTER,
       type: 'error',
@@ -831,6 +1017,7 @@ async function deleteData() {
       isLoading: false,
     })
     toast.done(id)
+    router.push({ name: 'perjadin-list' })
   } else {
     toast.update(id, {
       render: 'Terjadi kesalahan',

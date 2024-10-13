@@ -133,7 +133,12 @@ export const useNonPerjadinStore = defineStore('nonPerjadinStore', {
       if (state.filter.date.length == 0 || state.filter.date.length == null) {
         return ''
       }
-      return '&start-date=' + state.filter.date[0] + '&end-date=' + state.filter.date[1]
+      return (
+        '&start-date=' +
+        state.filter.date[0] +
+        '&end-date=' +
+        state.filter.date[1]
+      )
     },
     tanggalTransaksiQuery(state) {
       if (state.filter.tanggalTransaksi == null) {
@@ -148,7 +153,10 @@ export const useNonPerjadinStore = defineStore('nonPerjadinStore', {
       return '&query=' + state.filter.searchQuery
     },
     statusQuery(state) {
-      if (state.filter.currentStatus == '' || state.filter.currentStatus == null) {
+      if (
+        state.filter.currentStatus == '' ||
+        state.filter.currentStatus == null
+      ) {
         return ''
       }
       return '&status=' + state.filter.currentStatus
@@ -212,10 +220,9 @@ export const useNonPerjadinStore = defineStore('nonPerjadinStore', {
       try {
         const response = await axiosIns.get(`/api/get-pegawai?nip=${nip}`)
         const data = response.data.data
-
         this.setPenerima(data)
       } catch (error) {
-        alert(error.message)
+        alert('Pegawai tidak ditemukan, cek kembali NIP yang di Input')
       } finally {
         this.isSearching = false
       }
@@ -254,11 +261,15 @@ export const useNonPerjadinStore = defineStore('nonPerjadinStore', {
       formData.append('umum', JSON.stringify(this.form))
       this.isStoreLoading = true
       try {
-        const response = await axiosIns.post(`/api/keuangan/non-perjadin`, formData, {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-        })
+        const response = await axiosIns.post(
+          `/api/keuangan/non-perjadin`,
+          formData,
+          {
+            headers: {
+              'Content-Type': 'multipart/form-data',
+            },
+          }
+        )
         if (response.status == 200) {
           return {
             status: true,
@@ -281,7 +292,9 @@ export const useNonPerjadinStore = defineStore('nonPerjadinStore', {
       try {
         const response = await axiosIns.get(`/api/keuangan/non-perjadin/${id}`)
         this.singleResponse = JSON.parse(JSON.stringify(response.data.data))
-        this.originalSingleResponse = JSON.parse(JSON.stringify(response.data.data))
+        this.originalSingleResponse = JSON.parse(
+          JSON.stringify(response.data.data)
+        )
       } catch (error) {
         alert(error.message)
       } finally {
@@ -303,7 +316,10 @@ export const useNonPerjadinStore = defineStore('nonPerjadinStore', {
         this.singleResponse?.newLampiran.forEach((element, index) => {
           formData.append(`file[${index}]`, element)
         })
-        formData.append('jumlah_lampiran', this.singleResponse?.newLampiran.length)
+        formData.append(
+          'jumlah_lampiran',
+          this.singleResponse?.newLampiran.length
+        )
       }
 
       if (this.deleteLampiran.length > 0) {
@@ -316,7 +332,10 @@ export const useNonPerjadinStore = defineStore('nonPerjadinStore', {
       this.isUpdateLoading = true
 
       try {
-        const response = await axiosIns.post(`/api/keuangan/non-perjadin/${this.singleResponse.id}`, formData)
+        const response = await axiosIns.post(
+          `/api/keuangan/non-perjadin/${this.singleResponse.id}`,
+          formData
+        )
         if (response.status == 200) {
           this.singleResponse = response.data.data
           this.deleteLampiran = []
@@ -336,10 +355,19 @@ export const useNonPerjadinStore = defineStore('nonPerjadinStore', {
         this.isUpdateLoading = false
       }
     },
-    async updateStatus() {
+    async updateStatus(fromList = false, id) {
+      let uuid = null
+      if (fromList) {
+        uuid = id
+      } else {
+        uuid = this.singleResponse.id
+      }
       this.isUpdateLoading = true
       try {
-        const response = await axiosIns.put(`/api/keuangan/non-perjadin/update-status/${this.singleResponse.id}`, this.updateData)
+        const response = await axiosIns.put(
+          `/api/keuangan/non-perjadin/update-status/${uuid}`,
+          this.updateData
+        )
         if (response.status == 200) {
           return {
             status: true,
@@ -360,7 +388,9 @@ export const useNonPerjadinStore = defineStore('nonPerjadinStore', {
     async destroy(id) {
       this.isDestroyLoading = true
       try {
-        const response = await axiosIns.delete(`/api/keuangan/non-perjadin/${id}`)
+        const response = await axiosIns.delete(
+          `/api/keuangan/non-perjadin/${id}`
+        )
         if (response.status == 200) {
           const index = this.items.findIndex((item) => item.id === id)
           this.responses.data.splice(index, 1)
@@ -375,7 +405,9 @@ export const useNonPerjadinStore = defineStore('nonPerjadinStore', {
       }
     },
     cancelEdit() {
-      this.singleResponse = JSON.parse(JSON.stringify(this.originalSingleResponse))
+      this.singleResponse = JSON.parse(
+        JSON.stringify(this.originalSingleResponse)
+      )
     },
   },
 })

@@ -1,4 +1,13 @@
-import { RectangleGroupIcon, SwatchIcon, ArchiveBoxIcon, HomeModernIcon, RectangleStackIcon, DocumentTextIcon, UserIcon } from '@heroicons/vue/24/solid'
+import {
+  RectangleGroupIcon,
+  SwatchIcon,
+  ArchiveBoxIcon,
+  HomeModernIcon,
+  DocumentCheckIcon,
+  GlobeAsiaAustraliaIcon,
+  BanknotesIcon,
+  UserIcon,
+} from '@heroicons/vue/24/solid'
 
 export const menuUser = [
   {
@@ -11,29 +20,21 @@ export const menuUser = [
   },
   {
     name: 'Anggaran',
-    icon: RectangleStackIcon,
+    icon: BanknotesIcon,
     to: 'mak-list',
   },
   {
     name: 'Belanja Perjadin',
-    icon: RectangleStackIcon,
+    icon: GlobeAsiaAustraliaIcon,
     to: 'perjadin-list',
 
     // to: 'persediaan',
   },
   {
     name: 'Belanja Non Perjadin',
-    icon: RectangleStackIcon,
+    icon: DocumentCheckIcon,
     to: 'non-perjadin-list',
 
     // to: 'persediaan',
-  },
-  {
-    name: 'Baru',
-    icon: ArchiveBoxIcon,
-    to: 'perjadin-new',
-  },
-  {
-    name: '-',
   },
 ]

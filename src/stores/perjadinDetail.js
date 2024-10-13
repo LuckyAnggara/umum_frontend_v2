@@ -5,6 +5,7 @@ import moment from 'moment'
 
 export const usePerjadinDetailStore = defineStore('perjadinDetailStore', {
   state: () => ({
+    responses: null,
     isUpdateLoading: false,
     isStoreLoading: false,
     lampiran: {
@@ -23,8 +24,106 @@ export const usePerjadinDetailStore = defineStore('perjadinDetailStore', {
     responses: null,
     singleResponse: null,
     originalSingleResponse: null,
+    filter: {
+      currentUnit: 0,
+      currentStatus: '',
+      date: [],
+      currentLimit: 25,
+      searchQuery: '',
+      page: '',
+    },
   }),
   getters: {
+    items(state) {
+      return state.responses?.data ?? []
+    },
+    currentPage(state) {
+      return state.responses?.current_page
+    },
+    pageLength(state) {
+      return Math.round(state.responses?.total / state.responses?.per_page)
+    },
+    lastPage(state) {
+      return state.responses?.last_page
+    },
+    from(state) {
+      return state.responses?.from
+    },
+    to(state) {
+      return state.responses?.to
+    },
+    total(state) {
+      return state.responses?.total
+    },
+    dateQuery(state) {
+      if (state.filter.date.length == 0 || state.filter.date.length == null) {
+        return ''
+      }
+      return (
+        '&start-date=' +
+        state.filter.date[0] +
+        '&end-date=' +
+        state.filter.date[1]
+      )
+    },
+    searchQuery(state) {
+      if (state.filter.searchQuery == '' || state.filter.searchQuery == null) {
+        return ''
+      }
+      return '&query=' + state.filter.searchQuery
+    },
+    statusQuery(state) {
+      if (
+        state.filter.currentStatus == '' ||
+        state.filter.currentStatus == null
+      ) {
+        return ''
+      }
+      return '&status=' + state.filter.currentStatus
+    },
+    pageQuery(state) {
+      if (state.filter.page == '' || state.filter.page == null) {
+        return ''
+      }
+      return '&page=' + state.filter.page
+    },
+    unitQuery(state) {
+      if (state.filter.currentUnit == 0 || state.filter.currentUnit == null) {
+        return ''
+      }
+      return '&unit=' + state.filter.currentUnit
+    },
+    totalDetailBiayaPerItem: (state) => (id) => {
+      const pegawai = state.items.find((p) => p.id == id)
+      if (!pegawai) return 0
+      const sumBiayaHari = (items) =>
+        items.reduce((total, item) => total + item.hari * item.biaya, 0)
+      const sumBiaya = (items) =>
+        items.reduce((total, item) => total + item.biaya, 0)
+
+      const totalHotel = sumBiayaHari(pegawai.hotel || [])
+      const totalUangHarian = sumBiayaHari(pegawai.uang_harian || [])
+      const totalTransport = sumBiaya(pegawai.transport || [])
+      const totalRepresentatif = sumBiayaHari(pegawai.representatif || [])
+      return totalHotel + totalUangHarian + totalTransport + totalRepresentatif
+    },
+    totalDetailRealisasiBiayaPerItem: (state) => (id) => {
+      const pegawai = state.items.find((p) => p.id == id)
+      if (!pegawai) return 0
+      const sumBiayaHari = (items) =>
+        items.reduce(
+          (total, item) => total + item.realisasi_hari * item.realisasi_biaya,
+          0
+        )
+      const sumBiaya = (items) =>
+        items.reduce((total, item) => total + item.realisasi_biaya, 0)
+
+      const totalHotel = sumBiayaHari(pegawai.hotel || [])
+      const totalUangHarian = sumBiayaHari(pegawai.uang_harian || [])
+      const totalTransport = sumBiaya(pegawai.transport || [])
+      const totalRepresentatif = sumBiayaHari(pegawai.representatif || [])
+      return totalHotel + totalUangHarian + totalTransport + totalRepresentatif
+    },
     totalDetailBiaya(state) {
       const pegawai = state.singleResponse
       if (!pegawai) return 0
@@ -56,7 +155,6 @@ export const usePerjadinDetailStore = defineStore('perjadinDetailStore', {
       const totalRepresentatif = sumBiayaHari(pegawai.representatif || [])
       return totalHotel + totalUangHarian + totalTransport + totalRepresentatif
     },
-
     getTotal(state) {
       let uh = 0
       let hotel = 0
@@ -122,6 +220,20 @@ export const usePerjadinDetailStore = defineStore('perjadinDetailStore', {
     },
   },
   actions: {
+    async getData(page = '') {
+      this.isLoading = true
+      try {
+        const response = await axiosIns.get(
+          `/api/keuangan/perjadin-detail?limit=${this.filter.currentLimit}${this.pageQuery}${this.searchQuery}${this.dateQuery}${this.statusQuery}${this.unitQuery}`
+        )
+        this.responses = response.data.data
+      } catch (error) {
+        alert(error.message)
+      } finally {
+        this.isLoading = false
+      }
+      return false
+    },
     async show(id) {
       this.isLoading = true
       try {

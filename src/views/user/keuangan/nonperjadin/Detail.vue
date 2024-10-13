@@ -2,14 +2,24 @@
   <div class="mx-auto w-full px-4">
     <!-- Start coding here -->
     <section v-if="nonPerjadinStore.singleResponse == null">
-      <span class="flex"><ArrowPathIcon class="mx-auto w-6 h-6 animate-spin" /></span>
+      <span class="flex"
+        ><ArrowPathIcon class="mx-auto w-6 h-6 animate-spin"
+      /></span>
     </section>
     <template v-else>
-      <div class="justify-center items-center w-full md:inset-0 h-modal md:h-full">
-        <div class="relative p-4 w-full h-full md:h-auto flex flex-col space-y-4 bg-white">
+      <div
+        class="justify-center items-center w-full md:inset-0 h-modal md:h-full"
+      >
+        <div
+          class="relative p-4 w-full h-full md:h-auto flex flex-col space-y-4 bg-white rounded-lg shadow"
+        >
           <!-- Modal content -->
-          <div class="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5 dark:border-gray-600 flex-row">
-            <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Umum</h3>
+          <div
+            class="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5 dark:border-gray-600 flex-row"
+          >
+            <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
+              Umum
+            </h3>
             <div>
               <span
                 v-if="nonPerjadinStore.singleResponse.status == 'PENGAJUAN'"
@@ -34,20 +44,30 @@
           <div>
             <div class="mb-4 flex flex-col space-y-3">
               <div>
-                <label class="block text-sm font-medium text-gray-900 dark:text-white">Tahun Anggaran</label>
+                <label
+                  class="block text-sm font-medium text-gray-900 dark:text-white"
+                  >Tahun Anggaran</label
+                >
                 <select
                   :disabled="!isEditAll"
                   v-model="nonPerjadinStore.singleResponse.tahun_anggaran"
                   class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                 >
-                  <option v-for="(item, index) in mainStore.tahunOptions" :key="index" :value="item">
+                  <option
+                    v-for="(item, index) in mainStore.tahunOptions"
+                    :key="index"
+                    :value="item"
+                  >
                     {{ item }}
                   </option>
                 </select>
               </div>
 
               <div class="w-full">
-                <label class="block text-sm font-medium text-gray-900 dark:text-white">Nomor Transaksi</label>
+                <label
+                  class="block text-sm font-medium text-gray-900 dark:text-white"
+                  >Nomor Transaksi</label
+                >
                 <input
                   readonly
                   required
@@ -60,7 +80,10 @@
               </div>
 
               <div class="text-left">
-                <label class="block text-sm font-medium text-gray-900 dark:text-white">Tanggal Transaksi</label>
+                <label
+                  class="block text-sm font-medium text-gray-900 dark:text-white"
+                  >Tanggal Transaksi</label
+                >
                 <VueDatePicker
                   :disabled="!isEditAll"
                   v-model="nonPerjadinStore.singleResponse.tanggal_transaksi"
@@ -73,7 +96,10 @@
               </div>
 
               <div>
-                <label class="block text-sm font-medium text-gray-900 dark:text-white">Uraian / Peruntukan</label>
+                <label
+                  class="block text-sm font-medium text-gray-900 dark:text-white"
+                  >Uraian / Peruntukan</label
+                >
                 <textarea
                   :readonly="!isEditAll"
                   v-model="nonPerjadinStore.singleResponse.uraian"
@@ -85,7 +111,10 @@
               </div>
               <div class="flex flex-row space-x-4 justify-end items-end">
                 <div class="w-full">
-                  <label class="block text-sm font-medium text-gray-900 dark:text-white">Mata Anggaran Kegiatan</label>
+                  <label
+                    class="block text-sm font-medium text-gray-900 dark:text-white"
+                    >Mata Anggaran Kegiatan</label
+                  >
                   <div>
                     <v-select
                       :disabled="!isEditAll"
@@ -98,10 +127,14 @@
                     >
                       <template #no-options> Tidak ada data .. </template>
                       <template #option="option">
-                        <div class="d-center">{{ option.kode_mak }} - {{ option.keterangan }}</div>
+                        <div class="d-center">
+                          {{ option.kode_mak }} - {{ option.keterangan }}
+                        </div>
                       </template>
                       <template #selected-option="option">
-                        <div>{{ option.kode_mak }} - {{ option.keterangan }}</div>
+                        <div>
+                          {{ option.kode_mak }} - {{ option.keterangan }}
+                        </div>
                       </template>
                     </v-select>
                   </div>
@@ -118,7 +151,10 @@
 
               <div class="flex flex-row space-x-4">
                 <div class="w-full">
-                  <label class="block text-sm font-medium text-gray-900 dark:text-white">Sisa Anggaran (IDR)</label>
+                  <label
+                    class="block text-sm font-medium text-gray-900 dark:text-white"
+                    >Sisa Anggaran (IDR)</label
+                  >
                   <input
                     readonly
                     :value="IDRCurrency.format(sisaAnggaran)"
@@ -129,7 +165,10 @@
                   />
                 </div>
                 <div class="w-full">
-                  <label class="block text-sm font-medium text-gray-900 dark:text-white">Jumlah Pembayaran (IDR)</label>
+                  <label
+                    class="block text-sm font-medium text-gray-900 dark:text-white"
+                    >Jumlah Pembayaran (IDR)</label
+                  >
                   <input
                     v-if="isEditAll"
                     required
@@ -142,7 +181,11 @@
                   <input
                     v-else
                     readonly
-                    :value="IDRCurrency.format(nonPerjadinStore.singleResponse.total_anggaran)"
+                    :value="
+                      IDRCurrency.format(
+                        nonPerjadinStore.singleResponse.total_anggaran
+                      )
+                    "
                     type="text"
                     name="name"
                     id="name"
@@ -151,24 +194,49 @@
                 </div>
               </div>
               <div
-                v-if="nonPerjadinStore.singleResponse.total_anggaran > sisaAnggaran"
+                v-if="
+                  nonPerjadinStore.singleResponse.total_anggaran > sisaAnggaran
+                "
                 class="flex items-center p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
                 role="alert"
               >
-                <svg class="flex-shrink-0 inline w-4 h-4 me-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                <svg
+                  class="flex-shrink-0 inline w-4 h-4 me-3"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
                   <path
                     d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"
                   />
                 </svg>
                 <span class="sr-only">Info</span>
-                <div><span class="font-medium">Alert!</span> sisa anggaran tidak memenuhi pengajuan transaksi</div>
+                <div>
+                  <span class="font-medium">Alert!</span> sisa anggaran tidak
+                  memenuhi pengajuan transaksi
+                </div>
               </div>
               <div class="flex flex-row space-x-4">
                 <div class="text-left w-full">
-                  <label for="years" class="block text-sm font-medium text-gray-900 dark:text-white mr-2">Bendahara Pengeluaran*</label>
-                  <v-select :disabled="!isEditAll" :label="'nama'" :options="mainStore.bendaharaOptions" v-model="nonPerjadinStore.singleResponse.bendahara">
+                  <label
+                    for="years"
+                    class="block text-sm font-medium text-gray-900 dark:text-white mr-2"
+                    >Bendahara Pengeluaran*</label
+                  >
+                  <v-select
+                    :disabled="!isEditAll"
+                    :label="'nama'"
+                    :options="mainStore.bendaharaOptions"
+                    v-model="nonPerjadinStore.singleResponse.bendahara"
+                  >
                     <template #search="{ attributes, events }">
-                      <input class="vs__search" :required="!nonPerjadinStore.singleResponse.bendahara" v-bind="attributes" v-on="events" />
+                      <input
+                        class="vs__search"
+                        :required="!nonPerjadinStore.singleResponse.bendahara"
+                        v-bind="attributes"
+                        v-on="events"
+                      />
                     </template>
                     <template #no-options> Tidak ada data .. </template>
                     <template #option="option">
@@ -180,10 +248,24 @@
                   </v-select>
                 </div>
                 <div class="text-left w-full">
-                  <label for="years" class="block text-sm font-medium text-gray-900 dark:text-white mr-2">Pejabat Pembuat Komitmen*</label>
-                  <v-select :disabled="!isEditAll" :label="'nama'" :options="mainStore.ppkOptions" v-model="nonPerjadinStore.singleResponse.ppk">
+                  <label
+                    for="years"
+                    class="block text-sm font-medium text-gray-900 dark:text-white mr-2"
+                    >Pejabat Pembuat Komitmen*</label
+                  >
+                  <v-select
+                    :disabled="!isEditAll"
+                    :label="'nama'"
+                    :options="mainStore.ppkOptions"
+                    v-model="nonPerjadinStore.singleResponse.ppk"
+                  >
                     <template #search="{ attributes, events }">
-                      <input class="vs__search" :required="!nonPerjadinStore.singleResponse.ppk" v-bind="attributes" v-on="events" />
+                      <input
+                        class="vs__search"
+                        :required="!nonPerjadinStore.singleResponse.ppk"
+                        v-bind="attributes"
+                        v-on="events"
+                      />
                     </template>
                     <template #no-options> Tidak ada data .. </template>
                     <template #option="option">
@@ -197,7 +279,10 @@
               </div>
 
               <div>
-                <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Penerima</label>
+                <label
+                  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  >Penerima</label
+                >
                 <div class="relative w-full">
                   <input
                     :readonly="!isEditAll"
@@ -214,7 +299,10 @@
                     type="button"
                     class="absolute top-0 end-0 p-2.5 text-sm font-medium h-full text-white bg-blue-700 rounded-e-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                   >
-                    <MagnifyingGlassIcon class="w-4 h-4" v-if="!nonPerjadinStore.isSearching" />
+                    <MagnifyingGlassIcon
+                      class="w-4 h-4"
+                      v-if="!nonPerjadinStore.isSearching"
+                    />
                     <ArrowPathIcon class="w-4 h-4 animate-spin" v-else />
                   </button>
                 </div>
@@ -225,13 +313,21 @@
                   class="mt-2 flex items-center p-4 mb-4 text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400"
                   role="alert"
                 >
-                  <svg class="flex-shrink-0 w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                  <svg
+                    class="flex-shrink-0 w-4 h-4"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                  >
                     <path
                       d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"
                     />
                   </svg>
                   <span class="sr-only">Info</span>
-                  <div class="ms-3 text-sm font-medium">{{ nonPerjadinStore.singleResponse.penerima }}</div>
+                  <div class="ms-3 text-sm font-medium">
+                    {{ nonPerjadinStore.singleResponse.penerima }}
+                  </div>
                   <button
                     v-if="isEditAll"
                     @click="penerimaReset()"
@@ -241,25 +337,51 @@
                     aria-label="Close"
                   >
                     <span class="sr-only">Close</span>
-                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
-                      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                    <svg
+                      class="w-3 h-3"
+                      aria-hidden="true"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 14 14"
+                    >
+                      <path
+                        stroke="currentColor"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+                      />
                     </svg>
                   </button>
                 </div>
               </div>
 
               <div class="text-left" v-if="isEditAll">
-                <label for="name" class="block text-sm font-medium text-gray-900 dark:text-white">Lampiran</label>
+                <label
+                  for="name"
+                  class="block text-sm font-medium text-gray-900 dark:text-white"
+                  >Lampiran</label
+                >
 
                 <small class="text-gray-600">
-                  <span v-if="nonPerjadinStore.singleResponse.lampiran.length < 1">Tidak ada lampiran</span>
-                  <ol class="ps-5 mt-2 space-y-1 list-decimal list-inside" v-else>
+                  <span
+                    v-if="nonPerjadinStore.singleResponse.lampiran.length < 1"
+                    >Tidak ada lampiran</span
+                  >
+                  <ol
+                    class="ps-5 mt-2 space-y-1 list-decimal list-inside"
+                    v-else
+                  >
                     <li
                       :key="index"
-                      v-for="(item, index) in nonPerjadinStore.singleResponse.lampiran"
+                      v-for="(item, index) in nonPerjadinStore.singleResponse
+                        .lampiran"
                       class="text-base w-full rounded-t-lg dark:border-gray-600 text-blue-600 flex flex-row space-x-2 items-center"
                     >
-                      <a :href="`${storageUrl + '/' + item.lampiran}`" :download="item.file_name">
+                      <a
+                        :href="`${storageUrl + '/' + item.lampiran}`"
+                        :download="item.file_name"
+                      >
                         <span class="text-gray-500">{{ index + 1 }}.</span>
                         {{ item.file_name }}
                       </a>
@@ -271,7 +393,10 @@
                   </ol>
                 </small>
 
-                <label class="block text-sm font-medium text-gray-900 dark:text-white">Upload Lampiran Tambahan</label>
+                <label
+                  class="block text-sm font-medium text-gray-900 dark:text-white"
+                  >Upload Lampiran Tambahan</label
+                >
 
                 <small class="text-gray-600">
                   <ol class="ps-5 mt-2 space-y-1 list-decimal list-inside">
@@ -288,17 +413,31 @@
               </div>
 
               <div class="text-left" v-else>
-                <label for="name" class="block text-sm font-medium text-gray-900 dark:text-white">Lampiran</label>
+                <label
+                  for="name"
+                  class="block text-sm font-medium text-gray-900 dark:text-white"
+                  >Lampiran</label
+                >
 
                 <small class="text-gray-600">
-                  <span v-if="nonPerjadinStore.singleResponse.lampiran.length < 1">Tidak ada lampiran</span>
-                  <ol class="ps-5 mt-2 space-y-1 list-decimal list-inside" v-else>
+                  <span
+                    v-if="nonPerjadinStore.singleResponse.lampiran.length < 1"
+                    >Tidak ada lampiran</span
+                  >
+                  <ol
+                    class="ps-5 mt-2 space-y-1 list-decimal list-inside"
+                    v-else
+                  >
                     <li
                       :key="index"
-                      v-for="(item, index) in nonPerjadinStore.singleResponse.lampiran"
+                      v-for="(item, index) in nonPerjadinStore.singleResponse
+                        .lampiran"
                       class="text-base w-full rounded-t-lg dark:border-gray-600 text-blue-600 flex flex-row space-x-2 items-center"
                     >
-                      <a :href="`${storageUrl + '/' + item.lampiran}`" :download="item.file_name">
+                      <a
+                        :href="`${storageUrl + '/' + item.lampiran}`"
+                        :download="item.file_name"
+                      >
                         <span class="text-gray-500">{{ index + 1 }}.</span>
                         {{ item.file_name }}
                       </a>
@@ -310,19 +449,35 @@
           </div>
         </div>
 
-        <div class="flex items-center space-x-1 mt-4 text-center justify-start" v-if="authStore.user.role == 'USER'">
+        <div class="items-center space-x-1 text-center justify-start mt-2">
+          <button
+            @click="showLog = true"
+            type="button"
+            class="flex flex-row w-fit text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500 dark:focus:ring-blue-800"
+          >
+            <span>Log</span>
+          </button>
+        </div>
+
+        <div
+          class="flex items-center space-x-1 mt-4 text-center justify-start"
+          v-if="authStore.user.role == 'USER'"
+        >
           <button
             @click="toSpb()"
             type="button"
-            class="w-32 text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500 dark:focus:ring-blue-800"
+            class="w-fit items-center flex text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500 dark:focus:ring-blue-800"
           >
-            Cetak SPB
+            Cetak SPB <ArrowTopRightOnSquareIcon class="h-4 w-4 ml-2" />
           </button>
         </div>
 
         <div class="flex items-center space-x-1 mt-4 text-center justify-end">
           <div
-            v-if="nonPerjadinStore.singleResponse.status == 'PENGAJUAN' && authStore.user.role == 'USER'"
+            v-if="
+              nonPerjadinStore.singleResponse.status == 'PENGAJUAN' &&
+              authStore.user.role == 'USER'
+            "
             class="flex items-center space-x-1 mt-4 text-center justify-end"
           >
             <button
@@ -378,7 +533,10 @@
             </div>
           </div>
 
-          <div v-else-if="authStore.user.role == 'ADMIN'" class="flex flex-row space-x-2">
+          <div
+            v-else-if="authStore.user.role == 'ADMIN'"
+            class="flex flex-row space-x-2"
+          >
             <button
               v-if="nonPerjadinStore.singleResponse.status == 'VERIFIKASI'"
               @click="openSelesai()"
@@ -390,16 +548,6 @@
               </span>
               Submit
             </button>
-
-            <!-- <button
-              type="button"
-              class="flex flex-row w-fit text-green-700 hover:text-white border border-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2 dark:border-green-500 dark:text-green-500 dark:hover:text-white dark:hover:bg-green-500 dark:focus:ring-green-800"
-            >
-              <span>
-                <PencilSquareIcon class="h-5 w-5 mr-2" />
-              </span>
-              Reject
-            </button> -->
 
             <button
               @click="onDelete()"
@@ -415,48 +563,73 @@
         </div>
       </div>
     </template>
-    <Dialog :overflowVisible="true" :show="makDetailDialog" @close="makDetailDialog = !makDetailDialog" :canSubmit="false">
+    <Dialog
+      :overflowVisible="true"
+      :show="makDetailDialog"
+      @close="makDetailDialog = !makDetailDialog"
+      :canSubmit="false"
+    >
       <template #title>
         <h1>Detail MAK</h1>
       </template>
 
       <template #content>
         <div class="flex flex-col space-y-4 mt-3">
-          <dl class="text-md max-w-md text-gray-900 divide-y divide-gray-200 dark:text-white dark:divide-gray-700">
+          <dl
+            class="text-md max-w-md text-gray-900 divide-y divide-gray-200 dark:text-white dark:divide-gray-700"
+          >
             <div class="flex flex-col">
               <dt class="mb-1 text-gray-500 dark:text-gray-400">Anggaran</dt>
               <dd class="font-semibold">
-                {{ IDRCurrency.format(nonPerjadinStore.singleResponse?.mak?.anggaran ?? 0) }}
+                {{
+                  IDRCurrency.format(
+                    nonPerjadinStore.singleResponse?.mak?.anggaran ?? 0
+                  )
+                }}
               </dd>
             </div>
 
             <div class="flex flex-col">
-              <dt class="mb-1 text-gray-500 dark:text-gray-400">Anggaran yang belum di realisasikan</dt>
+              <dt class="mb-1 text-gray-500 dark:text-gray-400">
+                Anggaran yang belum di realisasikan
+              </dt>
               <dd class="font-semibold">
                 {{ IDRCurrency.format(totalSingleBelumRealisasi ?? 0) }}
               </dd>
             </div>
 
             <div class="flex flex-col">
-              <dt class="mb-1 text-gray-500 dark:text-gray-400">Anggaran yang belum di realisasikan</dt>
+              <dt class="mb-1 text-gray-500 dark:text-gray-400">
+                Anggaran yang belum di realisasikan
+              </dt>
               <dd class="font-semibold">
                 {{ IDRCurrency.format(totalSingleSudahRealisasi ?? 0) }}
               </dd>
             </div>
             <div class="flex flex-col">
-              <dt class="mb-1 text-gray-500 dark:text-gray-400">Sisa Anggaran</dt>
+              <dt class="mb-1 text-gray-500 dark:text-gray-400">
+                Sisa Anggaran
+              </dt>
               <dd class="font-semibold">
                 {{ IDRCurrency.format(sisaAnggaran) }}
               </dd>
             </div>
             <div class="flex flex-col">
-              <dt class="mb-1 text-gray-500 dark:text-gray-400">Anggaran Transaksi Ini</dt>
+              <dt class="mb-1 text-gray-500 dark:text-gray-400">
+                Anggaran Transaksi Ini
+              </dt>
               <dd class="font-semibold">
-                {{ IDRCurrency.format(nonPerjadinStore.singleResponse.total_anggaran) }}
+                {{
+                  IDRCurrency.format(
+                    nonPerjadinStore.singleResponse.total_anggaran
+                  )
+                }}
               </dd>
             </div>
             <div class="flex flex-col">
-              <dt class="mb-1 text-gray-500 dark:text-gray-400">Estimasi Sisa Anggaran</dt>
+              <dt class="mb-1 text-gray-500 dark:text-gray-400">
+                Estimasi Sisa Anggaran
+              </dt>
               <dd class="font-semibold">
                 {{ IDRCurrency.format(estimasiSisaAnggaran) }}
               </dd>
@@ -465,7 +638,13 @@
         </div>
       </template>
     </Dialog>
-    <Dialog :overflowVisible="true" :show="sendDialog" @submit="sendData" @close="sendDialog = !sendDialog" :canSubmit="true">
+    <Dialog
+      :overflowVisible="true"
+      :show="sendDialog"
+      @submit="sendData"
+      @close="sendDialog = !sendDialog"
+      :canSubmit="true"
+    >
       <template #title>
         <h1>Kirim Berkas</h1>
         <small>Berkas akan di kirim untuk dilakukan Verifikasi</small>
@@ -474,7 +653,11 @@
       <template #content>
         <div class="flex w-full flex-col space-y-4">
           <div class="text-left">
-            <label for="years" class="block text-sm font-medium text-gray-900 dark:text-white mr-2">Tujuan</label>
+            <label
+              for="years"
+              class="block text-sm font-medium text-gray-900 dark:text-white mr-2"
+              >Tujuan</label
+            >
             <select
               v-model="nonPerjadinStore.updateData.status"
               class="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block px-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -483,7 +666,11 @@
             </select>
           </div>
           <div>
-            <label for="price" class="block text-sm font-medium text-gray-900 dark:text-white">Catatan</label>
+            <label
+              for="price"
+              class="block text-sm font-medium text-gray-900 dark:text-white"
+              >Catatan</label
+            >
             <textarea
               placeholder="Isi catatan disini"
               v-model="nonPerjadinStore.updateData.catatan"
@@ -496,7 +683,13 @@
       </template>
     </Dialog>
 
-    <Dialog :overflowVisible="true" :show="selesaiDialog" @submit="onSelesai()" @close="selesaiDialog = !selesaiDialog" :canSubmit="true">
+    <Dialog
+      :overflowVisible="true"
+      :show="selesaiDialog"
+      @submit="onSelesai()"
+      @close="selesaiDialog = !selesaiDialog"
+      :canSubmit="true"
+    >
       <template #title>
         <h1>Confirmation</h1>
       </template>
@@ -504,12 +697,21 @@
       <template #content>
         <div class="flex flex-col space-y-4 mt-3">
           <div class="text-left font-medium text-xl">Apa anda ??</div>
-          <small class="text-gray-700">Status Berkas akan di ubah menjadi SELESAI!, Anggaran akan terealisasi!</small>
+          <small class="text-gray-700"
+            >Status Berkas akan di ubah menjadi SELESAI!, Anggaran akan
+            terealisasi!</small
+          >
         </div>
       </template>
     </Dialog>
 
-    <Dialog :overflowVisible="true" :show="confirmDialog" @submit="update()" @close="confirmDialog = !confirmDialog" :canSubmit="true">
+    <Dialog
+      :overflowVisible="true"
+      :show="confirmDialog"
+      @submit="update()"
+      @close="confirmDialog = !confirmDialog"
+      :canSubmit="true"
+    >
       <template #title>
         <h1>Konfirmasi</h1>
       </template>
@@ -521,7 +723,13 @@
       </template>
     </Dialog>
 
-    <DeleteDialog :show="deleteDialog" @submit="deleteData" @close="deleteDialog = !deleteDialog" />
+    <DeleteDialog
+      :show="deleteDialog"
+      @submit="deleteData"
+      @close="deleteDialog = !deleteDialog"
+    />
+
+    <Log :is-show="showLog" @close="showLog = !showLog" />
   </div>
 </template>
 
@@ -538,6 +746,7 @@ import {
   ArrowPathIcon,
   PencilSquareIcon,
   PaperAirplaneIcon,
+  ArrowTopRightOnSquareIcon,
 } from '@heroicons/vue/24/outline'
 import VueDatePicker from '@vuepic/vue-datepicker'
 import '@vuepic/vue-datepicker/dist/main.css'
@@ -550,6 +759,8 @@ import { useRouter, useRoute } from 'vue-router'
 import DeleteDialog from '@/components/DeleteDialog.vue'
 import { useDebounceFn } from '@vueuse/core'
 import { computed } from 'vue'
+
+const Log = defineAsyncComponent(() => import('./Log.vue'))
 
 const nonPerjadinStore = useNonPerjadinStore()
 const makStore = useMakStore()
@@ -564,7 +775,7 @@ const confirmDialog = ref(false)
 const deleteId = ref(0)
 const Dialog = defineAsyncComponent(() => import('@/components/Dialog.vue'))
 const route = useRoute()
-const isEdit = ref(false)
+const showLog = ref(false)
 const isEditAll = ref(false)
 
 const searchMak = useDebounceFn((search) => {
@@ -597,7 +808,10 @@ function onDelete() {
   } else if (authStore.user.role == 'ADMIN') {
     deleteId.value = nonPerjadinStore.singleResponse.id
     deleteDialog.value = true
-  } else if (nonPerjadinStore.singleResponse.status == 'SELESAI' && authStore.user.role == 'USER') {
+  } else if (
+    nonPerjadinStore.singleResponse.status == 'SELESAI' &&
+    authStore.user.role == 'USER'
+  ) {
     toast(`Status berkas telah SELESAI, hubungi admin untuk menghapus`, {
       position: toast.POSITION.BOTTOM_CENTER,
       type: 'error',
@@ -623,14 +837,17 @@ function onSend() {
     deleteId.value = nonPerjadinStore.singleResponse.id
     sendDialog.value = true
   } else {
-    toast(`Tidak bisa mengirim berkas, status berkas ${nonPerjadinStore.singleResponse.status}`, {
-      position: toast.POSITION.TOP_CENTER,
-      type: 'error',
-      autoClose: 3000,
-      closeOnClick: true,
-      closeButton: true,
-      isLoading: false,
-    })
+    toast(
+      `Tidak bisa mengirim berkas, status berkas ${nonPerjadinStore.singleResponse.status}`,
+      {
+        position: toast.POSITION.TOP_CENTER,
+        type: 'error',
+        autoClose: 3000,
+        closeOnClick: true,
+        closeButton: true,
+        isLoading: false,
+      }
+    )
   }
 }
 
@@ -725,7 +942,10 @@ async function toSpb() {
 }
 
 async function sendData() {
-  if (nonPerjadinStore.updateData.status == '' || nonPerjadinStore.updateData.status == null) {
+  if (
+    nonPerjadinStore.updateData.status == '' ||
+    nonPerjadinStore.updateData.status == null
+  ) {
     toast('Data belum lengkap', {
       position: toast.POSITION.BOTTOM_CENTER,
       type: 'error',
@@ -770,11 +990,14 @@ async function sendData() {
 
 async function update() {
   confirmDialog.value = false
-  const id = toast.loading('Pengusulan belanja non perjalan dinas sedang di perbaharui...', {
-    position: toast.POSITION.BOTTOM_CENTER,
-    type: 'info',
-    isLoading: true,
-  })
+  const id = toast.loading(
+    'Pengusulan belanja non perjalan dinas sedang di perbaharui...',
+    {
+      position: toast.POSITION.BOTTOM_CENTER,
+      type: 'info',
+      isLoading: true,
+    }
+  )
 
   const success = await nonPerjadinStore.update()
   if (success.status) {
@@ -848,7 +1071,10 @@ const totalSingleBelumRealisasi = computed(() => {
 })
 
 const sisaAnggaran = computed(() => {
-  return nonPerjadinStore.singleResponse.mak.anggaran - (totalSingleBelumRealisasi.value + totalSingleSudahRealisasi.value)
+  return (
+    nonPerjadinStore.singleResponse.mak.anggaran -
+    (totalSingleBelumRealisasi.value + totalSingleSudahRealisasi.value)
+  )
 })
 
 const estimasiSisaAnggaran = computed(() => {

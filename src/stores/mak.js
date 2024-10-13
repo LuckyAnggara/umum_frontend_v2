@@ -22,7 +22,9 @@ export const useMakStore = defineStore('mak', {
   }),
   getters: {
     capaianRealisasi(state) {
-      return ((state.totalSudahRealisasi / state.totalAnggaran) * 100).toFixed(2)
+      return ((state.totalSudahRealisasi / state.totalAnggaran) * 100).toFixed(
+        2
+      )
     },
     sudahRealisasiPerMak: (state) => (id) => {
       // Find the parent item (mak_id) with the given id
@@ -66,33 +68,39 @@ export const useMakStore = defineStore('mak', {
         return total + item.anggaran
       }, 0)
     },
-    totalSisaPaguNominatif(state) {
-      let total = 0
-      return state.itemNominatif.forEach((e) => {
-        let penggunaan = 0
-        if (e.detail) {
-          penggunaan = e.detail.reduce((sum, item) => sum + item.jumlah, 0)
-        }
-        return total + penggunaan
-      })
-    },
-    totalPaguNominatif(state) {
+    totalPenggunaanPaguNominatif(state) {
       return state.itemNominatif.reduce((total, item) => {
-        return total + item.jumlah
+        const detailTotal = item.detail.reduce(
+          (sum, detailItem) => sum + detailItem.jumlah,
+          0
+        )
+        return total + detailTotal
       }, 0)
     },
-    totalSisaDana: (state) => (id) => {
+    totalPaguNominatif(state) {
+      return state.itemNominatif
+        .filter((e) => e.type == 'detail')
+        .reduce((total, item) => {
+          return total + item.jumlah
+        }, 0)
+    },
+    totalPaguDigunakan: (state) => (id) => {
       const item = state.itemNominatif.find((p) => p.id === id)
       if (!item) return 0
 
-      const penggunaan = item.detail.reduce((total, item) => total + item.jumlah, 0)
-      return item.jumlah - penggunaan
+      const penggunaan = item.detail.reduce(
+        (total, item) => total + item.jumlah,
+        0
+      )
+      return penggunaan
     },
     totalBelumRealisasi(state) {
       // Use reduce to accumulate the total_realisasi from the detail array of each record
       return state.items.reduce((total, item) => {
         // Sum total_realisasi from detail array for each item
-        const detailRealisasi = item.detail.filter((i) => i.status_realisasi == 'BELUM').reduce((sum, detail) => sum + detail.total_anggaran, 0)
+        const detailRealisasi = item.detail
+          .filter((i) => i.status_realisasi == 'BELUM')
+          .reduce((sum, detail) => sum + detail.total_anggaran, 0)
         return total + detailRealisasi
       }, 0)
     },
@@ -100,7 +108,9 @@ export const useMakStore = defineStore('mak', {
       // Use reduce to accumulate the total_realisasi from the detail array of each record
       return state.items.reduce((total, item) => {
         // Sum total_realisasi from detail array for each item
-        const detailRealisasi = item.detail.filter((i) => i.status_realisasi == 'SUDAH').reduce((sum, detail) => sum + detail.total_realisasi, 0)
+        const detailRealisasi = item.detail
+          .filter((i) => i.status_realisasi == 'SUDAH')
+          .reduce((sum, detail) => sum + detail.total_realisasi, 0)
         return total + detailRealisasi
       }, 0)
     },
@@ -119,6 +129,7 @@ export const useMakStore = defineStore('mak', {
     itemNominatif(state) {
       return state.responseNominatif?.data ?? []
     },
+
     items(state) {
       return state.responses?.data ?? []
     },
@@ -171,7 +182,9 @@ export const useMakStore = defineStore('mak', {
     async getDataNominatif(id) {
       this.isDetailLoading = true
       try {
-        const response = await axiosIns.get(`/api/keuangan/mak-nominatif?mak_id=${id}`)
+        const response = await axiosIns.get(
+          `/api/keuangan/mak-nominatif?mak_id=${id}`
+        )
         this.responseNominatif = response.data
       } catch (error) {
         alert(error.message)
@@ -185,7 +198,9 @@ export const useMakStore = defineStore('mak', {
       try {
         const response = await axiosIns.get(`/api/keuangan/mak/${id}`)
         this.singleResponse = JSON.parse(JSON.stringify(response.data.data))
-        this.originalSingleResponse = JSON.parse(JSON.stringify(response.data.data))
+        this.originalSingleResponse = JSON.parse(
+          JSON.stringify(response.data.data)
+        )
       } catch (error) {
         alert(error.message)
       } finally {
@@ -195,9 +210,13 @@ export const useMakStore = defineStore('mak', {
     },
     filterSingleResponse() {
       if (this.filter.currentStatus == '') {
-        this.singleResponse = JSON.parse(JSON.stringify(this.originalSingleResponse))
+        this.singleResponse = JSON.parse(
+          JSON.stringify(this.originalSingleResponse)
+        )
       } else {
-        this.singleResponse.detail = this.originalSingleResponse.detail.filter((x) => x.status_realisasi == this.filter.currentStatus)
+        this.singleResponse.detail = this.originalSingleResponse.detail.filter(
+          (x) => x.status_realisasi == this.filter.currentStatus
+        )
       }
     },
   },

@@ -1,26 +1,13 @@
 <template>
-  <div class="mx-auto w-full px-4">
-    <!-- Start coding here -->
-
-    <!-- Start coding here -->
-    <div class="flex flex-row justify-end mb-5">
-      <div
-        class="place-self-end w-full md:w-auto flex flex-col md:flex-row space-y-2 md:space-y-0 items-stretch md:items-center justify-end md:space-x-3 flex-shrink-0"
-      >
-        <button
-          v-if="authStore.role == 'USER'"
-          @click="onNew()"
-          type="button"
-          class="text-gray-900 w-fit flex flex-row space-x-2 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
-        >
-          <FolderPlusIcon class="h-5" /> <span>Baru</span>
-        </button>
-      </div>
-    </div>
-
+  <div>
     <div
       class="bg-white dark:bg-gray-800 relative shadow-md sm:rounded-lg overflow-visible"
     >
+      <div class="p-4">
+        <p class="font-semibold text-lg">
+          Berdasarkan Surat Tugas / Surat Perintah
+        </p>
+      </div>
       <div
         class="flex flex-col md:flex-row items-center space-y-3 md:space-y-0 md:space-x-4 p-4 w-full"
       >
@@ -32,14 +19,14 @@
               >Show</label
             >
             <select
-              @change="nonPerjadinStore.getData()"
-              v-model="nonPerjadinStore.filter.currentLimit"
+              @change="perjadinStore.getData()"
+              v-model="perjadinStore.filter.currentLimit"
               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block px-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             >
               <option
                 :value="limit.value"
                 :selected="
-                  nonPerjadinStore.filter.currentLimit == limit.value
+                  perjadinStore.filter.currentLimit == limit.value
                     ? true
                     : false
                 "
@@ -62,8 +49,8 @@
                 />
               </div>
               <input
-                @keyup.enter="nonPerjadinStore.getData()"
-                v-model="nonPerjadinStore.filter.searchQuery"
+                @keyup.enter="perjadinStore.getData()"
+                v-model="perjadinStore.filter.searchQuery"
                 type="text"
                 id="simple-search"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -82,8 +69,8 @@
               >Unit</label
             >
             <select
-              @change="nonPerjadinStore.getData()"
-              v-model="nonPerjadinStore.filter.currentUnit"
+              @change="perjadinStore.getData()"
+              v-model="perjadinStore.filter.currentUnit"
               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block px-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             >
               <option value="0">SEMUA</option>
@@ -100,21 +87,6 @@
               <option value="12">KELOMPOK HSIP</option>
             </select>
           </div>
-          <div class="text-left">
-            <VueDatePicker
-              v-model="nonPerjadinStore.filter.tanggalTransaksi"
-              required
-              @closed="nonPerjadinStore.getData()"
-              :format="'dd MMMM yyyy'"
-              auto-apply
-              :is-24="false"
-              date-picker
-              :enable-time-picker="false"
-              model-type="yyyy-MM-dd"
-              locale="id"
-              placeholder="Tanggal Transaksi"
-            ></VueDatePicker>
-          </div>
 
           <div class="flex items-center">
             <label
@@ -123,13 +95,14 @@
               >Status</label
             >
             <select
-              @change="nonPerjadinStore.getData()"
-              v-model="nonPerjadinStore.filter.currentStatus"
+              @change="perjadinStore.getData()"
+              v-model="perjadinStore.filter.currentStatus"
               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block px-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             >
               <option value="">SEMUA</option>
-              <option value="PENGAJUAN">PENGAJUAN</option>
+              <option value="PERENCANAAN">PERENCANAAN</option>
               <option value="VERIFIKASI">VERIFIKASI</option>
+              <option value="PERTANGGUNG JAWABAN">PERTANGGUNG JAWABAN</option>
               <option value="SELESAI">SELESAI</option>
             </select>
           </div>
@@ -142,14 +115,16 @@
           class="lg:w-full min-w-full text-sm text-left text-gray-500 dark:text-gray-400"
         >
           <thead
-            class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400"
+            class="text-xs text-gray-700 uppercase bg-gray-200 dark:bg-gray-700 dark:text-gray-400"
           >
             <tr>
               <th scope="col" class="px-4 py-3">#</th>
-              <th scope="col" class="px-4 py-3">No Transaksi</th>
-              <th scope="col" class="px-4 py-3">Uraian</th>
-              <th scope="col" class="px-4 py-3">Jumlah Pembayaran</th>
-              <th scope="col" class="px-4 py-3">Tanggal</th>
+              <th scope="col" class="px-4 py-3">
+                No Surat Tugas / Surat Perintah
+              </th>
+              <th scope="col" class="px-4 py-3">Nama Kegiatan</th>
+              <th scope="col" class="px-4 py-3">Tanggal Kegiatan</th>
+              <th scope="col" class="px-4 py-3">Anggaran</th>
               <th scope="col" class="px-4 py-3">Status</th>
               <th
                 scope="col"
@@ -162,7 +137,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-if="nonPerjadinStore.isLoading">
+            <tr v-if="perjadinStore.isLoading">
               <td colspan="5" class="text-center">
                 <span class=""
                   ><ArrowPathIcon class="w-6 h-6 animate-spin mx-auto"
@@ -171,46 +146,60 @@
             </tr>
             <tr
               v-else-if="
-                !nonPerjadinStore.isLoading && nonPerjadinStore.items.length < 1
+                !perjadinStore.isLoading && perjadinStore.items.length < 1
               "
             >
               <td colspan="5" class="text-center">No Data</td>
             </tr>
             <tr
               v-else
-              v-for="(item, index) in nonPerjadinStore.items"
+              v-for="(item, index) in perjadinStore.items"
               :key="index"
               class="odd:bg-white odd:dark:bg-gray-900 odd:dark:border-gray-700 even:bg-gray-50 even:dark:bg-gray-800 even:dark:border-gray-700 border-b"
             >
-              <!-- <td class="px-4 py-1 text-center">{{ nonPerjadinStore.from + index }}</td> -->
-              <td class="px-4 py-1">{{ nonPerjadinStore.from + index }}</td>
+              <!-- <td class="px-4 py-1 text-center">{{ perjadinStore.from + index }}</td> -->
+              <td class="px-4 py-1">{{ perjadinStore.from + index }}</td>
               <td class="px-4 py-1">
                 <div class="flex flex-col">
-                  <span class="font-bold">{{ item.nomor_transaksi }}</span>
-                  <span class="text-xs">{{ item.tanggal_transaksi }}</span>
+                  <span class="font-bold">{{ item.no_st }}</span>
+                  <span class="text-xs">{{ item.tanggal_st }}</span>
                 </div>
               </td>
               <td class="px-4 py-1">
-                <span class="font-bold">{{ item.uraian }}</span>
-              </td>
-              <td class="px-4 py-1">
-                <span class="font-bold">{{
-                  IDRCurrency.format(item.total_anggaran)
-                }}</span>
+                <div class="flex flex-col">
+                  <span class="font-bold">{{ item.nama_kegiatan }}</span>
+                  <span class="text-xs">{{ item.tempat_kegiatan }}</span>
+                </div>
               </td>
               <td class="px-4 py-1">
                 <div class="flex flex-col">
-                  <span class="font-bold">Tanggal Pengajuan</span>
-                  <span class="">{{ item.created_at }}</span>
-                  <span class="font-bold" v-if="item.tanggal_verifikasi"
-                    >Tanggal Verifikasi</span
-                  >
-                  <span class="text-xs">{{ item.tanggal_verifikasi }}</span>
+                  <span class="font-bold">Tanggal Awal</span>
+                  <span class="text-xs">{{ item.tanggal_awal }}</span>
+                  <span class="font-bold">Tanggal Akhir</span>
+                  <span class="text-xs">{{ item.tanggal_akhir }}</span>
+                </div>
+              </td>
+              <td class="px-4 py-1">
+                <div class="flex flex-col">
+                  <span class="font-bold">Total Anggaran</span>
+                  <span class="text-xs">{{
+                    IDRCurrency.format(item.total_anggaran)
+                  }}</span>
+                  <span class="font-bold">Realisasi Anggaran</span>
+                  <span class="text-xs">{{
+                    IDRCurrency.format(item.total_realisasi)
+                  }}</span>
+                  <span class="font-bold">Kurang / Lebih Pembayaran</span>
+                  <span class="text-xs text-red-500">{{
+                    IDRCurrency.format(
+                      item.total_anggaran - item.total_realisasi
+                    )
+                  }}</span>
                 </div>
               </td>
               <td class="px-4 py-1">
                 <span
-                  v-if="item.status == 'PENGAJUAN'"
+                  v-if="item.status == 'PERENCANAAN'"
                   class="bg-blue-100 text-blue-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300"
                 >
                   {{ item.status }}</span
@@ -218,6 +207,12 @@
                 <span
                   v-if="item.status == 'VERIFIKASI'"
                   class="bg-yellow-100 text-yellow-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-yellow-900 dark:text-yellow-300"
+                >
+                  {{ item.status }}</span
+                >
+                <span
+                  v-if="item.status == 'PERTANGGUNG JAWABAN'"
+                  class="bg-red-100 text-red-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300"
                 >
                   {{ item.status }}</span
                 >
@@ -243,7 +238,7 @@
                       >
                         <ArrowPathIcon
                           v-if="
-                            nonPerjadinStore.isDestroyLoading &&
+                            perjadinStore.isDestroyLoading &&
                             deleteId == item.id
                           "
                           class="h-5 w-5 animate-spin"
@@ -303,20 +298,20 @@
         <span class="text-sm font-normal text-gray-500 dark:text-gray-400">
           Showing
           <span class="font-semibold text-gray-900 dark:text-white"
-            >{{ nonPerjadinStore.from }} - {{ nonPerjadinStore.to }}</span
+            >{{ perjadinStore.from }} - {{ perjadinStore.to }}</span
           >
           of
           <span class="font-semibold text-gray-900 dark:text-white">{{
-            nonPerjadinStore.total
+            perjadinStore.total
           }}</span>
         </span>
         <ul class="inline-flex items-stretch -space-x-px">
           <li>
             <a
-              @click="nonPerjadinStore.currentPage == 1 ? '' : previousPage()"
-              :disabled="nonPerjadinStore.currentPage == 1 ? true : false"
+              @click="perjadinStore.currentPage == 1 ? '' : previousPage()"
+              :disabled="perjadinStore.currentPage == 1 ? true : false"
               :class="
-                nonPerjadinStore.currentPage == 1
+                perjadinStore.currentPage == 1
                   ? 'cursor-not-allowed'
                   : 'cursor-pointer dark:hover:bg-blue-700 dark:hover:text-white hover:bg-blue-100 hover:text-gray-700'
               "
@@ -328,12 +323,12 @@
           <li>
             <a
               @click="
-                nonPerjadinStore.lastPage == nonPerjadinStore.currentPage
+                perjadinStore.lastPage == perjadinStore.currentPage
                   ? ''
                   : nextPage()
               "
               :class="
-                nonPerjadinStore.lastPage == nonPerjadinStore.currentPage
+                perjadinStore.lastPage == perjadinStore.currentPage
                   ? 'cursor-not-allowed'
                   : 'cursor-pointer dark:hover:bg-blue-700 dark:hover:text-white hover:bg-blue-100 hover:text-gray-700'
               "
@@ -351,12 +346,6 @@
     @submit="deleteData"
     @close="confirmDialog = !confirmDialog"
   />
-
-  <!-- <DeleteDialog
-    :show="confirmDialog"
-    @submit="deleteData"
-    @close="confirmDialog = !confirmDialog"
-  /> -->
 
   <Dialog
     :overflowVisible="true"
@@ -378,7 +367,7 @@
             >Tujuan</label
           >
           <select
-            v-model="nonPerjadinStore.updateData.status"
+            v-model="perjadinStore.updateData.status"
             class="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block px-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           >
             <option value="VERIFIKASI">KEUANGAN</option>
@@ -392,7 +381,7 @@
           >
           <textarea
             placeholder="Isi catatan disini"
-            v-model="nonPerjadinStore.updateData.catatan"
+            v-model="perjadinStore.updateData.catatan"
             id="message"
             rows="2"
             class="block w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -408,7 +397,7 @@ import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
 import DeleteDialog from '@/components/DeleteDialog.vue'
 import Dialog from '@/components/Dialog.vue'
 import { IDRCurrency } from '@/utilities/formatter'
-import { useNonPerjadinStore } from '@/stores/nonPerjadin'
+import { usePerjadinStore } from '@/stores/perjadin'
 import { useMainStore } from '@/stores/main'
 import { useAuthStore } from '@/stores/auth'
 
@@ -423,13 +412,12 @@ import {
   TrashIcon,
   MagnifyingGlassIcon,
   PaperAirplaneIcon,
-  FolderPlusIcon,
 } from '@heroicons/vue/24/outline'
 import { toast } from 'vue3-toastify'
 import { useRouter } from 'vue-router'
 import { computed } from 'vue'
 
-const nonPerjadinStore = useNonPerjadinStore()
+const perjadinStore = usePerjadinStore()
 const mainStore = useMainStore()
 const authStore = useAuthStore()
 const confirmDialog = ref(false)
@@ -462,7 +450,7 @@ const itemMenu = computed(() => {
 })
 
 function onSend(item) {
-  if (item.status == 'PENGAJUAN') {
+  if (item.status == 'PERENCANAAN') {
     deleteId.value = item.id
     sendDialog.value = true
   } else {
@@ -478,7 +466,7 @@ function onSend(item) {
 }
 
 function onDelete(item) {
-  if (item.status == 'PENGAJUAN') {
+  if (item.status == 'PERENCANAAN') {
     deleteId.value = item.id
     confirmDialog.value = true
   } else if (authStore.user.role == 'ADMIN') {
@@ -506,28 +494,20 @@ function onDelete(item) {
 }
 
 function onDetail(item) {
-  nonPerjadinStore.$patch((state) => {
+  perjadinStore.$patch((state) => {
     state.isDetail = true
   })
-  router.push({ name: 'non-perjadin-detail', params: { id: item.id } })
-}
-
-function onNew() {
-  nonPerjadinStore.resetFormMain()
-  nonPerjadinStore.$patch((state) => {
-    state.isDetail = false
-  })
-  router.push({ name: 'non-perjadin-new' })
+  router.push({ name: 'perjadin-detail', params: { id: item.id } })
 }
 
 function nextPage() {
-  nonPerjadinStore.filter.page = nonPerjadinStore.currentPage + 1
-  nonPerjadinStore.getData()
+  perjadinStore.filter.page = perjadinStore.currentPage + 1
+  perjadinStore.getData()
 }
 
 function previousPage() {
-  nonPerjadinStore.filter.page = nonPerjadinStore.currentPage - 1
-  nonPerjadinStore.getData()
+  perjadinStore.filter.page = perjadinStore.currentPage - 1
+  perjadinStore.getData()
 }
 
 async function deleteData() {
@@ -538,7 +518,7 @@ async function deleteData() {
     isLoading: true,
   })
 
-  const success = await nonPerjadinStore.destroy(deleteId.value)
+  const success = await perjadinStore.destroy(deleteId.value)
   if (success) {
     toast.update(id, {
       render: 'Berhasil !!',
@@ -565,8 +545,8 @@ async function deleteData() {
 
 async function updateStatusData() {
   if (
-    nonPerjadinStore.updateData.status == '' ||
-    nonPerjadinStore.updateData.status == null
+    perjadinStore.updateData.status == '' ||
+    perjadinStore.updateData.status == null
   ) {
     toast('Data belum lengkap', {
       position: toast.POSITION.BOTTOM_CENTER,
@@ -583,7 +563,7 @@ async function updateStatusData() {
       type: 'info',
       isLoading: true,
     })
-    const success = await nonPerjadinStore.updateStatus(true, deleteId.value)
+    const success = await perjadinStore.updateStatus(deleteId.value)
     if (success.status) {
       toast.update(id, {
         render: 'Berhasil !!',
@@ -594,10 +574,10 @@ async function updateStatusData() {
         closeButton: true,
         isLoading: false,
       })
-      const index = nonPerjadinStore.items.findIndex(
+      const index = perjadinStore.items.findIndex(
         (p) => p.id == success.data.id
       )
-      nonPerjadinStore.$patch((state) => {
+      perjadinStore.$patch((state) => {
         state.responses.data[index] = success.data
       })
       toast.done(id)
@@ -616,6 +596,6 @@ async function updateStatusData() {
 }
 
 onMounted(() => {
-  nonPerjadinStore.getData()
+  perjadinStore.getData()
 })
 </script>

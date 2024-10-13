@@ -173,7 +173,10 @@
         </div>
         <div
           class="flex items-center space-x-1 mt-4 text-center justify-end"
-          v-if="authStore.user.role == 'USER'"
+          v-if="
+            authStore.user.role == 'USER' &&
+            perjadinDetailStore.singleResponse.status == 'UNVERIFIED'
+          "
         >
           <button
             @click="perjadinDetailStore.reset()"
@@ -316,7 +319,9 @@ const steps = ref([
 ])
 
 const disabledForm = computed(() => {
-  return authStore.user.role == 'ADMIN' ? true : false
+  if (authStore.user.role == 'ADMIN') return true
+  if (perjadinDetailStore.singleResponse.status == 'VERIFIED') return true
+  return false
 })
 
 function confirmSubmit() {

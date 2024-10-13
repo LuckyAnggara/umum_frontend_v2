@@ -9,7 +9,7 @@
       id="drawer-navigation-label"
       class="text-base font-semibold text-gray-500 uppercase dark:text-gray-400"
     >
-      Log Dokumen perjadin
+      Log Belanja Non Perjadin
     </h5>
     <button
       @click="emit('close')"
@@ -39,7 +39,7 @@
       <ol class="relative border-s border-gray-200 dark:border-gray-700">
         <li
           class="mb-10 ms-4"
-          v-for="(item, index) in perjadinStore.singleResponse.log"
+          v-for="(item, index) in nonPerjadinStore.singleResponse.log"
           :key="index"
         >
           <div
@@ -64,7 +64,7 @@
 </template>
 
 <script setup>
-import { usePerjadinStore } from '@/stores/perjadin'
+import { useNonPerjadinStore } from '@/stores/nonperjadin'
 
 const emit = defineEmits(['close'])
 const props = defineProps({
@@ -74,5 +74,5 @@ const props = defineProps({
   },
 })
 
-const perjadinStore = usePerjadinStore()
+const nonPerjadinStore = useNonPerjadinStore()
 </script>
