@@ -19,6 +19,11 @@ export const menuUser = [
     name: '-',
   },
   {
+    name: 'SBM',
+    icon: BanknotesIcon,
+    to: 'sbm-list',
+  },
+  {
     name: 'Anggaran',
     icon: BanknotesIcon,
     to: 'mak-list',

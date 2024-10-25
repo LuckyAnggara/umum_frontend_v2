@@ -192,6 +192,16 @@ const keuangan = [
     name: 'non-perjadin-spb',
     component: () => import('@/views/user/keuangan/template/Spb.vue'),
   },
+  {
+    meta: {
+      title: 'Satuan Biaya Masukan',
+      requiresAuth: true,
+      layout: 'layout-auth',
+    },
+    path: '/keuangan/sbm/list',
+    name: 'sbm-list',
+    component: () => import('@/views/user/keuangan/sbm/List.vue'),
+  },
 ]
 
 export default keuangan

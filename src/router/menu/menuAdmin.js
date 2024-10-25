@@ -99,6 +99,10 @@ export const menuAdmin = [
     icon: SwatchIcon,
     child: [
       {
+        name: 'SBM',
+        to: 'sbm-list',
+      },
+      {
         name: 'Anggaran',
         to: 'mak-list',
       },
