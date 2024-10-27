@@ -1,189 +1,287 @@
-[
-  { "tanggal": "24 August 2024", "detail": [] },
-  {
-    "tanggal": "25 August 2024",
+{
+  "tahun_anggaran": "2024",
+  "no_st": "ITJ",
+  "tanggal_st": "2024-10-13T15:52:00.000",
+  "tanggal_awal": "2024-10-13T15:52:00.000",
+  "tanggal_akhir": "2024-10-18T15:52:00.000",
+  "tempat_kegiatan": "asdasdasd",
+  "tempat_kedudukan": "Jakarta",
+  "nama_kegiatan": "Evaluasi MR",
+  "mak": {
+    "id": 1,
+    "tahun_anggaran": "2024",
+    "unit_id": 8,
+    "kode_mak": "1569.1.a.2.23.23",
+    "keterangan": "Perjalanan Dinas Luar Kota",
+    "anggaran": 10000000,
+    "created_at": null,
+    "updated_at": null,
+    "unit": {
+      "id": 8,
+      "nama": "Bagian Program dan Pelaporan",
+      "created_at": null,
+      "updated_at": null
+    },
     "detail": [
       {
-        "pimpinan": 1,
-        "kegiatan": [
+        "id": 6,
+        "mak_id": 1,
+        "type": "PERJADIN",
+        "kegiatan_id": "01j8m9dhj9e723333r8gpmd0nt",
+        "nama_kegiatan": "Evaluasi MR",
+        "total_anggaran": 2800000,
+        "total_realisasi": 2500000,
+        "status_realisasi": "SUDAH",
+        "created_at": "2024-09-25T09:50:22.000000Z",
+        "updated_at": "2024-09-25T14:00:43.000000Z"
+      },
+      {
+        "id": 11,
+        "mak_id": 1,
+        "type": "NON PERJADIN",
+        "kegiatan_id": "01j9t4xp1nes7f8a8w7407qkh3",
+        "nama_kegiatan": "Pembayaran Narasumber",
+        "total_anggaran": 1000000,
+        "total_realisasi": 0,
+        "status_realisasi": "BELUM",
+        "created_at": "2024-10-10T02:42:57.000000Z",
+        "updated_at": "2024-10-10T02:42:57.000000Z"
+      },
+      {
+        "id": 12,
+        "mak_id": 1,
+        "type": "PERJADIN",
+        "kegiatan_id": "01j9wqta4hw5n5pherjffgfrt4",
+        "nama_kegiatan": "Evaluasi SPIP",
+        "total_anggaran": 500000,
+        "total_realisasi": 0,
+        "status_realisasi": "BELUM",
+        "created_at": "2024-10-11T02:51:38.000000Z",
+        "updated_at": "2024-10-11T02:51:38.000000Z"
+      }
+    ],
+    "nominatif": [
+      {
+        "id": 1,
+        "mak_id": 1,
+        "uraian": "PRE MEMORY",
+        "type": "header",
+        "volume": 0,
+        "harga": 0,
+        "satuan": "0",
+        "jumlah": 6500000,
+        "created_at": null,
+        "updated_at": null,
+        "detail": []
+      },
+      {
+        "id": 2,
+        "mak_id": 1,
+        "uraian": "Uang Representatif [1 Org x 8 Hari x 8 Keg]",
+        "type": "detail",
+        "volume": 0,
+        "harga": 0,
+        "satuan": "0",
+        "jumlah": 1360000,
+        "created_at": null,
+        "updated_at": null,
+        "detail": [
           {
             "id": 1,
-            "kegiatan": "RDP",
-            "jam_mulai": "16:00:00",
-            "jam_akhir": "16:00:00",
-            "tempat": "DPR",
-            "status": "BELUM SELESAI",
-            "title": "RDP",
-            "start": "2024-08-25 16:00:00",
-            "end": "2024-08-25 16:00:00",
-            "duration": "02:00",
-            "tipe": "AGENDA"
+            "mak_nominatif_id": 2,
+            "kegiatan_id": "01j8m9dhj9e723333r8gpmd0nt",
+            "jumlah": 1000000,
+            "status_realisasi": "BELUM",
+            "created_at": null,
+            "updated_at": null
           }
         ]
-      }
-    ]
-  },
-  { "tanggal": "26 August 2024", "detail": [] },
-  { "tanggal": "27 August 2024", "detail": [] },
-  { "tanggal": "28 August 2024", "detail": [] },
-  {
-    "tanggal": "29 August 2024",
-    "detail": [
+      },
       {
-        "pimpinan": 2,
-        "kegiatan": [
+        "id": 3,
+        "mak_id": 1,
+        "uraian": "Uang Harian [7 Orang x 5 Hari x 6 Keg]",
+        "type": "detail",
+        "volume": 0,
+        "harga": 0,
+        "satuan": "0",
+        "jumlah": 3560000,
+        "created_at": null,
+        "updated_at": null,
+        "detail": []
+      },
+      {
+        "id": 4,
+        "mak_id": 1,
+        "uraian": "Penginapan Eselon III/ Gol. IV [1 Orang x 6 Hari x 6",
+        "type": "detail",
+        "volume": 0,
+        "harga": 0,
+        "satuan": "0",
+        "jumlah": 1580000,
+        "created_at": null,
+        "updated_at": null,
+        "detail": [
           {
-            "id": 4,
-            "kegiatan": "asdasdasd",
-            "jam_mulai": "08:00:00",
-            "jam_akhir": "16:00:00",
-            "tempat": "asdad",
-            "status": "BELUM SELESAI",
-            "title": "asdasdasd",
-            "start": "2024-08-29 08:00:00",
-            "end": "2024-08-29 16:00:00",
-            "duration": "02:00",
-            "tipe": "AGENDA"
-          },
-          {
-            "id": 5,
-            "kegiatan": "sadasdasd",
-            "jam_mulai": "08:00:00",
-            "jam_akhir": "16:00:00",
-            "tempat": "asdasd",
-            "status": "BELUM SELESAI",
-            "title": "sadasdasd",
-            "start": "2024-08-29 08:00:00",
-            "end": "2024-08-29 16:00:00",
-            "duration": "02:00",
-            "tipe": "AGENDA"
-          },
-          {
-            "id": 6,
-            "kegiatan": "asdasdasdasdasdasdasd",
-            "jam_mulai": "08:00:00",
-            "jam_akhir": "16:00:00",
-            "tempat": "asdasd",
-            "status": "BELUM SELESAI",
-            "title": "asdasdasdasdasdasdasd",
-            "start": "2024-08-29 08:00:00",
-            "end": "2024-08-29 16:00:00",
-            "duration": "02:00",
-            "tipe": "AGENDA"
-          },
-          {
-            "id": 7,
-            "kegiatan": "asdasdasdasd",
-            "jam_mulai": "08:00:00",
-            "jam_akhir": "16:00:00",
-            "tempat": "asdasd",
-            "status": "BELUM SELESAI",
-            "title": "asdasdasdasd",
-            "start": "2024-08-29 08:00:00",
-            "end": "2024-08-29 16:00:00",
-            "duration": "02:00",
-            "tipe": "AGENDA"
+            "id": 3,
+            "mak_nominatif_id": 4,
+            "kegiatan_id": "01j9wqta4hw5n5pherjffgfrt4",
+            "jumlah": 500000,
+            "status_realisasi": "BELUM",
+            "created_at": "2024-10-11T02:51:38.000000Z",
+            "updated_at": "2024-10-11T02:51:38.000000Z"
           }
         ]
-      }
-    ]
-  },
-  {
-    "tanggal": "30 August 2024",
-    "detail": [
+      },
       {
-        "pimpinan": 1,
-        "kegiatan": [
+        "id": 5,
+        "mak_id": 1,
+        "uraian": "PRE MEMORY",
+        "type": "header",
+        "volume": 0,
+        "harga": 0,
+        "satuan": "0",
+        "jumlah": 3500000,
+        "created_at": null,
+        "updated_at": null,
+        "detail": []
+      },
+      {
+        "id": 6,
+        "mak_id": 1,
+        "uraian": "Tiket Pesawat [5 Orang x 4 Keg]",
+        "type": "detail",
+        "volume": 0,
+        "harga": 0,
+        "satuan": "0",
+        "jumlah": 3500000,
+        "created_at": null,
+        "updated_at": null,
+        "detail": [
           {
             "id": 2,
-            "kegiatan": "asdasdasdasd",
-            "jam_mulai": "08:00:00",
-            "jam_akhir": "16:00:00",
-            "tempat": "asdas",
-            "status": "BELUM SELESAI",
-            "title": "asdasdasdasd",
-            "start": "2024-08-30 08:00:00",
-            "end": "2024-08-30 16:00:00",
-            "duration": "02:00",
-            "tipe": "AGENDA"
-          },
-          {
-            "id": 12,
-            "kegiatan": "bbbbbbbbbbbb",
-            "jam_mulai": "08:00:00",
-            "jam_akhir": "16:00:00",
-            "tempat": "bbbbbbbbbbbb",
-            "status": "BELUM SELESAI",
-            "title": "bbbbbbbbbbbb",
-            "start": "2024-08-30 08:00:00",
-            "end": "2024-08-30 16:00:00",
-            "duration": "02:00",
-            "tipe": "AGENDA"
-          },
-          {
-            "id": 13,
-            "kegiatan": "cccccccccccc",
-            "jam_mulai": "08:00:00",
-            "jam_akhir": "16:00:00",
-            "tempat": "ccccccccccccc",
-            "status": "BELUM SELESAI",
-            "title": "cccccccccccc",
-            "start": "2024-08-30 08:00:00",
-            "end": "2024-08-30 16:00:00",
-            "duration": "02:00",
-            "tipe": "AGENDA"
-          }
-        ]
-      },
-      {
-        "pimpinan": 2,
-        "kegiatan": [
-          {
-            "id": 8,
-            "kegiatan": "aaaaaaaa",
-            "jam_mulai": "08:00:00",
-            "jam_akhir": "16:00:00",
-            "tempat": "asdasd",
-            "status": "BELUM SELESAI",
-            "title": "aaaaaaaa",
-            "start": "2024-08-30 08:00:00",
-            "end": "2024-08-30 16:00:00",
-            "duration": "02:00",
-            "tipe": "AGENDA"
-          },
-          {
-            "id": 9,
-            "kegiatan": "asssssssssssd",
-            "jam_mulai": "08:00:00",
-            "jam_akhir": "16:00:00",
-            "tempat": "aaaaaaaaaaaa",
-            "status": "BELUM SELESAI",
-            "title": "asssssssssssd",
-            "start": "2024-08-30 08:00:00",
-            "end": "2024-08-30 16:00:00",
-            "duration": "02:00",
-            "tipe": "AGENDA"
-          }
-        ]
-      },
-      {
-        "pimpinan": 7,
-        "kegiatan": [
-          {
-            "id": 14,
-            "kegiatan": "kaku",
-            "jam_mulai": "08:00:00",
-            "jam_akhir": "16:00:00",
-            "tempat": "asd",
-            "status": "BELUM SELESAI",
-            "title": "kaku",
-            "start": "2024-08-30 08:00:00",
-            "end": "2024-08-30 16:00:00",
-            "duration": "02:00",
-            "tipe": "AGENDA"
+            "mak_nominatif_id": 6,
+            "kegiatan_id": "01j8m9dhj9e723333r8gpmd0nt",
+            "jumlah": 2500000,
+            "status_realisasi": "SUDAH",
+            "created_at": null,
+            "updated_at": null
           }
         ]
       }
     ]
-  }
-]
+  },
+  "detail": [
+    {
+      "nip": "199207152019011001",
+      "nama": "LUCKY ANGGARA, S.E.",
+      "jabatan": "ANALIS PERENCANAAN, EVALUASI, DAN PELAPORAN",
+      "pangkat": "IIIb - Penata Muda Tingkat 1",
+      "unit": "Bagian Program dan Pelaporan - Sekretariat Inspektorat Jenderal",
+      "tanggal_awal": "2024-10-13T14:44:00.000",
+      "tanggal_akhir": "2024-10-16T14:44:00.000",
+      "jumlah_hari": 0,
+      "peran": "ANGGOTA",
+      "hotel": [{ "keterangan": "Hotel", "hari": 3, "biaya": 300000 }],
+      "uang_harian": [
+        { "keterangan": "Uang Harian", "hari": 3, "biaya": 100000 }
+      ],
+      "taksi_tujuan": [],
+      "taksi_jakarta": [],
+      "pesawat": [{ "keterangan": "Garuda", "biaya": 1000000 }],
+      "transport": [],
+      "representatif": [],
+      "nominatif_hotel": {
+        "id": 2,
+        "mak_id": 1,
+        "uraian": "Uang Representatif [1 Org x 8 Hari x 8 Keg]",
+        "type": "detail",
+        "volume": 0,
+        "harga": 0,
+        "satuan": "0",
+        "jumlah": 1360000,
+        "created_at": null,
+        "updated_at": null,
+        "detail": [
+          {
+            "id": 1,
+            "mak_nominatif_id": 2,
+            "kegiatan_id": "01j8m9dhj9e723333r8gpmd0nt",
+            "jumlah": 1000000,
+            "status_realisasi": "BELUM",
+            "created_at": null,
+            "updated_at": null
+          }
+        ]
+      },
+      "nominatif_uh": {
+        "id": 3,
+        "mak_id": 1,
+        "uraian": "Uang Harian [7 Orang x 5 Hari x 6 Keg]",
+        "type": "detail",
+        "volume": 0,
+        "harga": 0,
+        "satuan": "0",
+        "jumlah": 3560000,
+        "created_at": null,
+        "updated_at": null,
+        "detail": []
+      },
+      "nominatif_transport": {
+        "id": 2,
+        "mak_id": 1,
+        "uraian": "Uang Representatif [1 Org x 8 Hari x 8 Keg]",
+        "type": "detail",
+        "volume": 0,
+        "harga": 0,
+        "satuan": "0",
+        "jumlah": 1360000,
+        "created_at": null,
+        "updated_at": null,
+        "detail": [
+          {
+            "id": 1,
+            "mak_nominatif_id": 2,
+            "kegiatan_id": "01j8m9dhj9e723333r8gpmd0nt",
+            "jumlah": 1000000,
+            "status_realisasi": "BELUM",
+            "created_at": null,
+            "updated_at": null
+          }
+        ]
+      },
+      "nominatif_pesawat": {
+        "id": 4,
+        "mak_id": 1,
+        "uraian": "Penginapan Eselon III/ Gol. IV [1 Orang x 6 Hari x 6",
+        "type": "detail",
+        "volume": 0,
+        "harga": 0,
+        "satuan": "0",
+        "jumlah": 1580000,
+        "created_at": null,
+        "updated_at": null,
+        "detail": [
+          {
+            "id": 3,
+            "mak_nominatif_id": 4,
+            "kegiatan_id": "01j9wqta4hw5n5pherjffgfrt4",
+            "jumlah": 500000,
+            "status_realisasi": "BELUM",
+            "created_at": "2024-10-11T02:51:38.000000Z",
+            "updated_at": "2024-10-11T02:51:38.000000Z"
+          }
+        ]
+      },
+      "nominatif_taksi_jakarta": null,
+      "nominatif_taksi_tujuan": null,
+      "nominatif_representatif": null
+    }
+  ],
+  "lampiran": [],
+  "provinsi_id": 12
+}
+
+
+
+{"tahun_anggaran":"2024","no_st":"ITJ","tanggal_st":"2024-10-13T15:52:00.000","tanggal_awal":"2024-10-13T15:52:00.000","tanggal_akhir":"2024-10-18T15:52:00.000","tempat_kegiatan":"asdasdasd","tempat_kedudukan":"Jakarta","nama_kegiatan":"Evaluasi MR","mak":{"id":1,"tahun_anggaran":"2024","unit_id":8,"kode_mak":"1569.1.a.2.23.23","keterangan":"Perjalanan Dinas Luar Kota","anggaran":10000000,"created_at":null,"updated_at":null,"unit":{"id":8,"nama":"Bagian Program dan Pelaporan","created_at":null,"updated_at":null},"detail":[{"id":6,"mak_id":1,"type":"PERJADIN","kegiatan_id":"01j8m9dhj9e723333r8gpmd0nt","nama_kegiatan":"Evaluasi MR","total_anggaran":2800000,"total_realisasi":2500000,"status_realisasi":"SUDAH","created_at":"2024-09-25T09:50:22.000000Z","updated_at":"2024-09-25T14:00:43.000000Z"},{"id":11,"mak_id":1,"type":"NON PERJADIN","kegiatan_id":"01j9t4xp1nes7f8a8w7407qkh3","nama_kegiatan":"Pembayaran Narasumber","total_anggaran":1000000,"total_realisasi":0,"status_realisasi":"BELUM","created_at":"2024-10-10T02:42:57.000000Z","updated_at":"2024-10-10T02:42:57.000000Z"},{"id":12,"mak_id":1,"type":"PERJADIN","kegiatan_id":"01j9wqta4hw5n5pherjffgfrt4","nama_kegiatan":"Evaluasi SPIP","total_anggaran":500000,"total_realisasi":0,"status_realisasi":"BELUM","created_at":"2024-10-11T02:51:38.000000Z","updated_at":"2024-10-11T02:51:38.000000Z"}],"nominatif":[{"id":1,"mak_id":1,"uraian":"PRE MEMORY","type":"header","volume":0,"harga":0,"satuan":"0","jumlah":6500000,"created_at":null,"updated_at":null,"detail":[]},{"id":2,"mak_id":1,"uraian":"Uang Representatif [1 Org x 8 Hari x 8 Keg]","type":"detail","volume":0,"harga":0,"satuan":"0","jumlah":1360000,"created_at":null,"updated_at":null,"detail":[{"id":1,"mak_nominatif_id":2,"kegiatan_id":"01j8m9dhj9e723333r8gpmd0nt","jumlah":1000000,"status_realisasi":"BELUM","created_at":null,"updated_at":null}]},{"id":3,"mak_id":1,"uraian":"Uang Harian [7 Orang x 5 Hari x 6 Keg]","type":"detail","volume":0,"harga":0,"satuan":"0","jumlah":3560000,"created_at":null,"updated_at":null,"detail":[]},{"id":4,"mak_id":1,"uraian":"Penginapan Eselon III/ Gol. IV [1 Orang x 6 Hari x 6","type":"detail","volume":0,"harga":0,"satuan":"0","jumlah":1580000,"created_at":null,"updated_at":null,"detail":[{"id":3,"mak_nominatif_id":4,"kegiatan_id":"01j9wqta4hw5n5pherjffgfrt4","jumlah":500000,"status_realisasi":"BELUM","created_at":"2024-10-11T02:51:38.000000Z","updated_at":"2024-10-11T02:51:38.000000Z"}]},{"id":5,"mak_id":1,"uraian":"PRE MEMORY","type":"header","volume":0,"harga":0,"satuan":"0","jumlah":3500000,"created_at":null,"updated_at":null,"detail":[]},{"id":6,"mak_id":1,"uraian":"Tiket Pesawat [5 Orang x 4 Keg]","type":"detail","volume":0,"harga":0,"satuan":"0","jumlah":3500000,"created_at":null,"updated_at":null,"detail":[{"id":2,"mak_nominatif_id":6,"kegiatan_id":"01j8m9dhj9e723333r8gpmd0nt","jumlah":2500000,"status_realisasi":"SUDAH","created_at":null,"updated_at":null}]}]},"detail":[{"nip":"199207152019011001","nama":"LUCKY ANGGARA, S.E.","jabatan":"ANALIS PERENCANAAN, EVALUASI, DAN PELAPORAN","pangkat":"IIIb - Penata Muda Tingkat 1","unit":"Bagian Program dan Pelaporan - Sekretariat Inspektorat Jenderal","tanggal_awal":"2024-10-13T14:44:00.000","tanggal_akhir":"2024-10-16T14:44:00.000","jumlah_hari":0,"peran":"ANGGOTA","hotel":[{"keterangan":"Hotel","hari":3,"biaya":300000}],"uang_harian":[{"keterangan":"Uang Harian","hari":3,"biaya":100000}],"taksi_tujuan":[],"taksi_jakarta":[],"pesawat":[{"keterangan":"Garuda","biaya":1000000}],"transport":[],"representatif":[],"nominatif_hotel":{"id":2,"mak_id":1,"uraian":"Uang Representatif [1 Org x 8 Hari x 8 Keg]","type":"detail","volume":0,"harga":0,"satuan":"0","jumlah":1360000,"created_at":null,"updated_at":null,"detail":[{"id":1,"mak_nominatif_id":2,"kegiatan_id":"01j8m9dhj9e723333r8gpmd0nt","jumlah":1000000,"status_realisasi":"BELUM","created_at":null,"updated_at":null}]},"nominatif_uh":{"id":3,"mak_id":1,"uraian":"Uang Harian [7 Orang x 5 Hari x 6 Keg]","type":"detail","volume":0,"harga":0,"satuan":"0","jumlah":3560000,"created_at":null,"updated_at":null,"detail":[]},"nominatif_transport":{"id":2,"mak_id":1,"uraian":"Uang Representatif [1 Org x 8 Hari x 8 Keg]","type":"detail","volume":0,"harga":0,"satuan":"0","jumlah":1360000,"created_at":null,"updated_at":null,"detail":[{"id":1,"mak_nominatif_id":2,"kegiatan_id":"01j8m9dhj9e723333r8gpmd0nt","jumlah":1000000,"status_realisasi":"BELUM","created_at":null,"updated_at":null}]},"nominatif_pesawat":{"id":4,"mak_id":1,"uraian":"Penginapan Eselon III/ Gol. IV [1 Orang x 6 Hari x 6","type":"detail","volume":0,"harga":0,"satuan":"0","jumlah":1580000,"created_at":null,"updated_at":null,"detail":[{"id":3,"mak_nominatif_id":4,"kegiatan_id":"01j9wqta4hw5n5pherjffgfrt4","jumlah":500000,"status_realisasi":"BELUM","created_at":"2024-10-11T02:51:38.000000Z","updated_at":"2024-10-11T02:51:38.000000Z"}]},"nominatif_taksi_jakarta":null,"nominatif_taksi_tujuan":null,"nominatif_representatif":null}],"lampiran":[],"provinsi_id":12,"total_anggaran":2200000}

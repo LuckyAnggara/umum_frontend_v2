@@ -12,8 +12,16 @@ export const useSbmStore = defineStore('sbmStore', {
     responseNominatif: null,
     singleResponse: null,
     originalSingleResponse: null,
+    form: {
+      biaya: null,
+      dearah: null,
+      tahun: moment().format('YYYY'),
+      nilai: null,
+      satuan: null,
+    },
     filter: {
-      currentLimit: 1000000,
+      page: 0,
+      currentLimit: 50,
       searchQuery: '',
       tahun: moment().format('YYYY'),
     },
@@ -46,12 +54,20 @@ export const useSbmStore = defineStore('sbmStore', {
       }
       return '&query=' + state.filter.searchQuery
     },
+    pageQuery(state) {
+      if (state.filter.page == '' || state.filter.page == null) {
+        return ''
+      }
+      return '&page=' + state.filter.page
+    },
   },
   actions: {
     async getData(page = '') {
       this.isLoading = true
       try {
-        const response = await axiosIns.get(`/api/keuangan/sbm?limit=${this.filter.currentLimit}&tahun=${this.filter.tahun}${this.searchQuery}`)
+        const response = await axiosIns.get(
+          `/api/keuangan/sbm?limit=${this.filter.currentLimit}${this.pageQuery}&tahun=${this.filter.tahun}${this.searchQuery}`
+        )
         this.responses = response.data.data
       } catch (error) {
         alert(error.message)
