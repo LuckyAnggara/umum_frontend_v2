@@ -3,6 +3,7 @@ import { defineStore } from 'pinia'
 import { axiosIns } from '@/services/axios'
 import moment from 'moment'
 import { useRound } from '@vueuse/math'
+import { format, unformat } from 'v-money3'
 
 export const useMakStore = defineStore('mak', {
   state: () => ({
@@ -12,6 +13,14 @@ export const useMakStore = defineStore('mak', {
     responseNominatif: null,
     singleResponse: null,
     originalSingleResponse: null,
+    form: {
+      tahun_anggaran: moment().format('YYYY'),
+      kode_mak: null,
+      keterangan: null,
+      unit: 0,
+      anggaran: 0,
+      detail: [],
+    },
     filter: {
       currentUnit: 0,
       currentStatus: '',
@@ -126,10 +135,23 @@ export const useMakStore = defineStore('mak', {
         return total + item.total_realisasi
       }, 0)
     },
+    totalPaguNewDetail(state) {
+      // Use reduce to accumulate the total_realisasi from the detail array of each record
+      if (state.form.detail.length > 0) {
+        return state.form.detail.reduce((total, item) => {
+          // Konversi item.jumlah menjadi string dan hapus karakter selain angka
+          let jumlah = item.jumlah
+            ? String(item.jumlah).replace(/[^0-9]/g, '')
+            : '0'
+          let numericValue = parseInt(jumlah, 10) || 0 // Jika hasil parsing adalah NaN, gunakan 0
+          return total + numericValue
+        }, 0)
+      }
+      return 0
+    },
     itemNominatif(state) {
       return state.responseNominatif?.data ?? []
     },
-
     items(state) {
       return state.responses?.data ?? []
     },
@@ -218,6 +240,13 @@ export const useMakStore = defineStore('mak', {
           (x) => x.status_realisasi == this.filter.currentStatus
         )
       }
+    },
+    pushNewDetail() {
+      this.form.detail.push({
+        type: 'detail',
+        uraian: null,
+        jumlah: 0,
+      })
     },
   },
 })

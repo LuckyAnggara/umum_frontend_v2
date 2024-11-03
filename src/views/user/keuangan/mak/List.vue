@@ -73,78 +73,94 @@
         class="flex flex-col md:flex-row items-center space-y-3 md:space-y-0 md:space-x-4 p-4 w-full"
       >
         <div class="w-full flex flex-row space-x-3 items-center">
-          <div class="flex items-center">
-            <label
-              for="years"
-              class="block text-sm font-medium text-gray-900 dark:text-white mr-2"
-              >Show</label
-            >
-            <select
-              @change="makStore.getData()"
-              v-model="makStore.filter.currentLimit"
-              class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block px-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            >
-              <option
-                :value="limit.value"
-                :selected="
-                  makStore.filter.currentLimit == limit.value ? true : false
-                "
-                v-for="(limit, index) in mainStore.limitOptions"
-                :key="index"
+          <div class="w-full flex flex-row space-x-3 items-center">
+            <div class="flex items-center">
+              <label
+                for="years"
+                class="block text-sm font-medium text-gray-900 dark:text-white mr-2"
+                >Show</label
               >
-                {{ limit.label }}
-              </option>
-            </select>
-          </div>
+              <select
+                @change="makStore.getData()"
+                v-model="makStore.filter.currentLimit"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block px-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              >
+                <option
+                  :value="limit.value"
+                  :selected="
+                    makStore.filter.currentLimit == limit.value ? true : false
+                  "
+                  v-for="(limit, index) in mainStore.limitOptions"
+                  :key="index"
+                >
+                  {{ limit.label }}
+                </option>
+              </select>
+            </div>
 
-          <div class="flex items-center w-1/3" autocomplete="off">
-            <label for="simple-search" class="sr-only">Search</label>
-            <div class="relative w-full">
-              <div
-                class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none"
-              >
-                <MagnifyingGlassIcon
-                  class="w-5 h-5 text-gray-500 dark:text-gray-400"
+            <div class="flex items-center w-1/3" autocomplete="off">
+              <label for="simple-search" class="sr-only">Search</label>
+              <div class="relative w-full">
+                <div
+                  class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none"
+                >
+                  <MagnifyingGlassIcon
+                    class="w-5 h-5 text-gray-500 dark:text-gray-400"
+                  />
+                </div>
+                <input
+                  @keyup.enter="makStore.getData()"
+                  v-model="makStore.filter.searchQuery"
+                  type="text"
+                  id="simple-search"
+                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  placeholder="Tekan enter untuk mencari"
                 />
               </div>
-              <input
-                @keyup.enter="makStore.getData()"
-                v-model="makStore.filter.searchQuery"
-                type="text"
-                id="simple-search"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                placeholder="Tekan enter untuk mencari"
-              />
+            </div>
+
+            <div
+              class="flex items-center"
+              v-show="authStore.user.role == 'ADMIN'"
+            >
+              <label
+                for="years"
+                class="block text-sm font-medium text-gray-900 dark:text-white mr-2"
+                >Unit</label
+              >
+              <select
+                @change="makStore.getData()"
+                v-model="makStore.filter.currentUnit"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block px-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              >
+                <option value="0">SEMUA</option>
+                <option value="2">INSPEKTORAT WILAYAH I</option>
+                <option value="3">INSPEKTORAT WILAYAH II</option>
+                <option value="4">INSPEKTORAT WILAYAH III</option>
+                <option value="5">INSPEKTORAT WILAYAH IV</option>
+                <option value="6">INSPEKTORAT WILAYAH V</option>
+                <option value="7">INSPEKTORAT WILAYAH VI</option>
+                <option value="8">BAGIAN PROGRAM DAN PELAPORAN</option>
+                <option value="9">BAGIAN UMUM</option>
+                <option value="10">KELOMPOK SDM</option>
+                <option value="11">KELOMPOK KEUANGAN</option>
+                <option value="12">KELOMPOK HSIP</option>
+              </select>
             </div>
           </div>
-
-          <div
-            class="flex items-center"
-            v-show="authStore.user.role == 'ADMIN'"
-          >
-            <label
-              for="years"
-              class="block text-sm font-medium text-gray-900 dark:text-white mr-2"
-              >Unit</label
+          <div class="flex items-center justify-center flex-row">
+            <div
+              class="place-self-end w-full md:w-auto flex flex-col md:flex-row space-y-2 md:space-y-0 items-stretch md:items-center justify-end md:space-x-3 flex-shrink-0"
             >
-            <select
-              @change="makStore.getData()"
-              v-model="makStore.filter.currentUnit"
-              class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block px-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            >
-              <option value="0">SEMUA</option>
-              <option value="2">INSPEKTORAT WILAYAH I</option>
-              <option value="3">INSPEKTORAT WILAYAH II</option>
-              <option value="4">INSPEKTORAT WILAYAH III</option>
-              <option value="5">INSPEKTORAT WILAYAH IV</option>
-              <option value="6">INSPEKTORAT WILAYAH V</option>
-              <option value="7">INSPEKTORAT WILAYAH VI</option>
-              <option value="8">BAGIAN PROGRAM DAN PELAPORAN</option>
-              <option value="9">BAGIAN UMUM</option>
-              <option value="10">KELOMPOK SDM</option>
-              <option value="11">KELOMPOK KEUANGAN</option>
-              <option value="12">KELOMPOK HSIP</option>
-            </select>
+              <button
+                v-if="authStore.role == 'ADMIN'"
+                @click="onNew()"
+                type="button"
+                class="text-gray-900 w-fit flex flex-row space-x-2 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
+              >
+                <FolderPlusIcon class="h-5" /> <span>Baru</span>
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -482,6 +498,7 @@ import {
   TrashIcon,
   MagnifyingGlassIcon,
   PaperAirplaneIcon,
+  FolderPlusIcon,
 } from '@heroicons/vue/24/outline'
 import { toast } from 'vue3-toastify'
 import { useRouter } from 'vue-router'
@@ -529,6 +546,10 @@ function nextPage() {
 function previousPage() {
   makStore.filter.page = makStore.currentPage - 1
   makStore.getData()
+}
+
+function onNew() {
+  router.push({ name: 'mak-new' })
 }
 
 onMounted(() => {

@@ -2,7 +2,7 @@ import { createApp } from 'vue'
 import './assets/style.css'
 import App from './App.vue'
 import router from './router'
-
+import { Money3Directive } from 'v-money3'
 import Vue3Toasity from 'vue3-toastify'
 import 'vue3-toastify/dist/index.css'
 import VueSweetAlert from 'vue-sweetalert2'
@@ -19,7 +19,7 @@ moment.locale('id')
 
 const pinia = createPinia()
 const app = createApp(App)
-
+app.directive('money3', Money3Directive)
 app.use(VueExcelEditor)
 
 app.use(pinia)

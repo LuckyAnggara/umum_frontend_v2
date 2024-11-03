@@ -1,4 +1,8 @@
-import { createRouter, createWebHashHistory, createWebHistory } from 'vue-router'
+import {
+  createRouter,
+  createWebHashHistory,
+  createWebHistory,
+} from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
 
 const keuangan = [
@@ -131,6 +135,16 @@ const keuangan = [
     path: '/keuangan/mak/list',
     name: 'mak-list',
     component: () => import('@/views/user/keuangan/mak/List.vue'),
+  },
+  {
+    meta: {
+      title: 'Tambah Mata Anggaran Kegiatan',
+      requiresAuth: true,
+      layout: 'layout-auth',
+    },
+    path: '/keuangan/mak/new',
+    name: 'mak-new',
+    component: () => import('@/views/user/keuangan/mak/New.vue'),
   },
   {
     meta: {
