@@ -9,6 +9,7 @@ export const useMakStore = defineStore('mak', {
   state: () => ({
     isLoading: false,
     isDetailLoading: false,
+    isDestroyLoading: false,
     responses: null,
     responseNominatif: null,
     singleResponse: null,
@@ -31,9 +32,7 @@ export const useMakStore = defineStore('mak', {
   }),
   getters: {
     capaianRealisasi(state) {
-      return ((state.totalSudahRealisasi / state.totalAnggaran) * 100).toFixed(
-        2
-      )
+      return ((state.totalSudahRealisasi / state.totalAnggaran) * 100).toFixed(2)
     },
     sudahRealisasiPerMak: (state) => (id) => {
       // Find the parent item (mak_id) with the given id
@@ -79,10 +78,7 @@ export const useMakStore = defineStore('mak', {
     },
     totalPenggunaanPaguNominatif(state) {
       return state.itemNominatif.reduce((total, item) => {
-        const detailTotal = item.detail.reduce(
-          (sum, detailItem) => sum + detailItem.jumlah,
-          0
-        )
+        const detailTotal = item.detail.reduce((sum, detailItem) => sum + detailItem.jumlah, 0)
         return total + detailTotal
       }, 0)
     },
@@ -97,19 +93,14 @@ export const useMakStore = defineStore('mak', {
       const item = state.itemNominatif.find((p) => p.id === id)
       if (!item) return 0
 
-      const penggunaan = item.detail.reduce(
-        (total, item) => total + item.jumlah,
-        0
-      )
+      const penggunaan = item.detail.reduce((total, item) => total + item.jumlah, 0)
       return penggunaan
     },
     totalBelumRealisasi(state) {
       // Use reduce to accumulate the total_realisasi from the detail array of each record
       return state.items.reduce((total, item) => {
         // Sum total_realisasi from detail array for each item
-        const detailRealisasi = item.detail
-          .filter((i) => i.status_realisasi == 'BELUM')
-          .reduce((sum, detail) => sum + detail.total_anggaran, 0)
+        const detailRealisasi = item.detail.filter((i) => i.status_realisasi == 'BELUM').reduce((sum, detail) => sum + detail.total_anggaran, 0)
         return total + detailRealisasi
       }, 0)
     },
@@ -117,9 +108,7 @@ export const useMakStore = defineStore('mak', {
       // Use reduce to accumulate the total_realisasi from the detail array of each record
       return state.items.reduce((total, item) => {
         // Sum total_realisasi from detail array for each item
-        const detailRealisasi = item.detail
-          .filter((i) => i.status_realisasi == 'SUDAH')
-          .reduce((sum, detail) => sum + detail.total_realisasi, 0)
+        const detailRealisasi = item.detail.filter((i) => i.status_realisasi == 'SUDAH').reduce((sum, detail) => sum + detail.total_realisasi, 0)
         return total + detailRealisasi
       }, 0)
     },
@@ -139,12 +128,14 @@ export const useMakStore = defineStore('mak', {
       // Use reduce to accumulate the total_realisasi from the detail array of each record
       if (state.form.detail.length > 0) {
         return state.form.detail.reduce((total, item) => {
-          // Konversi item.jumlah menjadi string dan hapus karakter selain angka
-          let jumlah = item.jumlah
-            ? String(item.jumlah).replace(/[^0-9]/g, '')
-            : '0'
-          let numericValue = parseInt(jumlah, 10) || 0 // Jika hasil parsing adalah NaN, gunakan 0
-          return total + numericValue
+          if (item.type == 'detail') {
+            // Konversi item.jumlah menjadi string dan hapus karakter selain angka
+            let jumlah = item.jumlah ? String(item.jumlah).replace(/[^0-9]/g, '') : '0'
+            let numericValue = parseInt(jumlah, 10) || 0 // Jika hasil parsing adalah NaN, gunakan 0
+            return total + numericValue
+          } else {
+            return 0
+          }
         }, 0)
       }
       return 0
@@ -204,9 +195,7 @@ export const useMakStore = defineStore('mak', {
     async getDataNominatif(id) {
       this.isDetailLoading = true
       try {
-        const response = await axiosIns.get(
-          `/api/keuangan/mak-nominatif?mak_id=${id}`
-        )
+        const response = await axiosIns.get(`/api/keuangan/mak-nominatif?mak_id=${id}`)
         this.responseNominatif = response.data
       } catch (error) {
         alert(error.message)
@@ -215,14 +204,37 @@ export const useMakStore = defineStore('mak', {
       }
       return false
     },
+    async store() {
+      this.isStoreLoading = false
+      this.form.anggaran = this.totalPaguNewDetail
+      try {
+        const response = await axiosIns.post(`/api/keuangan/mak`, this.form)
+        if (response.status == 200) {
+          return {
+            status: true,
+            data: response.data.data,
+          }
+        } else {
+          return {
+            status: false,
+            data: null,
+          }
+        }
+      } catch (error) {
+        return {
+          status: false,
+          data: null,
+        }
+      } finally {
+        this.isStoreLoading = false
+      }
+    },
     async show(id) {
       this.isLoading = true
       try {
         const response = await axiosIns.get(`/api/keuangan/mak/${id}`)
         this.singleResponse = JSON.parse(JSON.stringify(response.data.data))
-        this.originalSingleResponse = JSON.parse(
-          JSON.stringify(response.data.data)
-        )
+        this.originalSingleResponse = JSON.parse(JSON.stringify(response.data.data))
       } catch (error) {
         alert(error.message)
       } finally {
@@ -230,15 +242,37 @@ export const useMakStore = defineStore('mak', {
       }
       return false
     },
+    async destroy(id) {
+      this.isDestroyLoading = true
+      try {
+        const response = await axiosIns.delete(`/api/keuangan/mak/${id}`)
+        if (response.status == 200) {
+          const index = this.items.findIndex((item) => item.id === id)
+          this.responses.data.splice(index, 1)
+          return {
+            status: true,
+            data: response.data.data,
+          }
+        } else {
+          return {
+            status: false,
+            data: null,
+          }
+        }
+      } catch (error) {
+        return {
+          status: false,
+          data: null,
+        }
+      } finally {
+        this.isDestroyLoading = false
+      }
+    },
     filterSingleResponse() {
       if (this.filter.currentStatus == '') {
-        this.singleResponse = JSON.parse(
-          JSON.stringify(this.originalSingleResponse)
-        )
+        this.singleResponse = JSON.parse(JSON.stringify(this.originalSingleResponse))
       } else {
-        this.singleResponse.detail = this.originalSingleResponse.detail.filter(
-          (x) => x.status_realisasi == this.filter.currentStatus
-        )
+        this.singleResponse.detail = this.originalSingleResponse.detail.filter((x) => x.status_realisasi == this.filter.currentStatus)
       }
     },
     pushNewDetail() {
@@ -247,6 +281,16 @@ export const useMakStore = defineStore('mak', {
         uraian: null,
         jumlah: 0,
       })
+    },
+    resetForm() {
+      this.form = {
+        tahun_anggaran: moment().format('YYYY'),
+        kode_mak: null,
+        keterangan: null,
+        unit: 0,
+        anggaran: 0,
+        detail: [],
+      }
     },
   },
 })
