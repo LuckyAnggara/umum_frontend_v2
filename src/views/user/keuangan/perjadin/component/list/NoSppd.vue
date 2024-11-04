@@ -128,7 +128,7 @@
                 class="px-4 py-3"
                 v-if="authStore.role == 'ADMIN'"
               >
-                Pembuat
+                Unit
               </th>
               <th scope="col" class="px-4 py-3"></th>
             </tr>
@@ -200,14 +200,28 @@
                 }}</span>
               </td>
               <td class="px-4 py-1">
-                <span>{{
-                  IDRCurrency.format(
-                    perjadinDetailStore.totalDetailBiayaPerItem(item.id) -
-                      perjadinDetailStore.totalDetailRealisasiBiayaPerItem(
-                        item.id
+                <template v-if="item.status == 'VERIFIED'">
+                  <span
+                    :class="
+                      perjadinDetailStore.totalDetailBiayaPerItem(item.id) -
+                        perjadinDetailStore.totalDetailRealisasiBiayaPerItem(
+                          item.id
+                        ) >
+                      0
+                        ? 'text-red-500'
+                        : 'text-green-500'
+                    "
+                    >{{
+                      IDRCurrency.format(
+                        perjadinDetailStore.totalDetailBiayaPerItem(item.id) -
+                          perjadinDetailStore.totalDetailRealisasiBiayaPerItem(
+                            item.id
+                          )
                       )
-                  )
-                }}</span>
+                    }}</span
+                  >
+                </template>
+                <template v-else> IDR 0 </template>
               </td>
               <td class="px-4 py-1">
                 <span

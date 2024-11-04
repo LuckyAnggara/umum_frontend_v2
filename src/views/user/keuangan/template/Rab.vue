@@ -34,12 +34,14 @@
     <template v-else>
       <!-- Print Button -->
 
-      <div class="no-print mb-6 mx-auto max-w-3xl flex flex-col">
+      <div
+        class="no-print place-self-start w-full md:w-auto flex flex-col md:flex-row space-y-2 md:space-y-0 items-stretch md:items-center justify-end md:space-x-3 flex-shrink-0"
+      >
         <button
           onclick="window.print()"
-          class="w-fit text-right bg-blue-500 text-white px-4 py-2 rounded shadow hover:bg-blue-700"
+          class="text-gray-900 w-fit flex flex-row space-x-2 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
         >
-          Print
+          <PrinterIcon class="h-5" /> <span>Print</span>
         </button>
       </div>
 
@@ -291,7 +293,7 @@
                     <th class="border px-4 py-2">Tiket PP</th>
                     <th class="border px-4 py-2">Taksi Jakarta</th>
                     <th class="border px-4 py-2">Taksi Provinsi</th>
-                    <th class="border px-4 py-2">Darat</th>
+                    <th class="border px-4 py-2">Darat/Laut/Udara</th>
                     <th class="border px-4 py-2">Uang Harian</th>
                     <th class="border px-4 py-2">Biaya Penginapan</th>
                     <th class="border px-4 py-2">Uang Representatif</th>
@@ -324,7 +326,9 @@
                     <td class="border px-4 py-2">
                       {{ item.taksi_tujuan }}
                     </td>
-                    <td class="border px-4 py-2">{{ item.transport_darat }}</td>
+                    <td class="border px-4 py-2">
+                      {{ IDRCurrency.format(item.transport) }}
+                    </td>
                     <td class="border px-4 py-2">
                       {{ item.uang_harian_total }}
                     </td>
@@ -344,7 +348,7 @@
                   <th class="border px-4 py-2">
                     {{ total.totalTaksiProvinsi }}
                   </th>
-                  <th class="border px-4 py-2">{{ total.totalDarat }}</th>
+                  <th class="border px-4 py-2">{{ total.totalTransport }}</th>
                   <th class="border px-4 py-2">{{ total.totalUangHarian }}</th>
                   <th class="border px-4 py-2">
                     {{ total.totalBiayaPenginapan }}
@@ -556,6 +560,7 @@ import { useMainStore } from '@/stores/main'
 import { computed, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import moment from 'moment'
+import { PrinterIcon } from '@heroicons/vue/24/outline'
 
 const mainStore = useMainStore()
 const perjadinStore = usePerjadinStore()
@@ -652,6 +657,8 @@ const mapData = computed(() => {
       transport_laut: IDRCurrency.format(transportLaut),
       transport_darat: IDRCurrency.format(transportDarat),
       transport_lainnya: IDRCurrency.format(transportLainnya),
+      transport:
+        transportDarat + transportLaut + transportDarat + transportLainnya,
       uang_harian_total: IDRCurrency.format(dailyAllowanceTotal),
       hotel_total: IDRCurrency.format(hotelCostTotal),
       representatif: IDRCurrency.format(representatif), // Bisa diubah jika representatif ada datanya
@@ -745,6 +752,8 @@ const mapData2 = computed(() => {
       transport_laut: transportLaut,
       transport_darat: transportDarat,
       transport_lainnya: transportLainnya,
+      transport:
+        transportDarat + transportLaut + transportDarat + transportLainnya,
       uang_harian_total: dailyAllowanceTotal,
       hotel_total: hotelCostTotal,
       representatif: representatif, // Bisa diubah jika representatif ada datanya
@@ -770,6 +779,10 @@ const total = computed(() => {
     (acc, item) => acc + item.transport_darat,
     0
   )
+  const totalTransport = mapData2.value.reduce(
+    (acc, item) => acc + item.transport,
+    0
+  )
   const totalUangHarian = mapData2.value.reduce(
     (acc, item) => acc + item.uang_harian_total,
     0
@@ -789,6 +802,7 @@ const total = computed(() => {
     totalTaksiJakarta: IDRCurrency.format(totalTaksiJakarta),
     totalTaksiProvinsi: IDRCurrency.format(totalTaksiProvinsi),
     totalDarat: IDRCurrency.format(totalDarat),
+    totalTransport: IDRCurrency.format(totalTransport),
     totalUangHarian: IDRCurrency.format(totalUangHarian),
     totalBiayaPenginapan: IDRCurrency.format(totalBiayaPenginapan),
     totalRepresentatif: IDRCurrency.format(totalRepresentatif),

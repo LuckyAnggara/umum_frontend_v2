@@ -71,7 +71,7 @@
           <label
             for="name"
             class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-            >Hari
+            >Hari / Malam
           </label>
           <input
             type="number"
@@ -134,7 +134,7 @@
             <tr>
               <th scope="col" class="px-4 py-3">#</th>
               <th scope="col" class="px-4 py-3">Keterangan</th>
-              <th scope="col" class="px-4 py-3">Hari</th>
+              <th scope="col" class="px-4 py-3">Hari / Malam</th>
               <th scope="col" class="px-4 py-3">Biaya</th>
               <th scope="col" class="px-4 py-3">Total</th>
               <th scope="col" class="px-4 py-3">Action</th>
@@ -174,7 +174,7 @@
           <label
             for="name"
             class="block mb-2 text-sm font-bold text-gray-900 dark:text-white"
-            >Hari
+            >Hari / Malam
           </label>
           <input
             readonly

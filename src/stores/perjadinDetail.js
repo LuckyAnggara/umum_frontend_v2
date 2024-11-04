@@ -59,7 +59,12 @@ export const usePerjadinDetailStore = defineStore('perjadinDetailStore', {
       if (state.filter.date.length == 0 || state.filter.date.length == null) {
         return ''
       }
-      return '&start-date=' + state.filter.date[0] + '&end-date=' + state.filter.date[1]
+      return (
+        '&start-date=' +
+        state.filter.date[0] +
+        '&end-date=' +
+        state.filter.date[1]
+      )
     },
     searchQuery(state) {
       if (state.filter.searchQuery == '' || state.filter.searchQuery == null) {
@@ -68,7 +73,10 @@ export const usePerjadinDetailStore = defineStore('perjadinDetailStore', {
       return '&query=' + state.filter.searchQuery
     },
     statusQuery(state) {
-      if (state.filter.currentStatus == '' || state.filter.currentStatus == null) {
+      if (
+        state.filter.currentStatus == '' ||
+        state.filter.currentStatus == null
+      ) {
         return ''
       }
       return '&status=' + state.filter.currentStatus
@@ -88,59 +96,123 @@ export const usePerjadinDetailStore = defineStore('perjadinDetailStore', {
     totalDetailBiayaPerItem: (state) => (id) => {
       const pegawai = state.items.find((p) => p.id == id)
       if (!pegawai) return 0
-      const sumBiayaHari = (items) => items.reduce((total, item) => total + item.hari * item.biaya, 0)
-      const sumBiaya = (items) => items.reduce((total, item) => total + item.biaya, 0)
+      const sumBiayaHari = (items) =>
+        items.reduce((total, item) => total + item.hari * item.biaya, 0)
+      const sumBiaya = (items) =>
+        items.reduce((total, item) => total + item.biaya, 0)
 
       const totalHotel = sumBiayaHari(pegawai.hotel || [])
       const totalUangHarian = sumBiayaHari(pegawai.uang_harian || [])
       const totalTransport = sumBiaya(pegawai.transport || [])
+      const totalPesawat = sumBiaya(pegawai.pesawat || [])
+      const totalTaksiJakarta = sumBiaya(pegawai.taksi_jakarta || [])
+      const totalTaksiTujuan = sumBiaya(pegawai.taksi_tujuan || [])
       const totalRepresentatif = sumBiayaHari(pegawai.representatif || [])
-      return totalHotel + totalUangHarian + totalTransport + totalRepresentatif
+      return (
+        totalHotel +
+        totalUangHarian +
+        totalTransport +
+        totalPesawat +
+        totalTaksiJakarta +
+        totalTaksiTujuan +
+        totalRepresentatif
+      )
     },
     totalDetailRealisasiBiayaPerItem: (state) => (id) => {
       const pegawai = state.items.find((p) => p.id == id)
       if (!pegawai) return 0
-      const sumBiayaHari = (items) => items.reduce((total, item) => total + item.realisasi_hari * item.realisasi_biaya, 0)
-      const sumBiaya = (items) => items.reduce((total, item) => total + item.realisasi_biaya, 0)
+      const sumBiayaHari = (items) =>
+        items.reduce(
+          (total, item) => total + item.realisasi_hari * item.realisasi_biaya,
+          0
+        )
+      const sumBiaya = (items) =>
+        items.reduce((total, item) => total + item.realisasi_biaya, 0)
 
       const totalHotel = sumBiayaHari(pegawai.hotel || [])
       const totalUangHarian = sumBiayaHari(pegawai.uang_harian || [])
       const totalTransport = sumBiaya(pegawai.transport || [])
+      const totalPesawat = sumBiaya(pegawai.pesawat || [])
+      const totalTaksiJakarta = sumBiaya(pegawai.taksi_jakarta || [])
+      const totalTaksiTujuan = sumBiaya(pegawai.taksi_tujuan || [])
       const totalRepresentatif = sumBiayaHari(pegawai.representatif || [])
-      return totalHotel + totalUangHarian + totalTransport + totalRepresentatif
+      return (
+        totalHotel +
+        totalUangHarian +
+        totalTransport +
+        totalPesawat +
+        totalTaksiJakarta +
+        totalTaksiTujuan +
+        totalRepresentatif
+      )
     },
     totalDetailBiaya(state) {
       const pegawai = state.singleResponse
       if (!pegawai) return 0
-      const sumBiayaHari = (items) => items.reduce((total, item) => total + item.hari * item.biaya, 0)
-      const sumBiaya = (items) => items.reduce((total, item) => total + item.biaya, 0)
+      const sumBiayaHari = (items) =>
+        items.reduce((total, item) => total + item.hari * item.biaya, 0)
+      const sumBiaya = (items) =>
+        items.reduce((total, item) => total + item.biaya, 0)
 
       const totalHotel = sumBiayaHari(pegawai.hotel || [])
       const totalUangHarian = sumBiayaHari(pegawai.uang_harian || [])
       const totalTransport = sumBiaya(pegawai.transport || [])
+      const totalPesawat = sumBiaya(pegawai.pesawat || [])
+      const totalTaksiJakarta = sumBiaya(pegawai.taksi_jakarta || [])
+      const totalTaksiTujuan = sumBiaya(pegawai.taksi_tujuan || [])
       const totalRepresentatif = sumBiayaHari(pegawai.representatif || [])
-      return totalHotel + totalUangHarian + totalTransport + totalRepresentatif
+      return (
+        totalHotel +
+        totalUangHarian +
+        totalTransport +
+        totalPesawat +
+        totalTaksiJakarta +
+        totalTaksiTujuan +
+        totalRepresentatif
+      )
     },
     totalDetailRealisasiBiaya(state) {
       const pegawai = state.singleResponse
       if (!pegawai) return 0
-      const sumBiayaHari = (items) => items.reduce((total, item) => total + item.realisasi_hari * item.realisasi_biaya, 0)
-      const sumBiaya = (items) => items.reduce((total, item) => total + item.realisasi_biaya, 0)
+      const sumBiayaHari = (items) =>
+        items.reduce(
+          (total, item) => total + item.realisasi_hari * item.realisasi_biaya,
+          0
+        )
+      const sumBiaya = (items) =>
+        items.reduce((total, item) => total + item.realisasi_biaya, 0)
 
       const totalHotel = sumBiayaHari(pegawai.hotel || [])
       const totalUangHarian = sumBiayaHari(pegawai.uang_harian || [])
       const totalTransport = sumBiaya(pegawai.transport || [])
+      const totalPesawat = sumBiaya(pegawai.pesawat || [])
+      const totalTaksiJakarta = sumBiaya(pegawai.taksi_jakarta || [])
+      const totalTaksiTujuan = sumBiaya(pegawai.taksi_tujuan || [])
       const totalRepresentatif = sumBiayaHari(pegawai.representatif || [])
-      return totalHotel + totalUangHarian + totalTransport + totalRepresentatif
+      return (
+        totalHotel +
+        totalUangHarian +
+        totalTransport +
+        totalPesawat +
+        totalTaksiJakarta +
+        totalTaksiTujuan +
+        totalRepresentatif
+      )
     },
     getTotal(state) {
       let uh = 0
       let hotel = 0
       let transport = 0
       let representatif = 0
+      let pesawat = 0
+      let taksi_jakarta = 0
+      let taksi_tujuan = 0
       let uh_real = 0
       let hotel_real = 0
       let transport_real = 0
+      let pesawat_real = 0
+      let taksi_tujuan_real = 0
+      let taksi_jakarta_real = 0
       let representatif_real = 0
 
       if (state.singleResponse.uang_harian.length > 0) {
@@ -163,26 +235,77 @@ export const usePerjadinDetailStore = defineStore('perjadinDetailStore', {
         transport = state.singleResponse.transport.reduce((accumulator, x) => {
           return accumulator + x?.biaya
         }, 0)
-        transport_real = state.singleResponse.transport.reduce((accumulator, x) => {
+        transport_real = state.singleResponse.transport.reduce(
+          (accumulator, x) => {
+            return accumulator + x.realisasi_biaya
+          },
+          0
+        )
+      }
+      if (state.singleResponse.pesawat.length > 0) {
+        pesawat = state.singleResponse.pesawat.reduce((accumulator, x) => {
+          return accumulator + x?.biaya
+        }, 0)
+        pesawat_real = state.singleResponse.pesawat.reduce((accumulator, x) => {
           return accumulator + x.realisasi_biaya
         }, 0)
       }
+      if (state.singleResponse.taksi_jakarta.length > 0) {
+        taksi_jakarta = state.singleResponse.taksi_jakarta.reduce(
+          (accumulator, x) => {
+            return accumulator + x?.biaya
+          },
+          0
+        )
+        taksi_jakarta_real = state.singleResponse.taksi_jakarta.reduce(
+          (accumulator, x) => {
+            return accumulator + x.realisasi_biaya
+          },
+          0
+        )
+      }
+      if (state.singleResponse.taksi_tujuan.length > 0) {
+        taksi_tujuan = state.singleResponse.taksi_tujuan.reduce(
+          (accumulator, x) => {
+            return accumulator + x?.biaya
+          },
+          0
+        )
+        taksi_tujuan_real = state.singleResponse.taksi_tujuan.reduce(
+          (accumulator, x) => {
+            return accumulator + x.realisasi_biaya
+          },
+          0
+        )
+      }
       if (state.singleResponse.representatif.length > 0) {
-        representatif = state.singleResponse.transport.reduce((accumulator, x) => {
-          return accumulator + x?.biaya
-        }, 0)
-        representatif_real = state.singleResponse.representatif.reduce((accumulator, x) => {
-          return accumulator + x.realisasi_biaya
-        }, 0)
+        representatif = state.singleResponse.transport.reduce(
+          (accumulator, x) => {
+            return accumulator + x?.biaya
+          },
+          0
+        )
+        representatif_real = state.singleResponse.representatif.reduce(
+          (accumulator, x) => {
+            return accumulator + x.realisasi_biaya
+          },
+          0
+        )
       }
 
       return {
         uh: uh,
         hotel: hotel,
         transport: transport,
+        pesawat: pesawat,
+        taksi_jakarta: taksi_jakarta,
+        taksi_tujuan: taksi_tujuan,
         uh_real: uh_real,
         hotel_real: hotel_real,
         transport_real: transport_real,
+        pesawat_real: pesawat_real,
+        taksi_jakarta_real: taksi_jakarta_real,
+        taksi_tujuan_real: taksi_tujuan_real,
         representatif: representatif,
         representatif_real: representatif_real,
       }
@@ -209,9 +332,13 @@ export const usePerjadinDetailStore = defineStore('perjadinDetailStore', {
     async show(id) {
       this.isLoading = true
       try {
-        const response = await axiosIns.get(`/api/keuangan/perjadin-detail/${id}`)
+        const response = await axiosIns.get(
+          `/api/keuangan/perjadin-detail/${id}`
+        )
         this.singleResponse = JSON.parse(JSON.stringify(response.data.data))
-        this.originalSingleResponse = JSON.parse(JSON.stringify(response.data.data))
+        this.originalSingleResponse = JSON.parse(
+          JSON.stringify(response.data.data)
+        )
       } catch (error) {
         alert(error.message)
       } finally {
@@ -222,9 +349,12 @@ export const usePerjadinDetailStore = defineStore('perjadinDetailStore', {
     async downloadSptjm() {
       this.isLoading = true
       try {
-        const response = await axiosIns.get(`/api/download-sptjm/${this.singleResponse.id}`, {
-          responseType: 'blob', // Tambahkan responseType di sini
-        })
+        const response = await axiosIns.get(
+          `/api/download-sptjm/${this.singleResponse.id}`,
+          {
+            responseType: 'blob', // Tambahkan responseType di sini
+          }
+        )
 
         // Membuat URL blob dan link untuk mendownload file
         const url = window.URL.createObjectURL(new Blob([response.data]))
@@ -232,7 +362,10 @@ export const usePerjadinDetailStore = defineStore('perjadinDetailStore', {
         link.href = url
 
         // Opsional: Tentukan nama file download (misalnya 'file.pdf')
-        link.setAttribute('download', `sptjm_${this.singleResponse.no_sppd}.docx`)
+        link.setAttribute(
+          'download',
+          `sptjm_${this.singleResponse.no_sppd}.docx`
+        )
 
         // Tambahkan link ke body dan klik untuk memicu download
         document.body.appendChild(link)
@@ -290,6 +423,15 @@ export const usePerjadinDetailStore = defineStore('perjadinDetailStore', {
         bukti: false,
       })
     },
+    tambahPesawat() {
+      this.singleResponse.pesawat.push({
+        keterangan: null,
+        biaya: 0,
+        realisasi_biaya: 0,
+        notes: null,
+        bukti: false,
+      })
+    },
     deleteUH(index) {
       this.singleResponse.uang_harian.splice(index, 1)
     },
@@ -299,11 +441,16 @@ export const usePerjadinDetailStore = defineStore('perjadinDetailStore', {
     deleteTransport(index) {
       this.singleResponse.transport.splice(index, 1)
     },
+    deletePesawat(index) {
+      this.singleResponse.pesawat.splice(index, 1)
+    },
     deleteRep(index) {
       this.singleResponse.representatif.splice(index, 1)
     },
     reset() {
-      this.singleResponse = JSON.parse(JSON.stringify(this.originalSingleResponse))
+      this.singleResponse = JSON.parse(
+        JSON.stringify(this.originalSingleResponse)
+      )
       this.lampiranReset()
     },
     async store() {
@@ -321,7 +468,10 @@ export const usePerjadinDetailStore = defineStore('perjadinDetailStore', {
       this.lampiran.transport.forEach((element, index) => {
         formData.append(`file_transport[${index}]`, element)
       })
-      formData.append('jumlah_lampiran_transport', this.lampiran.transport.length)
+      formData.append(
+        'jumlah_lampiran_transport',
+        this.lampiran.transport.length
+      )
       this.lampiran.rep.forEach((element, index) => {
         formData.append(`file_rep[${index}]`, element)
       })
@@ -342,14 +492,20 @@ export const usePerjadinDetailStore = defineStore('perjadinDetailStore', {
       formData.append('umum', JSON.stringify(this.singleResponse))
       this.isStoreLoading = true
       try {
-        const response = await axiosIns.post(`/api/keuangan/perjadin-detail`, formData, {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-        })
+        const response = await axiosIns.post(
+          `/api/keuangan/perjadin-detail`,
+          formData,
+          {
+            headers: {
+              'Content-Type': 'multipart/form-data',
+            },
+          }
+        )
         if (response.status == 200) {
           this.singleResponse = JSON.parse(JSON.stringify(response.data.data))
-          this.originalSingleResponse = JSON.parse(JSON.stringify(response.data.data))
+          this.originalSingleResponse = JSON.parse(
+            JSON.stringify(response.data.data)
+          )
           this.lampiranReset()
           return {
             status: true,
@@ -362,7 +518,10 @@ export const usePerjadinDetailStore = defineStore('perjadinDetailStore', {
           }
         }
       } catch (error) {
-        alert(error)
+        return {
+          status: false,
+          data: null,
+        }
       } finally {
         this.isStoreLoading = false
       }
@@ -375,13 +534,19 @@ export const usePerjadinDetailStore = defineStore('perjadinDetailStore', {
         this.singleResponse?.newLampiran.forEach((element, index) => {
           formData.append(`file[${index}]`, element)
         })
-        formData.append('jumlah_lampiran', this.singleResponse?.newLampiran.length)
+        formData.append(
+          'jumlah_lampiran',
+          this.singleResponse?.newLampiran.length
+        )
       }
       formData.append('umum', JSON.stringify(this.singleResponse))
       this.isUpdateLoading = true
 
       try {
-        const response = await axiosIns.post(`/api/keuangan/perjadin-detail/${this.singleResponse.id}`, formData)
+        const response = await axiosIns.post(
+          `/api/keuangan/perjadin-detail/${this.singleResponse.id}`,
+          formData
+        )
         if (response.status == 200) {
           this.singleResponse = response.data.data
           return {
@@ -403,10 +568,15 @@ export const usePerjadinDetailStore = defineStore('perjadinDetailStore', {
     async updateStatus() {
       this.isUpdateLoading = true
       try {
-        const response = await axiosIns.put(`/api/keuangan/perjadin-detail/update-status/${this.singleResponse.id}`, this.updateData)
+        const response = await axiosIns.put(
+          `/api/keuangan/perjadin-detail/update-status/${this.singleResponse.id}`,
+          this.updateData
+        )
         if (response.status == 200) {
           this.singleResponse = JSON.parse(JSON.stringify(response.data.data))
-          this.originalSingleResponse = JSON.parse(JSON.stringify(response.data.data))
+          this.originalSingleResponse = JSON.parse(
+            JSON.stringify(response.data.data)
+          )
           return {
             status: true,
             data: response.data.data,
@@ -424,7 +594,9 @@ export const usePerjadinDetailStore = defineStore('perjadinDetailStore', {
       }
     },
     destroyLampiran(item) {
-      const index = this.singleResponse.lampiran.findIndex((x) => x.id == item.id)
+      const index = this.singleResponse.lampiran.findIndex(
+        (x) => x.id == item.id
+      )
       this.deleteLampiran.push(item)
       this.singleResponse.lampiran.splice(index, 1)
       return { status: true, message: 'Data berhasil dihapus!' }

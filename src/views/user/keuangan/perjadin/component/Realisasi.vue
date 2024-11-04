@@ -30,6 +30,13 @@
       </div>
     </div>
     <div class="mb-4 flex flex-col space-y-3">
+      <button
+        @click="toKuitansiMasal()"
+        type="button"
+        class="text-gray-900 w-fit flex flex-row space-x-2 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
+      >
+        <PrinterIcon class="h-5" /> <span>Kuitansi</span>
+      </button>
       <div
         class="w-full scrollbar-thin scrollbar-track-gray-500 scrollbar-thumb-gray-700 z-10 overflow-auto min-h-96"
       >
@@ -61,6 +68,7 @@
               class="odd:bg-white odd:dark:bg-gray-900 odd:dark:border-gray-700 even:bg-gray-100 even:dark:bg-gray-800 even:dark:border-gray-700 border-b"
             >
               <!-- <td class="px-4 py-1 text-center">{{ perjadinStore.from + index }}</td> -->
+
               <td class="px-4 py-1">
                 <span>{{ index + 1 }}</span>
               </td>
@@ -208,6 +216,7 @@ import {
   XMarkIcon,
   BanknotesIcon,
   ArrowTopRightOnSquareIcon,
+  PrinterIcon,
 } from '@heroicons/vue/24/outline'
 import { usePerjadinStore } from '@/stores/perjadin'
 import { usePerjadinDetailStore } from '@/stores/perjadinDetail'
@@ -248,20 +257,6 @@ const itemMenu = computed(() => {
       label: 'Realisasi',
       icon: BanknotesIcon,
     },
-    ...(authStore.role === 'USER'
-      ? [
-          {
-            function: toKuitansi,
-            label: 'Kuitansi',
-            icon: ArrowTopRightOnSquareIcon,
-          },
-          {
-            function: toSPD,
-            label: 'SPD',
-            icon: ArrowTopRightOnSquareIcon,
-          },
-        ]
-      : []),
   ]
 })
 
@@ -270,30 +265,29 @@ function onDocument() {
 }
 
 async function onRealisasi(item) {
-  // await perjadinStore.$patch((state) => {
-  //   state.singleDetail = item
-  // })
-
-  // await perjadinDetailStore.$patch((state) => {
-  //   state.singleResponse = item
-  // })
-  // realisasiDialog.value = true
-
   router.push({ name: 'perjadin-sppd-realisasi', params: { id: item.id } })
 }
 
-async function toKuitansi() {
+async function toKuitansi(item) {
   let resolvedRoute = router.resolve({
     name: 'perjadin-ptj-kuitansi',
-    params: { id: perjadinDetailStore.singleResponse.id },
+    params: { id: item.id },
   })
   window.open(resolvedRoute.href, '_blank')
 }
 
-async function toSPD() {
+async function toKuitansiMasal() {
+  let resolvedRoute = router.resolve({
+    name: 'perjadin-ptj-kuitansi-masal',
+    params: { id: perjadinStore.singleResponse.id },
+  })
+  window.open(resolvedRoute.href, '_blank')
+}
+
+async function toSPD(item) {
   let resolvedRoute = router.resolve({
     name: 'perjadin-ptj-spd',
-    params: { id: perjadinDetailStore.singleResponse.id },
+    params: { id: item.id },
   })
   window.open(resolvedRoute.href, '_blank')
 }

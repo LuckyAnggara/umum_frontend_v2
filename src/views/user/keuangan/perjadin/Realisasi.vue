@@ -104,17 +104,26 @@
                   <KeepAlive>
                     <Umum :key="umumRef" v-if="currentStep == 0" />
                   </KeepAlive>
+
                   <KeepAlive>
-                    <UangHarian
-                      :key="uhRef"
+                    <Hotel
+                      :key="hotelRef"
                       v-if="currentStep == 1"
                       :disabledForm="disabledForm"
                     />
                   </KeepAlive>
                   <KeepAlive>
-                    <Hotel
-                      :key="hotelRef"
+                    <UangHarian
+                      :key="uhRef"
                       v-if="currentStep == 2"
+                      :disabledForm="disabledForm"
+                    />
+                  </KeepAlive>
+
+                  <KeepAlive>
+                    <Pesawat
+                      :key="pesawatRef"
+                      v-if="currentStep == 3"
                       :disabledForm="disabledForm"
                     />
                   </KeepAlive>
@@ -122,26 +131,42 @@
                   <KeepAlive>
                     <Transport
                       :key="transportRef"
-                      v-if="currentStep == 3"
+                      v-if="currentStep == 4"
+                      :disabledForm="disabledForm"
+                    />
+                  </KeepAlive>
+
+                  <KeepAlive>
+                    <TaksiJakarta
+                      :key="taksiJakartaRef"
+                      v-if="currentStep == 5"
+                      :disabledForm="disabledForm"
+                    />
+                  </KeepAlive>
+
+                  <KeepAlive>
+                    <TaksiTujuan
+                      :key="taksiTujuanRef"
+                      v-if="currentStep == 6"
                       :disabledForm="disabledForm"
                     />
                   </KeepAlive>
                   <KeepAlive>
                     <Representatif
                       :key="repRef"
-                      v-if="currentStep == 4"
+                      v-if="currentStep == 7"
                       :disabledForm="disabledForm"
                     />
                   </KeepAlive>
                   <KeepAlive>
                     <Lampiran
                       :key="lampiranRef"
-                      v-if="currentStep == 5"
+                      v-if="currentStep == 8"
                       :disabledForm="disabledForm"
                     />
                   </KeepAlive>
 
-                  <Catatan v-if="currentStep == 6" />
+                  <Catatan v-if="currentStep == 9" />
                 </div>
               </div>
             </div>
@@ -163,8 +188,8 @@
 
           <button
             @click="++currentStep"
-            :disabled="currentStep == 4"
-            :class="currentStep == 4 ? 'cursor-not-allowed' : ''"
+            :disabled="currentStep == 9"
+            :class="currentStep == 9 ? 'cursor-not-allowed' : ''"
             type="button"
             class="w-24 text-yellow-400 hover:text-white border border-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:outline-none focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-yellow-300 dark:text-yellow-300 dark:hover:text-white dark:hover:bg-yellow-400 dark:focus:ring-yellow-900"
           >
@@ -282,6 +307,9 @@ import UangHarian from './dialog/component/realisasi/UangHarian.vue'
 import Umum from './dialog/component/realisasi/Umum.vue'
 import Hotel from './dialog/component/realisasi/Hotel.vue'
 import Transport from './dialog/component/realisasi/Transport.vue'
+import Pesawat from './dialog/component/realisasi/Pesawat.vue'
+import TaksiJakarta from './dialog/component/realisasi/TaksiJakarta.vue'
+import TaksiTujuan from './dialog/component/realisasi/TaksiTujuan.vue'
 import Representatif from './dialog/component/realisasi/Representatif.vue'
 import Lampiran from './dialog/component/realisasi/Lampiran.vue'
 import { toast } from 'vue3-toastify'
@@ -299,6 +327,9 @@ const umumRef = ref(null)
 const uhRef = ref(null)
 const hotelRef = ref(null)
 const transportRef = ref(null)
+const pesawatRef = ref(null)
+const taksiJakartaRef = ref(null)
+const taksiTujuanRef = ref(null)
 const lampiranRef = ref(null)
 const repRef = ref(null)
 
@@ -310,9 +341,12 @@ const verifiedDialog = ref(false)
 const currentStep = ref(0)
 const steps = ref([
   'Umum',
-  'Uang Harian',
   'Penginapan',
-  'Transport',
+  'Uang Harian',
+  'Pesawat',
+  'Transportasi',
+  'Taksi Jakarta',
+  'Taksi Tujuan',
   'Representatif',
   'Lampiran Lainnya',
   'Catatan',
@@ -352,6 +386,9 @@ function verifiedSubmit(x) {
 function resetComponent() {
   hotelRef.value++
   transportRef.value++
+  pesawatRef.value++
+  taksiJakartaRef.value++
+  taksiTujuanRef.value++
   uhRef.value++
   lampiranRef.value++
   repRef.value++
@@ -363,11 +400,10 @@ async function submit() {
     type: 'info',
     isLoading: true,
   })
-
+  confirmDialog.value = !confirmDialog.value
   const success = await perjadinDetailStore.store()
   if (success.status) {
     resetComponent()
-
     toast.update(id, {
       render: 'Berhasil !!',
       position: toast.POSITION.BOTTOM_CENTER,
@@ -377,7 +413,6 @@ async function submit() {
       closeButton: true,
       isLoading: false,
     })
-    confirmDialog.value = !confirmDialog.value
   } else {
     toast.update(id, {
       render: 'Terjadi kesalahan',

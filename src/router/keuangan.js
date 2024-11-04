@@ -46,16 +46,6 @@ const keuangan = [
     name: 'perjadin-list',
     component: () => import('@/views/user/keuangan/perjadin/List.vue'),
   },
-  // {
-  //   meta: {
-  //     title: 'Kuitansi',
-  //     requiresAuth: false,
-  //     layout: 'layout-full',
-  //   },
-  //   path: '/keuangan/template',
-  //   name: 'perjadin-template',
-  //   component: () => import('@/views/user/keuangan/Template.vue'),
-  // },
   {
     meta: {
       title: 'Kuitansi',
@@ -75,6 +65,16 @@ const keuangan = [
     path: '/keuangan/perjadin/ptj/:id/kuitansi',
     name: 'perjadin-ptj-kuitansi',
     component: () => import('@/views/user/keuangan/template/Kuitansi.vue'),
+  },
+  {
+    meta: {
+      title: 'Kuitansi Masal',
+      requiresAuth: true,
+      layout: 'layout-full',
+    },
+    path: '/keuangan/perjadin/:id/kuitansi',
+    name: 'perjadin-ptj-kuitansi-masal',
+    component: () => import('@/views/user/keuangan/template/KuitansiMasal.vue'),
   },
   {
     meta: {
