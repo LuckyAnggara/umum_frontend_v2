@@ -138,6 +138,16 @@ const keuangan = [
   },
   {
     meta: {
+      title: 'Revisi Anggaran Kegiatan',
+      requiresAuth: true,
+      layout: 'layout-auth',
+    },
+    path: '/keuangan/mak/revisi',
+    name: 'mak-revisi',
+    component: () => import('@/views/user/keuangan/mak/Revisi.vue'),
+  },
+  {
+    meta: {
       title: 'Tambah Mata Anggaran Kegiatan',
       requiresAuth: true,
       layout: 'layout-auth',
