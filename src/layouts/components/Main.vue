@@ -1,8 +1,6 @@
 <template>
-  <main class="p-4 md:ml-64 min-h-screen h-auto pt-20">
-    <div
-      class="mt-4 mb-2 inline-flex items-center text-2xl font-medium text-gray-800 dark:text-gray-400 ml-8"
-    >
+  <main class="p-4 md:ml-64 min-h-screen h-auto pt-20 bg-cover" :style="backgroundImage(ruangan)">
+    <div class="mt-4 mb-2 inline-flex items-center text-2xl font-medium text-gray-800 dark:text-gray-400 ml-8">
       {{ route.meta.title }}
     </div>
 
@@ -14,6 +12,11 @@
 import { initDropdowns } from 'flowbite'
 import { onMounted } from 'vue'
 import { useRoute } from 'vue-router'
+import bg from '@/assets/bg2.jpg'
+
+function backgroundImage() {
+  // return `background-image: url("${bg}");`
+}
 
 const route = useRoute()
 onMounted(() => {
@@ -30,3 +33,5 @@ onMounted(() => {
   initTooltips()
 })
 </script>
+
+<style scoped></style>

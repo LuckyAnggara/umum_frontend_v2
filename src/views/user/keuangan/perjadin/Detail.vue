@@ -925,16 +925,12 @@ function pengusulReset() {
 }
 
 async function toRab() {
-  if (authStore.user.role == 'ADMIN') {
-    let resolvedRoute = router.resolve({
-      name: 'perjadin-ptj-rab',
-      params: { id: perjadinStore.singleResponse.id },
-    })
+  let resolvedRoute = router.resolve({
+    name: 'perjadin-ptj-rab',
+    params: { id: perjadinStore.singleResponse.id },
+  })
 
-    window.open(resolvedRoute.href, '_blank')
-  } else {
-    openRabModal()
-  }
+  window.open(resolvedRoute.href, '_blank')
 }
 
 const id = computed(() => {

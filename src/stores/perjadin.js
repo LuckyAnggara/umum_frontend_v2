@@ -17,6 +17,14 @@ export const usePerjadinStore = defineStore('perjadinStore', {
     isDestroyLoading: false,
     isDetail: false,
     isNewEdit: false,
+    batchCopyPegawai: [],
+    newBatchPegawai: {
+      nip: null,
+      nama: null,
+      jabatan: null,
+      pangkat: null,
+      unit: null,
+    },
     newTransport: {
       keterangan: null,
       tipe: 'DARAT',
@@ -227,7 +235,7 @@ export const usePerjadinStore = defineStore('perjadinStore', {
       }, 0)
     },
     getTotalAnggaranDetail(state) {
-      return state.singleResponse.detail.reduce((total, pegawai) => {
+      return state.singleResponse?.detail.reduce((total, pegawai) => {
         const totalHotel = pegawai.hotel.reduce((sum, item) => sum + item.hari * item.biaya, 0)
         const totalUangHarian = pegawai.uang_harian.reduce((sum, item) => sum + item.hari * item.biaya, 0)
         const totalTransport = pegawai.transport.reduce((sum, item) => sum + item.biaya, 0)
@@ -240,7 +248,7 @@ export const usePerjadinStore = defineStore('perjadinStore', {
       }, 0)
     },
     getTotalAnggaranRealisasi(state) {
-      return state.singleResponse.detail.reduce((total, pegawai) => {
+      return state.singleResponse?.detail.reduce((total, pegawai) => {
         const totalHotel = pegawai.hotel.reduce((sum, item) => sum + item.realisasi_hari * item.realisasi_biaya, 0)
         const totalUangHarian = pegawai.uang_harian.reduce((sum, item) => sum + item.realisasi_hari * item.realisasi_biaya, 0)
         const totalTransport = pegawai.transport.reduce((sum, item) => sum + item.realisasi_biaya, 0)
@@ -592,6 +600,13 @@ export const usePerjadinStore = defineStore('perjadinStore', {
     deleteRep(index) {
       this.newPegawai.representatif.splice(index, 1)
     },
+    tambahBatchPegawai() {
+      const pegawai = { ...this.newBatchPegawai }
+      this.batchCopyPegawai.push(pegawai)
+    },
+    deleteBatchPegawai(index) {
+      this.batchCopyPegawai.splice(index, 1)
+    },
     resetFormMain() {
       this.form = {
         tahun_anggaran: moment().format('YYYY'),
@@ -689,7 +704,6 @@ export const usePerjadinStore = defineStore('perjadinStore', {
       return false
     },
     async searchLapkin({ jenis = 'detail' }) {
-      console.info(jenis)
       this.isSearching = true
       let nip = null
       if (jenis == 'detail') {
@@ -718,6 +732,22 @@ export const usePerjadinStore = defineStore('perjadinStore', {
         this.isSearching = false
       }
       return false
+    },
+    async searchLapkinBatch(nip) {
+      try {
+        const response = await axiosIns.get(`/api/get-pegawai?nip=${nip}`)
+        console.info(response)
+      } catch (error) {
+        return {
+          data: {
+            nama: null,
+            jabatan: null,
+            pangkat: null,
+            unit: null,
+          },
+        }
+      } finally {
+      }
     },
     setDataPegawaiLapkin(item) {
       if (item.dari_lapkin) {

@@ -1,17 +1,8 @@
 <template>
   <div class="bg-gray-100 p-5 font-sans min-h-dvh">
     <template v-if="perjadinStore.singleResponse == null">
-      <div
-        class="w-full items-center justify-center flex min-h-lvh flex-col space-y-4"
-      >
-        <svg
-          class="w-12 h-12 text-gray-300 animate-spin"
-          viewBox="0 0 64 64"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-        >
+      <div class="w-full items-center justify-center flex min-h-lvh flex-col space-y-4">
+        <svg class="w-12 h-12 text-gray-300 animate-spin" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" width="24" height="24">
           <path
             d="M32 3C35.8083 3 39.5794 3.75011 43.0978 5.20749C46.6163 6.66488 49.8132 8.80101 52.5061 11.4939C55.199 14.1868 57.3351 17.3837 58.7925 20.9022C60.2499 24.4206 61 28.1917 61 32C61 35.8083 60.2499 39.5794 58.7925 43.0978C57.3351 46.6163 55.199 49.8132 52.5061 52.5061C49.8132 55.199 46.6163 57.3351 43.0978 58.7925C39.5794 60.2499 35.8083 61 32 61C28.1917 61 24.4206 60.2499 20.9022 58.7925C17.3837 57.3351 14.1868 55.199 11.4939 52.5061C8.801 49.8132 6.66487 46.6163 5.20749 43.0978C3.7501 39.5794 3 35.8083 3 32C3 28.1917 3.75011 24.4206 5.2075 20.9022C6.66489 17.3837 8.80101 14.1868 11.4939 11.4939C14.1868 8.80099 17.3838 6.66487 20.9022 5.20749C24.4206 3.7501 28.1917 3 32 3L32 3Z"
             stroke="currentColor"
@@ -50,12 +41,8 @@
         <div class="p-4 bg-white rounded-lg text-sm">
           <div>
             <!-- Header Section -->
-            <p class="text-xl font-bold text-center my-6">
-              RENCANA ANGGARAN BIAYA PERJALANAN DINAS
-            </p>
-            <div
-              class="flex flex-col justify-center items-right text-right mt-6"
-            >
+            <p class="text-xl font-bold text-center my-6">RENCANA ANGGARAN BIAYA PERJALANAN DINAS</p>
+            <div class="flex flex-col justify-center items-right text-right mt-6">
               <div class="flex flex-row justify-between text-start">
                 <div class="w-3/4 flex-col">
                   <div class="mb-1 flex">
@@ -83,25 +70,17 @@
                 </div>
               </div>
               <!-- Excel Editor -->
-              <table
-                class="min-w-full bg-white border-collapse border border-gray-400 text-left"
-              >
+              <table class="min-w-full bg-white border-collapse border border-gray-400 text-left">
                 <thead class="">
-                  <tr
-                    class="border-collapse border border-slate-500 text-center"
-                  >
+                  <tr class="border-collapse border border-slate-500 text-center">
                     <th rowspan="2" class="border px-4 py-2">Nama</th>
                     <th rowspan="2" class="border px-4 py-2">Gol</th>
                     <th colspan="2" class="border px-4 py-2">Kota</th>
                     <th colspan="2" class="border px-4 py-2">Tanggal</th>
                     <th rowspan="2" class="border px-4 py-2">Jmlh Hari</th>
                     <th rowspan="2" class="border px-4 py-2">Uang Harian</th>
-                    <th colspan="2" class="border px-4 py-2">
-                      Biaya Hotel (hr/Rp)
-                    </th>
-                    <th colspan="5" class="border px-4 py-2">
-                      Biaya Transport
-                    </th>
+                    <th colspan="2" class="border px-4 py-2">Biaya Hotel (hr/Rp)</th>
+                    <th colspan="5" class="border px-4 py-2">Biaya Transport</th>
                     <th rowspan="2" class="border px-4 py-2">Representatif</th>
                     <th rowspan="2" class="border px-4 py-2">Total</th>
                   </tr>
@@ -125,26 +104,13 @@
                 </thead>
                 <tbody>
                   <tr class="">
-                    <td
-                      colspan="16"
-                      class="border px-4 py-2 font-semibold text-right"
-                    >
-                      Anggaran Kegiatan ini:
-                    </td>
+                    <td colspan="16" class="border px-4 py-2 font-semibold text-right">Anggaran Kegiatan ini:</td>
                     <td class="border px-4 py-2 font-semibold text-right">
-                      {{
-                        IDRCurrency.format(
-                          perjadinStore.singleResponse.mak.anggaran
-                        )
-                      }}
+                      {{ IDRCurrency.format(perjadinStore.singleResponse.mak.anggaran) }}
                     </td>
                   </tr>
 
-                  <tr
-                    class="bg-gray-50"
-                    v-for="(item, index) in mapData"
-                    :key="index"
-                  >
+                  <tr class="bg-gray-50" v-for="(item, index) in mapData" :key="index">
                     <td class="border px-4 py-2">{{ item.nama }}</td>
                     <td class="border px-4 py-2">
                       {{ item.pangkat.toUpperCase() }}
@@ -179,32 +145,15 @@
                   </tr>
 
                   <tr>
-                    <td
-                      colspan="16"
-                      class="border px-4 py-2 text-right font-semibold"
-                    >
-                      Jumlah
-                    </td>
+                    <td colspan="16" class="border px-4 py-2 text-right font-semibold">Jumlah</td>
                     <td class="border px-4 py-2 text-right font-semibold">
-                      {{
-                        IDRCurrency.format(perjadinStore.getTotalAnggaranDetail)
-                      }}
+                      {{ IDRCurrency.format(perjadinStore.getTotalAnggaranDetail) }}
                     </td>
                   </tr>
                   <tr>
-                    <td
-                      colspan="16"
-                      class="border px-4 py-2 text-right font-semibold"
-                    >
-                      Sisa Anggaran Setelah Kegiatan ini:
-                    </td>
+                    <td colspan="16" class="border px-4 py-2 text-right font-semibold">Sisa Anggaran Setelah Kegiatan ini:</td>
                     <td class="border px-4 py-2 text-right font-semibold">
-                      {{
-                        IDRCurrency.format(
-                          perjadinStore.singleResponse.mak.anggaran -
-                            perjadinStore.getTotalAnggaranDetail
-                        )
-                      }}
+                      {{ IDRCurrency.format(perjadinStore.singleResponse.mak.anggaran - perjadinStore.getTotalAnggaranDetail) }}
                     </td>
                   </tr>
                 </tbody>
@@ -262,9 +211,7 @@
                 {{ perjadinStore.singleResponse.mak.keterangan }}
               </span>
             </p>
-            <div
-              class="flex flex-col justify-center items-right text-right mt-6"
-            >
+            <div class="flex flex-col justify-center items-right text-right mt-6">
               <div class="flex flex-row justify-between text-start">
                 <div class="w-3/4 flex-col">
                   <div class="mb-1 flex">
@@ -277,13 +224,9 @@
                 </div>
               </div>
               <!-- Excel Editor -->
-              <table
-                class="min-w-full bg-white border-collapse border border-gray-400 text-left"
-              >
+              <table class="min-w-full bg-white border-collapse border border-gray-400 text-left">
                 <thead class="">
-                  <tr
-                    class="border-collapse border border-slate-500 text-center"
-                  >
+                  <tr class="border-collapse border border-slate-500 text-center">
                     <th class="border px-4 py-2">Nama</th>
                     <th class="border px-4 py-2">Gol</th>
                     <th class="border px-4 py-2">Jabatan</th>
@@ -301,19 +244,13 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr
-                    class="bg-gray-50"
-                    v-for="(item, index) in mapData"
-                    :key="index"
-                  >
+                  <tr class="bg-gray-50" v-for="(item, index) in mapData" :key="index">
                     <td class="border px-4 py-2">{{ item.nama }}</td>
                     <td class="border px-4 py-2">
                       {{ item.pangkat.toUpperCase() }}
                     </td>
                     <td class="border px-4 py-2">{{ item.jabatan }}</td>
-                    <td class="border px-4 py-2">
-                      {{ item.keberangkatan }} - {{ item.tujuan }}
-                    </td>
+                    <td class="border px-4 py-2">{{ item.keberangkatan }} - {{ item.tujuan }}</td>
                     <td class="border px-4 py-2">
                       {{ $moment(item.tanggal_awal).format('DD MMM YY') }} s.d
                       {{ $moment(item.tanggal_akhir).format('DD MMM YY') }}
@@ -412,9 +349,7 @@
                 {{ perjadinStore.singleResponse.mak.keterangan }}
               </span>
             </p>
-            <div
-              class="flex flex-col justify-center items-right text-right mt-6"
-            >
+            <div class="flex flex-col justify-center items-right text-right mt-6">
               <div class="flex flex-row justify-between text-start">
                 <div class="w-3/4 flex-col">
                   <div class="mb-1 flex">
@@ -427,13 +362,9 @@
                 </div>
               </div>
               <!-- Excel Editor -->
-              <table
-                class="min-w-full bg-white border-collapse border border-gray-400 text-left"
-              >
+              <table class="min-w-full bg-white border-collapse border border-gray-400 text-left">
                 <thead class="">
-                  <tr
-                    class="border-collapse border border-slate-500 text-center"
-                  >
+                  <tr class="border-collapse border border-slate-500 text-center">
                     <th class="border px-4 py-2">DETAIL</th>
                     <th class="border px-4 py-2">PAGU</th>
                     <th class="border px-4 py-2">NOMINATIF S.D YANG LALU</th>
@@ -447,31 +378,15 @@
                     <td class="border px-4 py-2 font-semibold">
                       {{ perjadinStore.singleResponse.mak.keterangan }}
                     </td>
-                    <td class="border px-4 py-2 text-center font-semibold">
-                      1
-                    </td>
-                    <td class="border px-4 py-2 text-center font-semibold">
-                      2
-                    </td>
-                    <td class="border px-4 py-2 text-center font-semibold">
-                      3
-                    </td>
-                    <td class="border px-4 py-2 text-center font-semibold">
-                      4 = (2+3)
-                    </td>
-                    <td class="border px-4 py-2 text-center font-semibold">
-                      5 = (1-4)
-                    </td>
+                    <td class="border px-4 py-2 text-center font-semibold">1</td>
+                    <td class="border px-4 py-2 text-center font-semibold">2</td>
+                    <td class="border px-4 py-2 text-center font-semibold">3</td>
+                    <td class="border px-4 py-2 text-center font-semibold">4 = (2+3)</td>
+                    <td class="border px-4 py-2 text-center font-semibold">5 = (1-4)</td>
                   </tr>
-                  <tr
-                    v-for="(nominatif, index) in perjadinStore.singleResponse
-                      .mak.nominatif"
-                    :key="index"
-                  >
+                  <tr v-for="(nominatif, index) in perjadinStore.singleResponse.mak.nominatif" :key="index">
                     <td class="border px-4 py-2">
-                      <span v-if="nominatif.type == 'header'">
-                        > {{ nominatif.uraian }}</span
-                      >
+                      <span v-if="nominatif.type == 'header'"> > {{ nominatif.uraian }}</span>
                       <span v-else> - {{ nominatif.uraian }}</span>
                     </td>
                     <td class="border px-4 py-2 text-right">
@@ -491,32 +406,19 @@
                     </td>
                     <td class="border px-4 py-2 text-right">
                       <span v-if="nominatif.type == 'detail'">
-                        {{
-                          IDRCurrency.format(
-                            totalPaguDigunakan(nominatif) +
-                              totalPaguIni(nominatif)
-                          )
-                        }}
+                        {{ IDRCurrency.format(totalPaguDigunakan(nominatif) + totalPaguIni(nominatif)) }}
                       </span>
                     </td>
                     <td class="border px-4 py-2 text-right">
                       <span v-if="nominatif.type == 'detail'">
-                        {{
-                          IDRCurrency.format(
-                            nominatif.jumlah -
-                              (totalPaguDigunakan(nominatif) +
-                                totalPaguIni(nominatif))
-                          )
-                        }}
+                        {{ IDRCurrency.format(nominatif.jumlah - (totalPaguDigunakan(nominatif) + totalPaguIni(nominatif))) }}
                       </span>
                     </td>
                   </tr>
                 </tbody>
                 <tfoot>
                   <tr>
-                    <td class="border px-4 py-2 text-right font-semibold">
-                      TOTAL
-                    </td>
+                    <td class="border px-4 py-2 text-right font-semibold">TOTAL</td>
                     <td class="border px-4 py-2 text-right font-semibold">
                       {{ IDRCurrency.format(totalPagu) }}
                     </td>
@@ -527,18 +429,10 @@
                       {{ IDRCurrency.format(totalNominatifIni) }}
                     </td>
                     <td class="border px-4 py-2 text-right font-semibold">
-                      {{
-                        IDRCurrency.format(
-                          totalNominatifLalu + totalNominatifIni
-                        )
-                      }}
+                      {{ IDRCurrency.format(totalNominatifLalu + totalNominatifIni) }}
                     </td>
                     <td class="border px-4 py-2 text-right font-semibold">
-                      {{
-                        IDRCurrency.format(
-                          totalPagu - (totalNominatifLalu + totalNominatifIni)
-                        )
-                      }}
+                      {{ IDRCurrency.format(totalPagu - (totalNominatifLalu + totalNominatifIni)) }}
                     </td>
                   </tr>
                 </tfoot>
@@ -576,53 +470,24 @@ const mapData = computed(() => {
     const pangkat = item.pangkat.split(' - ')[0]
     // Menghitung total biaya hotel
     const hotelCost = item.hotel.reduce((total, h) => total + h.biaya, 0)
-    const hotelCostTotal = item.hotel.reduce(
-      (total, h) => total + h.biaya * h.hari,
-      0
-    )
+    const hotelCostTotal = item.hotel.reduce((total, h) => total + h.biaya * h.hari, 0)
 
     // Menghitung total biaya Representatif
-    const representatif = item.representatif.reduce(
-      (total, h) => total + r.biaya,
-      0
-    )
-    const representatifTotal = item.representatif.reduce(
-      (total, h) => total + r.biaya * r.hari,
-      0
-    )
+    const representatif = item.representatif.reduce((total, h) => total + h.biaya, 0)
+    const representatifTotal = item.representatif.reduce((total, h) => total + h.biaya * h.hari, 0)
 
     // Menghitung biaya transportasi berdasarkan tipe
-    const transportUdara = item.transport
-      .filter((t) => t.tipe === 'UDARA')
-      .reduce((total, t) => total + t.biaya, 0)
-    const transportLaut = item.transport
-      .filter((t) => t.tipe === 'LAUT')
-      .reduce((total, t) => total + t.biaya, 0)
-    const transportDarat = item.transport
-      .filter((t) => t.tipe === 'DARAT')
-      .reduce((total, t) => total + t.biaya, 0)
-    const transportLainnya = item.transport
-      .filter((t) => t.tipe === 'LAINNYA')
-      .reduce((total, t) => total + t.biaya, 0)
+    const transportUdara = item.transport.filter((t) => t.tipe === 'UDARA').reduce((total, t) => total + t.biaya, 0)
+    const transportLaut = item.transport.filter((t) => t.tipe === 'LAUT').reduce((total, t) => total + t.biaya, 0)
+    const transportDarat = item.transport.filter((t) => t.tipe === 'DARAT').reduce((total, t) => total + t.biaya, 0)
+    const transportLainnya = item.transport.filter((t) => t.tipe === 'LAINNYA').reduce((total, t) => total + t.biaya, 0)
 
     const pesawat = item.pesawat.reduce((total, t) => total + t.biaya, 0)
-    const taksiJakarta = item.taksi_jakarta.reduce(
-      (total, t) => total + t.biaya,
-      0
-    )
-    const taksiTujuan = item.taksi_tujuan.reduce(
-      (total, t) => total + t.biaya,
-      0
-    )
+    const taksiJakarta = item.taksi_jakarta.reduce((total, t) => total + t.biaya, 0)
+    const taksiTujuan = item.taksi_tujuan.reduce((total, t) => total + t.biaya, 0)
     // Menghitung uang harian
-    const dailyAllowance = item.uang_harian.reduce(
-      (total, u) => total + u.biaya,
-      0
-    )
-    const dailyAllowanceTotal = item.uang_harian.reduce(
-      (total, u) => total + u.biaya * u.hari,
-      0
-    )
+    const dailyAllowance = item.uang_harian.reduce((total, u) => total + u.biaya, 0)
+    const dailyAllowanceTotal = item.uang_harian.reduce((total, u) => total + u.biaya * u.hari, 0)
 
     // Menghitung total biaya
     const total =
@@ -657,8 +522,7 @@ const mapData = computed(() => {
       transport_laut: IDRCurrency.format(transportLaut),
       transport_darat: IDRCurrency.format(transportDarat),
       transport_lainnya: IDRCurrency.format(transportLainnya),
-      transport:
-        transportDarat + transportLaut + transportDarat + transportLainnya,
+      transport: transportDarat + transportLaut + transportDarat + transportLainnya,
       uang_harian_total: IDRCurrency.format(dailyAllowanceTotal),
       hotel_total: IDRCurrency.format(hotelCostTotal),
       representatif: IDRCurrency.format(representatif), // Bisa diubah jika representatif ada datanya
@@ -672,53 +536,24 @@ const mapData2 = computed(() => {
     const pangkat = item.pangkat.split(' - ')[0]
     // Menghitung total biaya hotel
     const hotelCost = item.hotel.reduce((total, h) => total + h.biaya, 0)
-    const hotelCostTotal = item.hotel.reduce(
-      (total, h) => total + h.biaya * h.hari,
-      0
-    )
+    const hotelCostTotal = item.hotel.reduce((total, h) => total + h.biaya * h.hari, 0)
 
     // Menghitung total biaya Representatif
-    const representatif = item.representatif.reduce(
-      (total, h) => total + r.biaya,
-      0
-    )
-    const representatifTotal = item.representatif.reduce(
-      (total, h) => total + r.biaya * r.hari,
-      0
-    )
+    const representatif = item.representatif.reduce((total, h) => total + h.biaya, 0)
+    const representatifTotal = item.representatif.reduce((total, h) => total + h.biaya * h.hari, 0)
 
     // Menghitung biaya transportasi berdasarkan tipe
-    const transportUdara = item.transport
-      .filter((t) => t.tipe === 'UDARA')
-      .reduce((total, t) => total + t.biaya, 0)
-    const transportLaut = item.transport
-      .filter((t) => t.tipe === 'LAUT')
-      .reduce((total, t) => total + t.biaya, 0)
-    const transportDarat = item.transport
-      .filter((t) => t.tipe === 'DARAT')
-      .reduce((total, t) => total + t.biaya, 0)
-    const transportLainnya = item.transport
-      .filter((t) => t.tipe === 'LAINNYA')
-      .reduce((total, t) => total + t.biaya, 0)
+    const transportUdara = item.transport.filter((t) => t.tipe === 'UDARA').reduce((total, t) => total + t.biaya, 0)
+    const transportLaut = item.transport.filter((t) => t.tipe === 'LAUT').reduce((total, t) => total + t.biaya, 0)
+    const transportDarat = item.transport.filter((t) => t.tipe === 'DARAT').reduce((total, t) => total + t.biaya, 0)
+    const transportLainnya = item.transport.filter((t) => t.tipe === 'LAINNYA').reduce((total, t) => total + t.biaya, 0)
 
     const pesawat = item.pesawat.reduce((total, t) => total + t.biaya, 0)
-    const taksiJakarta = item.taksi_jakarta.reduce(
-      (total, t) => total + t.biaya,
-      0
-    )
-    const taksiTujuan = item.taksi_tujuan.reduce(
-      (total, t) => total + t.biaya,
-      0
-    )
+    const taksiJakarta = item.taksi_jakarta.reduce((total, t) => total + t.biaya, 0)
+    const taksiTujuan = item.taksi_tujuan.reduce((total, t) => total + t.biaya, 0)
     // Menghitung uang harian
-    const dailyAllowance = item.uang_harian.reduce(
-      (total, u) => total + u.biaya,
-      0
-    )
-    const dailyAllowanceTotal = item.uang_harian.reduce(
-      (total, u) => total + u.biaya * u.hari,
-      0
-    )
+    const dailyAllowance = item.uang_harian.reduce((total, u) => total + u.biaya, 0)
+    const dailyAllowanceTotal = item.uang_harian.reduce((total, u) => total + u.biaya * u.hari, 0)
 
     // Menghitung total biaya
     const total =
@@ -752,8 +587,7 @@ const mapData2 = computed(() => {
       transport_laut: transportLaut,
       transport_darat: transportDarat,
       transport_lainnya: transportLainnya,
-      transport:
-        transportDarat + transportLaut + transportDarat + transportLainnya,
+      transport: transportDarat + transportLaut + transportDarat + transportLainnya,
       uang_harian_total: dailyAllowanceTotal,
       hotel_total: hotelCostTotal,
       representatif: representatif, // Bisa diubah jika representatif ada datanya
@@ -763,38 +597,14 @@ const mapData2 = computed(() => {
 })
 
 const total = computed(() => {
-  const totalTiketPP = mapData2.value.reduce(
-    (acc, item) => acc + item.pesawat,
-    0
-  )
-  const totalTaksiJakarta = mapData2.value.reduce(
-    (acc, item) => acc + item.taksi_jakarta,
-    0
-  )
-  const totalTaksiProvinsi = mapData2.value.reduce(
-    (acc, item) => acc + item.taksi_tujuan,
-    0
-  )
-  const totalDarat = mapData2.value.reduce(
-    (acc, item) => acc + item.transport_darat,
-    0
-  )
-  const totalTransport = mapData2.value.reduce(
-    (acc, item) => acc + item.transport,
-    0
-  )
-  const totalUangHarian = mapData2.value.reduce(
-    (acc, item) => acc + item.uang_harian_total,
-    0
-  )
-  const totalBiayaPenginapan = mapData2.value.reduce(
-    (acc, item) => acc + item.hotel_total,
-    0
-  )
-  const totalRepresentatif = mapData2.value.reduce(
-    (acc, item) => acc + item.representatif,
-    0
-  )
+  const totalTiketPP = mapData2.value.reduce((acc, item) => acc + item.pesawat, 0)
+  const totalTaksiJakarta = mapData2.value.reduce((acc, item) => acc + item.taksi_jakarta, 0)
+  const totalTaksiProvinsi = mapData2.value.reduce((acc, item) => acc + item.taksi_tujuan, 0)
+  const totalDarat = mapData2.value.reduce((acc, item) => acc + item.transport_darat, 0)
+  const totalTransport = mapData2.value.reduce((acc, item) => acc + item.transport, 0)
+  const totalUangHarian = mapData2.value.reduce((acc, item) => acc + item.uang_harian_total, 0)
+  const totalBiayaPenginapan = mapData2.value.reduce((acc, item) => acc + item.hotel_total, 0)
+  const totalRepresentatif = mapData2.value.reduce((acc, item) => acc + item.representatif, 0)
   const total = mapData2.value.reduce((acc, item) => acc + item.total, 0)
   // Menghitung total dari semua total di tabel
   return {
@@ -811,9 +621,7 @@ const total = computed(() => {
 })
 
 const totalPagu = computed(() => {
-  return perjadinStore.singleResponse.mak.nominatif
-    .filter((e) => e.type == 'detail')
-    .reduce((total, item) => total + item.jumlah, 0)
+  return perjadinStore.singleResponse.mak.nominatif.filter((e) => e.type == 'detail').reduce((total, item) => total + item.jumlah, 0)
 })
 
 const totalNominatifLalu = computed(() => {
@@ -821,9 +629,7 @@ const totalNominatifLalu = computed(() => {
     .filter((e) => e.type == 'detail')
 
     .reduce((total, item) => {
-      const detailTotal = item.detail
-        .filter((e) => e.kegiatan_id != perjadinStore.singleResponse.id)
-        .reduce((sum, detailItem) => sum + detailItem.jumlah, 0)
+      const detailTotal = item.detail.filter((e) => e.kegiatan_id != perjadinStore.singleResponse.id).reduce((sum, detailItem) => sum + detailItem.jumlah, 0)
       return total + detailTotal
     }, 0)
 })
@@ -833,9 +639,7 @@ const totalNominatifIni = computed(() => {
     .filter((e) => e.type == 'detail')
 
     .reduce((total, item) => {
-      const detailTotal = item.detail
-        .filter((e) => e.kegiatan_id == perjadinStore.singleResponse.id)
-        .reduce((sum, detailItem) => sum + detailItem.jumlah, 0)
+      const detailTotal = item.detail.filter((e) => e.kegiatan_id == perjadinStore.singleResponse.id).reduce((sum, detailItem) => sum + detailItem.jumlah, 0)
       return total + detailTotal
     }, 0)
 })
@@ -843,18 +647,14 @@ const totalNominatifIni = computed(() => {
 function totalPaguDigunakan(item) {
   if (!item) return 0
 
-  const penggunaan = item.detail
-    .filter((e) => e.kegiatan_id != perjadinStore.singleResponse.id)
-    .reduce((total, item) => total + item.jumlah, 0)
+  const penggunaan = item.detail.filter((e) => e.kegiatan_id != perjadinStore.singleResponse.id).reduce((total, item) => total + item.jumlah, 0)
   return penggunaan
 }
 
 function totalPaguIni(item) {
   if (!item) return 0
 
-  const penggunaan = item.detail
-    .filter((e) => e.kegiatan_id == perjadinStore.singleResponse.id)
-    .reduce((total, item) => total + item.jumlah, 0)
+  const penggunaan = item.detail.filter((e) => e.kegiatan_id == perjadinStore.singleResponse.id).reduce((total, item) => total + item.jumlah, 0)
   return penggunaan
 }
 

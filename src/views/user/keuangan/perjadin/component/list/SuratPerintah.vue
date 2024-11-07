@@ -68,7 +68,7 @@
             <select
               @change="perjadinStore.getData()"
               v-model="perjadinStore.filter.currentStatus"
-              class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block px-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              class="text-xs bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block px-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             >
               <option value="">SEMUA</option>
               <option value="PERENCANAAN">PERENCANAAN</option>
@@ -80,17 +80,17 @@
         </div>
       </div>
       <div class="overflow-y-visible w-full scrollbar-thin scrollbar-track-gray-500 scrollbar-thumb-gray-700">
-        <table class="lg:w-full min-w-full text-sm text-left text-gray-500 dark:text-gray-400">
+        <table class="lg:w-full min-w-full text-sm text-left text-gray-500 dark:text-gray-400 table-fixed">
           <thead class="text-xs text-gray-700 uppercase bg-gray-200 dark:bg-gray-700 dark:text-gray-400">
             <tr>
-              <th scope="col" class="px-4 py-3">#</th>
-              <th scope="col" class="px-4 py-3">No Surat Tugas / Surat Perintah</th>
-              <th scope="col" class="px-4 py-3">Nama Kegiatan</th>
-              <th scope="col" class="px-4 py-3">Tanggal Kegiatan</th>
-              <th scope="col" class="px-4 py-3">Anggaran</th>
-              <th scope="col" class="px-4 py-3">Status</th>
-              <th scope="col" class="px-4 py-3" v-if="authStore.role == 'ADMIN'">Pembuat</th>
-              <th scope="col" class="px-4 py-3"></th>
+              <th scope="col" class="px-4 py-3 w-0.5">#</th>
+              <th scope="col" class="px-4 py-3 w-2/12">No Surat Tugas / Surat Perintah</th>
+              <th scope="col" class="px-4 py-3 w-3/12">Nama Kegiatan</th>
+              <th scope="col" class="px-4 py-3 w-2/12">Tanggal Kegiatan</th>
+              <th scope="col" class="px-4 py-3 w-2/12">Anggaran</th>
+              <th scope="col" class="px-4 py-3 w-2/12">Status</th>
+              <th scope="col" class="px-4 py-3 w-2/12" v-if="authStore.role == 'ADMIN'">Pembuat</th>
+              <th scope="col" class="px-4 py-3 w-0.5"></th>
             </tr>
           </thead>
           <tbody>
@@ -118,7 +118,7 @@
               </td>
               <td class="px-4 py-1">
                 <div class="flex flex-col">
-                  <span class="font-bold">{{ item.nama_kegiatan }}</span>
+                  <span class="font-bold truncate" :title="item.nama_kegiatan">{{ item.nama_kegiatan }}</span>
                   <span class="text-xs">{{ item.tempat_kegiatan }}</span>
                 </div>
               </td>
