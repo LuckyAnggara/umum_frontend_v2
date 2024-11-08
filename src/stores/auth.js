@@ -26,6 +26,7 @@ export const useAuthStore = defineStore('auth', {
       name: null,
       password: null,
       role: 'USER',
+      unit_id: null,
     },
     isUpdateLoading: false,
     isStoreLoading: false,
@@ -91,9 +92,7 @@ export const useAuthStore = defineStore('auth', {
         if (resp.status == 201) {
           localStorage.setItem('token', resp.data.token)
           this.user = resp.data.user
-          axiosIns.defaults.headers.common[
-            'Authorization'
-          ] = `Bearer ${resp.data.token}`
+          axiosIns.defaults.headers.common['Authorization'] = `Bearer ${resp.data.token}`
           toast.success('Login sukses', {
             timeout: 3000,
           })
@@ -112,10 +111,7 @@ export const useAuthStore = defineStore('auth', {
     async update() {
       this.isUpdateLoading = true
       try {
-        const response = await axiosIns.patch(
-          `/api/auth/user/${this.user.id}`,
-          this.user
-        )
+        const response = await axiosIns.patch(`/api/auth/user/${this.user.id}`, this.user)
         if (response.status == 200) {
           return true
         } else {
@@ -130,9 +126,7 @@ export const useAuthStore = defineStore('auth', {
     async getData(page = '') {
       this.isGetLoading = true
       try {
-        const response = await axiosIns.get(
-          `/api/users?limit=${this.filter.currentLimit}${this.pageQuery}${this.searchQuery}`
-        )
+        const response = await axiosIns.get(`/api/users?limit=${this.filter.currentLimit}${this.pageQuery}${this.searchQuery}`)
         this.responses = response.data.data
       } catch (error) {
         alert(error.message)
@@ -169,9 +163,7 @@ export const useAuthStore = defineStore('auth', {
       return false
     },
     async cekUserName() {
-      const response = await axiosIns.get(
-        `/api/users/cek-username?query=${this.formNew.nip}`
-      )
+      const response = await axiosIns.get(`/api/users/cek-username?query=${this.formNew.nip}`)
       this.validUsername = response.data
     },
     async destroy(id) {
@@ -218,7 +210,7 @@ export const useAuthStore = defineStore('auth', {
     clearForm() {
       this.formNew.nip = null
       this.formNew.name = null
-      this.formNew.unit = null
+      this.formNew.unit_id = null
       this.formNew.role = 'USER'
       this.formNew.password = null
     },

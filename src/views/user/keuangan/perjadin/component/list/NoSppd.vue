@@ -1,21 +1,13 @@
 <template>
   <div>
-    <div
-      class="bg-white dark:bg-gray-800 relative shadow-md sm:rounded-lg overflow-visible"
-    >
+    <div class="bg-white dark:bg-gray-800 relative shadow-md sm:rounded-lg overflow-visible">
       <div class="p-4">
         <p class="font-semibold text-lg">Berdasarkan Nomor SPPD</p>
       </div>
-      <div
-        class="flex flex-col md:flex-row items-center space-y-3 md:space-y-0 md:space-x-4 p-4 w-full"
-      >
+      <div class="flex flex-col md:flex-row items-center space-y-3 md:space-y-0 md:space-x-4 p-4 w-full">
         <div class="w-full flex flex-row space-x-3 items-center">
           <div class="flex items-center">
-            <label
-              for="years"
-              class="block text-sm font-medium text-gray-900 dark:text-white mr-2"
-              >Show</label
-            >
+            <label for="years" class="block text-sm font-medium text-gray-900 dark:text-white mr-2">Show</label>
             <select
               @change="perjadinDetailStore.getData()"
               v-model="perjadinDetailStore.filter.currentLimit"
@@ -23,11 +15,7 @@
             >
               <option
                 :value="limit.value"
-                :selected="
-                  perjadinDetailStore.filter.currentLimit == limit.value
-                    ? true
-                    : false
-                "
+                :selected="perjadinDetailStore.filter.currentLimit == limit.value ? true : false"
                 v-for="(limit, index) in mainStore.limitOptions"
                 :key="index"
               >
@@ -39,12 +27,8 @@
           <div class="flex items-center w-1/3" autocomplete="off">
             <label for="simple-search" class="sr-only">Search</label>
             <div class="relative w-full">
-              <div
-                class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none"
-              >
-                <MagnifyingGlassIcon
-                  class="w-5 h-5 text-gray-500 dark:text-gray-400"
-                />
+              <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                <MagnifyingGlassIcon class="w-5 h-5 text-gray-500 dark:text-gray-400" />
               </div>
               <input
                 @keyup.enter="perjadinDetailStore.getData()"
@@ -57,15 +41,8 @@
             </div>
           </div>
 
-          <div
-            class="flex items-center"
-            v-show="authStore.user.role == 'ADMIN'"
-          >
-            <label
-              for="years"
-              class="block text-sm font-medium text-gray-900 dark:text-white mr-2"
-              >Unit</label
-            >
+          <div class="flex items-center" v-show="authStore.user.role == 'ADMIN'">
+            <label for="years" class="block text-sm font-medium text-gray-900 dark:text-white mr-2">Unit</label>
             <select
               @change="perjadinDetailStore.getData()"
               v-model="perjadinDetailStore.filter.currentUnit"
@@ -87,11 +64,7 @@
           </div>
 
           <div class="flex items-center">
-            <label
-              for="years"
-              class="block text-sm font-medium text-gray-900 dark:text-white mr-2"
-              >Status</label
-            >
+            <label for="years" class="block text-sm font-medium text-gray-900 dark:text-white mr-2">Status</label>
             <select
               @change="perjadinDetailStore.getData()"
               v-model="perjadinDetailStore.filter.currentStatus"
@@ -104,49 +77,42 @@
           </div>
         </div>
       </div>
-      <div
-        class="overflow-y-visible w-full scrollbar-thin scrollbar-track-gray-500 scrollbar-thumb-gray-700"
-      >
-        <table
-          class="lg:w-full min-w-full text-sm text-left text-gray-500 dark:text-gray-400"
-        >
-          <thead
-            class="text-xs text-gray-700 uppercase bg-gray-200 dark:bg-gray-700 dark:text-gray-400"
-          >
+      <div class="overflow-y-visible w-full scrollbar-thin scrollbar-track-gray-500 scrollbar-thumb-gray-700">
+        <table class="lg:w-full min-w-full text-sm text-left text-gray-500 dark:text-gray-400">
+          <thead class="text-xs text-gray-700 uppercase bg-gray-200 dark:bg-gray-700 dark:text-gray-400">
             <tr>
-              <th scope="col" class="px-4 py-3">#</th>
-              <th scope="col" class="px-4 py-3">No SPPD</th>
-              <th scope="col" class="px-4 py-3">No ST / No SP</th>
-              <th scope="col" class="px-4 py-3">Nama Pegawai</th>
+              <th scope="col" class="px-4 py-3 w-0.5">#</th>
+              <th scope="col" class="px-4 py-3 flex flex-row justify-between items-center space-x-2 w-2/12" @click="sortData('no_sppd')">
+                <span> No SPPD </span>
+                <span v-if="perjadinDetailStore.filter.sortBy === 'no_sppd'">
+                  <span v-if="perjadinDetailStore.filter.sortDirection === 'asc'">▲</span>
+                  <span v-else>▼</span>
+                </span>
+              </th>
+              <th scope="col" class="px-4 py-3 w-2/12">No ST / No SP</th>
+              <th scope="col" class="px-4 py-3 w-2/12 flex flex-row justify-between items-center space-x-2" @click="sortData('nama')">
+                Nama Pegawai
+                <span v-if="perjadinDetailStore.filter.sortBy === 'nama'">
+                  <span v-if="perjadinDetailStore.filter.sortDirection === 'asc'">▲</span>
+                  <span v-else>▼</span>
+                </span>
+              </th>
               <th scope="col" class="px-4 py-3">Nama & Tanggal Kegiatan</th>
               <th scope="col" class="px-4 py-3">Total Anggaran</th>
               <th scope="col" class="px-4 py-3">Total Realisasi</th>
               <th scope="col" class="px-4 py-3">Lebih / Kurang Bayar</th>
               <th scope="col" class="px-4 py-3">Status</th>
-              <th
-                scope="col"
-                class="px-4 py-3"
-                v-if="authStore.role == 'ADMIN'"
-              >
-                Unit
-              </th>
+              <th scope="col" class="px-4 py-3" v-if="authStore.role == 'ADMIN'">Unit</th>
               <th scope="col" class="px-4 py-3"></th>
             </tr>
           </thead>
           <tbody>
             <tr v-if="perjadinDetailStore.isLoading">
               <td colspan="9" class="text-center">
-                <span class=""
-                  ><ArrowPathIcon class="w-6 h-6 animate-spin mx-auto"
-                /></span>
+                <span class=""><ArrowPathIcon class="w-6 h-6 animate-spin mx-auto" /></span>
               </td>
             </tr>
-            <tr
-              v-else-if="
-                !perjadinDetailStore.isLoading &&
-                perjadinDetailStore.items.length < 1
-              "
-            >
+            <tr v-else-if="!perjadinDetailStore.isLoading && perjadinDetailStore.items.length < 1">
               <td colspan="9" class="text-center">No Data</td>
             </tr>
             <tr
@@ -184,40 +150,21 @@
                 </div>
               </td>
               <td class="px-4 py-1">
-                <span>{{
-                  IDRCurrency.format(
-                    perjadinDetailStore.totalDetailBiayaPerItem(item.id)
-                  )
-                }}</span>
+                <span>{{ IDRCurrency.format(perjadinDetailStore.totalDetailBiayaPerItem(item.id)) }}</span>
               </td>
               <td class="px-4 py-1">
-                <span>{{
-                  IDRCurrency.format(
-                    perjadinDetailStore.totalDetailRealisasiBiayaPerItem(
-                      item.id
-                    )
-                  )
-                }}</span>
+                <span>{{ IDRCurrency.format(perjadinDetailStore.totalDetailRealisasiBiayaPerItem(item.id)) }}</span>
               </td>
               <td class="px-4 py-1">
                 <template v-if="item.status == 'VERIFIED'">
                   <span
                     :class="
-                      perjadinDetailStore.totalDetailBiayaPerItem(item.id) -
-                        perjadinDetailStore.totalDetailRealisasiBiayaPerItem(
-                          item.id
-                        ) >
-                      0
+                      perjadinDetailStore.totalDetailBiayaPerItem(item.id) - perjadinDetailStore.totalDetailRealisasiBiayaPerItem(item.id) > 0
                         ? 'text-red-500'
                         : 'text-green-500'
                     "
                     >{{
-                      IDRCurrency.format(
-                        perjadinDetailStore.totalDetailBiayaPerItem(item.id) -
-                          perjadinDetailStore.totalDetailRealisasiBiayaPerItem(
-                            item.id
-                          )
-                      )
+                      IDRCurrency.format(perjadinDetailStore.totalDetailBiayaPerItem(item.id) - perjadinDetailStore.totalDetailRealisasiBiayaPerItem(item.id))
                     }}</span
                   >
                 </template>
@@ -244,21 +191,9 @@
                 <div>
                   <Menu as="div" class="relative inline-block text-left">
                     <div>
-                      <MenuButton
-                        class="hover:scale-125 ease-in-out duration-300 flex w-full rounded-md font-medium text-black dark:text-white"
-                      >
-                        <ArrowPathIcon
-                          v-if="
-                            perjadinDetailStore.isDestroyLoading &&
-                            deleteId == item.id
-                          "
-                          class="h-5 w-5 animate-spin"
-                        />
-                        <EllipsisVerticalIcon
-                          v-else
-                          class="h-5 w-5 text-black dark:text-white"
-                          aria-hidden="true"
-                        />
+                      <MenuButton class="hover:scale-125 ease-in-out duration-300 flex w-full rounded-md font-medium text-black dark:text-white">
+                        <ArrowPathIcon v-if="perjadinDetailStore.isDestroyLoading && deleteId == item.id" class="h-5 w-5 animate-spin" />
+                        <EllipsisVerticalIcon v-else class="h-5 w-5 text-black dark:text-white" aria-hidden="true" />
                       </MenuButton>
                     </div>
 
@@ -274,17 +209,11 @@
                         class="z-50 py-1 absolute right-0 mt-2 w-40 origin-top-right divide-y divide-gray-100 rounded-md bg-white dark:bg-gray-800 dark:text-gray-100 shadow-lg ring-1 ring-black dark:ring-gray-700 ring-opacity-5 focus:outline-none"
                       >
                         <div class="px-2 py-1">
-                          <MenuItem
-                            v-for="menu in itemMenu"
-                            v-slot="{ active }"
-                            :key="menu.label"
-                          >
+                          <MenuItem v-for="menu in itemMenu" v-slot="{ active }" :key="menu.label">
                             <button
                               @click="menu.function(item)"
                               :class="[
-                                active
-                                  ? 'bg-blue-500 text-white'
-                                  : 'text-gray-900 dark:text-white',
+                                active ? 'bg-blue-500 text-white' : 'text-gray-900 dark:text-white',
                                 'group flex w-full items-center rounded-md px-2 py-2 text-sm',
                               ]"
                             >
@@ -302,26 +231,17 @@
           </tbody>
         </table>
       </div>
-      <nav
-        class="flex flex-col md:flex-row justify-between items-start md:items-center space-y-3 md:space-y-0 p-4"
-        aria-label="Table navigation"
-      >
+      <nav class="flex flex-col md:flex-row justify-between items-start md:items-center space-y-3 md:space-y-0 p-4" aria-label="Table navigation">
         <span class="text-sm font-normal text-gray-500 dark:text-gray-400">
           Showing
-          <span class="font-semibold text-gray-900 dark:text-white"
-            >{{ perjadinDetailStore.from }} - {{ perjadinDetailStore.to }}</span
-          >
+          <span class="font-semibold text-gray-900 dark:text-white">{{ perjadinDetailStore.from }} - {{ perjadinDetailStore.to }}</span>
           of
-          <span class="font-semibold text-gray-900 dark:text-white">{{
-            perjadinDetailStore.total
-          }}</span>
+          <span class="font-semibold text-gray-900 dark:text-white">{{ perjadinDetailStore.total }}</span>
         </span>
         <ul class="inline-flex items-stretch -space-x-px">
           <li>
             <a
-              @click="
-                perjadinDetailStore.currentPage == 1 ? '' : previousPage()
-              "
+              @click="perjadinDetailStore.currentPage == 1 ? '' : previousPage()"
               :disabled="perjadinDetailStore.currentPage == 1 ? true : false"
               :class="
                 perjadinDetailStore.currentPage == 1
@@ -335,11 +255,7 @@
 
           <li>
             <a
-              @click="
-                perjadinDetailStore.lastPage == perjadinDetailStore.currentPage
-                  ? ''
-                  : nextPage()
-              "
+              @click="perjadinDetailStore.lastPage == perjadinDetailStore.currentPage ? '' : nextPage()"
               :class="
                 perjadinDetailStore.lastPage == perjadinDetailStore.currentPage
                   ? 'cursor-not-allowed'
@@ -362,16 +278,8 @@ import { IDRCurrency } from '@/utilities/formatter'
 import { useMainStore } from '@/stores/main'
 import { useAuthStore } from '@/stores/auth'
 
-import { defineAsyncComponent, onMounted, ref } from 'vue'
-import {
-  EllipsisVerticalIcon,
-  DocumentTextIcon,
-  ArrowPathIcon,
-  TrashIcon,
-  MagnifyingGlassIcon,
-  PaperAirplaneIcon,
-} from '@heroicons/vue/24/outline'
-import { toast } from 'vue3-toastify'
+import { onMounted, onUnmounted, ref } from 'vue'
+import { EllipsisVerticalIcon, DocumentTextIcon, ArrowPathIcon, TrashIcon, MagnifyingGlassIcon, PaperAirplaneIcon } from '@heroicons/vue/24/outline'
 import { useRouter } from 'vue-router'
 import { computed } from 'vue'
 import { usePerjadinDetailStore } from '@/stores/perjadinDetail'
@@ -407,7 +315,31 @@ function previousPage() {
   perjadinDetailStore.getData()
 }
 
+function sortData(column) {
+  if (perjadinDetailStore.filter.sortBy === column) {
+    // Toggle direction if same column
+    perjadinDetailStore.filter.sortDirection = perjadinDetailStore.filter.sortDirection === 'asc' ? 'desc' : 'asc'
+  } else {
+    // Set new column and default to ascending
+    perjadinDetailStore.filter.sortBy = column
+    perjadinDetailStore.filter.sortDirection = 'asc'
+  }
+
+  // Perform sorting
+  perjadinDetailStore.items.sort((a, b) => {
+    const aValue = a[column]
+    const bValue = b[column]
+
+    if (aValue < bValue) return perjadinDetailStore.filter.sortDirection === 'asc' ? -1 : 1
+    if (aValue > bValue) return perjadinDetailStore.filter.sortDirection === 'asc' ? 1 : -1
+    return 0
+  })
+}
+
 onMounted(() => {
   perjadinDetailStore.getData()
+})
+onUnmounted(() => {
+  perjadinDetailStore.$reset()
 })
 </script>

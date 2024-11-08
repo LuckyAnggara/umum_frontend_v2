@@ -90,7 +90,7 @@
               <th scope="col" class="px-4 py-3 w-2/12">Anggaran</th>
               <th scope="col" class="px-4 py-3 w-2/12">Status</th>
               <th scope="col" class="px-4 py-3 w-2/12" v-if="authStore.role == 'ADMIN'">Pembuat</th>
-              <th scope="col" class="px-4 py-3 w-0.5"></th>
+              <th scope="col" class="px-4 py-3 w-1/12"></th>
             </tr>
           </thead>
           <tbody>
@@ -300,7 +300,7 @@ import { useAuthStore } from '@/stores/auth'
 import VueDatePicker from '@vuepic/vue-datepicker'
 import '@vuepic/vue-datepicker/dist/main.css'
 
-import { defineAsyncComponent, onMounted, ref } from 'vue'
+import { defineAsyncComponent, onMounted, onUnmounted, ref } from 'vue'
 import { EllipsisVerticalIcon, DocumentTextIcon, ArrowPathIcon, TrashIcon, MagnifyingGlassIcon, PaperAirplaneIcon } from '@heroicons/vue/24/outline'
 import { toast } from 'vue3-toastify'
 import { useRouter } from 'vue-router'
@@ -481,5 +481,9 @@ async function updateStatusData() {
 
 onMounted(() => {
   perjadinStore.getData()
+})
+
+onUnmounted(() => {
+  perjadinStore.$reset()
 })
 </script>

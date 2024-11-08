@@ -1,5 +1,5 @@
 <template>
-  <main class="p-4 md:ml-64 min-h-screen h-auto pt-20 bg-cover" :style="backgroundImage(ruangan)">
+  <main class="p-4 md:ml-64 min-h-screen h-auto pt-20 bg-cover" :style="backgroundImage()">
     <div class="mt-4 mb-2 inline-flex items-center text-2xl font-medium text-gray-800 dark:text-gray-400 ml-8">
       {{ route.meta.title }}
     </div>

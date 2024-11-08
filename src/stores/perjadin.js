@@ -18,6 +18,7 @@ export const usePerjadinStore = defineStore('perjadinStore', {
     isDetail: false,
     isNewEdit: false,
     batchCopyPegawai: [],
+    dataToBatchDuplicate: {},
     newBatchPegawai: {
       nip: null,
       nama: null,
@@ -116,6 +117,8 @@ export const usePerjadinStore = defineStore('perjadinStore', {
       currentLimit: 25,
       searchQuery: '',
       page: '',
+      sortBy: null,
+      sortDirection: 'asc',
     },
   }),
   getters: {
@@ -736,14 +739,42 @@ export const usePerjadinStore = defineStore('perjadinStore', {
     async searchLapkinBatch(nip) {
       try {
         const response = await axiosIns.get(`/api/get-pegawai?nip=${nip}`)
-        console.info(response)
-      } catch (error) {
+        const data = response.data.data
+        if (response.data.success == true) {
+          return {
+            status: true,
+            data: {
+              nip: data.nip,
+              nama: data.name,
+              jabatan: data.dari_lapkin == true ? data.jabatan.name : data.jabatan,
+              pangkat: data.dari_lapkin == true ? data.pangkat.pangkat + ' - ' + data.pangkat.ruang : data.pangkat,
+              unit: data.dari_lapkin == true ? data.unit.name : data.unit,
+              status: 'ada',
+            },
+          }
+        }
         return {
+          status: false,
           data: {
+            nip: nip,
             nama: null,
             jabatan: null,
             pangkat: null,
             unit: null,
+            status: 'tidak ada',
+          },
+        }
+      } catch (error) {
+        return {
+          status: false,
+          message: error,
+          data: {
+            nip: nip,
+            nama: null,
+            jabatan: null,
+            pangkat: null,
+            unit: null,
+            status: 'tidak ada',
           },
         }
       } finally {

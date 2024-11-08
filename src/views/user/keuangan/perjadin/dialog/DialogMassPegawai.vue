@@ -46,7 +46,6 @@
                         class="text-gray-900 w-fit flex flex-row space-x-2 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
                       >
                         <FolderPlusIcon class="h-5" />
-
                         <span>Add</span>
                       </button>
 
@@ -62,6 +61,7 @@
                     </div>
                     <div class="flex flex-row space-x-2">
                       <button
+                        v-if="uploadedFiles == null"
                         @click="importFile()"
                         type="button"
                         class="text-gray-900 w-fit flex flex-row space-x-2 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
@@ -72,6 +72,7 @@
                       </button>
 
                       <button
+                        v-if="perjadinStore.batchCopyPegawai.length > 0"
                         @click="onFetchData()"
                         type="button"
                         class="text-gray-900 w-fit flex flex-row space-x-2 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
@@ -82,7 +83,7 @@
                       </button>
 
                       <button
-                        @click="importFile()"
+                        @click="onTemplate()"
                         type="button"
                         class="text-gray-900 w-fit flex flex-row space-x-2 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
                       >
@@ -143,8 +144,13 @@
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-xs rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                           />
                         </td>
-                        <td>
-                          <a class="cursor-pointer" @click="perjadinStore.deleteBatchPegawai(index)"><TrashIcon class="h-4" /></a>
+                        <td class="px-4 py-1 flex flex-row space-x-2 justify-center items-center">
+                          <span>
+                            <ArrowPathIcon v-if="pegawai.status == 'search'" class="w-5 animate-spin" />
+                            <CheckCircleIcon v-else-if="pegawai.status == 'ada'" class="w-5 text-green-500" />
+                            <XMarkIcon v-else-if="pegawai.status == 'tidak ada'" class="w-5 text-red-50" />
+                          </span>
+                          <a class="cursor-pointer" @click="perjadinStore.deleteBatchPegawai(index)"><TrashIcon class="w-5" /></a>
                         </td>
                       </tr>
                     </tbody>
@@ -167,6 +173,7 @@ import { TransitionRoot, TransitionChild, Dialog, DialogPanel, DialogTitle } fro
 import { usePerjadinStore } from '@/stores/perjadin'
 import {
   ArrowDownTrayIcon,
+  ArrowPathIcon,
   ArrowUpTrayIcon,
   CheckCircleIcon,
   CircleStackIcon,
@@ -198,22 +205,18 @@ function handleFilesUpload() {
     var workbook = XLSX.read(data, {
       type: 'array',
     })
-
     /* DO SOMETHING WITH workbook HERE */
     var first_sheet_name = workbook.SheetNames[0]
     /* Get worksheet */
     var worksheet = workbook.Sheets[first_sheet_name]
     //It will prints with header and contents ex) Name, Home...
-
     dataPegawai.value = utils.sheet_to_json(worksheet)
     perjadinStore.$patch((state) => {
       state.batchCopyPegawai.push(...dataPegawai.value)
     })
-    console.info(dataPegawai.value)
   }
   reader.readAsArrayBuffer(f)
 
-  console.info(refUpload.value.files)
   dataPegawai.value = []
   uploadedFiles.value = null
 }
@@ -222,14 +225,64 @@ function importFile() {
   refUpload.value.click()
 }
 
+function onTemplate() {
+  window.open(
+    ' https://docs.google.com/spreadsheets/d/1PMvI-McQ7ve2ClRYNECDLoeQ7eOnLnRt/edit?usp=sharing&ouid=116020739719030205312&rtpof=true&sd=true',
+    '_blank'
+  )
+}
+
 function onAdd() {
   perjadinStore.tambahBatchPegawai()
 }
 
-function onFetchData() {
-  perjadinStore.batchCopyPegawai.forEach((e, index) => {
-    perjadinStore.saer
+async function onFetchData() {
+  for (const e of perjadinStore.batchCopyPegawai) {
+    e.status = 'search'
+    if (e.nip == null || e.nip === '') {
+      continue // Skip jika nip kosong
+    }
+
+    try {
+      let result = await perjadinStore.searchLapkinBatch(e.nip)
+      // Update data dari hasil pencarian
+      e.nip = result.data.nip
+      e.nama = result.data.nama
+      e.jabatan = result.data.jabatan
+      e.pangkat = result.data.pangkat
+      e.unit = result.data.unit
+      e.status = result.data.status
+    } catch (error) {
+      e.status = 'tidak ada' // Tandai sebagai error jika fetch gagal
+    }
+  }
+}
+
+function onSubmit() {
+  perjadinStore.$patch((state) => {
+    for (const e of state.batchCopyPegawai) {
+      // Jika NIP sudah ada, lewati iterasi
+      const findSame = state.form.detail.some((x) => x.nip === e.nip)
+      if (findSame) {
+        continue // Lanjutkan ke iterasi berikutnya
+      }
+
+      // Duplikasi data
+      let d = JSON.parse(JSON.stringify(state.dataToBatchDuplicate))
+      d.nip = e.nip
+      d.nama = e.nama
+      d.jabatan = e.jabatan
+      d.pangkat = e.pangkat
+      d.unit = e.unit
+      d.status = e.status
+
+      // Tambahkan ke detail
+      state.form.detail.push(d)
+    }
+    state.batchCopyPegawai = []
+    state.dataToBatchDuplicate = {}
   })
+  emit('close')
 }
 
 const props = defineProps({

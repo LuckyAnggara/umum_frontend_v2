@@ -593,6 +593,10 @@ function onDuplicate(item) {
 }
 
 function onDuplicateMass(item) {
+  let d = JSON.parse(JSON.stringify(item))
+  perjadinStore.$patch((state) => {
+    state.dataToBatchDuplicate = d
+  })
   emit('openMasalModal', false)
 }
 

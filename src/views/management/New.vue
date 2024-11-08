@@ -93,12 +93,23 @@
                   </div>
                   <div class="text-left">
                     <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Unit*</label>
-                    <input
-                      required
-                      v-model="authStore.formNew.unit"
-                      placeholder="Unit Kerja"
-                      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                    />
+                    <select
+                      v-model="authStore.formNew.unit_id"
+                      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block px-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    >
+                      <option value="0">SEMUA</option>
+                      <option value="2">INSPEKTORAT WILAYAH I</option>
+                      <option value="3">INSPEKTORAT WILAYAH II</option>
+                      <option value="4">INSPEKTORAT WILAYAH III</option>
+                      <option value="5">INSPEKTORAT WILAYAH IV</option>
+                      <option value="6">INSPEKTORAT WILAYAH V</option>
+                      <option value="7">INSPEKTORAT WILAYAH VI</option>
+                      <option value="8">BAGIAN PROGRAM DAN PELAPORAN</option>
+                      <option value="9">BAGIAN UMUM</option>
+                      <option value="10">KELOMPOK SDM</option>
+                      <option value="11">KELOMPOK KEUANGAN</option>
+                      <option value="12">KELOMPOK HSIP</option>
+                    </select>
                   </div>
                   <div class="text-left">
                     <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Role*</label>
