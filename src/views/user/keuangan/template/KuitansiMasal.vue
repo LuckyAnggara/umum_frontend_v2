@@ -242,7 +242,7 @@
               <div></div>
               <div></div>
               <div class="text-center">
-                <p>Jakarta, {{ $moment().format('DD MMMM YYYY') }}</p>
+                <p>Jakarta, {{ $moment(detail.tanggal_sppd).format('DD MMMM YYYY') }}</p>
               </div>
             </div>
 
@@ -469,7 +469,7 @@
                 <p class="font-semibold w-60">Dikeluarkan di Jakarta</p>
                 <p class="font-semibold w-60">
                   Tanggal
-                  {{ perjadinStore.singleResponse.tanggal_st }}
+                  {{ $moment(detail.tanggal_sppd).format('DD MMMM YYYY') }}
                 </p>
                 <div class="w-60">
                   <p class="mt-12">
