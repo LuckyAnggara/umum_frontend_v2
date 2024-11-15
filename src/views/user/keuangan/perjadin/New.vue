@@ -82,7 +82,7 @@
       @update="updatePegawai()"
     />
 
-    <DialogMassPegawai :show="pegawaiMasalDialog" @submit="submitData()" @close="pegawaiMasalDialog = !pegawaiMasalDialog" />
+    <DialogMassPegawai :show="pegawaiMasalDialog" @close="pegawaiMasalDialog = !pegawaiMasalDialog" />
     <Dialog :overflowVisible="true" :show="submitDialog" @submit="submitData()" @close="submitDialog = !submitDialog" :canSubmit="true">
       <template #title>
         <h1>Konfirmasi</h1>
@@ -244,14 +244,17 @@ async function deletePegawai() {
 // }
 
 async function submitData() {
+  submitDialog.value = false
+
   const id = toast.loading('Perencanaan perjalanan dinas sedang di proses...', {
     position: toast.POSITION.BOTTOM_CENTER,
     type: 'info',
     isLoading: true,
   })
 
-  const success = await perjadinStore.store()
-  if (success.status) {
+  const result = await perjadinStore.store()
+
+  if (result.status) {
     toast.update(id, {
       render: 'Berhasil !!',
       position: toast.POSITION.BOTTOM_CENTER,
@@ -265,7 +268,7 @@ async function submitData() {
     router.push({ name: 'perjadin-list' })
   } else {
     toast.update(id, {
-      render: success.message,
+      render: result.message,
       position: toast.POSITION.BOTTOM_CENTER,
       type: 'error',
       autoClose: 1000,

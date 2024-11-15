@@ -569,7 +569,7 @@ export const usePerjadinStore = defineStore('perjadinStore', {
       const taksi_jakarta = { ...this.newTaksiJakarta }
       this.newPegawai.taksi_jakarta.push(taksi_jakarta)
       this.newTaksiJakarta.keterangan = null
-      this.this.newTaksiJakarta.keterangan = null.biaya = 0
+      this.newTaksiJakarta.biaya = 0
     },
     deleteTaksiJakarta(index) {
       this.newPegawai.taksi_jakarta.splice(index, 1)
@@ -832,10 +832,15 @@ export const usePerjadinStore = defineStore('perjadinStore', {
           return {
             status: false,
             data: null,
+            message: 'Cek kembali data',
           }
         }
       } catch (error) {
-        alert(error)
+        return {
+          status: false,
+          data: null,
+          message: error,
+        }
       } finally {
         this.isStoreLoading = false
       }

@@ -3,7 +3,7 @@ import axios from 'axios'
 
 export const axiosIns = axios.create({
   // baseURL: 'http://127.0.0.1:8000',
-  baseURL: 'http://172.27.19.111:8000',
+  baseURL: 'http://172.27.25.230:8000',
 })
 
 export const authClient = axios.create({

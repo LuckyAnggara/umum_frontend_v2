@@ -242,7 +242,8 @@
               <div></div>
               <div></div>
               <div class="text-center">
-                <p>Jakarta, {{ $moment(detail.tanggal_sppd).format('DD MMMM YYYY') }}</p>
+                <p>Jakarta, <span> </span></p>
+                <!-- <p>Jakarta, {{ $moment(detail.tanggal_sppd).format('DD MMMM YYYY') }}</p> -->
               </div>
             </div>
 
