@@ -34,6 +34,21 @@
           required
           class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
         />
+        <v-select
+          :loading="perjadinStore.isCariPegawaiLoading"
+          :filterable="false"
+          @search="searchPegawai"
+          :options="perjadinStore.itemPegawai"
+          v-model="perjadinStore.newPegawai.xx"
+        >
+          <template #no-options> Cari data berdasarkan Nama dan NIP .. </template>
+          <template #option="option">
+            <div class="d-center">{{ option.nama }} - {{ option.nip }}</div>
+          </template>
+          <template #selected-option="option">
+            <div>{{ option.nama }} - {{ option.nip }}</div>
+          </template>
+        </v-select>
       </div>
       <div class="text-left">
         <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Jabatan*</label>
@@ -101,7 +116,7 @@
         <div class="text-left w-1/5">
           <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Jumlah Hari</label>
           <input
-            :value="$moment(perjadinStore.newPegawai.tanggal_akhir).diff($moment(perjadinStore.newPegawai.tanggal_awal), 'days') + 1"
+            v-model="perjadinStore.newPegawai.jumlah_hari"
             type="number"
             required
             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-md focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
@@ -122,10 +137,29 @@ import { usePerjadinStore } from '@/stores/perjadin'
 import { ArrowPathIcon, MagnifyingGlassIcon } from '@heroicons/vue/24/outline'
 import { toast } from 'vue3-toastify'
 import moment from 'moment'
+import { useDebounceFn } from '@vueuse/core'
 
 const perjadinStore = usePerjadinStore()
 const mainStore = useMainStore()
-const cariPegawaiLoading = ref(false)
+
+const searchPegawai = useDebounceFn((search) => {
+  if (search == null || search == '') {
+  } else {
+    perjadinStore.$patch((state) => {
+      state.filter.searchQuery = search
+    })
+    perjadinStore.getDataPegawai()
+  }
+}, 500)
+
+function onOpenSelect() {
+  if (perjadinStore.itemPegawai.length == 0) {
+    perjadinStore.$patch((state) => {
+      state.filter.searchQuery = ''
+    })
+    perjadinStore.getData()
+  }
+}
 
 // async function cariPegawai() {
 //   perjadinStore.isSearching = true

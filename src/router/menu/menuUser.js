@@ -7,6 +7,7 @@ import {
   GlobeAsiaAustraliaIcon,
   BanknotesIcon,
   UserIcon,
+  UserGroupIcon,
 } from '@heroicons/vue/24/solid'
 
 export const menuUser = [
@@ -39,7 +40,12 @@ export const menuUser = [
     name: 'Belanja Non Perjadin',
     icon: DocumentCheckIcon,
     to: 'non-perjadin-list',
-
+    // to: 'persediaan',
+  },
+  {
+    name: 'Data Pegawai',
+    icon: UserGroupIcon,
+    to: 'perjadin-list-pegawai',
     // to: 'persediaan',
   },
 ]

@@ -490,6 +490,7 @@ import { useMakStore } from '@/stores/mak'
 import { useDebounceFn } from '@vueuse/core'
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
+import moment from 'moment'
 
 const emit = defineEmits(['openModal', 'deletePegawai', 'openRabModal', 'openMasalModal'])
 
@@ -536,6 +537,11 @@ function addPegawai() {
   } else {
     if (perjadinStore.form.mak) {
       emit('openModal', false)
+      perjadinStore.$patch((state) => {
+        state.newPegawai.tanggal_awal = state.form.tanggal_awal
+        state.newPegawai.tanggal_akhir = state.form.tanggal_akhir
+        state.newPegawai.jumlah_hari = moment(state.newPegawai.tanggal_akhir).diff(moment(state.newPegawai.tanggal_awal), 'days') + 1
+      })
       return
     }
   }

@@ -114,6 +114,11 @@ export const menuAdmin = [
         name: 'Belanja Perjalanan non Dinas',
         to: 'non-perjadin-list',
       },
+      {
+        name: 'Data Pegawai',
+        to: 'perjadin-list-pegawai',
+        // to: 'persediaan',
+      },
     ],
   },
 

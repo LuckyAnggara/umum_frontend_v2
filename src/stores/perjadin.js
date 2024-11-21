@@ -10,6 +10,8 @@ export const usePerjadinStore = defineStore('perjadinStore', {
     singleDetail: {},
     originalSingleResponse: null,
     isSearching: false,
+    dataPegawai: null,
+    isCariPegawaiLoading: false,
     isUpdateLoading: false,
     isLoading: false,
     isStoreLoading: false,
@@ -469,6 +471,9 @@ export const usePerjadinStore = defineStore('perjadinStore', {
       return true
     },
     editLampiran(state) {},
+    itemPegawai(state) {
+      return state.dataPegawai?.data ?? []
+    },
     items(state) {
       return state.responses?.data ?? []
     },
@@ -522,6 +527,18 @@ export const usePerjadinStore = defineStore('perjadinStore', {
     },
   },
   actions: {
+    async getDataPegawai(page = '') {
+      this.isCariPegawaiLoading = true
+      try {
+        const response = await axiosIns.get(`/api/keuangan/get-data-pegawai?${this.searchQuery}`)
+        this.dataPegawai = response.data.data
+      } catch (error) {
+        return null
+      } finally {
+        this.isCariPegawaiLoading = false
+      }
+      return false
+    },
     async getData(page = '') {
       this.isLoading = true
       try {

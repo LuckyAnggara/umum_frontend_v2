@@ -1,8 +1,4 @@
-import {
-  createRouter,
-  createWebHashHistory,
-  createWebHistory,
-} from 'vue-router'
+import { createRouter, createWebHashHistory, createWebHistory } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
 
 const keuangan = [
@@ -225,6 +221,16 @@ const keuangan = [
     path: '/keuangan/sbm/list',
     name: 'sbm-list',
     component: () => import('@/views/user/keuangan/sbm/List.vue'),
+  },
+  {
+    meta: {
+      title: 'Daftar Pegawai Perjadin',
+      requiresAuth: true,
+      layout: 'layout-auth',
+    },
+    path: '/keuangan/perjadin/list/pegawai',
+    name: 'perjadin-list-pegawai',
+    component: () => import('@/views/user/keuangan/perjadin/pegawai/List.vue'),
   },
 ]
 

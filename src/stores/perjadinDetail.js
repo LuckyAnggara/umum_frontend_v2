@@ -505,6 +505,24 @@ export const usePerjadinDetailStore = defineStore('perjadinDetailStore', {
         lainnya: [],
       }
     },
+
+    async getDataByPegawai(page = '') {
+      this.isLoading = true
+      try {
+        if (this.filter.currentLimit == '1000000') {
+          this.filter.page = ''
+        }
+        const response = await axiosIns.get(
+          `/api/11?limit=${this.filter.currentLimit}${this.pageQuery}${this.searchQuery}${this.dateQuery}${this.statusQuery}${this.unitQuery}`
+        )
+        this.responses = response.data.data
+      } catch (error) {
+        alert(error.message)
+      } finally {
+        this.isLoading = false
+      }
+      return false
+    },
   },
 })
 
