@@ -31,7 +31,7 @@
                 <MagnifyingGlassIcon class="w-5 h-5 text-gray-500 dark:text-gray-400" />
               </div>
               <input
-                @keyup.enter="perjadinStore.getData()"
+                @keyup.enter="searchData()"
                 v-model="perjadinStore.filter.searchQuery"
                 type="text"
                 id="simple-search"
@@ -477,6 +477,13 @@ async function updateStatusData() {
       })
     }
   }
+}
+
+function searchData() {
+  perjadinStore.$patch((state) => {
+    state.filter.page = null
+  })
+  perjadinStore.getData()
 }
 
 onMounted(() => {

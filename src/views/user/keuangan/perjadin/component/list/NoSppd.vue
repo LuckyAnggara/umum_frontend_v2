@@ -31,7 +31,7 @@
                 <MagnifyingGlassIcon class="w-5 h-5 text-gray-500 dark:text-gray-400" />
               </div>
               <input
-                @keyup.enter="perjadinDetailStore.getData()"
+                @keyup.enter="searchData()"
                 v-model="perjadinDetailStore.filter.searchQuery"
                 type="text"
                 id="simple-search"
@@ -334,6 +334,13 @@ function sortData(column) {
     if (aValue > bValue) return perjadinDetailStore.filter.sortDirection === 'asc' ? 1 : -1
     return 0
   })
+}
+
+function searchData() {
+  perjadinDetailStore.$patch((state) => {
+    state.filter.page = null
+  })
+  perjadinDetailStore.getData()
 }
 
 onMounted(() => {

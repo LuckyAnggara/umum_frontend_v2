@@ -7,6 +7,27 @@
     </div> -->
 
     <div class="flex flex-col space-y-2">
+      <div class="text-left">
+        <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Cari Berdasarkan Nama / NIP data Existing</label>
+
+        <v-select
+          :loading="perjadinStore.isCariPegawaiLoading"
+          :filterable="false"
+          @search="searchPegawai"
+          :options="perjadinStore.itemPegawai"
+          :reduce="(x) => x.nama"
+          :value="perjadinStore.newPegawai.nama"
+          @option:selected="setSelected"
+        >
+          <template #no-options> Cari data berdasarkan Nama dan NIP .. </template>
+          <template #option="option">
+            <div class="d-center">{{ option.nama }} - {{ option.nip }}</div>
+          </template>
+          <template #selected-option="option">
+            <div>{{ option.nama }} - {{ option.nip }}</div>
+          </template>
+        </v-select>
+      </div>
       <div>
         <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nomor Induk Pegawai*</label>
         <div class="relative w-full">
@@ -34,21 +55,6 @@
           required
           class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
         />
-        <v-select
-          :loading="perjadinStore.isCariPegawaiLoading"
-          :filterable="false"
-          @search="searchPegawai"
-          :options="perjadinStore.itemPegawai"
-          v-model="perjadinStore.newPegawai.xx"
-        >
-          <template #no-options> Cari data berdasarkan Nama dan NIP .. </template>
-          <template #option="option">
-            <div class="d-center">{{ option.nama }} - {{ option.nip }}</div>
-          </template>
-          <template #selected-option="option">
-            <div>{{ option.nama }} - {{ option.nip }}</div>
-          </template>
-        </v-select>
       </div>
       <div class="text-left">
         <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Jabatan*</label>
@@ -159,6 +165,17 @@ function onOpenSelect() {
     })
     perjadinStore.getData()
   }
+}
+
+function setSelected(value) {
+  console.info(value)
+  perjadinStore.$patch((state) => {
+    state.newPegawai.nama = value.nama
+    state.newPegawai.nip = value.nip
+    state.newPegawai.jabatan = value.jabatan
+    state.newPegawai.pangkat = value.pangkat
+    state.newPegawai.unit = value.unit
+  })
 }
 
 // async function cariPegawai() {

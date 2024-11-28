@@ -32,7 +32,7 @@
                   <MagnifyingGlassIcon class="w-5 h-5 text-gray-500 dark:text-gray-400" />
                 </div>
                 <input
-                  @keyup.enter="perjadinDetailStore.getDataByPegawai()"
+                  @keyup.enter="searchData"
                   v-model="perjadinDetailStore.filter.searchQuery"
                   type="text"
                   id="simple-search"
@@ -169,6 +169,8 @@
         </ul>
       </nav>
     </div>
+
+    <DetailModal :show="detailModal" @close="detailModal = false" />
   </div>
 </template>
 
@@ -195,32 +197,28 @@ import { toast } from 'vue3-toastify'
 import { useRouter } from 'vue-router'
 import { computed } from 'vue'
 
+const DetailModal = defineAsyncComponent(() => import('./ModalDetail.vue'))
+
 const perjadinDetailStore = usePerjadinDetailStore()
 const mainStore = useMainStore()
 const authStore = useAuthStore()
 
-const deleteId = ref(0)
+const detailModal = ref(false)
 const router = useRouter()
 
 const itemMenu = computed(() => {
   return [
     {
-      function: onDetailNominatif,
-      label: 'Detail MAK',
-      icon: DocumentTextIcon,
-    },
-    {
       function: onDetail,
-      label: 'Detail',
+      label: 'Detail ',
       icon: DocumentTextIcon,
-    },
-    {
-      function: onDelete,
-      label: 'Delete',
-      icon: TrashIcon,
     },
   ]
 })
+
+function onDetail() {
+  detailModal.value = true
+}
 
 function nextPage() {
   perjadinDetailStore.filter.page = perjadinDetailStore.currentPage + 1
@@ -232,45 +230,11 @@ function previousPage() {
   perjadinDetailStore.getDataByPegawai()
 }
 
-function onNew() {
-  router.push({ name: 'mak-new' })
-}
-
-function onRevisi() {
-  router.push({ name: 'mak-revisi' })
-}
-
-async function deleteData() {
-  confirmDialog.value = false
-  const id = toast.loading('Hapus data...', {
-    position: toast.POSITION.BOTTOM_CENTER,
-    type: 'info',
-    isLoading: true,
+function searchData() {
+  perjadinDetailStore.$patch((state) => {
+    state.filter.page = null
   })
-
-  const result = await perjadinDetailStore.destroy(deleteId.value)
-  if (result.success) {
-    toast.update(id, {
-      render: 'Berhasil !!',
-      position: toast.POSITION.BOTTOM_CENTER,
-      type: 'success',
-      autoClose: 1000,
-      closeOnClick: true,
-      closeButton: true,
-      isLoading: false,
-    })
-    toast.done(id)
-  } else {
-    toast.update(id, {
-      render: 'Terjadi kesalahan',
-      position: toast.POSITION.BOTTOM_CENTER,
-      type: 'error',
-      autoClose: 1000,
-      closeOnClick: true,
-      closeButton: true,
-      isLoading: false,
-    })
-  }
+  perjadinDetailStore.getDataByPegawai()
 }
 
 onMounted(() => {

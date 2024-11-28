@@ -877,7 +877,7 @@ export const usePerjadinStore = defineStore('perjadinStore', {
     },
     async update() {
       let formData = new FormData()
-      this.singleResponse.total_anggaran = this.getTotalAnggaran
+      this.singleResponse.total_anggaran = this.getTotalAnggaranDetail
       formData.append('_method', 'put')
       if (this.singleResponse?.newLampiran) {
         this.singleResponse?.newLampiran.forEach((element, index) => {
