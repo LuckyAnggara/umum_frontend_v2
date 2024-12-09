@@ -1,17 +1,8 @@
 <template>
   <div class="bg-gray-100 p-5 font-sans min-h-dvh">
     <template v-if="perjadinDetailStore.singleResponse == null">
-      <div
-        class="w-full items-center justify-center flex min-h-lvh flex-col space-y-4"
-      >
-        <svg
-          class="w-12 h-12 text-gray-300 animate-spin"
-          viewBox="0 0 64 64"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-        >
+      <div class="w-full items-center justify-center flex min-h-lvh flex-col space-y-4">
+        <svg class="w-12 h-12 text-gray-300 animate-spin" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" width="24" height="24">
           <path
             d="M32 3C35.8083 3 39.5794 3.75011 43.0978 5.20749C46.6163 6.66488 49.8132 8.80101 52.5061 11.4939C55.199 14.1868 57.3351 17.3837 58.7925 20.9022C60.2499 24.4206 61 28.1917 61 32C61 35.8083 60.2499 39.5794 58.7925 43.0978C57.3351 46.6163 55.199 49.8132 52.5061 52.5061C49.8132 55.199 46.6163 57.3351 43.0978 58.7925C39.5794 60.2499 35.8083 61 32 61C28.1917 61 24.4206 60.2499 20.9022 58.7925C17.3837 57.3351 14.1868 55.199 11.4939 52.5061C8.801 49.8132 6.66487 46.6163 5.20749 43.0978C3.7501 39.5794 3 35.8083 3 32C3 28.1917 3.75011 24.4206 5.2075 20.9022C6.66489 17.3837 8.80101 14.1868 11.4939 11.4939C14.1868 8.80099 17.3838 6.66487 20.9022 5.20749C24.4206 3.7501 28.1917 3 32 3L32 3Z"
             stroke="currentColor"
@@ -34,44 +25,27 @@
     <template v-else>
       <!-- Print Button -->
       <div class="no-print mb-6 mx-auto max-w-3xl flex flex-col">
-        <button
-          onclick="window.print()"
-          class="w-fit text-right bg-blue-500 text-white px-4 py-2 rounded shadow hover:bg-blue-700"
-        >
-          Print
-        </button>
+        <button onclick="window.print()" class="w-fit text-right bg-blue-500 text-white px-4 py-2 rounded shadow hover:bg-blue-700">Print</button>
       </div>
 
       <div id="print-container">
         <div class="print-area mx-auto bg-white p-8 max-w-3xl">
-          <h3 class="mb-3 mt-6 text-center text-xl font-bold">
-            RINCIAN BIAYA PERJALANAN DINAS
-          </h3>
+          <h3 class="mb-3 mt-6 text-center text-xl font-bold">RINCIAN BIAYA PERJALANAN DINAS</h3>
           <div class="flex justify-start space-x-12 mt-4">
             <div>
               <p>Lampiran SPD Nomor</p>
               <p>Tanggal</p>
             </div>
             <div>
-              <p>
-                : ITJ.1-KU.03.02-{{
-                  perjadinDetailStore.singleResponse.no_sppd
-                }}
-              </p>
+              <p>: ITJ.1-KU.03.02-{{ perjadinDetailStore.singleResponse.no_sppd }}</p>
               <p>
                 :
-                {{
-                  $moment(
-                    perjadinDetailStore.singleResponse.tanggal_sppd
-                  ).format('DD MMMM YYYY')
-                }}
+                {{ $moment(perjadinDetailStore.singleResponse.tanggal_sppd).format('DD MMMM YYYY') }}
               </p>
             </div>
           </div>
           <div class="mt-4">
-            <table
-              class="table-auto w-full border-collapse border border-black text-sm"
-            >
+            <table class="table-auto w-full border-collapse border border-black text-sm">
               <thead>
                 <tr>
                   <th class="border border-black px-2 py-1">NO.</th>
@@ -82,23 +56,12 @@
               </thead>
               <tbody>
                 <!-- Rows -->
-                <tr
-                  v-if="perjadinDetailStore.singleResponse.transport.length > 0"
-                >
-                  <td
-                    class="border border-black text-center px-2 py-1 font-semibold"
-                    colspan="2"
-                  >
-                    TRANSPORTASI
-                  </td>
+                <tr v-if="perjadinDetailStore.singleResponse.transport.length > 0">
+                  <td class="border border-black text-center px-2 py-1 font-semibold" colspan="2">TRANSPORTASI</td>
                   <td class="border border-black px-2 py-1"></td>
                   <td class="border border-black px-2 py-1"></td>
                 </tr>
-                <tr
-                  v-for="(item, index) in perjadinDetailStore.singleResponse
-                    .transport"
-                  :key="index"
-                >
+                <tr v-for="(item, index) in perjadinDetailStore.singleResponse.transport" :key="index">
                   <td class="border border-black text-center px-2 py-1">
                     {{ no_urut++ }}
                   </td>
@@ -115,115 +78,59 @@
                     {{ item.notes }}
                   </td>
                 </tr>
-                <tr
-                  v-if="
-                    perjadinDetailStore.singleResponse.uang_harian.length > 0
-                  "
-                >
-                  <td
-                    class="border border-black text-center px-2 py-1 font-semibold"
-                    colspan="2"
-                  >
-                    UANG HARIAN
-                  </td>
+                <tr v-if="perjadinDetailStore.singleResponse.uang_harian.length > 0">
+                  <td class="border border-black text-center px-2 py-1 font-semibold" colspan="2">UANG HARIAN</td>
                   <td class="border border-black px-2 py-1"></td>
                   <td class="border border-black px-2 py-1"></td>
                 </tr>
-                <tr
-                  v-for="(item, index) in perjadinDetailStore.singleResponse
-                    .uang_harian"
-                  :key="index"
-                >
+                <tr v-for="(item, index) in perjadinDetailStore.singleResponse.uang_harian" :key="index">
                   <td class="border border-black text-center px-2 py-1">
                     {{ no_urut++ }}
                   </td>
                   <td class="border border-black px-2 py-1">
-                    <span
-                      >selama {{ item.realisasi_hari }} hari x
-                      {{ IDRCurrency.format(item.realisasi_biaya) }}</span
-                    >
+                    <span>selama {{ item.realisasi_hari }} hari x {{ IDRCurrency.format(item.realisasi_biaya) }}</span>
                   </td>
                   <td class="border border-black px-2 py-1">
-                    {{
-                      IDRCurrency.format(
-                        item.realisasi_hari * item.realisasi_biaya
-                      )
-                    }}
+                    {{ IDRCurrency.format(item.realisasi_hari * item.realisasi_biaya) }}
                   </td>
                   <td class="border border-black px-2 py-1">
                     {{ item.notes }}
                   </td>
                 </tr>
                 <tr v-if="perjadinDetailStore.singleResponse.hotel.length > 0">
-                  <td
-                    class="border border-black text-center px-2 py-1 font-semibold"
-                    colspan="2"
-                  >
-                    PENGINAPAN
-                  </td>
+                  <td class="border border-black text-center px-2 py-1 font-semibold" colspan="2">PENGINAPAN</td>
                   <td class="border border-black px-2 py-1"></td>
                   <td class="border border-black px-2 py-1"></td>
                 </tr>
-                <tr
-                  v-for="(item, index) in perjadinDetailStore.singleResponse
-                    .hotel"
-                  :key="index"
-                >
+                <tr v-for="(item, index) in perjadinDetailStore.singleResponse.hotel" :key="index">
                   <td class="border border-black text-center px-2 py-1">
                     {{ no_urut++ }}
                   </td>
                   <td class="border border-black px-2 py-1">
-                    <span
-                      >selama {{ item.realisasi_hari }} hari x
-                      {{ IDRCurrency.format(item.realisasi_biaya) }}</span
-                    >
+                    <span>selama {{ item.realisasi_hari }} hari x {{ IDRCurrency.format(item.realisasi_biaya) }}</span>
                   </td>
                   <td class="border border-black px-2 py-1">
-                    {{
-                      IDRCurrency.format(
-                        item.realisasi_hari * item.realisasi_biaya
-                      )
-                    }}
+                    {{ IDRCurrency.format(item.realisasi_hari * item.realisasi_biaya) }}
                   </td>
                   <td class="border border-black px-2 py-1">
                     {{ item.notes }}
                   </td>
                 </tr>
 
-                <tr
-                  v-if="
-                    perjadinDetailStore.singleResponse.representatif.length > 0
-                  "
-                >
-                  <td
-                    class="border border-black text-center px-2 py-1 font-semibold"
-                    colspan="2"
-                  >
-                    REPRESENTATIF
-                  </td>
+                <tr v-if="perjadinDetailStore.singleResponse.representatif.length > 0">
+                  <td class="border border-black text-center px-2 py-1 font-semibold" colspan="2">REPRESENTATIF</td>
                   <td class="border border-black px-2 py-1"></td>
                   <td class="border border-black px-2 py-1"></td>
                 </tr>
-                <tr
-                  v-for="(item, index) in perjadinDetailStore.singleResponse
-                    .representatif"
-                  :key="index"
-                >
+                <tr v-for="(item, index) in perjadinDetailStore.singleResponse.representatif" :key="index">
                   <td class="border border-black text-center px-2 py-1">
                     {{ no_urut++ }}
                   </td>
                   <td class="border border-black px-2 py-1">
-                    <span
-                      >selama {{ item.realisasi_hari }} hari x
-                      {{ IDRCurrency.format(item.realisasi_biaya) }}</span
-                    >
+                    <span>selama {{ item.realisasi_hari }} hari x {{ IDRCurrency.format(item.realisasi_biaya) }}</span>
                   </td>
                   <td class="border border-black px-2 py-1">
-                    {{
-                      IDRCurrency.format(
-                        item.realisasi_hari * item.realisasi_biaya
-                      )
-                    }}
+                    {{ IDRCurrency.format(item.realisasi_hari * item.realisasi_biaya) }}
                   </td>
                   <td class="border border-black px-2 py-1">
                     {{ item.notes }}
@@ -232,18 +139,9 @@
 
                 <!-- Total -->
                 <tr>
-                  <td
-                    colspan="2"
-                    class="border border-black px-2 py-1 text-right font-bold"
-                  >
-                    JUMLAH :
-                  </td>
+                  <td colspan="2" class="border border-black px-2 py-1 text-right font-bold">JUMLAH :</td>
                   <td class="border border-black px-2 py-1 font-bold">
-                    {{
-                      IDRCurrency.format(
-                        perjadinDetailStore.totalDetailRealisasiBiaya
-                      )
-                    }}
+                    {{ IDRCurrency.format(perjadinDetailStore.totalDetailRealisasiBiaya) }}
                   </td>
                   <td class="border border-black px-2 py-1"></td>
                 </tr>
@@ -251,9 +149,7 @@
                   <td colspan="4" class="px-2 py-1">
                     Terbilang:
                     <span class="font-bold">
-                      {{
-                        terbilang(perjadinDetailStore.totalDetailRealisasiBiaya)
-                      }}
+                      {{ terbilang(perjadinDetailStore.totalDetailRealisasiBiaya) }}
                       Rupiah
                     </span>
                   </td>
@@ -268,23 +164,15 @@
               <div>
                 <p>Telah dibayar sejumlah</p>
                 <p class="font-semibold">
-                  {{
-                    IDRCurrency.format(
-                      perjadinDetailStore.totalDetailRealisasiBiaya
-                    )
-                  }}
+                  {{ IDRCurrency.format(perjadinDetailStore.totalDetailRealisasiBiaya) }}
                 </p>
               </div>
               <div>
                 <p class="mt-4">Bendahara Pengeluaran</p>
                 <p class="mt-12">
-                  {{
-                    perjadinDetailStore.singleResponse.bendahara.nama.toUpperCase()
-                  }}
+                  {{ perjadinDetailStore.singleResponse.bendahara.nama.toUpperCase() }}
                 </p>
-                <p>
-                  NIP {{ perjadinDetailStore.singleResponse.bendahara.nip }}
-                </p>
+                <p>NIP {{ perjadinDetailStore.singleResponse.bendahara.nip }}</p>
               </div>
             </div>
             <div class="flex flex-col justify-between">
@@ -316,11 +204,7 @@
               </div>
               <div class="flex flex-col w-1/3">
                 <span class="font-bold">
-                  {{
-                    IDRCurrency.format(
-                      perjadinDetailStore.totalDetailRealisasiBiaya
-                    )
-                  }}
+                  {{ IDRCurrency.format(perjadinDetailStore.totalDetailRealisasiBiaya) }}
                 </span>
 
                 <span class="font-bold border-b-2">
@@ -328,12 +212,7 @@
                 </span>
 
                 <span class="font-bold">
-                  {{
-                    IDRCurrency.format(
-                      perjadinDetailStore.totalDetailBiaya -
-                        perjadinDetailStore.totalDetailRealisasiBiaya
-                    )
-                  }}
+                  {{ IDRCurrency.format(perjadinDetailStore.totalDetailBiaya - perjadinDetailStore.totalDetailRealisasiBiaya) }}
                 </span>
               </div>
             </div>
@@ -342,13 +221,9 @@
               <div class="flex flex-col w-1/3 text-start">
                 <p>Pejabat Pembuat Komitmen</p>
                 <p class="mt-12">
-                  {{
-                    perjadinDetailStore.singleResponse.ppk.nama.toUpperCase()
-                  }}
+                  {{ perjadinDetailStore.singleResponse.ppk.nama.toUpperCase() }}
                 </p>
-                <p>
-                  NIP {{ perjadinDetailStore.singleResponse.bendahara.nip }}
-                </p>
+                <p>NIP {{ perjadinDetailStore.singleResponse.bendahara.nip }}</p>
               </div>
             </div>
           </div>
@@ -362,10 +237,11 @@ import { usePerjadinDetailStore } from '@/stores/perjadinDetail'
 import { computed, onMounted, reactive } from 'vue'
 import { useRoute } from 'vue-router'
 import { IDRCurrency, terbilang } from '@/utilities/formatter'
+import { ref } from 'vue'
 
 const perjadinDetailStore = usePerjadinDetailStore()
 const route = useRoute()
-const no_urut = reactive(1)
+const no_urut = ref(1)
 
 const id = computed(() => {
   return route.params.id ?? null

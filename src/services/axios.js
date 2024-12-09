@@ -3,13 +3,14 @@ import axios from 'axios'
 
 export const axiosIns = axios.create({
   // baseURL: 'http://127.0.0.1:8000',
-  baseURL: 'http://172.27.19.156:8000',
+  // baseURL: 'http://172.27.19.156:8000',
+  baseURL: 'https://seru.itjenkumham.id/backend',
 })
 
 export const authClient = axios.create({
   // baseURL: 'https://de.bbmakmur.com',
   // baseURL: 'https://seru.itjenkumham.id/backend',
-  baseURL: 'http://127.0.0.1:8000',
+  // baseURL: 'http://127.0.0.1:8000',
   // baseURL: 'http://192.168.16.128:8000',
   withCredentials: true, // required to handle the CSRF token
 })
