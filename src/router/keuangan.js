@@ -232,6 +232,16 @@ const keuangan = [
     name: 'perjadin-list-pegawai',
     component: () => import('@/views/user/keuangan/perjadin/pegawai/List.vue'),
   },
+  {
+    meta: {
+      title: 'Realisasi Perjalanan Dinas',
+      requiresAuth: false,
+      layout: 'layout-guest',
+    },
+    path: '/keuangan/perjadin/sppd/:id/input/realisasi',
+    name: 'perjadin-sppd-input-realisasi',
+    component: () => import('@/views/user/keuangan/perjadin/ptjrealisasi/Realisasi.vue'),
+  },
 ]
 
 export default keuangan

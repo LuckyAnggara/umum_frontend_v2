@@ -63,7 +63,7 @@
                 </tr>
                 <tr v-for="(item, index) in perjadinDetailStore.singleResponse.transport" :key="index">
                   <td class="border border-black text-center px-2 py-1">
-                    {{ no_urut++ }}
+                    {{ index + 1 }}
                   </td>
                   <td class="border border-black px-2 py-1">
                     <div class="flex flex-col">
@@ -85,7 +85,7 @@
                 </tr>
                 <tr v-for="(item, index) in perjadinDetailStore.singleResponse.uang_harian" :key="index">
                   <td class="border border-black text-center px-2 py-1">
-                    {{ no_urut++ }}
+                    {{ index + 1 }}
                   </td>
                   <td class="border border-black px-2 py-1">
                     <span>selama {{ item.realisasi_hari }} hari x {{ IDRCurrency.format(item.realisasi_biaya) }}</span>
@@ -104,7 +104,7 @@
                 </tr>
                 <tr v-for="(item, index) in perjadinDetailStore.singleResponse.hotel" :key="index">
                   <td class="border border-black text-center px-2 py-1">
-                    {{ no_urut++ }}
+                    {{ index + 1 }}
                   </td>
                   <td class="border border-black px-2 py-1">
                     <span>selama {{ item.realisasi_hari }} hari x {{ IDRCurrency.format(item.realisasi_biaya) }}</span>
@@ -124,7 +124,7 @@
                 </tr>
                 <tr v-for="(item, index) in perjadinDetailStore.singleResponse.representatif" :key="index">
                   <td class="border border-black text-center px-2 py-1">
-                    {{ no_urut++ }}
+                    {{ index + 1 }}
                   </td>
                   <td class="border border-black px-2 py-1">
                     <span>selama {{ item.realisasi_hari }} hari x {{ IDRCurrency.format(item.realisasi_biaya) }}</span>
@@ -223,7 +223,7 @@
                 <p class="mt-12">
                   {{ perjadinDetailStore.singleResponse.ppk.nama.toUpperCase() }}
                 </p>
-                <p>NIP {{ perjadinDetailStore.singleResponse.bendahara.nip }}</p>
+                <p>NIP {{ perjadinDetailStore.singleResponse.ppk.nip }}</p>
               </div>
             </div>
           </div>

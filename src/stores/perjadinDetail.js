@@ -269,6 +269,19 @@ export const usePerjadinDetailStore = defineStore('perjadinDetailStore', {
       }
       return false
     },
+    async showPtj(id, token) {
+      this.isLoading = true
+      try {
+        const response = await axiosIns.post(`/api/keuangan/ptj/perjadin-detail/${id}`, { token })
+        this.singleResponse = JSON.parse(JSON.stringify(response.data.data))
+        this.originalSingleResponse = JSON.parse(JSON.stringify(response.data.data))
+      } catch (error) {
+        alert(error.message)
+      } finally {
+        this.isLoading = false
+      }
+      return false
+    },
     async downloadSptjm() {
       this.isLoading = true
       try {
