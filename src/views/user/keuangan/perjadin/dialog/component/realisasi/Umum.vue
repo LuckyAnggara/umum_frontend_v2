@@ -3,27 +3,65 @@
     <h2 class="text-2xl mb-4">Umum</h2>
 
     <div class="flex flex-col space-y-2 text-sm">
-      <div>
-        <label for="name" class="block font-bold text-gray-900 dark:text-white">Nomor Induk Pegawai</label>
-        <div class="relative w-full">
-          <span>{{ perjadinDetailStore.singleResponse.nip }}</span>
+      <div class="grid grid-cols-2">
+        <div>
+          <label for="name" class="block font-bold text-gray-900 dark:text-white">Surat Tugas / Perintah</label>
+          <div class="relative w-full">
+            <span>{{ perjadinDetailStore.singleResponse.master.no_st }}</span>
+            <span>{{ perjadinDetailStore.singleResponse.master.tanggal_st }}</span>
+          </div>
+        </div>
+        <div>
+          <label for="name" class="block font-bold text-gray-900 dark:text-white">Tanggal Surat Tugas / Perintah</label>
+          <div class="relative w-full">
+            <span>{{ perjadinDetailStore.singleResponse.master.tanggal_st }}</span>
+          </div>
         </div>
       </div>
-      <div class="text-left">
-        <label for="name" class="block font-bold text-gray-900 dark:text-white">Nama</label>
-        <span>{{ perjadinDetailStore.singleResponse.nama }}</span>
+      <div>
+        <label for="name" class="block font-bold text-gray-900 dark:text-white">Nama Kegiatan</label>
+        <div class="relative w-full">
+          <span>{{ perjadinDetailStore.singleResponse.master.nama_kegiatan }}</span>
+        </div>
       </div>
-      <div class="text-left">
-        <label for="name" class="block font-bold text-gray-900 dark:text-white">Jabatan</label>
-        <span>{{ perjadinDetailStore.singleResponse.jabatan }}</span>
+      <div>
+        <label for="name" class="block font-bold text-gray-900 dark:text-white">Tempat Kegiatan</label>
+        <div class="relative w-full">
+          <span>{{ perjadinDetailStore.singleResponse.master.tempat_kegiatan }}</span>
+        </div>
+      </div>
+      <hr />
+      <div>
+        <label for="name" class="block font-bold text-gray-900 dark:text-white">Nomor SPPD</label>
+        <div class="relative w-full">
+          <span>ITJ.1-KU.03.02-{{ perjadinDetailStore.singleResponse.no_sppd }}</span>
+        </div>
+      </div>
+      <div class="grid grid-cols-2">
+        <div>
+          <label for="name" class="block font-bold text-gray-900 dark:text-white">Nomor Induk Pegawai</label>
+          <div class="relative w-full">
+            <span>{{ perjadinDetailStore.singleResponse.nip }}</span>
+          </div>
+        </div>
+        <div class="text-left">
+          <label for="name" class="block font-bold text-gray-900 dark:text-white">Nama</label>
+          <span>{{ perjadinDetailStore.singleResponse.nama }}</span>
+        </div>
+      </div>
+      <div class="grid grid-cols-2">
+        <div class="text-left">
+          <label for="name" class="block font-bold text-gray-900 dark:text-white">Golongan/Pangkat</label>
+          <span>{{ perjadinDetailStore.singleResponse.pangkat }}</span>
+        </div>
+        <div class="text-left">
+          <label for="name" class="block font-bold text-gray-900 dark:text-white">Jabatan</label>
+          <span>{{ perjadinDetailStore.singleResponse.jabatan }}</span>
+        </div>
       </div>
       <div class="text-left">
         <label for="name" class="block font-bold text-gray-900 dark:text-white">Unit</label>
         <span>{{ perjadinDetailStore.singleResponse.unit }}</span>
-      </div>
-      <div class="text-left">
-        <label for="name" class="block font-bold text-gray-900 dark:text-white">Golongan/Pangkat</label>
-        <span>{{ perjadinDetailStore.singleResponse.pangkat }}</span>
       </div>
 
       <div class="text-left">
@@ -104,6 +142,16 @@
           </button>
           <small>Download Draft Surat Pertanggung Jawaban Mutlak (SPTJM)</small>
         </div>
+        <div>
+          <button
+            @click="toSptjm()"
+            type="submit"
+            class="w-32 flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-xs font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+          >
+            <span>SPTJM</span><ArrowTopRightOnSquareIcon class="h-4 w-4 ml-2" />
+          </button>
+          <small>Cetak Surat Pertanggung Jawaban Mutlak (SPTJM)</small>
+        </div>
       </div>
     </div>
   </div>
@@ -158,7 +206,12 @@ async function toRill() {
 }
 
 async function toSptjm() {
-  perjadinDetailStore.downloadSptjm()
+  // perjadinDetailStore.downloadSptjm()
+  let resolvedRoute = router.resolve({
+    name: 'perjadin-ptj-sptjm',
+    params: { id: perjadinDetailStore.singleResponse.id },
+  })
+  window.open(resolvedRoute.href, '_blank')
 }
 
 async function kuitansiUpdate() {

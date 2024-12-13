@@ -286,6 +286,73 @@
       </div>
     </template>
   </Dialog>
+
+  <Dialog :overflowVisible="true" :show="shareDialog" @submit="updateStatusData" @close="shareDialog = !shareDialog" :canSubmit="false" :canClose="false">
+    <template #title>
+      <h1>Share Pertanggung Jawaban</h1>
+    </template>
+
+    <template #content>
+      <div class="flex w-full flex-col space-y-4">
+        <div class="text-left">
+          <label for="unit" class="block text-sm font-medium text-gray-900 dark:text-white">Tanggal Expire Token</label>
+          <small class="text-gray-600">Tentukan tanggal expire token</small>
+          <VueDatePicker
+            :min-date="new Date()"
+            v-model="codeTokenStore.form.expire_at"
+            required
+            :format="'dd MMMM yyyy H:mm'"
+            text-input
+            time-picker-inline
+            locale="id"
+          ></VueDatePicker>
+        </div>
+
+        <div v-if="codeTokenStore.responses?.token">
+          <div class="text-center my-4">
+            <label for="unit" class="block text-sm font-medium text-gray-900 dark:text-white">Token</label>
+            <div class="mx-auto text-8xl">
+              {{ codeTokenStore.responses.token }}
+            </div>
+          </div>
+
+          <div class="text-center">
+            <label for="link" class="block text-sm font-medium text-gray-900">Link</label>
+            <div class="rounded-lg p-2 flex items-center justify-between text-left">
+              <input
+                name="link"
+                v-model="shareLink"
+                class="bg-gray-50 border-none text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              />
+              <button
+                @click="copyToClipboard"
+                class="bg-blue-500 text-white rounded px-4 py-2 text-sm hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300"
+              >
+                Copy
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-4 flex flex-row space-x-2">
+        <button
+          @click="generateToken"
+          type="button"
+          class="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+        >
+          Generate Code
+        </button>
+        <button
+          @click="closeShareDialog()"
+          type="button"
+          class="inline-flex justify-center rounded-md border border-transparent bg-red-100 px-4 py-2 text-sm font-medium text-red-900 hover:bg-red-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2"
+        >
+          Close
+        </button>
+      </div>
+    </template>
+  </Dialog>
 </template>
 
 <script setup>
@@ -301,18 +368,23 @@ import VueDatePicker from '@vuepic/vue-datepicker'
 import '@vuepic/vue-datepicker/dist/main.css'
 
 import { defineAsyncComponent, onMounted, onUnmounted, ref } from 'vue'
-import { EllipsisVerticalIcon, DocumentTextIcon, ArrowPathIcon, TrashIcon, MagnifyingGlassIcon, PaperAirplaneIcon } from '@heroicons/vue/24/outline'
+import { EllipsisVerticalIcon, DocumentTextIcon, ArrowPathIcon, TrashIcon, MagnifyingGlassIcon, PaperAirplaneIcon, ShareIcon } from '@heroicons/vue/24/outline'
 import { toast } from 'vue3-toastify'
 import { useRouter } from 'vue-router'
 import { computed } from 'vue'
+import { useCodeToken } from '@/stores/codeToken'
 
 const perjadinStore = usePerjadinStore()
 const mainStore = useMainStore()
 const authStore = useAuthStore()
+const codeTokenStore = useCodeToken()
 const confirmDialog = ref(false)
 const sendDialog = ref(false)
+const shareDialog = ref(false)
 const deleteId = ref(0)
 const router = useRouter()
+
+const shareLink = ref(null)
 
 const itemMenu = computed(() => {
   return [
@@ -331,12 +403,87 @@ const itemMenu = computed(() => {
       icon: DocumentTextIcon,
     },
     {
+      function: onShare,
+      label: 'Share',
+      icon: ShareIcon,
+    },
+    {
       function: onDelete,
       label: 'Hapus',
       icon: TrashIcon,
     },
   ]
 })
+
+async function copyToClipboard() {
+  try {
+    await navigator.clipboard.writeText(shareLink.value)
+    toast.success('Berhasil menyalink link', { autoClose: 1000 })
+  } catch (err) {
+    toast.error('Gagal menyalink link', { autoClose: 1000 })
+  }
+}
+
+function closeShareDialog() {
+  codeTokenStore.$reset()
+  shareDialog.value = false
+}
+
+async function generateToken() {
+  if (codeTokenStore.form.expire_at == null || codeTokenStore.form.expire_at == '') {
+    toast.error('tanggal expire token belum di isi', { autoClose: 1000, position: toast.POSITION.BOTTOM_CENTER })
+  } else {
+    let resolvedRoute = router.resolve({
+      name: 'perjadin-sppd-open-realisasi',
+      params: { id: deleteId.value },
+    })
+    const id = toast.loading('Generate token...', {
+      position: toast.POSITION.BOTTOM_CENTER,
+      type: 'info',
+      isLoading: true,
+    })
+
+    const success = await codeTokenStore.generateToken(deleteId.value)
+    if (success) {
+      toast.update(id, {
+        render: 'Berhasil !!',
+        position: toast.POSITION.BOTTOM_CENTER,
+        type: 'success',
+        autoClose: 1000,
+        closeOnClick: true,
+        closeButton: true,
+        isLoading: false,
+      })
+      toast.done(id)
+    } else {
+      toast.update(id, {
+        render: 'Terjadi kesalahan',
+        position: toast.POSITION.BOTTOM_CENTER,
+        type: 'error',
+        autoClose: 1000,
+        closeOnClick: true,
+        closeButton: true,
+        isLoading: false,
+      })
+    }
+    shareLink.value = `${window.location.origin}${resolvedRoute.href}`
+  }
+}
+function onShare(item) {
+  if (item.status == 'PERTANGGUNG JAWABAN') {
+    deleteId.value = item.id
+    shareDialog.value = true
+  } else {
+    toast(`Tidak bisa mengirim berkas, status berkas ${item.status}`, {
+      position: toast.POSITION.TOP_CENTER,
+      type: 'error',
+      autoClose: 3000,
+      closeOnClick: true,
+      closeButton: true,
+      isLoading: false,
+    })
+  }
+}
 
 function onSend(item) {
   if (item.status == 'PERENCANAAN') {

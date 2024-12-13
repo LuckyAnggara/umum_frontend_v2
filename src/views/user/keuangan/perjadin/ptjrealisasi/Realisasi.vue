@@ -1,49 +1,11 @@
 <template>
   <div>
     <div class="px-5 py-24 sm:px-24 lg:px-0" v-if="isLocked">
-      <div class="grid items-center justify-center grid-cols-1 lg:grid-cols-12 auth-bg">
-        <div class="mx-5 lg:mx-20 lg:col-start-5 lg:col-span-4">
-          <div class="bg-white card dark:bg-zinc-800 dark:border-transparent">
-            <div class="p-5">
-              <div class="p-4">
-                <form>
-                  <div class="mb-5">
-                    <label class="font-medium text-gray-700 dark:text-gray-200">Password</label>
-                    <div class="flex items-center mt-2 mb-3 rounded-3 bg-slate-50/50 dark:bg-transparent">
-                      <span
-                        class="flex items-center px-4 py-2 text-gray-500 border border-r-0 border-gray-100 rounded rounded-r-none dark:border-zinc-600"
-                        id="basic-addon3"
-                      >
-                        <LockClosedIcon class="h-5" />
-                      </span>
-                      <input
-                        type="password"
-                        class="w-full border-gray-100 rounded rounded-l-none placeholder:text-14 bg-slate-50/50 text-14 focus:ring-0 dark:bg-zinc-700 dark:border-zinc-600 dark:text-gray-200"
-                        placeholder="Enter Password"
-                        aria-label="Enter Password"
-                        aria-describedby="basic-addon3"
-                      />
-                    </div>
-                  </div>
-
-                  <div class="grid">
-                    <button class="rounded-md py-2 text-white border-transparent btn bg-blue-500 hover:bg-blue-600 text-16" type="submit">Unlock</button>
-                  </div>
-                </form>
-              </div>
-            </div>
-          </div>
-
-          <div class="mt-10 text-center">
-            <p class="mb-5 text-gray-700 dark:text-gray-200">Masukan password Pertanggung Jawaban, untuk melanjutkan.</p>
-          </div>
-        </div>
-      </div>
+      <Otp @locked="isLockedValid" />
     </div>
 
-    <div v-else class="bg-gray-200">
-      <div class="mt-4 inline-flex items-center text-2xl font-medium text-gray-800 dark:text-gray-400 ml-4">Pertanggung Jawaban</div>
-      <div class="mx-auto w-full px-4 py-8">
+    <div v-else>
+      <div class="mx-auto w-full px-4 py-4 bg-gray-200">
         <section v-if="perjadinDetailStore.singleResponse == null">
           <span class="flex"><ArrowPathIcon class="mx-auto w-6 h-6 animate-spin" /></span>
         </section>
@@ -255,6 +217,8 @@
 import { ref, defineAsyncComponent, onMounted } from 'vue'
 import { TransitionRoot, TransitionChild, Dialog, DialogPanel, DialogTitle } from '@headlessui/vue'
 
+import Otp from './Otp.vue'
+
 import Catatan from '../dialog/component/realisasi/Catatan.vue'
 import UangHarian from '../dialog/component/realisasi/UangHarian.vue'
 import Umum from '../dialog/component/realisasi/Umum.vue'
@@ -266,13 +230,14 @@ import TaksiTujuan from '../dialog/component/realisasi/TaksiTujuan.vue'
 import Representatif from '../dialog/component/realisasi/Representatif.vue'
 import Lampiran from '../dialog/component/realisasi/Lampiran.vue'
 import { toast } from 'vue3-toastify'
-import { ArrowPathIcon, ArrowRightIcon, CheckCircleIcon, ChevronLeftIcon, ChevronRightIcon, LockClosedIcon } from '@heroicons/vue/24/outline'
+import { ArrowPathIcon, ArrowRightIcon, CheckCircleIcon, ChevronLeftIcon, ChevronRightIcon } from '@heroicons/vue/24/outline'
 import { usePerjadinStore } from '@/stores/perjadin'
 import { useAuthStore } from '@/stores/auth'
 import { usePerjadinDetailStore } from '@/stores/perjadinDetail'
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 import ConfirmationDialog from '@/components/Dialog.vue'
+import { useCodeToken } from '@/stores/codeToken'
 
 const route = useRoute()
 const umumRef = ref(null)
@@ -284,10 +249,11 @@ const taksiJakartaRef = ref(null)
 const taksiTujuanRef = ref(null)
 const lampiranRef = ref(null)
 const repRef = ref(null)
-const isLocked = ref(false)
 
 const perjadinDetailStore = usePerjadinDetailStore()
+const codeTokenStore = useCodeToken()
 const authStore = useAuthStore()
+const role = ref('USER')
 const confirmDialog = ref(false)
 const verifiedDialog = ref(false)
 
@@ -304,8 +270,6 @@ const steps = ref([
   'Lampiran Lainnya',
   'Catatan',
 ])
-
-const role = ref('USER')
 
 const disabledForm = computed(() => {
   if (role == 'ADMIN') return true
@@ -350,7 +314,7 @@ async function submit() {
     isLoading: true,
   })
   confirmDialog.value = !confirmDialog.value
-  const success = await perjadinDetailStore.store()
+  const success = await perjadinDetailStore.storeExternal()
   if (success.status) {
     resetComponent()
     toast.update(id, {
@@ -413,7 +377,13 @@ const id = computed(() => {
   return route.params.id ?? null
 })
 
-onMounted(async () => {
-  await perjadinDetailStore.showPtj(id.value, 'xxxxxx')
-})
+const isLocked = ref(true)
+
+function isLockedValid(value) {
+  if (value == true) {
+    isLocked.value = false
+    perjadinDetailStore.singleResponse = JSON.parse(JSON.stringify(codeTokenStore.detail))
+    perjadinDetailStore.originalSingleResponse = JSON.parse(JSON.stringify(codeTokenStore.detail))
+  }
+}
 </script>

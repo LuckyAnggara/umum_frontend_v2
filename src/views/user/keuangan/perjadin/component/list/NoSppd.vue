@@ -125,7 +125,7 @@
               <td class="px-4 py-1">{{ perjadinDetailStore.from + index }}</td>
 
               <td class="px-4 py-1">
-                <span class="font-bold">{{ item.no_sppd }}</span>
+                <span class="font-bold">{{ item.no_sppd ?? 'BELUM TERBIT' }}</span>
               </td>
               <td class="px-4 py-1">
                 <div class="flex flex-col">
@@ -277,7 +277,7 @@ import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
 import { IDRCurrency } from '@/utilities/formatter'
 import { useMainStore } from '@/stores/main'
 import { useAuthStore } from '@/stores/auth'
-
+import { toast } from 'vue3-toastify'
 import { onMounted, onUnmounted, ref } from 'vue'
 import { EllipsisVerticalIcon, DocumentTextIcon, ArrowPathIcon, TrashIcon, MagnifyingGlassIcon, PaperAirplaneIcon } from '@heroicons/vue/24/outline'
 import { useRouter } from 'vue-router'
@@ -302,7 +302,11 @@ const itemMenu = computed(() => {
 })
 
 function onDetail(item) {
-  router.push({ name: 'perjadin-sppd-realisasi', params: { id: item.id } })
+  if (item.no_sppd == null) {
+    toast.error('No SPPD belum terbit!', { position: toast.POSITION.BOTTOM_CENTER, limit: 2 })
+  } else {
+    router.push({ name: 'perjadin-sppd-realisasi', params: { id: item.id } })
+  }
 }
 
 function nextPage() {

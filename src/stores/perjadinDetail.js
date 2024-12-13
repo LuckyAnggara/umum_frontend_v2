@@ -536,6 +536,71 @@ export const usePerjadinDetailStore = defineStore('perjadinDetailStore', {
       }
       return false
     },
+
+    async storeExternal() {
+      let formData = new FormData()
+
+      // FETCHING LAMPIRAN
+      this.lampiran.uh.forEach((element, index) => {
+        formData.append(`file_uh[${index}]`, element)
+      })
+      formData.append('jumlah_lampiran_uh', this.lampiran.uh.length)
+      this.lampiran.hotel.forEach((element, index) => {
+        formData.append(`file_hotel[${index}]`, element)
+      })
+      formData.append('jumlah_lampiran_hotel', this.lampiran.hotel.length)
+      this.lampiran.transport.forEach((element, index) => {
+        formData.append(`file_transport[${index}]`, element)
+      })
+      formData.append('jumlah_lampiran_transport', this.lampiran.transport.length)
+      this.lampiran.rep.forEach((element, index) => {
+        formData.append(`file_rep[${index}]`, element)
+      })
+      formData.append('jumlah_lampiran_rep', this.lampiran.rep.length)
+      this.lampiran.lainnya.forEach((element, index) => {
+        formData.append(`file_lainnya[${index}]`, element)
+      })
+      formData.append('jumlah_lampiran_lainnya', this.lampiran.lainnya.length)
+
+      if (this.deleteLampiran.length > 0) {
+        this.deleteLampiran.forEach((element, index) => {
+          formData.append(`file_delete[${index}]`, element.id)
+        })
+        formData.append('jumlah_lampiran_delete', this.deleteLampiran.length)
+      }
+
+      //FETCHING DATA UMUM
+      formData.append('umum', JSON.stringify(this.singleResponse))
+      this.isStoreLoading = true
+      try {
+        const response = await axiosIns.post(`/api/keuangan/perjadin-detail/external`, formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        })
+        if (response.status == 200) {
+          this.singleResponse = JSON.parse(JSON.stringify(response.data.data))
+          this.originalSingleResponse = JSON.parse(JSON.stringify(response.data.data))
+          this.lampiranReset()
+          return {
+            status: true,
+            data: response.data.data,
+          }
+        } else {
+          return {
+            status: false,
+            data: null,
+          }
+        }
+      } catch (error) {
+        return {
+          status: false,
+          data: null,
+        }
+      } finally {
+        this.isStoreLoading = false
+      }
+    },
   },
 })
 

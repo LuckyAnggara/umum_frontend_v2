@@ -84,6 +84,16 @@ const keuangan = [
   },
   {
     meta: {
+      title: 'Surat Pertanggung Jawaban Mutlak',
+      requiresAuth: true,
+      layout: 'layout-full',
+    },
+    path: '/keuangan/perjadin/ptj/:id/sptjm',
+    name: 'perjadin-ptj-sptjm',
+    component: () => import('@/views/user/keuangan/template/Sptjm.vue'),
+  },
+  {
+    meta: {
       title: 'Dop',
       requiresAuth: true,
       layout: 'layout-full',
@@ -231,6 +241,16 @@ const keuangan = [
     path: '/keuangan/perjadin/list/pegawai',
     name: 'perjadin-list-pegawai',
     component: () => import('@/views/user/keuangan/perjadin/pegawai/List.vue'),
+  },
+  {
+    meta: {
+      title: 'Realisasi Perjalanan Dinas',
+      requiresAuth: false,
+      layout: 'layout-guest',
+    },
+    path: '/keuangan/perjadin/sppd/:id/open/realisasi',
+    name: 'perjadin-sppd-open-realisasi',
+    component: () => import('@/views/user/keuangan/perjadin/ptjrealisasi/OpenRealisasi.vue'),
   },
   {
     meta: {
