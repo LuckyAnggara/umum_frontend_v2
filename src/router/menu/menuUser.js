@@ -8,13 +8,19 @@ import {
   BanknotesIcon,
   UserIcon,
   UserGroupIcon,
+  HomeIcon,
 } from '@heroicons/vue/24/solid'
 
 export const menuUser = [
   {
-    name: 'Dashboard',
+    name: 'Menu Utama',
     icon: RectangleGroupIcon,
     to: 'user-dashboard',
+  },
+  {
+    name: 'Dashboard User',
+    icon: HomeIcon,
+    to: 'keuangan-dashboard',
   },
   {
     name: '-',
