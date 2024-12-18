@@ -262,6 +262,16 @@ const keuangan = [
     name: 'perjadin-sppd-input-realisasi',
     component: () => import('@/views/user/keuangan/perjadin/ptjrealisasi/Realisasi.vue'),
   },
+  {
+    meta: {
+      title: 'Laporan Keuangan',
+      requiresAuth: false,
+      layout: 'layout-auth',
+    },
+    path: '/keuangan/report',
+    name: 'report-keuangan',
+    component: () => import('@/views/user/keuangan/report/View.vue'),
+  },
 ]
 
 export default keuangan

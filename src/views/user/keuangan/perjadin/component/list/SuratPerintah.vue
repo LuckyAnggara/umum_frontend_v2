@@ -634,6 +634,8 @@ function searchData() {
 }
 
 onMounted(() => {
+  perjadinStore.$reset()
+
   perjadinStore.getData()
 })
 

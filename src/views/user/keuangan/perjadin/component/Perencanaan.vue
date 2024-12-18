@@ -67,14 +67,11 @@
             rows="2"
             class="block w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           ></textarea>
-          <!-- <input
-            required
-            v-model="perjadinStore.form.nama_kegiatan"
-            type="text"
-            name="price"
-            id="price"
-            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-          /> -->
+        </div>
+
+        <div>
+          <label for="price" class="block text-sm font-medium text-gray-900 dark:text-white">Jenis Kegiatan</label>
+          <v-select :options="mainStore.jenisKegiatanOptions" v-model="perjadinStore.form.jenis_kegiatan"> </v-select>
         </div>
 
         <div class="grid gap-4 sm:grid-cols-2">
@@ -87,11 +84,6 @@
             <VueDatePicker v-model="perjadinStore.form.tanggal_akhir" required :format="'dd MMMM yyyy'" auto-apply date-picker locale="id"></VueDatePicker>
           </div>
         </div>
-        <!-- 
-        <div>
-          <label for="price" class="block text-sm font-medium text-gray-900 dark:text-white">Keberangakatan</label>
-          <v-select :loading="mainStore.isLoading" label="nama" :options="mainStore.provinsiOptions" v-model="perjadinStore.form.provinsi_id"> </v-select>
-        </div> -->
 
         <div>
           <label for="price" class="block text-sm font-medium text-gray-900 dark:text-white">Tempat Kedudukan</label>
@@ -106,6 +98,11 @@
         </div>
 
         <div>
+          <label for="price" class="block text-sm font-medium text-gray-900 dark:text-white">Jenis Perjalanan Dinas</label>
+          <v-select :options="['DALAM NEGERI', 'LUAR NEGERI']" v-model="perjadinStore.form.jenis_perjalanan_dinas"> </v-select>
+        </div>
+
+        <div v-if="perjadinStore.form.jenis_perjalanan_dinas == 'DALAM NEGERI'">
           <label for="price" class="block text-sm font-medium text-gray-900 dark:text-white">Provinsi Tujuan</label>
           <v-select
             :reduce="(x) => x.id"
@@ -115,6 +112,18 @@
             v-model="perjadinStore.form.provinsi_id"
           >
           </v-select>
+        </div>
+
+        <div v-if="perjadinStore.form.jenis_perjalanan_dinas == 'LUAR NEGERI'">
+          <label for="price" class="block text-sm font-medium text-gray-900 dark:text-white">Negara Tujuan</label>
+          <input
+            required
+            v-model="perjadinStore.form.tujuan_pdln"
+            type="text"
+            name="name"
+            id="name"
+            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+          />
         </div>
 
         <div>
@@ -172,6 +181,11 @@
         </div>
 
         <div>
+          <label for="price" class="block text-sm font-medium text-gray-900 dark:text-white">Jenis Kegiatan</label>
+          <v-select :disabled="!isEdit" :options="mainStore.jenisKegiatanOptions" v-model="perjadinStore.singleResponse.jenis_kegiatan"> </v-select>
+        </div>
+
+        <div>
           <label for="price" class="block text-sm font-medium text-gray-900 dark:text-white">Nama Kegiatan</label>
 
           <textarea
@@ -179,19 +193,9 @@
             :readonly="!isEdit"
             v-model="perjadinStore.singleResponse.nama_kegiatan"
             id="edit_nama_kegiatan"
-            rows="2"
+            rows="4"
             class="block w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           ></textarea>
-
-          <!-- <input
-            required
-            :readonly="!isEdit"
-            v-model="perjadinStore.singleResponse.nama_kegiatan"
-            type="text"
-            name="price"
-            id="price"
-            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-          /> -->
         </div>
 
         <div class="grid gap-4 sm:grid-cols-2">
@@ -222,16 +226,33 @@
         </div>
 
         <div>
+          <label for="price" class="block text-sm font-medium text-gray-900 dark:text-white">Jenis Perjalanan Dinas</label>
+          <v-select :disabled="!isEdit" :options="['DALAM NEGERI', 'LUAR NEGERI']" v-model="perjadinStore.singleResponse.jenis_perjalanan_dinas"> </v-select>
+        </div>
+
+        <div v-if="perjadinStore.singleResponse.jenis_perjalanan_dinas == 'DALAM NEGERI'">
           <label for="price" class="block text-sm font-medium text-gray-900 dark:text-white">Provinsi Tujuan</label>
           <v-select
-            :disabled="!isEdit"
+            :reduce="(x) => x.id"
             :loading="mainStore.isLoading"
             label="nama"
-            :reduce="(x) => x.id"
             :options="mainStore.provinsiOptions"
             v-model="perjadinStore.singleResponse.provinsi_id"
           >
           </v-select>
+        </div>
+
+        <div v-if="perjadinStore.singleResponse.jenis_perjalanan_dinas == 'LUAR NEGERI'">
+          <label for="price" class="block text-sm font-medium text-gray-900 dark:text-white">Negara Tujuan</label>
+          <input
+            required
+            :readonly="!isEdit"
+            v-model="perjadinStore.singleResponse.tujuan_pdln"
+            type="text"
+            name="name"
+            id="name"
+            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+          />
         </div>
 
         <div>

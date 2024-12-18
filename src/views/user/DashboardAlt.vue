@@ -1,25 +1,18 @@
 <template>
-  <div
-    class="sm:mx-auto min-h-screen sm:w-full lg:w-1/3 md:w-1/2 overflow-y-scroll space-y-3 border-8 rounded-3xl bg-white shadow-2xl z-10"
-  >
+  <div class="sm:mx-auto min-h-screen sm:w-full lg:w-1/3 md:w-1/2 overflow-y-scroll space-y-3 border-8 rounded-3xl bg-white shadow-2xl z-10">
     <section v-if="activeMenu == 0">
       <Header v-model="activeMenu" />
       <div class="p-3 space-y-8 z-0 flex flex-col">
         <div>
           <h4 class="font-semibold mt-2">Layanan</h4>
-          <div
-            class="grid m-0 grid-cols-3 gap-2 overflow-y-scroll justify-center items-center w-full"
-          >
+          <div class="grid m-0 grid-cols-3 gap-2 overflow-y-scroll justify-center items-center w-full">
             <button
               @click="goToRoute(menu)"
               class="relative flex flex-col justify-start bg-gray-200 bg-cover text-gray-800 overflow-hidden cursor-pointer lg:w-48 sm:w-96 object-cover object-center rounded-lg shadow-md h-24 my-2"
               v-for="(menu, index) in menus"
               :key="index"
             >
-              <img
-                :src="iconImage(menu.icon)"
-                class="h-16 absolute bottom-0 left-4 opacity-85"
-              />
+              <img :src="iconImage(menu.icon)" class="h-16 absolute bottom-0 left-4 opacity-85" />
               <p class="text-lg mt-1 text-center place-self-center text-black">
                 {{ menu.label }}
               </p>
@@ -29,21 +22,14 @@
               @click="goToRoute({ to: 'admin-dashboard' })"
               class="relative flex flex-col justify-start bg-gray-200 bg-cover text-gray-800 overflow-hidden cursor-pointer lg:w-48 sm:w-96 object-cover object-center rounded-lg shadow-md h-24 my-2"
             >
-              <img
-                :src="adminIcon"
-                class="h-16 absolute bottom-0 left-4 opacity-85"
-              />
-              <p class="text-lg mt-1 text-center place-self-center text-black">
-                Admin Area
-              </p>
+              <img :src="adminIcon" class="h-16 absolute bottom-0 left-4 opacity-85" />
+              <p class="text-lg mt-1 text-center place-self-center text-black">Admin Area</p>
             </button>
           </div>
         </div>
         <div>
           <h4 class="font-semibold">Kegiatan Berlangsung</h4>
-          <span class="text-gray-700 text-sm font-normal">
-            {{ $moment().format('DD MMMM YYYY') }}</span
-          >
+          <span class="text-gray-700 text-sm font-normal"> {{ $moment().format('DD MMMM YYYY') }}</span>
           <div
             v-if="dashboardStore.userData.tempat.length > 0"
             class="grid m-0 grid-cols-2 gap-4 overflow-y-scroll overflow-x-auto justify-center items-start w-full max-h-96 min-h-96 rounded-md"
@@ -54,21 +40,15 @@
               class="relative flex flex-col justify-between bg-white bg-cover text-gray-800 overflow-hidden cursor-pointer w-full object-cover object-center rounded-lg shadow-md h-64 my-2"
               :style="backgroundImage(tempat.ruangan)"
             >
-              <div
-                class="absolute bg-gradient-to-t from-green-400 to-blue-400 opacity-50 inset-0 z-0"
-              ></div>
+              <div class="absolute bg-gradient-to-t from-green-400 to-blue-400 opacity-50 inset-0 z-0"></div>
               <div class="relative flex flex-row items-end h-72 w-full">
                 <div class="p-6 rounded-lg flex flex-col w-full z-10">
-                  <h4
-                    class="mt-1 text-white text-xl font-semibold leading-tight truncate"
-                  >
+                  <h4 class="mt-1 text-white text-xl font-semibold leading-tight truncate">
                     {{ tempat.kegiatan }}
                   </h4>
                   <div class="flex justify-between items-center">
                     <div class="flex flex-col">
-                      <h2
-                        class="text-sm flex items-center text-gray-300 font-normal"
-                      >
+                      <h2 class="text-sm flex items-center text-gray-300 font-normal">
                         <MapPinIcon class="h-4 w-4 mr-1" />
                         {{
                           mainStore.ruangOptions.find((x) => {
@@ -81,9 +61,7 @@
                   <div class="flex pt-4 text-sm text-gray-300">
                     <div class="flex items-center mr-auto"></div>
                     <div class="flex items-center font-medium text-white">
-                      <span class="text-gray-300 text-sm font-normal">
-                        {{ $moment().format('DD MMMM YYYY') }}</span
-                      >
+                      <span class="text-gray-300 text-sm font-normal"> {{ $moment().format('DD MMMM YYYY') }}</span>
                     </div>
                   </div>
                 </div>
@@ -91,9 +69,7 @@
             </div>
           </div>
           <div class="flex h-96 justify-center text-center" v-else>
-            <span
-              class="my-auto text-xl text-gray-700"
-              v-if="dashboardStore.isLoading"
+            <span class="my-auto text-xl text-gray-700" v-if="dashboardStore.isLoading"
               ><div role="status">
                 <svg
                   aria-hidden="true"
@@ -114,9 +90,7 @@
                 <span class="sr-only">Loading...</span>
               </div></span
             >
-            <span v-else class="my-auto text-xl text-gray-700"
-              >Hari ini tidak ada kegiatan</span
-            >
+            <span v-else class="my-auto text-xl text-gray-700">Hari ini tidak ada kegiatan</span>
           </div>
         </div>
       </div>
@@ -152,9 +126,7 @@
       </TransitionChild>
 
       <div class="fixed inset-0 overflow-y-auto">
-        <div
-          class="flex min-h-full items-center justify-center p-4 text-center"
-        >
+        <div class="flex min-h-full items-center justify-center p-4 text-center">
           <TransitionChild
             as="template"
             enter="duration-300 ease-out"
@@ -164,19 +136,10 @@
             leave-from="opacity-100 scale-100"
             leave-to="opacity-0 scale-95"
           >
-            <DialogPanel
-              class="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all"
-            >
-              <DialogTitle
-                as="h3"
-                class="text-lg font-medium leading-6 text-gray-900"
-              >
-                Pilih layanan
-              </DialogTitle>
+            <DialogPanel class="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
+              <DialogTitle as="h3" class="text-lg font-medium leading-6 text-gray-900"> Pilih layanan </DialogTitle>
               <div class="mt-2">
-                <p class="text-sm text-gray-500">
-                  Pilih layanan BMN yang dihendaki ?
-                </p>
+                <p class="text-sm text-gray-500">Pilih layanan BMN yang dihendaki ?</p>
               </div>
 
               <div class="mt-4 flex flex-row space-x-4">
@@ -229,13 +192,7 @@
 </style>
 
 <script setup>
-import {
-  TransitionRoot,
-  TransitionChild,
-  Dialog,
-  DialogPanel,
-  DialogTitle,
-} from '@headlessui/vue'
+import { TransitionRoot, TransitionChild, Dialog, DialogPanel, DialogTitle } from '@headlessui/vue'
 import { computed, ReactiveEffect } from 'vue'
 import { MapPinIcon, StarIcon } from '@heroicons/vue/24/solid'
 import Footer from './dashboard/component/Footer.vue'
@@ -352,6 +309,7 @@ function goToRoute(item) {
       type: 'warning',
       isLoading: false,
     })
+    activeMenu.value = 3
   }
 }
 

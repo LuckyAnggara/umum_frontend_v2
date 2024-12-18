@@ -181,7 +181,7 @@ export const useMainStore = defineStore('main', {
       'Kelompok Keuangan',
       'Kelompok Humas dan Sistem Informasi Pengawasan',
     ],
-    peranOptions: ['-', 'ANGGOTA', 'KETUA TIM', 'PENGENDALI TEKNIS', 'PENGENDALI MUTU'],
+    peranOptions: ['-', 'ANGGOTA', 'KETUA TIM', 'PENGENDALI TEKNIS', 'PENGENDALI MUTU', 'LAINNYA'],
     tingkatPerjadinOptions: [
       {
         value: 'A',
@@ -208,6 +208,7 @@ export const useMainStore = defineStore('main', {
         label: 'Tingkat F untuk PNS Golongan II dan Golongan I.',
       },
     ],
+    jenisKegiatanOptions: ['AUDIT', 'REVIU', 'EVALUSI', 'MONITORING', 'PENGAWASAN LAINNYA', 'KEGIATAN LAINNYA'],
     form: {
       nip: '1',
       password: '123456',

@@ -115,6 +115,10 @@ export const menuAdmin = [
         to: 'non-perjadin-list',
       },
       {
+        name: 'Laporan',
+        to: 'report-keuangan',
+      },
+      {
         name: 'Data Pegawai',
         to: 'perjadin-list-pegawai',
         // to: 'persediaan',

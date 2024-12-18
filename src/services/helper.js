@@ -2,6 +2,8 @@
 // export const storageUrl = 'http://192.168.10.127:8000'
 // export const storageUrl = 'https://de.bbmakmur.com/public'
 export const storageUrl = 'https://seru.itjenkumham.id/backend/storage'
+// export const baseUrl = 'https://seru.itjenkumham.id/backend'
+export const baseUrl = 'http://127.0.0.1:8000'
 // export const storageUrl = 'http://127.0.0.1:8000/storage'
 export const sptjmPath = 'app/public/perjadin/ptj/lainnya/sptjm/'
 

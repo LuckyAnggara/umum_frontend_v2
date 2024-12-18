@@ -85,6 +85,10 @@ export const usePerjadinStore = defineStore('perjadinStore', {
       nominatif_taksi_tujuan: null,
       nominatif_representatif: null,
     },
+    report: {
+      tanggal_awal: null,
+      tanggal_akhir: null,
+    },
     form: {
       tahun_anggaran: moment().format('YYYY'),
       no_st: null,
@@ -94,6 +98,9 @@ export const usePerjadinStore = defineStore('perjadinStore', {
       tempat_kegiatan: null,
       tempat_kedudukan: 'Jakarta',
       nama_kegiatan: null,
+      jenis_kegiatan: null,
+      jenis_perjalanan_dinas: null,
+      tujuan_pdln: null,
       mak: null,
       detail: [],
       lampiran: [],
@@ -996,6 +1003,34 @@ export const usePerjadinStore = defineStore('perjadinStore', {
       } finally {
         this.isDestroyLoading = false
       }
+    },
+    async downloadReport() {
+      this.isLoading = true
+
+      let startDate = this.report.tanggal_awal.toISOString().split('T')[0] // 2024-12-17T08:07:00.000Z (UTC)
+      let endDate = this.report.tanggal_akhir.toISOString().split('T')[0] // 2024-12-17T08:07:00.000Z (UTC)
+
+      try {
+        const response = await axiosIns.get(`/api/report/perjadin?tanggal_awal=${startDate}&tanggal_akhir=${endDate}`)
+        // Membuat URL blob dan link untuk mendownload file
+        const url = window.URL.createObjectURL(new Blob([response.data]))
+        const link = document.createElement('a')
+        link.href = url
+        // Opsional: Tentukan nama file download (misalnya 'file.pdf')
+        link.setAttribute('download', `report.xlsx`)
+
+        // Tambahkan link ke body dan klik untuk memicu download
+        document.body.appendChild(link)
+        link.click()
+
+        // Hapus link setelah download selesai
+        document.body.removeChild(link)
+      } catch (error) {
+        alert(error.message)
+      } finally {
+        this.isLoading = false
+      }
+      return false
     },
     cancelEdit() {
       this.singleResponse = JSON.parse(JSON.stringify(this.originalSingleResponse))
