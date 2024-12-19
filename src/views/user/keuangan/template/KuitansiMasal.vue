@@ -33,8 +33,6 @@
       </div>
 
       <div v-for="(detail, index) in perjadinStore.singleResponse.detail" :key="index" id="print-container">
-        <div class="page-break mb-8"></div>
-
         <div class="print-area mx-auto bg-white p-8 max-w-3xl">
           <div class="flex flex-row justify-between border-b">
             <div class="mb-8 text-left flex flex-col">
@@ -283,8 +281,6 @@
             </div>
           </div>
         </div>
-
-        <div class="page-break mb-8"></div>
 
         <div class="page-break mb-8"></div>
         <div class="print-area mx-auto bg-white p-8 max-w-3xl">
