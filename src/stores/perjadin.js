@@ -15,7 +15,6 @@ export const usePerjadinStore = defineStore('perjadinStore', {
     isUpdateLoading: false,
     isLoading: false,
     isStoreLoading: false,
-    isUpdateLoading: false,
     isDestroyLoading: false,
     isDetail: false,
     isNewEdit: false,
