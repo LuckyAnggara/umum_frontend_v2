@@ -73,9 +73,7 @@
                 <tbody>
                   <template v-if="uh.length > 0">
                     <tr v-for="(item, index) in uh" :key="index">
-                      <td class="border border-black text-center px-2 py-1">
-                        {{ no_urut++ }}
-                      </td>
+                      <td class="border border-black text-center px-2 py-1">-</td>
                       <td class="border border-black px-2 py-1">
                         Uang Harian Perjalanan Dinas sebesar
                         {{ IDRCurrency.format(item.realisasi_biaya) }} x {{ item.realisasi_hari }} hari
@@ -87,9 +85,7 @@
                   </template>
                   <template v-if="transport.length > 0">
                     <tr v-for="(item, index) in transport" :key="index">
-                      <td class="border border-black text-center px-2 py-1">
-                        {{ no_urut++ }}
-                      </td>
+                      <td class="border border-black text-center px-2 py-1">-</td>
                       <td class="border border-black px-2 py-1">
                         Transport {{ item.tipe }} untuk Perjalanan Dinas sebesar
                         {{ IDRCurrency.format(item.realisasi_biaya) }}
@@ -101,9 +97,7 @@
                   </template>
                   <template v-if="hotel.length > 0">
                     <tr v-for="(item, index) in hotel" :key="index">
-                      <td class="border border-black text-center px-2 py-1">
-                        {{ no_urut++ }}
-                      </td>
+                      <td class="border border-black text-center px-2 py-1">-</td>
                       <td class="border border-black px-2 py-1">
                         Penginapan untuk Perjalanan Dinas sebesar
                         {{ IDRCurrency.format(item.realisasi_biaya) }} x {{ item.realisasi_hari }} hari
@@ -159,7 +153,9 @@
               </div>
               <!-- Right side -->
               <div class="flex flex-col text-center">
-                <p>Jakarta, {{ $moment().format('DD MMMM YYYY') }}</p>
+                <p>
+                  Jakarta, <span class="text-white">{{ $moment().locale('id').format('DD MMMM YYYY') }}</span>
+                </p>
                 <p>Pelaksana SPD,</p>
                 <p class="mt-12">
                   {{ perjadinDetailStore.singleResponse.nama.toUpperCase() }}

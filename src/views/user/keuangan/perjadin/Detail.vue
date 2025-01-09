@@ -70,10 +70,7 @@
             class="flex flex-row items-center justify-between bg-green-100 text-green-800 text-sm font-medium me-2 px-2.5 py-1 rounded dark:bg-green-900 dark:text-green-300"
           >
             EDIT MODE
-            <div
-              v-if="authStore.role == 'USER' && perjadinStore.singleResponse.status == 'PERENCANAAN'"
-              class="flex items-center space-x-1 text-center justify-end"
-            >
+            <div class="flex items-center space-x-1 text-center justify-end">
               <button
                 v-if="isEditAll"
                 @click="openConfirm()"
@@ -165,8 +162,11 @@
         </template>
 
         <template #content>
-          <div class="flex flex-col space-y-4 mt-6">
-            <div class="text-left">Apa anda yakin akan mengubah data ?</div>
+          <div class="flex flex-col space-y-4">
+            <div class="text-left" v-if="perjadinStore.singleResponse.status == 'PERENCANAAN'">Apa anda yakin akan mengubah data ?</div>
+            <div class="text-left" v-else-if="perjadinStore.singleResponse.status == 'PERTANGGUNG JAWABAN'">
+              Status akan berubah menjadi PERENCANAAN, apa kamu yakin ?
+            </div>
           </div>
         </template>
       </Dialog>
@@ -538,7 +538,18 @@ const itemMenu = computed(() => {
           {
             label: 'hr',
           },
-
+          {
+            function: () => {
+              isEditAll.value = true
+            },
+            label: 'Edit',
+            icon: PencilSquareIcon,
+          },
+          {
+            function: onSend,
+            label: 'Kirim',
+            icon: PaperAirplaneIcon,
+          },
           {
             function: onDelete,
             label: 'Hapus',

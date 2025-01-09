@@ -231,7 +231,9 @@
               <div></div>
               <div></div>
               <div class="text-center">
-                <p>Jakarta,{{ perjadinDetailStore.singleResponse.master.tanggal_st }}</p>
+                <p>
+                  Jakarta, <span class="text-white">{{ perjadinDetailStore.singleResponse.master.tanggal_st }}</span>
+                </p>
               </div>
             </div>
 
@@ -240,9 +242,9 @@
                 <p class="font-semibold">Bendahara Pengeluaran</p>
                 <div>
                   <p class="mt-12">
-                    {{ perjadinDetailStore.singleResponse.bendahara.nama }}
+                    {{ perjadinDetailStore.singleResponse.bendahara?.nama }}
                   </p>
-                  <p>NIP {{ perjadinDetailStore.singleResponse.bendahara.nip }}</p>
+                  <p>NIP {{ perjadinDetailStore.singleResponse.bendahara?.nip }}</p>
                 </div>
               </div>
               <div>
@@ -253,9 +255,9 @@
                   </div>
                   <div>
                     <p class="mt-12">
-                      {{ perjadinDetailStore.singleResponse.ppk.nama }}
+                      {{ perjadinDetailStore.singleResponse.ppk?.nama }}
                     </p>
-                    <p>NIP {{ perjadinDetailStore.singleResponse.ppk.nip }}</p>
+                    <p>NIP {{ perjadinDetailStore.singleResponse.ppk?.nip }}</p>
                   </div>
                 </div>
               </div>

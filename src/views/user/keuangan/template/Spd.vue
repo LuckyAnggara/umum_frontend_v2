@@ -197,7 +197,9 @@
             <div class="flex justify-end text-start">
               <div class="flex flex-col justify-between">
                 <p class="font-semibold w-60">Dikeluarkan di Jakarta</p>
-                <p class="font-semibold w-60">Tanggal {{ perjadinDetailStore.singleResponse.master.tanggal_st }}</p>
+                <p class="font-semibold w-60">
+                  Tanggal <span class="text-white">{{ perjadinDetailStore.singleResponse.master.tanggal_st }}</span>
+                </p>
                 <div class="w-60">
                   <p class="mt-12">
                     {{ perjadinDetailStore.singleResponse.ppk.nama }}

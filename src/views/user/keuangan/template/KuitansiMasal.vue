@@ -33,7 +33,8 @@
       </div>
 
       <div v-for="(detail, index) in perjadinStore.singleResponse.detail" :key="index" id="print-container">
-        <div class="print-area mx-auto bg-white p-8 max-w-3xl">
+        <div class="page-break my-8"></div>
+        <div class="print-area mx-auto bg-white px-8 py-12 max-w-3xl">
           <div class="flex flex-row justify-between border-b">
             <div class="mb-8 text-left flex flex-col">
               <p class="text-md font-bold uppercase">Inspektorat Jenderal</p>
@@ -240,7 +241,9 @@
               <div></div>
               <div></div>
               <div class="text-center">
-                <p>Jakarta, <span> </span></p>
+                <p>
+                  Jakarta, <span class="text-white"> {{ $moment(detail.tanggal_sppd).format('DD MMMM YYYY') }} </span>
+                </p>
                 <!-- <p>Jakarta, {{ $moment(detail.tanggal_sppd).format('DD MMMM YYYY') }}</p> -->
               </div>
             </div>
@@ -282,7 +285,8 @@
           </div>
         </div>
 
-        <div class="page-break mb-8"></div>
+        <div class="page-break my-8"></div>
+
         <div class="print-area mx-auto bg-white p-8 max-w-3xl">
           <div class="flex flex-row justify-between">
             <div class="mb-8 text-left flex flex-col">
@@ -466,7 +470,7 @@
                 <p class="font-semibold w-60">Dikeluarkan di Jakarta</p>
                 <p class="font-semibold w-60">
                   Tanggal
-                  {{ $moment(detail.tanggal_sppd).format('DD MMMM YYYY') }}
+                  <span class="text-white">{{ $moment(detail.tanggal_sppd).format('DD MMMM YYYY') }}</span>
                 </p>
                 <div class="w-60">
                   <p class="mt-12">
@@ -548,7 +552,7 @@ function printThreeCopies() {
 
   .print-area {
     margin: 0;
-    padding: 1mm;
+    padding: 2mm;
     page-break-after: always;
   }
 

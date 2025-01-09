@@ -177,7 +177,9 @@
             </div>
             <div class="flex flex-col justify-between">
               <div>
-                <p>{{ $moment().format('DD MMMM YYYY') }}</p>
+                <p>
+                  Jakarta, <span class="text-white">{{ $moment().format('DD MMMM YYYY') }}</span>
+                </p>
                 <p>Telah menerima jumlah uang sebesar</p>
                 <p class="font-semibold">
                   {{ IDRCurrency.format(perjadinDetailStore.totalDetailBiaya) }}
