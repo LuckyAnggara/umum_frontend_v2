@@ -33,6 +33,7 @@ export const usePerjadinDetailStore = defineStore('perjadinDetailStore', {
       page: '',
       sortBy: 'no_sppd',
       sortDirection: 'asc',
+      tahun: moment().format('YYYY'),
     },
   }),
   getters: {
@@ -56,6 +57,12 @@ export const usePerjadinDetailStore = defineStore('perjadinDetailStore', {
     },
     total(state) {
       return state.responses?.total
+    },
+    tahunQuery(state) {
+      if (state.filter.tahun == '' || state.filter.tahun == null) {
+        return ''
+      }
+      return '&tahun=' + state.filter.tahun
     },
     dateQuery(state) {
       if (state.filter.date.length == 0 || state.filter.date.length == null) {
@@ -246,7 +253,7 @@ export const usePerjadinDetailStore = defineStore('perjadinDetailStore', {
           this.filter.page = ''
         }
         const response = await axiosIns.get(
-          `/api/keuangan/perjadin-detail?limit=${this.filter.currentLimit}${this.pageQuery}${this.searchQuery}${this.dateQuery}${this.statusQuery}${this.unitQuery}`
+          `/api/keuangan/perjadin-detail?limit=${this.filter.currentLimit}${this.pageQuery}${this.searchQuery}${this.dateQuery}${this.statusQuery}${this.unitQuery}${this.tahunQuery}`
         )
         this.responses = response.data.data
       } catch (error) {

@@ -242,7 +242,7 @@
               <div></div>
               <div class="text-center">
                 <p>
-                  Jakarta, <span class="text-white"> {{ $moment(detail.tanggal_sppd).format('DD MMMM YYYY') }} </span>
+                  Jakarta, <span class="hidden"> {{ $moment(detail.tanggal_sppd).format('DD MMMM YYYY') }} </span>
                 </p>
                 <!-- <p>Jakarta, {{ $moment(detail.tanggal_sppd).format('DD MMMM YYYY') }}</p> -->
               </div>
@@ -470,7 +470,7 @@
                 <p class="font-semibold w-60">Dikeluarkan di Jakarta</p>
                 <p class="font-semibold w-60">
                   Tanggal
-                  <span class="text-white">{{ $moment(detail.tanggal_sppd).format('DD MMMM YYYY') }}</span>
+                  <span class="hidden">{{ $moment(detail.tanggal_sppd).format('DD MMMM YYYY') }}</span>
                 </p>
                 <div class="w-60">
                   <p class="mt-12">

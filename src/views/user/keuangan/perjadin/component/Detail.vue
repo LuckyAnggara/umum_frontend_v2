@@ -611,18 +611,18 @@ const searchMak = useDebounceFn((search) => {
   } else {
     makStore.$patch((state) => {
       state.filter.searchQuery = search
+      state.filter.tahun = perjadinStore.form.tahun_anggaran
     })
     makStore.getData()
   }
 }, 500)
 
 function onOpenSelect() {
-  if (makStore.items.length == 0) {
-    makStore.$patch((state) => {
-      state.filter.searchQuery = ''
-    })
-    makStore.getData()
-  }
+  makStore.$patch((state) => {
+    state.filter.searchQuery = ''
+    state.filter.tahun = perjadinStore.form.tahun_anggaran
+  })
+  makStore.getData()
 }
 
 const totalPagu = computed(() => {

@@ -178,7 +178,7 @@
             <div class="flex flex-col justify-between">
               <div>
                 <p>
-                  Jakarta, <span class="text-white">{{ $moment().format('DD MMMM YYYY') }}</span>
+                  Jakarta, <span class="hidden">{{ $moment().format('DD MMMM YYYY') }}</span>
                 </p>
                 <p>Telah menerima jumlah uang sebesar</p>
                 <p class="font-semibold">

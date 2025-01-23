@@ -167,6 +167,12 @@ export const useMakStore = defineStore('mak', {
     to(state) {
       return state.responses?.to
     },
+    tahunQuery(state) {
+      if (state.filter.tahun == '' || state.filter.tahun == null) {
+        return ''
+      }
+      return '&tahun=' + state.filter.tahun
+    },
     searchQuery(state) {
       if (state.filter.searchQuery == '' || state.filter.searchQuery == null) {
         return ''
@@ -181,14 +187,10 @@ export const useMakStore = defineStore('mak', {
     },
   },
   actions: {
-    async getData(page = '') {
-      const perjadinStore = usePerjadinStore()
-
+    async getData() {
       this.isLoading = true
       try {
-        const response = await axiosIns.get(
-          `/api/keuangan/mak?limit=${this.filter.currentLimit}&tahun=${perjadinStore.form.tahun_anggaran}${this.searchQuery}${this.unitQuery}`
-        )
+        const response = await axiosIns.get(`/api/keuangan/mak?limit=${this.filter.currentLimit}${this.searchQuery}${this.unitQuery}${this.tahunQuery}`)
         this.responses = response.data.data
       } catch (error) {
         alert(error.message)
