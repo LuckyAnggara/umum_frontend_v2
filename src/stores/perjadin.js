@@ -697,11 +697,13 @@ export const usePerjadinStore = defineStore('perjadinStore', {
         return { status: false, message: 'Data belum lengkap!' }
       }
       if (this.isDetail == false) {
-        this.form.detail.splice(this.updateIndex, 1)
-        this.form.detail.push(this.newPegawai)
+        // this.form.detail.splice(this.updateIndex, 1)
+        // this.form.detail.push(this.newPegawai)
+        this.form.detail[this.updateIndex] = this.newPegawai
       } else {
-        this.singleResponse.detail.splice(this.updateIndex, 1)
-        this.singleResponse.detail.push(this.newPegawai)
+        this.singleResponse.detail[this.updateIndex] = this.newPegawai
+        // this.singleResponse.detail.splice(this.updateIndex, 1)
+        // this.singleResponse.detail.push(this.newPegawai)
       }
       return { status: true, message: 'Data berhasil di update!' }
     },

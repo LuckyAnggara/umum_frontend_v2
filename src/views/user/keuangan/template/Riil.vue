@@ -154,7 +154,7 @@
               <!-- Right side -->
               <div class="flex flex-col text-center">
                 <p>
-                  Jakarta, <span class="hidden">{{ $moment().locale('id').format('DD MMMM YYYY') }}</span>
+                  Jakarta, <span class="invisible">{{ $moment().locale('id').format('DD MMMM YYYY') }}</span>
                 </p>
                 <p>Pelaksana SPD,</p>
                 <p class="mt-12">

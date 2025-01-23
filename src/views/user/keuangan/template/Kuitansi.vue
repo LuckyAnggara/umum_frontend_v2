@@ -232,7 +232,7 @@
               <div></div>
               <div class="text-center">
                 <p>
-                  Jakarta, <span class="hidden">{{ perjadinDetailStore.singleResponse.master.tanggal_st }}</span>
+                  Jakarta, <span class="invisible">{{ perjadinDetailStore.singleResponse.master.tanggal_st }}</span>
                 </p>
               </div>
             </div>

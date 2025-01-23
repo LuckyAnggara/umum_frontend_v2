@@ -586,6 +586,7 @@ function onDelete(item) {
 function onDuplicate(item) {
   let d = JSON.parse(JSON.stringify(item))
   perjadinStore.$patch((state) => {
+    state.isNewEdit = false
     state.newPegawai = d
     state.newPegawai.nip = null
   })
