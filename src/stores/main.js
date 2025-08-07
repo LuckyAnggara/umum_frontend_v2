@@ -154,6 +154,11 @@ export const useMainStore = defineStore('main', {
         nama: 'Emmania Novada Sudarno',
         nip: '199011202015032004',
       },
+      {
+        id: '2',
+        nama: 'Kurnia Putri Natalia Lumbantoruan',
+        nip: '199512242019012001',
+      },
     ],
     ppkOptions: [
       {
@@ -208,7 +213,7 @@ export const useMainStore = defineStore('main', {
         label: 'Tingkat F untuk PNS Golongan II dan Golongan I.',
       },
     ],
-    jenisKegiatanOptions: ['AUDIT', 'REVIU', 'EVALUSI', 'MONITORING', 'PENGAWASAN LAINNYA', 'KEGIATAN LAINNYA'],
+    jenisKegiatanOptions: ['AUDIT', 'REVIU', 'EVALUASI', 'MONITORING', 'PENGAWASAN LAINNYA', 'KEGIATAN LAINNYA'],
     form: {
       nip: '1',
       password: '123456',

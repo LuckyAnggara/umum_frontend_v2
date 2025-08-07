@@ -38,7 +38,7 @@
           <div class="flex flex-row justify-between border-b">
             <div class="mb-8 text-left flex flex-col">
               <p class="text-md font-bold uppercase">Inspektorat Jenderal</p>
-              <p class="text-md font-semibold">Kementerian Hukum dan HAM</p>
+              <p class="text-md font-semibold">Kementerian Hukum</p>
             </div>
             <div class="w-72 flex-col text-xs">
               <div class="mb-1 flex">
@@ -291,7 +291,7 @@
           <div class="flex flex-row justify-between">
             <div class="mb-8 text-left flex flex-col">
               <p class="text-md font-bold uppercase">Inspektorat Jenderal</p>
-              <p class="text-md font-semibold">Kementerian Hukum dan HAM</p>
+              <p class="text-md font-semibold">Kementerian Hukum</p>
             </div>
             <div class="w-72 flex-col text-xs">
               <div class="mb-1 flex">
@@ -447,7 +447,7 @@
               <tr>
                 <td class="border border-gray-500 p-1 text-center" rowspan="2"></td>
                 <td class="border border-gray-500 p-1">a. Instansi</td>
-                <td class="border border-gray-500 p-1" colspan="3">Inspektorat Jenderal Kementerian Hukum dan HAM</td>
+                <td class="border border-gray-500 p-1" colspan="3">Inspektorat Jenderal Kementerian Hukum</td>
               </tr>
               <tr>
                 <td class="border border-gray-500 p-1">b. Akun</td>

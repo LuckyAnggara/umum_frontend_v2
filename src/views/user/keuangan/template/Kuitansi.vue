@@ -33,7 +33,7 @@
           <div class="flex flex-row justify-between border-b">
             <div class="mb-8 text-left flex flex-col">
               <p class="text-md font-bold uppercase">Inspektorat Jenderal</p>
-              <p class="text-md font-semibold">Kementerian Hukum dan HAM</p>
+              <p class="text-md font-semibold">Kementerian Hukum</p>
             </div>
             <div class="w-72 flex-col text-xs">
               <div class="mb-1 flex">

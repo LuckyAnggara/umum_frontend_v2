@@ -46,7 +46,7 @@
         <div class="max-w-8xl mx-auto p-6 bg-white rounded-lg">
           <!-- Header Section -->
           <div class="text-center">
-            <h1 class="font-bold text-xl">KEMENTERIAN HUKUM DAN HAM</h1>
+            <h1 class="font-bold text-xl">Kementerian Hukum</h1>
             <h2 class="text-lg">INSPEKTORAT JENDERAL</h2>
             <h3 class="mt-2 font-semibold underline">SURAT PERINTAH BAYAR</h3>
             <p class="text-sm">Tanggal: {{ data.created_at }}</p>
@@ -187,7 +187,7 @@
         <div class="max-w-8xl mx-auto p-6 bg-white rounded-lg">
           <!-- Header Section -->
           <div class="text-center">
-            <h1 class="font-bold text-xl">KEMENTERIAN HUKUM DAN HAM</h1>
+            <h1 class="font-bold text-xl">Kementerian Hukum</h1>
             <h2 class="text-lg">INSPEKTORAT JENDERAL</h2>
             <h3 class="mt-2 font-semibold underline">LEMBAR VALIDASI</h3>
           </div>
