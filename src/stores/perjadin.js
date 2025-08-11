@@ -611,7 +611,7 @@ export const usePerjadinStore = defineStore('perjadinStore', {
       this.newTaksiTujuan.biaya = 0
     },
     deleteTaksiTujuan(index) {
-      this.newPegawai.newTaksiTujuan.splice(index, 1)
+      this.newPegawai.taksi_tujuan.splice(index, 1)
     },
     tambahTransport() {
       const transport = { ...this.newTransport }
