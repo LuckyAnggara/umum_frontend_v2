@@ -34,7 +34,7 @@
             <!-- Header Section -->
             <div class="flex justify-between mb-6">
               <div class="flex items-start">
-                <img src="./src/assets/logo.png" alt="Logo" class="h-20 w-auto mr-4" />
+                <img src="https://placehold.co/20x20.png" alt="Logo" class="h-20 w-auto mr-4" />
                 <div class="text-sm">
                   <p class="font-bold">KEMENTERIAN HUKUM DAN HAK ASASI MANUSIA</p>
                   <p class="font-bold">REPUBLIK INDONESIA</p>
