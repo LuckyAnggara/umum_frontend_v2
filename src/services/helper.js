@@ -4,6 +4,7 @@
 export const storageUrl = 'https://seru.itjenkumham.id/backend/storage'
 // export const baseUrl = 'https://seru.itjenkumham.id/backend'
 // export const baseUrl = 'http://127.0.0.1:8000'
+// export const baseUrl = 'http://172.25.25.237:8004'
 export const baseUrl = 'http://172.25.25.237:8004'
 // export const storageUrl = 'http://127.0.0.1:8000/storage'
 export const sptjmPath = 'app/public/perjadin/ptj/lainnya/sptjm/'
