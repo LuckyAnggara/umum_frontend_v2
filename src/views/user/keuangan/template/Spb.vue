@@ -338,7 +338,7 @@
 <script setup>
 import { ScissorsIcon } from '@heroicons/vue/24/outline'
 
-import { useNonPerjadinStore } from '@/stores/nonPerjadin'
+import { useNonPerjadinStore } from '@/stores/nonperjadin'
 import { computed, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { IDRCurrency, terbilang } from '@/utilities/formatter'

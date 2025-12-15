@@ -408,7 +408,7 @@ import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
 import DeleteDialog from '@/components/DeleteDialog.vue'
 import Dialog from '@/components/Dialog.vue'
 import { IDRCurrency } from '@/utilities/formatter'
-import { useNonPerjadinStore } from '@/stores/nonPerjadin'
+import { useNonPerjadinStore } from '@/stores/nonperjadin'
 import { useMainStore } from '@/stores/main'
 import { useAuthStore } from '@/stores/auth'
 
