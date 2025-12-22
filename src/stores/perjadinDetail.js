@@ -608,6 +608,52 @@ export const usePerjadinDetailStore = defineStore('perjadinDetailStore', {
         this.isStoreLoading = false
       }
     },
+
+    async checkNoSppd(no_sppd, currentId = null) {
+      try {
+        const params = { no_sppd }
+        if (currentId) {
+          params.id = currentId
+        }
+        console.log('Calling check-no-sppd API with params:', params)
+        const response = await axiosIns.get('/api/keuangan/perjadin-detail/check-no-sppd', { params })
+        console.log('API Response:', response.data)
+        return response.data
+      } catch (error) {
+        console.error('Error checking no_sppd:', error)
+        if (error.response) {
+          console.error('Error response:', error.response.data)
+        }
+        return { available: false, message: 'Error checking nomor SPPD' }
+      }
+    },
+
+    async updateNoSppd(id, no_sppd) {
+      this.isUpdateLoading = true
+      try {
+        const response = await axiosIns.put(`/api/keuangan/perjadin-detail/${id}/update-no-sppd`, { no_sppd })
+        if (response.data.success) {
+          this.singleResponse = response.data.data
+          this.originalSingleResponse = JSON.parse(JSON.stringify(response.data.data))
+          return {
+            status: true,
+            message: response.data.message,
+          }
+        } else {
+          return {
+            status: false,
+            message: response.data.message,
+          }
+        }
+      } catch (error) {
+        return {
+          status: false,
+          message: error.response?.data?.message || 'Error updating nomor SPPD',
+        }
+      } finally {
+        this.isUpdateLoading = false
+      }
+    },
   },
 })
 
